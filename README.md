@@ -86,6 +86,16 @@ These need either much heavier client-side models (OCR) or genuinely require ser
 processing (format conversion beyond what browsers support natively) — they're out of scope for
 v1 on purpose. If you want to tackle one, see [Contributing](CONTRIBUTING.md).
 
+### Also considered: a downloadable desktop app
+Packaging this site as an installable native app via [Tauri](https://tauri.app/) (Rust + the OS's
+built-in webview, so a few MB rather than Electron's 100+ MB) is feasible since every tool is
+already 100% client-side — the existing site could serve as the frontend almost unchanged, with
+local fonts swapped in so it's genuinely offline from a fresh install, not just after one visit.
+Deliberately not started yet: it needs a Rust toolchain that isn't part of this project anywhere
+else, and a trustworthy (no "unknown publisher" warning) install needs paid code-signing on both
+Windows and macOS. A free unsigned Windows build is the realistic first step whenever this gets
+picked up.
+
 ### Other pages
 - [Blog](/blog/) — how-to guides for the tools above
 - [FAQ](/faq/) — common questions about privacy, cost, file limits and browser support
