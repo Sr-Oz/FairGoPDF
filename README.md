@@ -57,6 +57,8 @@ https://sr-oz.github.io/free-tools-images-pdfs/
 | Extract Images | `/extract-pdf-images/` | Pull every embedded image out of a PDF and download as a ZIP |
 | Header & Footer | `/pdf-header-footer/` | Add up to six independent left/centre/right text zones to every page's header and footer |
 | Redact PDF | `/redact-pdf/` | Permanently black out sensitive content by flattening marked pages to an image, not just drawing a box over it |
+| Protect PDF | `/protect-pdf/` | Add a password so only people who have it can open the file, with optional printing/copying/editing permissions |
+| Unlock PDF | `/unlock-pdf/` | Remove a password from a PDF you already have the password for |
 
 ### Utilities
 | Tool | URL | What it does |
@@ -79,7 +81,6 @@ https://sr-oz.github.io/free-tools-images-pdfs/
 - OCR (make scanned PDFs searchable)
 - Cryptographically verified e-signatures
 - PDF to Word / Word to PDF
-- Password protect / unlock PDF
 - PDF to Excel
 
 These need either much heavier client-side models (OCR) or genuinely require server-side
@@ -114,6 +115,7 @@ a static page that uses two well-maintained open-source libraries, self-hosted u
 ever down):
 
 - [`pdf-lib`](https://pdf-lib.js.org/) — creating/editing PDFs (merge, split, rotate, compress, images→PDF)
+- [`@cantoo/pdf-lib`](https://github.com/cantoo-scribe/pdf-lib) — a `pdf-lib` fork with PDF encryption support, used only by Protect PDF and Unlock PDF (the original `pdf-lib` has no encryption support)
 - [`pdf.js`](https://mozilla.github.io/pdf.js/) — rendering PDF pages to canvas (thumbnails, PDF→images)
 - [`mammoth.js`](https://github.com/mwilliamson/mammoth.js) — converting Word (.docx) to HTML (Convert to Markdown)
 - [`turndown`](https://github.com/mixmark-io/turndown) — converting HTML to Markdown (Convert to Markdown)
