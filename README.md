@@ -78,14 +78,20 @@ https://sr-oz.github.io/free-tools-images-pdfs/
 | Calendar Generator | `/calendar-generator/` | Printable 12-month calendar PDF for any year, mark birthdays and custom dates |
 
 ### Coming soon (v2 backlog)
-- OCR (make scanned PDFs searchable)
+- OCR (make scanned PDFs searchable) — confirmed feasible client-side via
+  [`@paddleocr/paddleocr-js`](https://github.com/PaddlePaddle/PaddleOCR/tree/main/paddleocr-js)
+  (ONNX Runtime Web + OpenCV.js, no server), deliberately deferred: it needs self-hosting real
+  OCR model files and ONNX/OpenCV WASM runtimes (tens of MB, sizes not yet pinned down), and a
+  proper "searchable PDF" output means rebuilding the file with an invisible text layer, not just
+  running recognition
 - Cryptographically verified e-signatures
 - PDF to Word / Word to PDF
 - PDF to Excel
 
-These need either much heavier client-side models (OCR) or genuinely require server-side
-processing (format conversion beyond what browsers support natively) — they're out of scope for
-v1 on purpose. If you want to tackle one, see [Contributing](CONTRIBUTING.md).
+Some of these genuinely require server-side processing (format conversion beyond what browsers
+support natively) and are out of scope for v1 on purpose; others (like OCR above) are feasible
+client-side but deliberately deferred as bigger scoped efforts. If you want to tackle one, see
+[Contributing](CONTRIBUTING.md).
 
 ### Also considered: a downloadable desktop app
 Packaging this site as an installable native app via [Tauri](https://tauri.app/) (Rust + the OS's
