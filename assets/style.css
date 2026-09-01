@@ -833,20 +833,33 @@ img { max-width: 100%; }
    back to today's single-column stack, workspace card, related tools, then
    how it works, each separated the same way `.info-section` always was. */
 @media (min-width: 900px) {
+  /* Named areas (not auto-placement) so the sidebar reliably starts level
+     with the workspace card: with plain auto-placement, `related-tools`
+     being column 1's second item pushes the placement cursor down a row
+     before `.info-section` is placed, leaving it lined up with
+     `related-tools` instead of `workspace` and an empty gap above it. */
   .container:has(> .tool-workspace + .related-tools-section) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-areas:
+      "crumbs   crumbs"
+      "header   header"
+      "workspace sidebar"
+      "related  sidebar";
     align-items: start;
     gap: 32px;
   }
 
-  .container:has(> .tool-workspace + .related-tools-section) > .breadcrumbs,
+  .container:has(> .tool-workspace + .related-tools-section) > .breadcrumbs {
+    grid-area: crumbs;
+  }
+
   .container:has(> .tool-workspace + .related-tools-section) > .tool-page-header {
-    grid-column: 1 / -1;
+    grid-area: header;
   }
 
   .container:has(> .tool-workspace + .related-tools-section) > .tool-workspace {
-    grid-column: 1;
+    grid-area: workspace;
     max-width: none;
     margin: 0;
     border: 1px solid var(--border);
@@ -857,7 +870,7 @@ img { max-width: 100%; }
   }
 
   .container:has(> .tool-workspace + .related-tools-section) > .related-tools-section {
-    grid-column: 1;
+    grid-area: related;
     margin: 0 0 64px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -867,7 +880,7 @@ img { max-width: 100%; }
   }
 
   .container:has(> .tool-workspace + .related-tools-section) > .info-section {
-    grid-column: 2;
+    grid-area: sidebar;
     align-self: start;
     margin-top: 0;
     border: 1px solid var(--border);
