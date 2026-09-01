@@ -823,6 +823,48 @@ img { max-width: 100%; }
   margin: 28px auto 64px;
 }
 
+/* Two-column tool layout: main workspace card on the left, a "how it works" +
+   related-tools sidebar card on the right. Scoped to `.tool-workspace`
+   immediately followed by `.info-section` (true on every tool page) so this
+   never touches the handful of unrelated pages that reuse those two class
+   names for a plain single-column wrapper (privacy policy, support). Below
+   the breakpoint everything reflows back to today's single-column stack. */
+@media (min-width: 900px) {
+  .container:has(> .tool-workspace + .info-section) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    align-items: start;
+    gap: 32px;
+  }
+
+  .container:has(> .tool-workspace + .info-section) > .breadcrumbs,
+  .container:has(> .tool-workspace + .info-section) > .tool-page-header {
+    grid-column: 1 / -1;
+  }
+
+  .container:has(> .tool-workspace + .info-section) > .tool-workspace {
+    grid-column: 1;
+    max-width: none;
+    margin: 28px 0 64px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 20px -10px rgba(0, 0, 0, 0.12);
+    padding: 32px;
+  }
+
+  .container:has(> .tool-workspace + .info-section) > .info-section {
+    grid-column: 2;
+    align-self: start;
+    margin-top: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 20px -10px rgba(0, 0, 0, 0.12);
+    padding: 28px;
+  }
+}
+
 .dropzone {
   border: 2px dashed var(--border);
   border-radius: var(--radius);
