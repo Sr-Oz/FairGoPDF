@@ -823,29 +823,32 @@ img { max-width: 100%; }
   margin: 28px auto 64px;
 }
 
-/* Two-column tool layout: main workspace card on the left, a "how it works" +
-   related-tools sidebar card on the right. Scoped to `.tool-workspace`
-   immediately followed by `.info-section` (true on every tool page) so this
-   never touches the handful of unrelated pages that reuse those two class
-   names for a plain single-column wrapper (privacy policy, support). Below
-   the breakpoint everything reflows back to today's single-column stack. */
+/* Two-column tool layout: main workspace card + related-tools card stacked on
+   the left, a "how it works" sidebar card on the right, so the sidebar isn't
+   stretched to match a taller workspace and leaving dead space under it.
+   Scoped to `.tool-workspace` immediately followed by `.related-tools-section`
+   (true on every tool page) so this never touches the handful of unrelated
+   pages that reuse `.tool-workspace`/`.info-section` for a plain single-column
+   wrapper (privacy policy, support). Below the breakpoint everything reflows
+   back to today's single-column stack, workspace card, related tools, then
+   how it works, each separated the same way `.info-section` always was. */
 @media (min-width: 900px) {
-  .container:has(> .tool-workspace + .info-section) {
+  .container:has(> .tool-workspace + .related-tools-section) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 320px;
     align-items: start;
     gap: 32px;
   }
 
-  .container:has(> .tool-workspace + .info-section) > .breadcrumbs,
-  .container:has(> .tool-workspace + .info-section) > .tool-page-header {
+  .container:has(> .tool-workspace + .related-tools-section) > .breadcrumbs,
+  .container:has(> .tool-workspace + .related-tools-section) > .tool-page-header {
     grid-column: 1 / -1;
   }
 
-  .container:has(> .tool-workspace + .info-section) > .tool-workspace {
+  .container:has(> .tool-workspace + .related-tools-section) > .tool-workspace {
     grid-column: 1;
     max-width: none;
-    margin: 28px 0 64px;
+    margin: 0;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--bg);
@@ -853,10 +856,20 @@ img { max-width: 100%; }
     padding: 32px;
   }
 
-  .container:has(> .tool-workspace + .info-section) > .info-section {
+  .container:has(> .tool-workspace + .related-tools-section) > .related-tools-section {
+    grid-column: 1;
+    margin: 0 0 64px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 20px -10px rgba(0, 0, 0, 0.12);
+    padding: 28px;
+  }
+
+  .container:has(> .tool-workspace + .related-tools-section) > .info-section {
     grid-column: 2;
     align-self: start;
-    margin-top: 28px;
+    margin-top: 0;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--bg);
@@ -1200,13 +1213,15 @@ img { max-width: 100%; }
 }
 
 /* How it works / related tools */
-.info-section {
+.info-section,
+.related-tools-section {
   margin-top: 56px;
   border-top: 1px solid var(--border);
   padding-top: 32px;
 }
 
-.info-section h2 {
+.info-section h2,
+.related-tools-section h2 {
   font-size: 1.2rem;
   margin-bottom: 12px;
 }
