@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sr-oz.github.io/free-tools-images-pdfs/sitemap.xml
+Sitemap: https://fairgopdf.au/sitemap.xml

@@ -10,7 +10,7 @@ watermarked output.
 
 ## Live site
 
-https://sr-oz.github.io/free-tools-images-pdfs/
+https://fairgopdf.au/
 
 ## Tools (v1)
 
@@ -186,8 +186,11 @@ This is a static site, so there's no build step:
 3. Push to `main` — the site will be live at `https://<username>.github.io/<repo>/` within a
    couple of minutes.
 
-To use a custom domain later, add a `CNAME` file at the repo root containing your domain, and add
-the DNS records GitHub Pages documents for apex or subdomain setups.
+This repo is already configured for a custom domain: the `CNAME` file at the repo root contains
+`fairgopdf.au`, and GitHub Pages is set up with the matching DNS records, which is why the site is
+live at [fairgopdf.au](https://fairgopdf.au/) rather than a `github.io` URL. If you fork this for
+your own domain, replace the `CNAME` file's contents with yours and add the DNS records GitHub
+Pages documents for apex or subdomain setups.
 
 ## Contributing
 
