@@ -60,6 +60,8 @@ https://fairgopdf.au/
 | Protect PDF | `/protect-pdf/` | Add a password so only people who have it can open the file, with optional printing/copying/editing permissions |
 | Unlock PDF | `/unlock-pdf/` | Remove a password from a PDF you already have the password for |
 | PDF Editor | `/pdf-editor/` | Drag text and image boxes anywhere on any page, resize and style them |
+| Add Links to PDF | `/add-links-to-pdf/` | Draw a clickable area on a page that opens a website or jumps to another page |
+| PDF Form Builder | `/pdf-form-builder/` | Add fillable text fields, checkboxes, radio buttons and dropdowns as real AcroForm fields |
 
 ### Utilities
 | Tool | URL | What it does |

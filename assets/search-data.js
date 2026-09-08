@@ -32,6 +32,8 @@ window.SEARCH_INDEX = [
   { title: "Protect PDF", url: "/protect-pdf/", desc: "Add a password so only people who have it can open the file", category: "PDF Tool" },
   { title: "Unlock PDF", url: "/unlock-pdf/", desc: "Remove a password from a PDF you already have the password for", category: "PDF Tool" },
   { title: "PDF Editor", url: "/pdf-editor/", desc: "Drag text and image boxes anywhere on any page, resize and style them", category: "PDF Tool" },
+  { title: "Add Links to PDF", url: "/add-links-to-pdf/", desc: "Draw a clickable area that opens a website or jumps to another page", category: "PDF Tool" },
+  { title: "PDF Form Builder", url: "/pdf-form-builder/", desc: "Add fillable text fields, checkboxes, radio buttons and dropdowns", category: "PDF Tool" },
 
   // Image tools
   { title: "Compress Image", url: "/compress-image/", desc: "Reduce JPEG/PNG/WebP file size with a quality slider", category: "Image Tool" },

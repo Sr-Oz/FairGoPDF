@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="The Dato Family Labs">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+<title>PDF Form Builder Online Free | FairGo PDF</title>
+<meta name="description" content="Add fillable text fields, checkboxes, radio buttons and dropdowns to a PDF, free and right in your browser. No upload, no signup.">
+<link rel="canonical" href="https://fairgopdf.au/pdf-form-builder/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FairGo PDF">
+<meta property="og:title" content="PDF Form Builder Online Free">
+<meta property="og:description" content="Add fillable text fields, checkboxes, radio buttons and dropdowns to a PDF, free and right in your browser. No upload, no signup.">
+<meta property="og:url" content="https://fairgopdf.au/pdf-form-builder/">
+<meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PDF Form Builder Online Free">
+<meta name="twitter:description" content="Add fillable text fields, checkboxes, radio buttons and dropdowns to a PDF, free and right in your browser. No upload, no signup.">
+<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+  #formStageWrap { position: relative; display: inline-block; max-width: 100%; }
+  #formStage { display: block; max-width: 100%; height: auto; cursor: crosshair; border: 1px solid var(--border); border-radius: 8px; touch-action: none; }
+  .page-thumb .form-badge { position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--brand); display: none; }
+  .page-thumb.has-fields .form-badge { display: block; }
+  .page-thumb { position: relative; }
+  .field-edit-panel { display: none; margin-top: 16px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
+  .field-edit-panel.visible { display: block; }
+  .field-list { margin-top: 16px; border-top: 1px solid var(--border); }
+  .field-list-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .field-list-row .material-symbols-outlined { font-size: 1.2rem; color: var(--text-muted); }
+  .field-list-row .field-name { font-weight: 600; flex: 1; }
+  .field-list-row .field-type-tag { font-size: 0.78rem; color: var(--text-muted); }
+  .field-list-row .btn.small { padding: 4px 10px; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo"><img src="/assets/img/logo-light.svg" alt="FairGo PDF Logo" class="logo-img logo-img-light"><img src="/assets/img/logo-dark.svg" alt="FairGo PDF Logo" class="logo-img logo-img-dark"></a>
+    <div class="header-right">
+      <nav class="nav-links" id="navLinks">
+        <a href="/#pdf-tools">PDF Tools</a>
+        <a href="/#image-tools">Image Tools</a>
+        <a href="/#utilities">Utilities</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+      <a href="/support/" class="header-support-btn" aria-label="Shout us a coffee, support this project">
+        <span class="material-symbols-outlined" aria-hidden="true">coffee</span>
+        <span class="header-support-btn-label">Shout a Coffee</span>
+      </a>
+      <button class="icon-btn" id="searchToggle" type="button" aria-label="Search the site">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to dark mode">
+        <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+      </button>
+      <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">PDF Form Builder</span>
+    </nav>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
+      {"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://fairgopdf.au/#pdf-tools"},
+      {"@type":"ListItem","position":3,"name":"PDF Form Builder","item":"https://fairgopdf.au/pdf-form-builder/"}
+    ]}
+    </script>
+    <div class="tool-page-header">
+      <h1>PDF Form Builder</h1>
+      <p>Turn a plain PDF into a fillable form: text fields, checkboxes, radio buttons and dropdowns. Processed locally, nothing is uploaded.</p>
+    </div>
+
+    <div class="tool-workspace">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+        <div class="dz-icon"><span class="material-symbols-outlined">checklist</span></div>
+        <div class="dz-title">Drop your PDF here, easy as.</div>
+        <div class="dz-sub">One PDF file</div>
+        <input type="file" id="fileInput" accept="application/pdf">
+      </div>
+
+      <div id="editor" style="display:none;">
+        <p class="help-text">Choose a page, pick a field type below, then click and drag on the
+          preview to place it. Click an existing field box to edit or delete it.</p>
+        <div class="page-thumb-grid" id="pageGrid"></div>
+
+        <div class="option-btn-row" style="margin-top:16px;">
+          <button class="option-btn active" type="button" data-field-type="text">
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1rem; vertical-align:-2px;">text_fields</span>
+            Text field
+          </button>
+          <button class="option-btn" type="button" data-field-type="checkbox">
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1rem; vertical-align:-2px;">check_box</span>
+            Checkbox
+          </button>
+          <button class="option-btn" type="button" data-field-type="radio">
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1rem; vertical-align:-2px;">radio_button_checked</span>
+            Radio button
+          </button>
+          <button class="option-btn" type="button" data-field-type="dropdown">
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1rem; vertical-align:-2px;">arrow_drop_down_circle</span>
+            Dropdown
+          </button>
+        </div>
+
+        <div id="formStageWrap" style="margin-top:16px;">
+          <canvas id="formStage"></canvas>
+        </div>
+
+        <div class="field-edit-panel" id="fieldEditPanel">
+          <div class="field" id="nameField">
+            <label for="fieldName">Field name</label>
+            <input type="text" id="fieldName" placeholder="e.g. full_name" style="width:100%; max-width:320px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text);">
+          </div>
+
+          <div class="field" id="textOptions" style="display:none;">
+            <label for="textDefault">Default value (optional)</label>
+            <input type="text" id="textDefault" style="width:100%; max-width:320px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text);">
+            <label style="margin-top:8px;"><input type="checkbox" id="textMultiline"> Allow multiple lines</label>
+          </div>
+
+          <div class="field" id="checkboxOptions" style="display:none;">
+            <label><input type="checkbox" id="checkboxDefault"> Checked by default</label>
+          </div>
+
+          <div class="field" id="radioOptions" style="display:none;">
+            <label for="radioGroupName">Group name (same for every option in this question)</label>
+            <input type="text" id="radioGroupName" placeholder="e.g. contact_method" style="width:100%; max-width:320px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); margin-bottom:8px;">
+            <label for="radioOptionValue">This option's value</label>
+            <input type="text" id="radioOptionValue" placeholder="e.g. email" style="width:100%; max-width:320px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text);">
+          </div>
+
+          <div class="field" id="dropdownOptions" style="display:none;">
+            <label for="dropdownValues">Options (comma-separated)</label>
+            <input type="text" id="dropdownValues" placeholder="e.g. Small, Medium, Large" style="width:100%; max-width:320px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text);">
+          </div>
+
+          <div class="actions-row" style="margin-top:12px;">
+            <button class="btn small" id="confirmFieldBtn" type="button">Save field</button>
+            <button class="btn secondary small" id="deleteFieldBtn" type="button" style="display:none;">Delete field</button>
+            <button class="btn secondary small" id="cancelFieldBtn" type="button">Cancel</button>
+          </div>
+        </div>
+
+        <div class="field-list" id="fieldList"></div>
+
+        <div class="actions-row" style="margin-top:16px;">
+          <button class="btn secondary small" id="clearPageBtn" type="button">Clear this page's fields</button>
+        </div>
+
+        <p class="help-text" id="fieldSummary" style="margin-top:12px;"></p>
+
+        <div class="actions-row">
+          <button class="btn" id="runBtn">Build Form &amp; Download</button>
+          <button class="btn secondary" id="clearBtn">Start over</button>
+        </div>
+      </div>
+
+      <div class="status-box" id="status"></div>
+    </div>
+
+    <section class="related-tools-section">
+      <h2>Related tools</h2>
+      <div class="tool-grid related-tools-grid">
+        <a class="tool-card related-tool-card" href="/add-links-to-pdf/">
+          <span class="icon"><span class="material-symbols-outlined">link</span></span>
+          <h3>Add Links to PDF</h3>
+        </a>
+        <a class="tool-card related-tool-card" href="/pdf-editor/">
+          <span class="icon"><span class="material-symbols-outlined">edit_document</span></span>
+          <h3>PDF Editor</h3>
+        </a>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <h2>How it works</h2>
+      <ol>
+        <li>Add a PDF and pick a page from the thumbnails.</li>
+        <li>Choose a field type: text field, checkbox, radio button or dropdown.</li>
+        <li>Click and drag on the preview to place it, then name it and set any options.</li>
+        <li>For radio buttons, give every option in the same question the same group name.</li>
+        <li>Repeat on any other pages, a dot marks pages with at least one field.</li>
+        <li>Click "Build Form &amp; Download" — open the result in any PDF reader that supports forms to fill it in.</li>
+      </ol>
+      <p class="help-text">Fields are added as real, interactive AcroForm fields, the same kind
+        produced by Acrobat or any other form-authoring tool, not flattened images. Anyone opening
+        the file in Adobe Reader, Preview, or most browsers can click straight in and type.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo"><img src="/assets/img/logo-dark.svg" alt="FairGo PDF Logo" class="footer-logo-img"></div>
+        <p>Proudly built for straightforward document management, 100% client-side, nothing is ever uploaded.</p>
+        <div class="footer-support-cta">
+          <p>Like what we're building? No pressure, just appreciated.</p>
+          <a href="/support/" class="btn small">Shout a Coffee</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>PDF Tools</h5>
+        <a href="/merge-pdf/">Merge PDF</a>
+        <a href="/split-pdf/">Split PDF</a>
+        <a href="/compress-pdf/">Compress PDF</a>
+        <a href="/images-to-pdf/">Images to PDF</a>
+        <a href="/pdf-to-images/">PDF to Images</a>
+        <a href="/#pdf-tools" class="footer-view-all">View all PDF Tools &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Image Tools</h5>
+        <a href="/compress-image/">Compress Image</a>
+        <a href="/convert-image/">Convert Image Format</a>
+        <a href="/resize-image/">Resize Image</a>
+        <a href="/crop-rotate-image/">Crop &amp; Rotate Image</a>
+        <a href="/add-border-to-image/">Add Border to Image</a>
+        <a href="/#image-tools" class="footer-view-all">View all Image Tools &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Utilities</h5>
+        <a href="/convert-to-markdown/">Convert to Markdown</a>
+        <a href="/ai-writing-checker/">AI Writing Checker</a>
+        <a href="/password-generator/">Password Generator</a>
+        <a href="/qr-code-generator/">QR Code Generator</a>
+        <a href="/uuid-generator/">UUID Generator</a>
+        <a href="/#utilities" class="footer-view-all">View all Utilities &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <a href="/blog/">Blog</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/support/">Support Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; <span id="year"></span> FairGo PDF. A project built with passion and empathy by
+      <span class="attribution">The Dato Family Labs</span> in Perth, WA, Australia.
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+  <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+</button>
+
+<script src="/assets/tools.js"></script>
+<script type="module" src="/assets/tools/pdf-form-builder.js"></script>
+<script src="/assets/search-data.js"></script>
+<script src="/assets/search.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>
