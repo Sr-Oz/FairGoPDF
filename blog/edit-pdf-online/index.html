@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="The Dato Family Labs">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+<title>How to edit a PDF online, add text and images for free | FairGo PDF</title>
+<meta name="description" content="How to drop your own text and images anywhere on a PDF page, drag them into place and resize them, all in your browser, no software, upload or sign-up needed.">
+<link rel="canonical" href="https://fairgopdf.au/blog/edit-pdf-online/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FairGo PDF">
+<meta property="og:title" content="How to edit a PDF online, add text and images for free">
+<meta property="og:description" content="How to drop your own text and images anywhere on a PDF page, drag them into place and resize them, all in your browser, no software, upload or sign-up needed.">
+<meta property="og:url" content="https://fairgopdf.au/blog/edit-pdf-online/">
+<meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to edit a PDF online, add text and images for free">
+<meta name="twitter:description" content="How to drop your own text and images anywhere on a PDF page, drag them into place and resize them, all in your browser, no software, upload or sign-up needed.">
+<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting",
+"author":{"@type":"Organization","name":"The Dato Family Labs"},
+"publisher":{"@type":"Organization","name":"The Dato Family Labs"},
+"headline":"How to edit a PDF online, add text and images for free",
+"datePublished":"2026-09-08","dateModified":"2026-09-08",
+"description":"How to drop your own text and images anywhere on a PDF page, drag them into place and resize them, all in your browser, no software, upload or sign-up needed.",
+"mainEntityOfPage":"https://fairgopdf.au/blog/edit-pdf-online/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"Can this edit text that's already in my PDF?","acceptedAnswer":{"@type":"Answer","text":"No. A PDF stores each page as a fixed set of drawing instructions, not an editable document the way a word processor file is, so no PDF tool (free or paid) can truly reflow or retype existing text without rebuilding the page. PDF Editor adds new text and images on top of the existing page instead, it doesn't touch what's already there."}},
+  {"@type":"Question","name":"Is the text I add actually selectable and searchable, or is it an image?","acceptedAnswer":{"@type":"Answer","text":"It's real text, drawn with a standard font and embedded directly in the PDF, the same way a word processor would. You can select it, copy it, and search for it afterwards, it isn't a picture of text."}},
+  {"@type":"Question","name":"What image formats can I add?","acceptedAnswer":{"@type":"Answer","text":"PNG and JPEG. Both get embedded into the PDF at full quality, not re-compressed."}}
+]}
+</script>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo"><img src="/assets/img/logo-light.svg" alt="FairGo PDF Logo" class="logo-img logo-img-light"><img src="/assets/img/logo-dark.svg" alt="FairGo PDF Logo" class="logo-img logo-img-dark"></a>
+    <div class="header-right">
+      <nav class="nav-links" id="navLinks">
+        <a href="/#pdf-tools">PDF Tools</a>
+        <a href="/#image-tools">Image Tools</a>
+        <a href="/#utilities">Utilities</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+      <a href="/support/" class="header-support-btn" aria-label="Shout us a coffee, support this project">
+        <span class="material-symbols-outlined" aria-hidden="true">coffee</span>
+        <span class="header-support-btn-label">Shout a Coffee</span>
+      </a>
+      <button class="icon-btn" id="searchToggle" type="button" aria-label="Search the site">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to dark mode">
+        <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+      </button>
+      <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+<div class="scroll-progress" id="scrollProgress"></div>
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span><span class="current">Edit PDF</span>
+    </nav>
+
+    <div class="tool-page-header">
+      <h1>How to edit a PDF online, add text and images for free</h1>
+    </div>
+
+    <div class="tool-workspace" style="max-width: 720px;">
+      <p class="byline">Published 8 September 2026 · 5 min read</p>
+      <button class="copy-link-btn" type="button">
+        <span class="material-symbols-outlined" aria-hidden="true">link</span>
+        <span class="copy-link-label">Copy link</span>
+      </button>
+      <section class="info-section" style="margin-top:0; border-top:none; padding-top:0;">
+        <p>
+          Most "edit a PDF" tools online actually do one narrow thing: sign it, stamp a watermark
+          across it, or fill in a form's existing fields. None of those help if what you actually need
+          is to drop a note in the margin, label a diagram, or slap your logo onto a specific page,
+          then drag it into place and resize it, the way you'd nudge a text box around in Google
+          Slides. That's what <a href="/pdf-editor/">PDF Editor</a> is for, and it runs entirely in
+          your browser.
+        </p>
+
+        <h2>What "editing a PDF" actually means here</h2>
+        <p>
+          Worth being upfront about this: PDF Editor adds new text and images on top of a page, it
+          doesn't rewrite or reflow text that's already there. That's not a corner we cut, it's a
+          limit built into the PDF format itself. A PDF stores each page as a fixed set of drawing
+          instructions (draw this letter at this exact position, in this exact font) rather than an
+          editable document model the way a Word file is. Reconstructing "the paragraph" behind those
+          instructions well enough to retype it, matching the original font and spacing, is a much
+          bigger job than repositioning a box, and it's why even paid, professional PDF editors mostly
+          fake it by painting over the old words and dropping new ones in roughly the same spot. If you
+          need to genuinely change a sentence that's already printed on the page, going back to
+          whatever created the PDF (Word, Google Docs, a scan you can re-do) is the only reliable
+          option. If you need to add something new, that's exactly what this tool does.
+        </p>
+
+        <h2>Step by step</h2>
+        <ol>
+          <li>Open <a href="/pdf-editor/">PDF Editor</a> and add your file, every page renders below,
+            one after another.</li>
+          <li>Click the page you want to add something to.</li>
+          <li>Click "Add Text" for a text box, or "Add Image" to place a PNG or JPEG.</li>
+          <li>Drag the box to where it belongs, drag a corner dot to resize it. Text boxes scale their
+            font size as you resize; images keep their proportions.</li>
+          <li>Click a selected text box again to type into it, and use the toolbar for font, size,
+            colour, bold and italic.</li>
+          <li>Repeat on any other pages, then click "Save &amp; Download."</li>
+        </ol>
+
+        <h2>A few practical tips</h2>
+        <ul>
+          <li><strong>Pressing Enter starts a new line in the saved PDF.</strong> The box's width is
+            just there so you can see what you're typing, it doesn't automatically wrap your text onto
+            extra lines the way a word processor would, so a long sentence in a narrow box will still
+            come out as one line in the file.</li>
+          <li><strong>The font list is short on purpose.</strong> Helvetica, Times and Courier are
+            three of the handful of fonts every PDF reader already knows how to display without the
+            file needing to bundle a font of its own, which keeps the download small and side-steps
+            font-licensing headaches. It won't match a brand's exact typeface, but it covers the vast
+            majority of "add a label or a note" needs.</li>
+          <li><strong>Reach for a different tool if you only need one specific thing.</strong> A plain
+            signature is faster with <a href="/sign-pdf/">Sign PDF</a>. The exact same text repeated
+            across every page (a page number, "DRAFT," a date) is what
+            <a href="/add-page-numbers/">Add Page Numbers</a> and <a href="/watermark-pdf/">Watermark
+            PDF</a> are built for. A logo stamped on a specific range of pages is what
+            <a href="/add-stamps/">Add Stamps</a> does. PDF Editor is the one for everything else,
+            free-form placement of text and images wherever you need them.</li>
+        </ul>
+
+        <div class="cta-box">
+          <p>Ready to add something to a PDF?</p>
+          <a class="btn" href="/pdf-editor/">Open PDF Editor</a>
+        </div>
+
+        <h2>Frequently asked questions</h2>
+        <details class="faq-item" open>
+          <summary>Can this edit text that's already in my PDF?</summary>
+          <p>No. A PDF stores each page as a fixed set of drawing instructions, not an editable
+            document the way a word processor file is, so no PDF tool (free or paid) can truly reflow
+            or retype existing text without rebuilding the page. PDF Editor adds new text and images on
+            top of the existing page instead, it doesn't touch what's already there.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is the text I add actually selectable and searchable, or is it an image?</summary>
+          <p>It's real text, drawn with a standard font and embedded directly in the PDF, the same way
+            a word processor would. You can select it, copy it, and search for it afterwards, it isn't
+            a picture of text.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What image formats can I add?</summary>
+          <p>PNG and JPEG. Both get embedded into the PDF at full quality, not re-compressed.</p>
+        </details>
+
+        <h2>Related guides</h2>
+        <ul>
+          <li><a href="/blog/sign-pdf-online/">How to sign a PDF online for free</a></li>
+          <li><a href="/blog/add-watermark-to-pdf/">How to add a watermark to a PDF</a></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo"><img src="/assets/img/logo-dark.svg" alt="FairGo PDF Logo" class="footer-logo-img"></div>
+        <p>Proudly built for straightforward document management, 100% client-side, nothing is ever uploaded.</p>
+        <div class="footer-support-cta">
+          <p>Like what we're building? No pressure, just appreciated.</p>
+          <a href="/support/" class="btn small">Shout a Coffee</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>PDF Tools</h5>
+        <a href="/merge-pdf/">Merge PDF</a>
+        <a href="/split-pdf/">Split PDF</a>
+        <a href="/compress-pdf/">Compress PDF</a>
+        <a href="/images-to-pdf/">Images to PDF</a>
+        <a href="/pdf-to-images/">PDF to Images</a>
+        <a href="/#pdf-tools" class="footer-view-all">View all PDF Tools &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Image Tools</h5>
+        <a href="/compress-image/">Compress Image</a>
+        <a href="/convert-image/">Convert Image Format</a>
+        <a href="/resize-image/">Resize Image</a>
+        <a href="/crop-rotate-image/">Crop &amp; Rotate Image</a>
+        <a href="/add-border-to-image/">Add Border to Image</a>
+        <a href="/#image-tools" class="footer-view-all">View all Image Tools &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Utilities</h5>
+        <a href="/convert-to-markdown/">Convert to Markdown</a>
+        <a href="/ai-writing-checker/">AI Writing Checker</a>
+        <a href="/password-generator/">Password Generator</a>
+        <a href="/qr-code-generator/">QR Code Generator</a>
+        <a href="/uuid-generator/">UUID Generator</a>
+        <a href="/#utilities" class="footer-view-all">View all Utilities &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <a href="/blog/">Blog</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/support/">Support Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; <span id="year"></span> FairGo PDF. A project built with passion and empathy by
+      <span class="attribution">The Dato Family Labs</span> in Perth, WA, Australia.
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+  <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+</button>
+
+<script src="/assets/search-data.js"></script>
+<script src="/assets/search.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

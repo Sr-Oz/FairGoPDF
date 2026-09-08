@@ -61,6 +61,7 @@ window.SEARCH_INDEX = [
   { title: "Calendar Generator", url: "/calendar-generator/", desc: "Printable 12-month calendar PDF for any year, mark birthdays and custom dates", category: "Utility" },
 
   // Blog
+  { title: "How to Edit a PDF Online, Add Text and Images for Free", url: "/blog/edit-pdf-online/", desc: "Drop your own text and images anywhere on a page, drag them into place and resize them", category: "Blog" },
   { title: "How to Actually Redact a PDF (Not Just Draw a Black Box)", url: "/blog/how-to-redact-a-pdf/", desc: "Why covering text with a black rectangle doesn't remove it, and what does", category: "Blog" },
   { title: "How to Sign a PDF Online for Free", url: "/blog/sign-pdf-online/", desc: "Add a signature without printing, scanning or e-signature software", category: "Blog" },
   { title: "How to Add Page Numbers to a PDF", url: "/blog/add-page-numbers-to-pdf/", desc: "Number every page, any position, any format, Bates-style numbering", category: "Blog" },
