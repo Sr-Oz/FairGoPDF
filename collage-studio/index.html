@@ -113,6 +113,22 @@
                   <span class="material-symbols-outlined" aria-hidden="true">view_column</span>
                   <span class="label">Columns</span>
                 </button>
+                <button class="layout-opt" data-layout="feature" type="button">
+                  <span class="material-symbols-outlined" aria-hidden="true">view_sidebar</span>
+                  <span class="label">Feature</span>
+                </button>
+                <button class="layout-opt" data-layout="mosaic" type="button">
+                  <span class="material-symbols-outlined" aria-hidden="true">dashboard</span>
+                  <span class="label">Mosaic</span>
+                </button>
+                <button class="layout-opt" data-layout="frame" type="button">
+                  <span class="material-symbols-outlined" aria-hidden="true">panorama</span>
+                  <span class="label">Frame</span>
+                </button>
+                <button class="layout-opt" data-layout="stack" type="button">
+                  <span class="material-symbols-outlined" aria-hidden="true">filter_none</span>
+                  <span class="label">Stack</span>
+                </button>
               </div>
             </div>
 
@@ -146,6 +162,41 @@
               <h3>Background</h3>
               <input type="color" id="bgColor" value="#ffffff">
             </div>
+
+            <div class="collage-panel-card">
+              <h3>Text overlay</h3>
+              <div class="field">
+                <input type="text" id="captionText" placeholder="Add a caption…" style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text);">
+              </div>
+              <div class="field" style="margin-top:10px;">
+                <label for="captionFont">Font</label>
+                <select id="captionFont" style="width:100%;">
+                  <option value="Manrope, sans-serif" selected>Manrope</option>
+                  <option value="Georgia, serif">Georgia</option>
+                  <option value="'Courier New', monospace">Courier</option>
+                  <option value="'Brush Script MT', cursive">Script</option>
+                  <option value="Impact, sans-serif">Impact</option>
+                </select>
+              </div>
+              <div class="option-btn-row" style="margin-top:10px;">
+                <button class="option-btn active" data-caption-pos="bottom" type="button">Bottom</button>
+                <button class="option-btn" data-caption-pos="center" type="button">Centre</button>
+                <button class="option-btn" data-caption-pos="top" type="button">Top</button>
+              </div>
+              <div class="collage-slider-field" style="margin-top:12px;">
+                <label for="captionSize"><span>Size</span><span><span id="captionSizeVal">5</span>%</span></label>
+                <input type="range" id="captionSize" min="2" max="12" value="5">
+              </div>
+              <div class="controls-row" style="margin-top:8px;">
+                <div class="field">
+                  <label for="captionColor">Colour</label>
+                  <input type="color" id="captionColor" value="#ffffff">
+                </div>
+                <div class="field">
+                  <label><input type="checkbox" id="captionBar" checked> Background bar</label>
+                </div>
+              </div>
+            </div>
           </aside>
 
           <div class="collage-canvas-col">
@@ -155,6 +206,9 @@
             <div class="actions-row">
               <button class="btn secondary small" id="addPhotosBtn" type="button">
                 <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">add_photo_alternate</span> Add Photos
+              </button>
+              <button class="btn secondary small" id="shuffleBtn" type="button">
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">shuffle</span> Shuffle
               </button>
               <div class="field" style="display:inline-flex;">
                 <select id="format">
@@ -171,7 +225,24 @@
           <aside class="collage-panel">
             <p class="collage-panel-title">Filter</p>
             <p class="help-text" id="filterHint" style="margin-top:0;">Click a photo first, then a filter below.</p>
+            <button class="btn secondary small" id="applyAllBtn" type="button" style="display:none; margin-bottom:12px;">Apply to all photos</button>
             <div id="filterPanel"></div>
+
+            <div class="collage-panel-card" style="margin-top:16px;">
+              <h3>Fine-tune</h3>
+              <div class="collage-slider-field">
+                <label for="adjBrightness"><span>Brightness</span><span id="adjBrightnessVal">0</span></label>
+                <input type="range" id="adjBrightness" min="-50" max="50" value="0">
+              </div>
+              <div class="collage-slider-field">
+                <label for="adjContrast"><span>Contrast</span><span id="adjContrastVal">0</span></label>
+                <input type="range" id="adjContrast" min="-50" max="50" value="0">
+              </div>
+              <div class="collage-slider-field">
+                <label for="adjSaturation"><span>Saturation</span><span id="adjSaturationVal">0</span></label>
+                <input type="range" id="adjSaturation" min="-50" max="50" value="0">
+              </div>
+            </div>
           </aside>
         </div>
       </div>
@@ -196,15 +267,21 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add two or more photos.</li>
-        <li>Pick a layout (grid, rows or columns) and a canvas shape (square, story, A4 or a custom size).</li>
+        <li>Add two or more photos, then drag one onto another to swap their positions, or click
+          "Shuffle" to randomise the order.</li>
+        <li>Pick a layout (grid, rows, columns, feature, mosaic, frame or stack) and a canvas shape
+          (square, story, A4 or a custom size).</li>
         <li>Adjust spacing and corner rounding to taste, and set a background colour.</li>
-        <li>Click a photo, then pick a filter for it from the panel on the right, each photo can have its own.</li>
+        <li>Click a photo, then pick a filter for it from the panel on the right, each photo can have
+          its own, or use "Apply to all photos" to match them all at once.</li>
+        <li>Add a caption if you want one, choose its position, size and colour.</li>
         <li>Click "Save &amp; Download" to export the finished collage as one image.</li>
       </ol>
-      <p class="help-text">Every photo fills its cell edge to edge (cropped to fit, the classic collage
-        look), rather than being placed and sized freely. Need to place, resize and rotate photos by
-        hand instead, with no cropping? That's a different interaction model this tool doesn't cover.</p>
+      <p class="help-text">Every photo fills its slot edge to edge (cropped to fit), rather than being
+        placed and sized freely, "Feature," "Frame" and "Stack" pick which photo becomes the highlight
+        based on order, so reorder first if you want a specific one front and centre. Need to place,
+        resize and rotate photos entirely by hand instead, with no cropping? That's a different
+        interaction model this tool doesn't cover.</p>
     </section>
   </div>
 </main>
