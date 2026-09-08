@@ -99,6 +99,7 @@ async function selectPage(index) {
 }
 
 function redrawStage(liveRectPx) {
+  if (!baseCanvas) return;
   const ctx = stage.getContext("2d");
   ctx.drawImage(baseCanvas, 0, 0);
   ctx.fillStyle = "rgba(37, 99, 235, 0.15)";
