@@ -26,7 +26,7 @@ https://fairgopdf.au/
 | Round Corners / Circle Crop | `/round-corners-image/` | Round an image's corners or crop it to a circle |
 | Watermark Image | `/watermark-image/` | Stamp custom text across one or more images |
 | Social Media Cropper | `/social-media-cropper/` | Crop to exact Instagram/X/YouTube/LinkedIn/Facebook sizes |
-| Collage Maker | `/collage-maker/` | Combine several photos into one grid, row or column image |
+| Collage Studio | `/collage-studio/` | Drag, resize and rotate photos anywhere on a board, no fixed grid |
 
 ### PDF tools
 | Tool | URL | What it does |
@@ -77,7 +77,6 @@ https://fairgopdf.au/
 | Read Aloud | `/read-aloud/` | Have a PDF, Word doc, .txt file or pasted text read aloud, with live word highlighting |
 | Handwriting Worksheets | `/handwriting-worksheets/` | Printable cursive or print handwriting practice sheets with traceable letters |
 | Calendar Generator | `/calendar-generator/` | Printable 12-month calendar PDF for any year, mark birthdays and custom dates |
-| Collage Studio | `/collage-studio/` | Drag, resize and rotate photos anywhere on a board, no fixed grid |
 
 ### Coming soon (v2 backlog)
 - OCR (make scanned PDFs searchable) — confirmed feasible client-side via
