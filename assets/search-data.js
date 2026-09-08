@@ -59,6 +59,7 @@ window.SEARCH_INDEX = [
   { title: "Read Aloud", url: "/read-aloud/", desc: "Have a PDF, Word doc or pasted text read aloud, word by word", category: "Utility" },
   { title: "Handwriting Worksheets", url: "/handwriting-worksheets/", desc: "Printable cursive or print handwriting practice sheets", category: "Utility" },
   { title: "Calendar Generator", url: "/calendar-generator/", desc: "Printable 12-month calendar PDF for any year, mark birthdays and custom dates", category: "Utility" },
+  { title: "Collage Studio", url: "/collage-studio/", desc: "Drag, resize and rotate photos anywhere on a board, no fixed grid", category: "Utility" },
 
   // Blog
   { title: "How to Edit a PDF Online, Add Text and Images for Free", url: "/blog/edit-pdf-online/", desc: "Drop your own text and images anywhere on a page, drag them into place and resize them", category: "Blog" },

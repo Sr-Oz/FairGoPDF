@@ -77,6 +77,7 @@ https://fairgopdf.au/
 | Read Aloud | `/read-aloud/` | Have a PDF, Word doc, .txt file or pasted text read aloud, with live word highlighting |
 | Handwriting Worksheets | `/handwriting-worksheets/` | Printable cursive or print handwriting practice sheets with traceable letters |
 | Calendar Generator | `/calendar-generator/` | Printable 12-month calendar PDF for any year, mark birthdays and custom dates |
+| Collage Studio | `/collage-studio/` | Drag, resize and rotate photos anywhere on a board, no fixed grid |
 
 ### Coming soon (v2 backlog)
 - OCR (make scanned PDFs searchable) — confirmed feasible client-side via

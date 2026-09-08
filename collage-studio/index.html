@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="The Dato Family Labs">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+<title>Photo Collage Studio Online Free, Freeform Layout | FairGo PDF</title>
+<meta name="description" content="Drag, resize and rotate photos anywhere on a board to build a freeform collage, no fixed grid, free and right in your browser. No upload, no signup.">
+<link rel="canonical" href="https://fairgopdf.au/collage-studio/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FairGo PDF">
+<meta property="og:title" content="Photo Collage Studio Online Free, Freeform Layout">
+<meta property="og:description" content="Drag, resize and rotate photos anywhere on a board to build a freeform collage, no fixed grid, free and right in your browser. No upload, no signup.">
+<meta property="og:url" content="https://fairgopdf.au/collage-studio/">
+<meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Photo Collage Studio Online Free, Freeform Layout">
+<meta name="twitter:description" content="Drag, resize and rotate photos anywhere on a board to build a freeform collage, no fixed grid, free and right in your browser. No upload, no signup.">
+<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo"><img src="/assets/img/logo-light.svg" alt="FairGo PDF Logo" class="logo-img logo-img-light"><img src="/assets/img/logo-dark.svg" alt="FairGo PDF Logo" class="logo-img logo-img-dark"></a>
+    <div class="header-right">
+      <nav class="nav-links" id="navLinks">
+        <a href="/#pdf-tools">PDF Tools</a>
+        <a href="/#image-tools">Image Tools</a>
+        <a href="/#utilities">Utilities</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+      <a href="/support/" class="header-support-btn" aria-label="Shout us a coffee, support this project">
+        <span class="material-symbols-outlined" aria-hidden="true">coffee</span>
+        <span class="header-support-btn-label">Shout a Coffee</span>
+      </a>
+      <button class="icon-btn" id="searchToggle" type="button" aria-label="Search the site">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to dark mode">
+        <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+      </button>
+      <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/#utilities">Utilities</a><span class="sep">/</span><span class="current">Collage Studio</span>
+    </nav>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
+      {"@type":"ListItem","position":2,"name":"Utilities","item":"https://fairgopdf.au/#utilities"},
+      {"@type":"ListItem","position":3,"name":"Collage Studio","item":"https://fairgopdf.au/collage-studio/"}
+    ]}
+    </script>
+    <div class="tool-page-header">
+      <h1>Photo Collage Studio</h1>
+      <p>Drag, resize and rotate photos anywhere on a board, no fixed grid. Processed locally, nothing is uploaded.</p>
+    </div>
+
+    <div class="tool-workspace">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose image files or drag and drop">
+        <div class="dz-icon"><span class="material-symbols-outlined">auto_awesome_mosaic</span></div>
+        <div class="dz-title">Drop your photos here, easy as.</div>
+        <div class="dz-sub">One or more images, add more any time</div>
+        <input type="file" id="fileInput" accept="image/*" multiple>
+      </div>
+
+      <div id="editor" style="display:none;">
+        <div class="collage-toolbar">
+          <div class="field">
+            <label for="boardPreset">Board size</label>
+            <select id="boardPreset">
+              <option value="1080x1080" selected>Square (1080×1080)</option>
+              <option value="1600x1200">Landscape (1600×1200)</option>
+              <option value="1200x1600">Portrait (1200×1600)</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div class="field" id="customSizeFields" style="display:none; flex-direction:row; gap:6px;">
+            <input type="number" id="customWidth" min="200" max="4000" value="1200" placeholder="Width">
+            <input type="number" id="customHeight" min="200" max="4000" value="1200" placeholder="Height">
+          </div>
+          <div class="field">
+            <label for="bgColor">Background</label>
+            <input type="color" id="bgColor" value="#ffffff">
+          </div>
+          <button class="btn secondary small" id="addPhotosBtn" type="button">
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">add_photo_alternate</span> Add Photos
+          </button>
+
+          <div class="collage-item-toolbar" id="itemToolbar">
+            <div class="field"><label><input type="checkbox" id="lockAspect" checked> Lock aspect</label></div>
+            <button class="btn secondary small" id="bringFrontBtn" type="button">Bring to front</button>
+            <button class="btn secondary small" id="sendBackBtn" type="button">Send to back</button>
+            <button class="btn secondary small" id="deleteItemBtn" type="button">Delete</button>
+          </div>
+        </div>
+
+        <p class="help-text">Click a photo to select it, drag to move, drag a corner dot to resize, drag
+          the round handle above it to rotate.</p>
+
+        <div class="collage-board-wrap" id="boardWrap">
+          <div class="collage-board" id="board">
+            <div class="collage-items-layer" id="itemsLayer"></div>
+          </div>
+        </div>
+
+        <div class="controls-row" style="margin-top:16px;">
+          <div class="field">
+            <label for="format">Format</label>
+            <select id="format">
+              <option value="image/png" selected>PNG</option>
+              <option value="image/jpeg">JPEG</option>
+            </select>
+          </div>
+          <div class="field" id="qualityField" style="display:none;">
+            <label for="quality">Quality (<span id="qualityVal">90</span>%)</label>
+            <input type="range" id="quality" min="10" max="100" value="90">
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn" id="runBtn">Save &amp; Download</button>
+          <button class="btn secondary" id="clearBtn">Start over</button>
+        </div>
+      </div>
+
+      <div class="status-box" id="status"></div>
+    </div>
+
+    <section class="related-tools-section">
+      <h2>Related tools</h2>
+      <div class="tool-grid related-tools-grid">
+        <a class="tool-card related-tool-card" href="/collage-maker/">
+          <span class="icon"><span class="material-symbols-outlined">view_module</span></span>
+          <h3>Collage Maker</h3>
+        </a>
+        <a class="tool-card related-tool-card" href="/add-border-to-image/">
+          <span class="icon"><span class="material-symbols-outlined">border_style</span></span>
+          <h3>Add Border to Image</h3>
+        </a>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <h2>How it works</h2>
+      <ol>
+        <li>Pick a board size (or set a custom width/height) and a background colour.</li>
+        <li>Add photos, each one drops onto the board as its own box.</li>
+        <li>Click a photo to select it: drag to move, a corner dot to resize, the round handle above it to rotate.</li>
+        <li>Use "Bring to front" / "Send to back" to control which photo overlaps which.</li>
+        <li>Click "Save &amp; Download" to export the board as one image.</li>
+      </ol>
+      <p class="help-text">Unlike <a href="/collage-maker/">Collage Maker</a>'s automatic grid, row and
+        column layouts, every photo here is placed and sized by hand, overlapping and rotation are the
+        whole point. Changing the board size afterwards doesn't rescale photos you've already placed,
+        drag them back into place if you switch sizes partway through.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo"><img src="/assets/img/logo-dark.svg" alt="FairGo PDF Logo" class="footer-logo-img"></div>
+        <p>Proudly built for straightforward document management, 100% client-side, nothing is ever uploaded.</p>
+        <div class="footer-support-cta">
+          <p>Like what we're building? No pressure, just appreciated.</p>
+          <a href="/support/" class="btn small">Shout a Coffee</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>PDF Tools</h5>
+        <a href="/merge-pdf/">Merge PDF</a>
+        <a href="/split-pdf/">Split PDF</a>
+        <a href="/compress-pdf/">Compress PDF</a>
+        <a href="/images-to-pdf/">Images to PDF</a>
+        <a href="/pdf-to-images/">PDF to Images</a>
+        <a href="/#pdf-tools" class="footer-view-all">View all PDF Tools &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Image Tools</h5>
+        <a href="/compress-image/">Compress Image</a>
+        <a href="/convert-image/">Convert Image Format</a>
+        <a href="/resize-image/">Resize Image</a>
+        <a href="/crop-rotate-image/">Crop &amp; Rotate Image</a>
+        <a href="/add-border-to-image/">Add Border to Image</a>
+        <a href="/#image-tools" class="footer-view-all">View all Image Tools &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Utilities</h5>
+        <a href="/convert-to-markdown/">Convert to Markdown</a>
+        <a href="/ai-writing-checker/">AI Writing Checker</a>
+        <a href="/password-generator/">Password Generator</a>
+        <a href="/qr-code-generator/">QR Code Generator</a>
+        <a href="/uuid-generator/">UUID Generator</a>
+        <a href="/#utilities" class="footer-view-all">View all Utilities &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <a href="/blog/">Blog</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/support/">Support Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; <span id="year"></span> FairGo PDF. A project built with passion and empathy by
+      <span class="attribution">The Dato Family Labs</span> in Perth, WA, Australia.
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+  <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+</button>
+
+<script src="/assets/tools.js"></script>
+<script src="/assets/search-data.js"></script>
+<script src="/assets/search.js"></script>
+<script src="/assets/tools/collage-studio.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>
