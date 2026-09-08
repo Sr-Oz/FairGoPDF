@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="The Dato Family Labs">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
+<title>Add Links to a PDF Online Free | FairGo PDF</title>
+<meta name="description" content="Draw clickable link areas on a PDF that open a website or jump to another page, free and right in your browser. No upload, no signup.">
+<link rel="canonical" href="https://fairgopdf.au/add-links-to-pdf/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FairGo PDF">
+<meta property="og:title" content="Add Links to a PDF Online Free">
+<meta property="og:description" content="Draw clickable link areas on a PDF that open a website or jump to another page, free and right in your browser. No upload, no signup.">
+<meta property="og:url" content="https://fairgopdf.au/add-links-to-pdf/">
+<meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Add Links to a PDF Online Free">
+<meta name="twitter:description" content="Draw clickable link areas on a PDF that open a website or jump to another page, free and right in your browser. No upload, no signup.">
+<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+  #linkStageWrap { position: relative; display: inline-block; max-width: 100%; }
+  #linkStage { display: block; max-width: 100%; height: auto; cursor: crosshair; border: 1px solid var(--border); border-radius: 8px; touch-action: none; }
+  .page-thumb .link-badge { position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--brand); display: none; }
+  .page-thumb.has-links .link-badge { display: block; }
+  .page-thumb { position: relative; }
+  .link-edit-panel { display: none; margin-top: 16px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
+  .link-edit-panel.visible { display: block; }
+  .link-type-row { display: flex; gap: 16px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo"><img src="/assets/img/logo-light.svg" alt="FairGo PDF Logo" class="logo-img logo-img-light"><img src="/assets/img/logo-dark.svg" alt="FairGo PDF Logo" class="logo-img logo-img-dark"></a>
+    <div class="header-right">
+      <nav class="nav-links" id="navLinks">
+        <a href="/#pdf-tools">PDF Tools</a>
+        <a href="/#image-tools">Image Tools</a>
+        <a href="/#utilities">Utilities</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+      <a href="/support/" class="header-support-btn" aria-label="Shout us a coffee, support this project">
+        <span class="material-symbols-outlined" aria-hidden="true">coffee</span>
+        <span class="header-support-btn-label">Shout a Coffee</span>
+      </a>
+      <button class="icon-btn" id="searchToggle" type="button" aria-label="Search the site">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to dark mode">
+        <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+      </button>
+      <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">Add Links to PDF</span>
+    </nav>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
+      {"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://fairgopdf.au/#pdf-tools"},
+      {"@type":"ListItem","position":3,"name":"Add Links to PDF","item":"https://fairgopdf.au/add-links-to-pdf/"}
+    ]}
+    </script>
+    <div class="tool-page-header">
+      <h1>Add Links to a PDF</h1>
+      <p>Draw a clickable area anywhere on a page, link it to a website or another page. Processed locally, nothing is uploaded.</p>
+    </div>
+
+    <div class="tool-workspace">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+        <div class="dz-icon"><span class="material-symbols-outlined">link</span></div>
+        <div class="dz-title">Drop your PDF here, easy as.</div>
+        <div class="dz-sub">One PDF file</div>
+        <input type="file" id="fileInput" accept="application/pdf">
+      </div>
+
+      <div id="editor" style="display:none;">
+        <p class="help-text">Choose a page, then click and drag on the preview to draw a link area.
+          Click an existing link box to edit or delete it.</p>
+        <div class="page-thumb-grid" id="pageGrid"></div>
+
+        <div id="linkStageWrap" style="margin-top:16px;">
+          <canvas id="linkStage"></canvas>
+        </div>
+
+        <div class="link-edit-panel" id="linkEditPanel">
+          <div class="link-type-row">
+            <label><input type="radio" name="linkType" value="url" checked> Link to a website</label>
+            <label><input type="radio" name="linkType" value="page"> Jump to a page</label>
+          </div>
+          <div class="field" id="urlField">
+            <label for="linkUrl">URL</label>
+            <input type="text" id="linkUrl" placeholder="https://example.com" style="width:100%; max-width:400px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text);">
+          </div>
+          <div class="field" id="pageField" style="display:none;">
+            <label for="linkPage">Page number</label>
+            <input type="number" id="linkPage" min="1" value="1" style="width:100px;">
+          </div>
+          <div class="actions-row">
+            <button class="btn small" id="confirmLinkBtn" type="button">Save link</button>
+            <button class="btn secondary small" id="deleteLinkBtn" type="button" style="display:none;">Delete link</button>
+            <button class="btn secondary small" id="cancelLinkBtn" type="button">Cancel</button>
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button class="btn secondary small" id="clearPageBtn" type="button">Clear this page's links</button>
+        </div>
+
+        <p class="help-text" id="linkSummary" style="margin-top:12px;"></p>
+
+        <div class="actions-row">
+          <button class="btn" id="runBtn">Add Links &amp; Download</button>
+          <button class="btn secondary" id="clearBtn">Start over</button>
+        </div>
+      </div>
+
+      <div class="status-box" id="status"></div>
+    </div>
+
+    <section class="related-tools-section">
+      <h2>Related tools</h2>
+      <div class="tool-grid related-tools-grid">
+        <a class="tool-card related-tool-card" href="/pdf-form-builder/">
+          <span class="icon"><span class="material-symbols-outlined">checklist</span></span>
+          <h3>PDF Form Builder</h3>
+        </a>
+        <a class="tool-card related-tool-card" href="/pdf-editor/">
+          <span class="icon"><span class="material-symbols-outlined">edit_document</span></span>
+          <h3>PDF Editor</h3>
+        </a>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <h2>How it works</h2>
+      <ol>
+        <li>Add a PDF and pick a page from the thumbnails.</li>
+        <li>Click and drag on the preview to draw a link area.</li>
+        <li>Choose whether it opens a website or jumps to another page in the same document, then save it.</li>
+        <li>Repeat on any other pages, a dot marks pages with at least one link.</li>
+        <li>Click "Add Links &amp; Download."</li>
+      </ol>
+      <p class="help-text">The link area itself is invisible in the final PDF, just like a normal
+        hyperlink in a web page, nothing is drawn on top of your content. Want visible text or a
+        button graphic where people click? Add that first with <a href="/pdf-editor/">PDF Editor</a>,
+        then draw the link area over it here.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo"><img src="/assets/img/logo-dark.svg" alt="FairGo PDF Logo" class="footer-logo-img"></div>
+        <p>Proudly built for straightforward document management, 100% client-side, nothing is ever uploaded.</p>
+        <div class="footer-support-cta">
+          <p>Like what we're building? No pressure, just appreciated.</p>
+          <a href="/support/" class="btn small">Shout a Coffee</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>PDF Tools</h5>
+        <a href="/merge-pdf/">Merge PDF</a>
+        <a href="/split-pdf/">Split PDF</a>
+        <a href="/compress-pdf/">Compress PDF</a>
+        <a href="/images-to-pdf/">Images to PDF</a>
+        <a href="/pdf-to-images/">PDF to Images</a>
+        <a href="/#pdf-tools" class="footer-view-all">View all PDF Tools &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Image Tools</h5>
+        <a href="/compress-image/">Compress Image</a>
+        <a href="/convert-image/">Convert Image Format</a>
+        <a href="/resize-image/">Resize Image</a>
+        <a href="/crop-rotate-image/">Crop &amp; Rotate Image</a>
+        <a href="/add-border-to-image/">Add Border to Image</a>
+        <a href="/#image-tools" class="footer-view-all">View all Image Tools &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Utilities</h5>
+        <a href="/convert-to-markdown/">Convert to Markdown</a>
+        <a href="/ai-writing-checker/">AI Writing Checker</a>
+        <a href="/password-generator/">Password Generator</a>
+        <a href="/qr-code-generator/">QR Code Generator</a>
+        <a href="/uuid-generator/">UUID Generator</a>
+        <a href="/#utilities" class="footer-view-all">View all Utilities &rarr;</a>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <a href="/blog/">Blog</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/support/">Support Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; <span id="year"></span> FairGo PDF. A project built with passion and empathy by
+      <span class="attribution">The Dato Family Labs</span> in Perth, WA, Australia.
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+  <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+</button>
+
+<script src="/assets/tools.js"></script>
+<script type="module" src="/assets/tools/add-links-to-pdf.js"></script>
+<script src="/assets/search-data.js"></script>
+<script src="/assets/search.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>
