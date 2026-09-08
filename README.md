@@ -59,6 +59,7 @@ https://fairgopdf.au/
 | Redact PDF | `/redact-pdf/` | Permanently black out sensitive content by flattening marked pages to an image, not just drawing a box over it |
 | Protect PDF | `/protect-pdf/` | Add a password so only people who have it can open the file, with optional printing/copying/editing permissions |
 | Unlock PDF | `/unlock-pdf/` | Remove a password from a PDF you already have the password for |
+| PDF Editor | `/pdf-editor/` | Drag text and image boxes anywhere on any page, resize and style them |
 
 ### Utilities
 | Tool | URL | What it does |
