@@ -1931,3 +1931,101 @@ body.search-open { overflow: hidden; }
   color: var(--text-muted);
   font-size: 0.9rem;
 }
+
+/* 404 page: photo hero with a CSS-only RGB-split glitch effect on the numeral.
+   Fixed dark-photo styling on purpose, not theme-adaptive (same idea as .blog-hero). */
+.glitch-hero {
+  position: relative;
+  min-height: min(72vh, 640px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #04211b;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.glitch-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(2, 20, 16, 0.55) 0%, rgba(2, 20, 16, 0.8) 100%);
+}
+
+.glitch-hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #fff9f2;
+  padding: 40px 20px;
+}
+
+.glitch-hero-eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #FFD700;
+  margin: 0 0 12px;
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  font-size: clamp(4.5rem, 16vw, 9rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0 0 18px;
+  color: #fff9f2;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.glitch-text::before {
+  color: #FFD700;
+  animation: glitch-1 3.4s infinite steps(1, end);
+}
+
+.glitch-text::after {
+  color: #4ECDC4;
+  animation: glitch-2 2.7s infinite steps(1, end);
+}
+
+@keyframes glitch-1 {
+  0%, 87%, 100% { transform: translate(0, 0); clip-path: inset(0 0 100% 0); opacity: 0; }
+  88% { transform: translate(-3.5%, 2px); clip-path: inset(8% 0 55% 0); opacity: 0.85; }
+  90.5% { transform: translate(3%, -2px); clip-path: inset(55% 0 10% 0); opacity: 0.85; }
+  93% { transform: translate(-2%, 1px); clip-path: inset(28% 0 40% 0); opacity: 0.85; }
+  95% { transform: translate(0, 0); clip-path: inset(0 0 100% 0); opacity: 0; }
+}
+
+@keyframes glitch-2 {
+  0%, 82%, 100% { transform: translate(0, 0); clip-path: inset(100% 0 0 0); opacity: 0; }
+  83% { transform: translate(3.5%, -1px); clip-path: inset(65% 0 5% 0); opacity: 0.85; }
+  85.5% { transform: translate(-3%, 2px); clip-path: inset(5% 0 70% 0); opacity: 0.85; }
+  88% { transform: translate(2.5%, -1px); clip-path: inset(35% 0 30% 0); opacity: 0.85; }
+  90% { transform: translate(0, 0); clip-path: inset(100% 0 0 0); opacity: 0; }
+}
+
+.glitch-hero-sub {
+  color: rgba(255, 249, 242, 0.88);
+  max-width: 480px;
+  margin: 0 auto 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-text::before, .glitch-text::after { animation: none; opacity: 0; }
+}

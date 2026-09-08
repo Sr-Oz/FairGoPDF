@@ -7,6 +7,7 @@
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Page not found | FairGo PDF</title>
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
@@ -29,11 +30,18 @@
   </div>
 </header>
 <main id="main-content">
-  <div class="container" style="text-align:center; padding: 80px 20px;">
-    <h1>404, Page not found</h1>
-    <p style="color:var(--text-muted); margin-bottom:24px;">That tool or page doesn't exist.</p>
-    <a class="btn" href="/">Back to all tools</a>
-  </div>
+  <section class="glitch-hero" style="background-image: url('/assets/img/404-bg.jpg');">
+    <div class="glitch-hero-overlay"></div>
+    <div class="container glitch-hero-content">
+      <p class="glitch-hero-eyebrow">Lost, mate?</p>
+      <h1 class="glitch-text" data-text="404">404</h1>
+      <p class="glitch-hero-sub">That page hopped off somewhere, it's not here. Let's get you back on track.</p>
+      <div class="actions-row" style="justify-content:center;">
+        <a class="btn" href="/">Back to all tools</a>
+        <a class="btn secondary" href="/#pdf-tools">Browse PDF Tools</a>
+      </div>
+    </div>
+  </section>
 </main>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
