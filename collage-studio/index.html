@@ -5,21 +5,38 @@
 <meta name="author" content="The Dato Family Labs">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Photo Collage Studio Online Free, Freeform Layout | FairGo PDF</title>
-<meta name="description" content="Drag, resize and rotate photos anywhere on a board to build a freeform collage, no fixed grid, free and right in your browser. No upload, no signup.">
+<title>Photo Collage Maker Online Free, Layouts &amp; Filters | FairGo PDF</title>
+<meta name="description" content="Build a photo collage with grid, row or column layouts, pick a canvas shape, adjust spacing and corners, and apply a filter to each photo. Free, right in your browser.">
 <link rel="canonical" href="https://fairgopdf.au/collage-studio/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FairGo PDF">
-<meta property="og:title" content="Photo Collage Studio Online Free, Freeform Layout">
-<meta property="og:description" content="Drag, resize and rotate photos anywhere on a board to build a freeform collage, no fixed grid, free and right in your browser. No upload, no signup.">
+<meta property="og:title" content="Photo Collage Maker Online Free, Layouts & Filters">
+<meta property="og:description" content="Build a photo collage with grid, row or column layouts, pick a canvas shape, adjust spacing and corners, and apply a filter to each photo. Free, right in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/collage-studio/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Photo Collage Studio Online Free, Freeform Layout">
-<meta name="twitter:description" content="Drag, resize and rotate photos anywhere on a board to build a freeform collage, no fixed grid, free and right in your browser. No upload, no signup.">
+<meta name="twitter:title" content="Photo Collage Maker Online Free, Layouts & Filters">
+<meta name="twitter:description" content="Build a photo collage with grid, row or column layouts, pick a canvas shape, adjust spacing and corners, and apply a filter to each photo. Free, right in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
+<style>
+  /* This tool's editor needs the full container width for its 3-column
+     layout, so opt out of the site-wide two-column tool-page grid here.
+     Related tools / How it works just stack below instead. */
+  .container:has(> .tool-workspace + .related-tools-section) { display: block; }
+  .container:has(> .tool-workspace + .related-tools-section) > .tool-workspace,
+  .container:has(> .tool-workspace + .related-tools-section) > .related-tools-section,
+  .container:has(> .tool-workspace + .related-tools-section) > .info-section {
+    grid-column: auto;
+    max-width: none;
+    box-shadow: none;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 28px 0;
+  }
+</style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
@@ -65,74 +82,97 @@
     </script>
     <div class="tool-page-header">
       <h1>Photo Collage Studio</h1>
-      <p>Drag, resize and rotate photos anywhere on a board, no fixed grid. Processed locally, nothing is uploaded.</p>
+      <p>Pick a layout and canvas shape, adjust spacing and corners, filter each photo. Processed locally, nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
+    <div class="tool-workspace" style="max-width: 100%;">
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose image files or drag and drop">
         <div class="dz-icon"><span class="material-symbols-outlined">auto_awesome_mosaic</span></div>
         <div class="dz-title">Drop your photos here, easy as.</div>
-        <div class="dz-sub">One or more images, add more any time</div>
+        <div class="dz-sub">Two or more images, add more any time</div>
         <input type="file" id="fileInput" accept="image/*" multiple>
       </div>
 
-      <div id="editor" style="display:none;">
-        <div class="collage-toolbar">
-          <div class="field">
-            <label for="boardPreset">Board size</label>
-            <select id="boardPreset">
-              <option value="1080x1080" selected>Square (1080×1080)</option>
-              <option value="1600x1200">Landscape (1600×1200)</option>
-              <option value="1200x1600">Portrait (1200×1600)</option>
-              <option value="custom">Custom</option>
-            </select>
-          </div>
-          <div class="field" id="customSizeFields" style="display:none; flex-direction:row; gap:6px;">
-            <input type="number" id="customWidth" min="200" max="4000" value="1200" placeholder="Width">
-            <input type="number" id="customHeight" min="200" max="4000" value="1200" placeholder="Height">
-          </div>
-          <div class="field">
-            <label for="bgColor">Background</label>
-            <input type="color" id="bgColor" value="#ffffff">
-          </div>
-          <button class="btn secondary small" id="addPhotosBtn" type="button">
-            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">add_photo_alternate</span> Add Photos
-          </button>
+      <div id="editor" style="display:none; margin-top:16px;">
+        <div class="collage-studio-grid">
+          <aside class="collage-panel">
+            <p class="collage-panel-title">Customize your collage</p>
 
-          <div class="collage-item-toolbar" id="itemToolbar">
-            <div class="field"><label><input type="checkbox" id="lockAspect" checked> Lock aspect</label></div>
-            <button class="btn secondary small" id="bringFrontBtn" type="button">Bring to front</button>
-            <button class="btn secondary small" id="sendBackBtn" type="button">Send to back</button>
-            <button class="btn secondary small" id="deleteItemBtn" type="button">Delete</button>
-          </div>
-        </div>
+            <div class="collage-panel-card">
+              <h3>Layout</h3>
+              <div class="option-btn-row">
+                <button class="layout-opt active" data-layout="grid" type="button">
+                  <span class="material-symbols-outlined" aria-hidden="true">grid_view</span>
+                  <span class="label">Grid</span>
+                </button>
+                <button class="layout-opt" data-layout="rows" type="button">
+                  <span class="material-symbols-outlined" aria-hidden="true">view_agenda</span>
+                  <span class="label">Rows</span>
+                </button>
+                <button class="layout-opt" data-layout="columns" type="button">
+                  <span class="material-symbols-outlined" aria-hidden="true">view_column</span>
+                  <span class="label">Columns</span>
+                </button>
+              </div>
+            </div>
 
-        <p class="help-text">Click a photo to select it, drag to move, drag a corner dot to resize, drag
-          the round handle above it to rotate.</p>
+            <div class="collage-panel-card">
+              <h3>Canvas shape</h3>
+              <div class="option-btn-row">
+                <button class="option-btn active" data-shape="square" type="button">Square</button>
+                <button class="option-btn" data-shape="story" type="button">Story 9:16</button>
+                <button class="option-btn" data-shape="a4" type="button">A4</button>
+                <button class="option-btn" data-shape="custom" type="button">Custom</button>
+              </div>
+              <div class="controls-row" id="customSizeFields" style="display:none; margin-top:12px;">
+                <input type="number" id="customWidth" min="200" max="4000" value="1200" placeholder="Width" style="width:90px;">
+                <input type="number" id="customHeight" min="200" max="4000" value="1200" placeholder="Height" style="width:90px;">
+              </div>
+            </div>
 
-        <div class="collage-board-wrap" id="boardWrap">
-          <div class="collage-board" id="board">
-            <div class="collage-items-layer" id="itemsLayer"></div>
-          </div>
-        </div>
+            <div class="collage-panel-card">
+              <h3>Spacing &amp; corners</h3>
+              <div class="collage-slider-field">
+                <label for="spacing"><span>Spacing</span><span><span id="spacingVal">2</span>%</span></label>
+                <input type="range" id="spacing" min="0" max="10" value="2">
+              </div>
+              <div class="collage-slider-field">
+                <label for="corner"><span>Corner radius</span><span><span id="cornerVal">0</span>%</span></label>
+                <input type="range" id="corner" min="0" max="20" value="0">
+              </div>
+            </div>
 
-        <div class="controls-row" style="margin-top:16px;">
-          <div class="field">
-            <label for="format">Format</label>
-            <select id="format">
-              <option value="image/png" selected>PNG</option>
-              <option value="image/jpeg">JPEG</option>
-            </select>
-          </div>
-          <div class="field" id="qualityField" style="display:none;">
-            <label for="quality">Quality (<span id="qualityVal">90</span>%)</label>
-            <input type="range" id="quality" min="10" max="100" value="90">
-          </div>
-        </div>
+            <div class="collage-panel-card">
+              <h3>Background</h3>
+              <input type="color" id="bgColor" value="#ffffff">
+            </div>
+          </aside>
 
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Save &amp; Download</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
+          <div class="collage-canvas-col">
+            <div class="collage-board-wrap" id="boardWrap">
+              <div class="collage-board" id="board"></div>
+            </div>
+            <div class="actions-row">
+              <button class="btn secondary small" id="addPhotosBtn" type="button">
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">add_photo_alternate</span> Add Photos
+              </button>
+              <div class="field" style="display:inline-flex;">
+                <select id="format">
+                  <option value="image/png" selected>PNG</option>
+                  <option value="image/jpeg">JPEG</option>
+                </select>
+              </div>
+              <button class="btn" id="runBtn">Save &amp; Download</button>
+              <button class="btn secondary" id="clearBtn">Start over</button>
+            </div>
+            <p class="help-text" id="collageHint">Click a photo to select it, use the delete button to remove one.</p>
+          </div>
+
+          <aside class="collage-panel">
+            <p class="collage-panel-title">Filter</p>
+            <p class="help-text" id="filterHint" style="margin-top:0;">Click a photo first, then a filter below.</p>
+            <div id="filterPanel"></div>
+          </aside>
         </div>
       </div>
 
@@ -146,9 +186,9 @@
           <span class="icon"><span class="material-symbols-outlined">border_style</span></span>
           <h3>Add Border to Image</h3>
         </a>
-        <a class="tool-card related-tool-card" href="/watermark-image/">
-          <span class="icon"><span class="material-symbols-outlined">water_drop</span></span>
-          <h3>Watermark Image</h3>
+        <a class="tool-card related-tool-card" href="/image-color-filters/">
+          <span class="icon"><span class="material-symbols-outlined">tune</span></span>
+          <h3>Image Color Filters</h3>
         </a>
       </div>
     </section>
@@ -156,16 +196,15 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Pick a board size (or set a custom width/height) and a background colour.</li>
-        <li>Add photos, each one drops onto the board as its own box.</li>
-        <li>Click a photo to select it: drag to move, a corner dot to resize, the round handle above it to rotate.</li>
-        <li>Use "Bring to front" / "Send to back" to control which photo overlaps which.</li>
-        <li>Click "Save &amp; Download" to export the board as one image.</li>
+        <li>Add two or more photos.</li>
+        <li>Pick a layout (grid, rows or columns) and a canvas shape (square, story, A4 or a custom size).</li>
+        <li>Adjust spacing and corner rounding to taste, and set a background colour.</li>
+        <li>Click a photo, then pick a filter for it from the panel on the right, each photo can have its own.</li>
+        <li>Click "Save &amp; Download" to export the finished collage as one image.</li>
       </ol>
-      <p class="help-text">There's no automatic grid or layout here, every photo is placed and sized
-        by hand, overlapping and rotation are the whole point. Changing the board size afterwards
-        doesn't rescale photos you've already placed, drag them back into place if you switch sizes
-        partway through.</p>
+      <p class="help-text">Every photo fills its cell edge to edge (cropped to fit, the classic collage
+        look), rather than being placed and sized freely. Need to place, resize and rotate photos by
+        hand instead, with no cropping? That's a different interaction model this tool doesn't cover.</p>
     </section>
   </div>
 </main>

@@ -2042,3 +2042,175 @@ body.search-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .glitch-text::before, .glitch-text::after { animation: none; opacity: 0; }
 }
+
+/* Collage Studio: preset grid-layout collage editor (customize panel,
+   canvas of cells, filter panel). Full-width 3-column editor, so this page
+   opts out of the site-wide two-column tool-page grid (see the .container
+   override in its own <style> block) -- Related tools / How it works just
+   stack normally below instead of squeezing in beside a 3-column editor. */
+.collage-studio-grid {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 280px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .collage-studio-grid { grid-template-columns: 1fr; }
+}
+
+.collage-panel-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+}
+
+.collage-panel-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.collage-panel-card h3 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+}
+
+.option-btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.option-btn {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.option-btn:hover { border-color: var(--brand); }
+.option-btn.active { background: var(--brand); border-color: var(--brand); color: var(--brand-contrast); }
+
+.layout-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+  flex: 1;
+  min-width: 64px;
+}
+.layout-opt:hover { border-color: var(--brand); }
+.layout-opt.active { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 10%, var(--bg)); }
+.layout-opt .material-symbols-outlined { font-size: 1.4rem; color: var(--text-muted); }
+.layout-opt.active .material-symbols-outlined { color: var(--brand); }
+.layout-opt span.label { font-size: 0.72rem; color: var(--text-muted); }
+
+.collage-slider-field { margin-bottom: 12px; }
+.collage-slider-field label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.collage-slider-field input[type="range"] { width: 100%; }
+
+.collage-canvas-col { display: flex; flex-direction: column; gap: 16px; }
+
+.collage-board-wrap { width: 100%; }
+
+.collage-board {
+  display: grid;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.collage-cell {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+.collage-cell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+.collage-cell.selected { outline: 3px solid var(--brand); outline-offset: -3px; z-index: 1; }
+.collage-cell.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.collage-cell-delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.collage-cell-delete:hover { background: var(--danger); }
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.filter-swatch {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  overflow: hidden;
+}
+.filter-swatch.active { border-color: var(--brand); }
+.filter-swatch img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.filter-swatch span {
+  display: block;
+  padding: 5px 4px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: var(--bg-alt);
+}
+.filter-category-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 16px 0 8px;
+}
+.filter-category-label:first-child { margin-top: 0; }

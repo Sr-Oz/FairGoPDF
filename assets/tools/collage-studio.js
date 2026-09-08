@@ -1,118 +1,76 @@
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
 const editor = document.getElementById("editor");
-const boardPresetSelect = document.getElementById("boardPreset");
+const board = document.getElementById("board");
+const boardWrap = document.getElementById("boardWrap");
+const addPhotosBtn = document.getElementById("addPhotosBtn");
+const bgColorInput = document.getElementById("bgColor");
+const spacingInput = document.getElementById("spacing");
+const spacingVal = document.getElementById("spacingVal");
+const cornerInput = document.getElementById("corner");
+const cornerVal = document.getElementById("cornerVal");
 const customSizeFields = document.getElementById("customSizeFields");
 const customWidthInput = document.getElementById("customWidth");
 const customHeightInput = document.getElementById("customHeight");
-const bgColorInput = document.getElementById("bgColor");
-const addPhotosBtn = document.getElementById("addPhotosBtn");
-const boardWrap = document.getElementById("boardWrap");
-const board = document.getElementById("board");
-const itemsLayer = document.getElementById("itemsLayer");
-const itemToolbar = document.getElementById("itemToolbar");
-const lockAspectInput = document.getElementById("lockAspect");
-const bringFrontBtn = document.getElementById("bringFrontBtn");
-const sendBackBtn = document.getElementById("sendBackBtn");
-const deleteItemBtn = document.getElementById("deleteItemBtn");
+const filterPanel = document.getElementById("filterPanel");
+const filterHint = document.getElementById("filterHint");
+const collageHint = document.getElementById("collageHint");
 const formatSelect = document.getElementById("format");
-const qualityField = document.getElementById("qualityField");
-const qualityInput = document.getElementById("quality");
-const qualityVal = document.getElementById("qualityVal");
 const runBtn = document.getElementById("runBtn");
 const clearBtn = document.getElementById("clearBtn");
 const statusEl = document.getElementById("status");
 
-const MIN_SIZE = 24;
-const CLICK_THRESHOLD_PX = 4;
+const SHAPES = {
+  square: { w: 1200, h: 1200 },
+  story: { w: 1080, h: 1920 },
+  a4: { w: 1240, h: 1754 },
+};
 
-let naturalW = 1080;
-let naturalH = 1080;
-let ratio = 1;
+const FILTERS = [
+  { key: "none", label: "No filter", category: "Basic", css: "" },
+  { key: "classicBw", label: "Classic B&W", category: "Black & white", css: "grayscale(100%)" },
+  { key: "highContrastBw", label: "High-contrast B&W", category: "Black & white", css: "grayscale(100%) contrast(135%)" },
+  { key: "softBw", label: "Soft B&W", category: "Black & white", css: "grayscale(100%) contrast(85%) brightness(108%)" },
+  { key: "sepia", label: "Sepia", category: "Vintage / film", css: "sepia(75%)" },
+  { key: "noir", label: "Noir", category: "Vintage / film", css: "grayscale(100%) contrast(140%) brightness(85%)" },
+  { key: "vintage", label: "Vintage", category: "Vintage / film", css: "sepia(35%) saturate(85%) contrast(95%)" },
+  { key: "faded", label: "Faded", category: "Vintage / film", css: "contrast(88%) brightness(108%) saturate(70%)" },
+];
+
+const FALLBACK_CONTAINER_WIDTH = 900;
+
+let photos = []; // { id, img, filterKey }
 let idCounter = 0;
-let items = []; // z-order: index 0 = back-most
-let selectedItem = null;
+let selectedPhotoId = null;
+let layoutMode = "grid"; // 'grid' | 'rows' | 'columns'
+let shapeKey = "square"; // 'square' | 'story' | 'a4' | 'custom'
+let naturalW = SHAPES.square.w;
+let naturalH = SHAPES.square.h;
+let ratio = 1;
 let hasStarted = false;
 
-function applyBoardSize(w, h) {
-  naturalW = w;
-  naturalH = h;
-  recalcScale();
-}
-
-boardPresetSelect.addEventListener("change", () => {
-  const val = boardPresetSelect.value;
-  if (val === "custom") {
-    customSizeFields.style.display = "flex";
-    applyBoardSize(Number(customWidthInput.value) || 1200, Number(customHeightInput.value) || 1200);
-  } else {
-    customSizeFields.style.display = "none";
-    const [w, h] = val.split("x").map(Number);
-    applyBoardSize(w, h);
-  }
-});
-customWidthInput.addEventListener("input", () => {
-  if (boardPresetSelect.value === "custom") applyBoardSize(Number(customWidthInput.value) || 1200, naturalH);
-});
-customHeightInput.addEventListener("input", () => {
-  if (boardPresetSelect.value === "custom") applyBoardSize(naturalW, Number(customHeightInput.value) || 1200);
-});
-
-bgColorInput.addEventListener("input", () => {
-  board.style.background = bgColorInput.value;
-});
-
-// Fallback used only if the wrap genuinely can't be measured yet (e.g. this
-// runs before the browser has settled on a layout). A typical content column
-// on this site is a few hundred px, nowhere near the board's native size, so
-// falling back to "no scaling" (ratio 1) would render the board hugely
-// oversized rather than just imperfectly sized -- assume a plausible column
-// width instead, ResizeObserver corrects it for real the moment it can.
-const FALLBACK_CONTAINER_WIDTH = 680;
-
-function recalcScale() {
-  const availableWidth = boardWrap.clientWidth || FALLBACK_CONTAINER_WIDTH;
-  ratio = Math.min(1, availableWidth / naturalW) || (FALLBACK_CONTAINER_WIDTH / naturalW);
-  const cssW = naturalW * ratio;
-  const cssH = naturalH * ratio;
-  board.style.width = `${cssW}px`;
-  board.style.height = `${cssH}px`;
-  itemsLayer.style.width = `${naturalW}px`;
-  itemsLayer.style.height = `${naturalH}px`;
-  itemsLayer.style.transform = `scale(${ratio})`;
-}
-
-let resizeRaf = null;
-function scheduleRecalc() {
-  if (resizeRaf) return;
-  resizeRaf = requestAnimationFrame(() => {
-    recalcScale();
-    resizeRaf = null;
-  });
-}
-window.addEventListener("resize", scheduleRecalc);
-// Self-corrects even if the first recalcScale() ran before boardWrap had a
-// real, stable width (e.g. right as the editor becomes visible) -- fires
-// immediately on observe with whatever size is current, then again on any
-// later change, so a wrong initial guess never sticks.
-if (typeof ResizeObserver !== "undefined") {
-  new ResizeObserver(scheduleRecalc).observe(boardWrap);
-}
-
 function genId() { return ++idCounter; }
+
+function gridDims(count, mode) {
+  if (count === 0) return { cols: 1, rows: 1 };
+  if (mode === "rows") return { cols: 1, rows: count };
+  if (mode === "columns") return { cols: count, rows: 1 };
+  const cols = Math.max(1, Math.ceil(Math.sqrt(count)));
+  const rows = Math.max(1, Math.ceil(count / cols));
+  return { cols, rows };
+}
+
+function spacingPxNatural() { return (Number(spacingInput.value) / 100) * naturalW; }
+function cornerPctValue() { return Number(cornerInput.value); }
 
 function startEditorIfNeeded() {
   if (hasStarted) return;
   hasStarted = true;
   editor.style.display = "block";
-  board.style.background = bgColorInput.value;
-  recalcScale();
-
-  // Once there's a board to look at, the big empty dropzone isn't the focus
-  // anymore, shrink it to a slim "add more" strip instead of two competing
-  // full-size drop targets stacked on top of each other.
   dropzone.classList.add("compact");
   dropzone.querySelector(".dz-title").textContent = "+ Add more photos";
+  buildFilterPanel();
+  recalcScale();
 }
 
 initDropzone(dropzone, fileInput, async (newFiles) => {
@@ -123,302 +81,238 @@ initDropzone(dropzone, fileInput, async (newFiles) => {
   }
   if (!images.length) return;
   startEditorIfNeeded();
-  await addPhotos(images);
-  clearStatus(statusEl);
-});
-
-addPhotosBtn.addEventListener("click", () => fileInput.click());
-
-async function addPhotos(files) {
-  let stagger = items.length;
-  for (const file of files) {
+  for (const file of images) {
     try {
       const dataUrl = await readFileAsDataURL(file);
       const img = await loadImage(dataUrl);
-      const aspect = img.width / img.height;
-      const maxW = naturalW * 0.4;
-      const width = Math.min(maxW, img.width);
-      const height = width / aspect;
-      const offset = (stagger % 6) * 24;
-      const obj = {
-        id: genId(),
-        img,
-        x: Math.max(0, (naturalW - width) / 2) + offset - 60,
-        y: Math.max(0, (naturalH - height) / 2) + offset - 60,
-        width,
-        height,
-        aspect,
-        rotation: 0,
-        lockAspect: true,
-      };
-      buildItemEl(obj);
-      items.push(obj);
-      itemsLayer.appendChild(obj.el);
-      selectItem(obj);
-      stagger++;
+      photos.push({ id: genId(), img, filterKey: "none" });
     } catch (err) {
       console.error(err);
       setStatus(statusEl, `Could not load an image: ${err.message || "unknown error"}`, "error");
       statusEl.classList.add("visible");
     }
   }
-}
+  renderBoard();
+  clearStatus(statusEl);
+});
 
-// --- DOM building ---
+addPhotosBtn.addEventListener("click", () => fileInput.click());
 
-function buildHandles(container) {
-  ["nw", "ne", "sw", "se"].forEach((corner) => {
-    const h = document.createElement("span");
-    h.className = `crop-handle ${corner}`;
-    h.dataset.handle = corner;
-    container.appendChild(h);
+// --- Layout / shape / spacing controls ---
+
+document.querySelectorAll(".layout-opt").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".layout-opt").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    layoutMode = btn.dataset.layout;
+    renderBoard();
   });
-}
-
-function positionEl(obj) {
-  obj.el.style.left = `${obj.x}px`;
-  obj.el.style.top = `${obj.y}px`;
-  obj.el.style.width = `${obj.width}px`;
-  obj.el.style.height = `${obj.height}px`;
-  obj.el.style.transform = `rotate(${obj.rotation}deg)`;
-}
-
-function buildItemEl(obj) {
-  const el = document.createElement("div");
-  el.className = "collage-item";
-
-  const img = document.createElement("img");
-  img.src = obj.img.src;
-  img.draggable = false;
-  el.appendChild(img);
-
-  const rotateHandle = document.createElement("span");
-  rotateHandle.className = "rotate-handle";
-  el.appendChild(rotateHandle);
-
-  const del = document.createElement("button");
-  del.className = "pdf-obj-delete";
-  del.type = "button";
-  del.textContent = "×";
-  del.addEventListener("pointerdown", (e) => e.stopPropagation());
-  del.addEventListener("click", () => deleteItem(obj));
-  el.appendChild(del);
-
-  buildHandles(el);
-  obj.el = el;
-  obj.rotateHandleEl = rotateHandle;
-  positionEl(obj);
-  wireDrag(obj, el);
-  wireResize(obj, el);
-  wireRotate(obj, rotateHandle);
-  return el;
-}
-
-// --- Selection ---
-
-function selectItem(obj) {
-  if (selectedItem && selectedItem !== obj) selectedItem.el.classList.remove("selected");
-  selectedItem = obj;
-  obj.el.classList.add("selected");
-  itemToolbar.classList.add("visible");
-  lockAspectInput.checked = obj.lockAspect;
-}
-
-function deselectItem() {
-  if (selectedItem) selectedItem.el.classList.remove("selected");
-  selectedItem = null;
-  itemToolbar.classList.remove("visible");
-}
-
-board.addEventListener("pointerdown", (e) => {
-  if (e.target === board || e.target === itemsLayer) deselectItem();
 });
 
-function deleteItem(obj) {
-  items = items.filter((o) => o !== obj);
-  obj.el.remove();
-  if (selectedItem === obj) deselectItem();
-}
-
-lockAspectInput.addEventListener("change", () => {
-  if (selectedItem) selectedItem.lockAspect = lockAspectInput.checked;
-});
-bringFrontBtn.addEventListener("click", () => {
-  if (!selectedItem) return;
-  items = items.filter((o) => o !== selectedItem);
-  items.push(selectedItem);
-  itemsLayer.appendChild(selectedItem.el);
-});
-sendBackBtn.addEventListener("click", () => {
-  if (!selectedItem) return;
-  items = items.filter((o) => o !== selectedItem);
-  items.unshift(selectedItem);
-  itemsLayer.insertBefore(selectedItem.el, itemsLayer.firstChild);
-});
-deleteItemBtn.addEventListener("click", () => {
-  if (selectedItem) deleteItem(selectedItem);
-});
-
-// --- Pointer helpers ---
-
-function boardPoint(e) {
-  const rect = itemsLayer.getBoundingClientRect();
-  return { x: (e.clientX - rect.left) / ratio, y: (e.clientY - rect.top) / ratio };
-}
-
-function safeCapture(el, pointerId) {
-  try { el.setPointerCapture(pointerId); } catch (_) { /* no active pointer to capture, safe to ignore */ }
-}
-
-// --- Drag (move) ---
-
-function wireDrag(obj, el) {
-  let dragState = null;
-  let moved = false;
-
-  el.addEventListener("pointerdown", (e) => {
-    if (e.target.dataset.handle || e.target.classList.contains("pdf-obj-delete") || e.target.classList.contains("rotate-handle")) return;
-    e.preventDefault();
-    safeCapture(el, e.pointerId);
-    const p = boardPoint(e);
-    dragState = { startX: p.x, startY: p.y, objX: obj.x, objY: obj.y };
-    moved = false;
+document.querySelectorAll(".option-btn[data-shape]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".option-btn[data-shape]").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    shapeKey = btn.dataset.shape;
+    customSizeFields.style.display = shapeKey === "custom" ? "flex" : "none";
+    applyShape();
   });
+});
 
-  el.addEventListener("pointermove", (e) => {
-    if (!dragState) return;
-    const p = boardPoint(e);
-    const dx = p.x - dragState.startX;
-    const dy = p.y - dragState.startY;
-    if (Math.abs(dx) > CLICK_THRESHOLD_PX || Math.abs(dy) > CLICK_THRESHOLD_PX) moved = true;
-    if (moved) {
-      obj.x = dragState.objX + dx;
-      obj.y = dragState.objY + dy;
-      positionEl(obj);
+function applyShape() {
+  if (shapeKey === "custom") {
+    naturalW = Number(customWidthInput.value) || 1200;
+    naturalH = Number(customHeightInput.value) || 1200;
+  } else {
+    naturalW = SHAPES[shapeKey].w;
+    naturalH = SHAPES[shapeKey].h;
+  }
+  recalcScale();
+  renderBoard();
+}
+
+customWidthInput.addEventListener("input", () => { if (shapeKey === "custom") applyShape(); });
+customHeightInput.addEventListener("input", () => { if (shapeKey === "custom") applyShape(); });
+
+spacingInput.addEventListener("input", () => { spacingVal.textContent = spacingInput.value; renderBoard(); });
+cornerInput.addEventListener("input", () => { cornerVal.textContent = cornerInput.value; renderBoard(); });
+bgColorInput.addEventListener("input", () => { board.style.background = bgColorInput.value; });
+
+function recalcScale() {
+  const availableWidth = boardWrap.clientWidth || FALLBACK_CONTAINER_WIDTH;
+  ratio = Math.min(1, availableWidth / naturalW) || (FALLBACK_CONTAINER_WIDTH / naturalW);
+  board.style.width = `${naturalW * ratio}px`;
+  board.style.height = `${naturalH * ratio}px`;
+}
+
+let resizeRaf = null;
+function scheduleRecalc() {
+  if (resizeRaf) return;
+  resizeRaf = requestAnimationFrame(() => { recalcScale(); resizeRaf = null; });
+}
+window.addEventListener("resize", scheduleRecalc);
+if (typeof ResizeObserver !== "undefined") {
+  new ResizeObserver(scheduleRecalc).observe(boardWrap);
+}
+
+// --- Board rendering (real CSS grid, cells auto-size to the container) ---
+
+function renderBoard() {
+  const count = photos.length;
+  const { cols, rows } = gridDims(count, layoutMode);
+  const gapPx = spacingPxNatural() * ratio;
+  const cornerPct = cornerPctValue();
+
+  board.style.display = "grid";
+  board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  board.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+  board.style.gap = `${gapPx}px`;
+  board.style.padding = `${gapPx}px`;
+  board.style.boxSizing = "border-box";
+  board.style.background = bgColorInput.value;
+
+  board.innerHTML = "";
+  const totalCells = cols * rows;
+  for (let i = 0; i < totalCells; i++) {
+    const cell = document.createElement("div");
+    cell.className = "collage-cell";
+    const radiusPct = cornerPct * 2; // matches the export's min(cellW,cellH)-relative math closely enough
+    cell.style.borderRadius = `${radiusPct}%`;
+
+    const photo = photos[i];
+    if (photo) {
+      if (photo.id === selectedPhotoId) cell.classList.add("selected");
+      const img = document.createElement("img");
+      img.src = photo.img.src;
+      img.style.filter = (FILTERS.find((f) => f.key === photo.filterKey) || FILTERS[0]).css;
+      img.addEventListener("click", () => selectPhoto(photo.id));
+      cell.appendChild(img);
+
+      const del = document.createElement("button");
+      del.className = "pdf-obj-delete collage-cell-delete";
+      del.type = "button";
+      del.textContent = "×";
+      del.addEventListener("click", (e) => { e.stopPropagation(); deletePhoto(photo.id); });
+      cell.appendChild(del);
+    } else {
+      cell.classList.add("empty");
+      cell.textContent = "Empty";
     }
-  });
+    board.appendChild(cell);
+  }
 
-  el.addEventListener("pointerup", () => {
-    if (!dragState) return;
-    dragState = null;
-    if (!moved) selectItem(obj);
-  });
+  collageHint.textContent = count
+    ? "Click a photo to select it, use the × to remove one."
+    : "Add photos to fill this layout.";
+
+  syncFilterSwatchThumbnails();
 }
 
-// --- Resize (rotation-aware, corner handles) ---
+function selectPhoto(id) {
+  selectedPhotoId = id;
+  renderBoard();
+  syncFilterPanelSelection();
+  filterHint.textContent = "Pick a filter for the selected photo.";
+}
 
-function wireResize(obj, el) {
-  el.querySelectorAll(".crop-handle").forEach((handle) => {
-    let resizeState = null;
-    handle.addEventListener("pointerdown", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      safeCapture(handle, e.pointerId);
-      resizeState = { corner: handle.dataset.handle };
-      selectItem(obj);
+function deletePhoto(id) {
+  photos = photos.filter((p) => p.id !== id);
+  if (selectedPhotoId === id) selectedPhotoId = null;
+  renderBoard();
+  syncFilterPanelSelection();
+}
+
+// --- Filter panel ---
+
+function buildFilterPanel() {
+  filterPanel.innerHTML = "";
+  const categories = [];
+  FILTERS.forEach((f) => { if (!categories.includes(f.category)) categories.push(f.category); });
+
+  categories.forEach((cat) => {
+    const label = document.createElement("p");
+    label.className = "filter-category-label";
+    label.textContent = cat;
+    filterPanel.appendChild(label);
+
+    const grid = document.createElement("div");
+    grid.className = "filter-grid";
+    FILTERS.filter((f) => f.category === cat).forEach((f) => {
+      const btn = document.createElement("button");
+      btn.className = "filter-swatch";
+      btn.type = "button";
+      btn.dataset.filterKey = f.key;
+      const img = document.createElement("img");
+      img.style.filter = f.css;
+      const span = document.createElement("span");
+      span.textContent = f.label;
+      btn.appendChild(img);
+      btn.appendChild(span);
+      btn.addEventListener("click", () => applyFilterToSelected(f.key));
+      grid.appendChild(btn);
     });
-    handle.addEventListener("pointermove", (e) => {
-      if (!resizeState) return;
-      const p = boardPoint(e);
-      const corner = resizeState.corner;
+    filterPanel.appendChild(grid);
+  });
 
-      // Convert the pointer's board-space position into the item's own
-      // unrotated local frame, centered on the item, so corner math works
-      // the same regardless of rotation.
-      const cx = obj.x + obj.width / 2;
-      const cy = obj.y + obj.height / 2;
-      const rad = (-obj.rotation * Math.PI) / 180;
-      const dx = p.x - cx;
-      const dy = p.y - cy;
-      const localX = dx * Math.cos(rad) - dy * Math.sin(rad);
-      const localY = dx * Math.sin(rad) + dy * Math.cos(rad);
+  syncFilterSwatchThumbnails();
+}
 
-      const hx0 = -obj.width / 2, hy0 = -obj.height / 2, hx1 = obj.width / 2, hy1 = obj.height / 2;
-      let nx0 = hx0, ny0 = hy0, nx1 = hx1, ny1 = hy1;
-
-      if (corner === "se") { nx1 = Math.max(hx0 + MIN_SIZE, localX); ny1 = Math.max(hy0 + MIN_SIZE, localY); }
-      else if (corner === "nw") { nx0 = Math.min(localX, hx1 - MIN_SIZE); ny0 = Math.min(localY, hy1 - MIN_SIZE); }
-      else if (corner === "ne") { nx1 = Math.max(localX, hx0 + MIN_SIZE); ny0 = Math.min(localY, hy1 - MIN_SIZE); }
-      else if (corner === "sw") { nx0 = Math.min(localX, hx1 - MIN_SIZE); ny1 = Math.max(localY, hy0 + MIN_SIZE); }
-
-      let newW = nx1 - nx0;
-      let newH = ny1 - ny0;
-      if (obj.lockAspect && obj.aspect) {
-        newH = newW / obj.aspect;
-        // keep the dragged corner's vertical anchor consistent with the locked height
-        if (corner === "nw" || corner === "ne") ny0 = ny1 - newH;
-        else ny1 = ny0 + newH;
-      }
-      const newLocalCx = (nx0 + nx1) / 2;
-      const newLocalCy = (ny0 + ny1) / 2;
-
-      // Rotate the new local center back into board space to find the new x/y.
-      const fRad = (obj.rotation * Math.PI) / 180;
-      const boardOffsetX = newLocalCx * Math.cos(fRad) - newLocalCy * Math.sin(fRad);
-      const boardOffsetY = newLocalCx * Math.sin(fRad) + newLocalCy * Math.cos(fRad);
-      const newCx = cx + boardOffsetX;
-      const newCy = cy + boardOffsetY;
-
-      obj.width = newW;
-      obj.height = newH;
-      obj.x = newCx - newW / 2;
-      obj.y = newCy - newH / 2;
-      positionEl(obj);
-    });
-    handle.addEventListener("pointerup", () => { resizeState = null; });
-    handle.addEventListener("pointercancel", () => { resizeState = null; });
+function syncFilterSwatchThumbnails() {
+  const sourceImg = (photos[0] && photos[0].img.src) || null;
+  filterPanel.querySelectorAll(".filter-swatch img").forEach((img) => {
+    if (sourceImg) img.src = sourceImg;
   });
 }
 
-// --- Rotate ---
-
-function wireRotate(obj, handle) {
-  let rotating = false;
-  handle.addEventListener("pointerdown", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    safeCapture(handle, e.pointerId);
-    rotating = true;
-    selectItem(obj);
+function syncFilterPanelSelection() {
+  const photo = photos.find((p) => p.id === selectedPhotoId);
+  filterPanel.querySelectorAll(".filter-swatch").forEach((btn) => {
+    btn.classList.toggle("active", !!photo && btn.dataset.filterKey === photo.filterKey);
   });
-  handle.addEventListener("pointermove", (e) => {
-    if (!rotating) return;
-    const p = boardPoint(e);
-    const cx = obj.x + obj.width / 2;
-    const cy = obj.y + obj.height / 2;
-    const angleRad = Math.atan2(p.y - cy, p.x - cx);
-    // 0deg = handle pointing straight up (north), matching its resting position above the item.
-    let deg = (angleRad * 180) / Math.PI + 90;
-    deg = ((deg % 360) + 360) % 360;
-    obj.rotation = deg;
-    positionEl(obj);
-  });
-  handle.addEventListener("pointerup", () => { rotating = false; });
-  handle.addEventListener("pointercancel", () => { rotating = false; });
+  if (!photo) filterHint.textContent = "Click a photo first, then a filter below.";
 }
 
-// --- Toolbar (format/quality) ---
+function applyFilterToSelected(filterKey) {
+  const photo = photos.find((p) => p.id === selectedPhotoId);
+  if (!photo) {
+    setStatus(statusEl, "Click a photo first, then choose a filter for it.", "error");
+    statusEl.classList.add("visible");
+    return;
+  }
+  photo.filterKey = filterKey;
+  renderBoard();
+  syncFilterPanelSelection();
+}
 
-formatSelect.addEventListener("change", () => {
-  qualityField.style.display = formatSelect.value === "image/jpeg" ? "flex" : "none";
-});
-qualityInput.addEventListener("input", () => { qualityVal.textContent = qualityInput.value; });
+// --- Clear ---
 
 clearBtn.addEventListener("click", () => {
-  items.forEach((o) => o.el.remove());
-  items = [];
-  selectedItem = null;
-  itemToolbar.classList.remove("visible");
+  photos = [];
+  selectedPhotoId = null;
   hasStarted = false;
+  board.innerHTML = "";
   editor.style.display = "none";
+  dropzone.classList.remove("compact");
+  dropzone.querySelector(".dz-title").textContent = "Drop your photos here, easy as.";
   fileInput.value = "";
   clearStatus(statusEl);
 });
 
-// --- Save ---
+// --- Save (canvas export matching the CSS grid preview) ---
+
+function roundedRectPath(ctx, x, y, w, h, r) {
+  const radius = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + w, y, x + w, y + h, radius);
+  ctx.arcTo(x + w, y + h, x, y + h, radius);
+  ctx.arcTo(x, y + h, x, y, radius);
+  ctx.arcTo(x, y, x + w, y, radius);
+  ctx.closePath();
+}
 
 runBtn.addEventListener("click", async () => {
-  if (!items.length) {
+  if (!photos.length) {
     setStatus(statusEl, "Add at least one photo first.", "error");
     statusEl.classList.add("visible");
     return;
@@ -429,6 +323,10 @@ runBtn.addEventListener("click", async () => {
   statusEl.classList.add("visible");
 
   try {
+    const { cols, rows } = gridDims(photos.length, layoutMode);
+    const gapPx = spacingPxNatural();
+    const cornerPct = cornerPctValue();
+
     const canvas = document.createElement("canvas");
     canvas.width = naturalW;
     canvas.height = naturalH;
@@ -436,17 +334,37 @@ runBtn.addEventListener("click", async () => {
     ctx.fillStyle = bgColorInput.value;
     ctx.fillRect(0, 0, naturalW, naturalH);
 
-    for (const obj of items) {
+    const cellW = (naturalW - (cols + 1) * gapPx) / cols;
+    const cellH = (naturalH - (rows + 1) * gapPx) / rows;
+    const radiusPx = (cornerPct / 100) * Math.min(cellW, cellH) * 2;
+
+    photos.forEach((photo, i) => {
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      const x = gapPx + col * (cellW + gapPx);
+      const y = gapPx + row * (cellH + gapPx);
+      const img = photo.img;
+
       ctx.save();
-      ctx.translate(obj.x + obj.width / 2, obj.y + obj.height / 2);
-      ctx.rotate((obj.rotation * Math.PI) / 180);
-      ctx.drawImage(obj.img, -obj.width / 2, -obj.height / 2, obj.width, obj.height);
+      roundedRectPath(ctx, x, y, cellW, cellH, radiusPx);
+      ctx.clip();
+
+      const filter = (FILTERS.find((f) => f.key === photo.filterKey) || FILTERS[0]).css;
+      if (filter) ctx.filter = filter;
+
+      const scale = Math.max(cellW / img.width, cellH / img.height);
+      const drawW = img.width * scale;
+      const drawH = img.height * scale;
+      const srcCropW = cellW / scale;
+      const srcCropH = cellH / scale;
+      const srcX = (img.width - srcCropW) / 2;
+      const srcY = (img.height - srcCropH) / 2;
+      ctx.drawImage(img, srcX, srcY, srcCropW, srcCropH, x, y, cellW, cellH);
       ctx.restore();
-    }
+    });
 
     const format = formatSelect.value;
-    const quality = format === "image/jpeg" ? Number(qualityInput.value) / 100 : undefined;
-    const blob = await canvasToBlob(canvas, format, quality);
+    const blob = await canvasToBlob(canvas, format, format === "image/jpeg" ? 0.92 : undefined);
     triggerDownload(blob, `collage.${extForMime(format)}`);
     setStatus(statusEl, `Sorted — created a ${canvas.width}×${canvas.height} collage (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
