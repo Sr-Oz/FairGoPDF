@@ -912,6 +912,19 @@ img { max-width: 100%; }
 
 .dropzone input[type="file"] { display: none; }
 
+/* A slimmer drop target for tools where, once there's real content on screen,
+   a full-size dropzone would just push that content down for no reason. */
+.dropzone.compact {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.dropzone.compact .dz-icon { font-size: 1.2rem; margin-bottom: 0; }
+.dropzone.compact .dz-title { margin-bottom: 0; font-size: 0.92rem; }
+.dropzone.compact .dz-sub { display: none; }
+
 .file-list {
   list-style: none;
   margin: 20px 0;

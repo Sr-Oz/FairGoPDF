@@ -62,9 +62,17 @@ bgColorInput.addEventListener("input", () => {
   board.style.background = bgColorInput.value;
 });
 
+// Fallback used only if the wrap genuinely can't be measured yet (e.g. this
+// runs before the browser has settled on a layout). A typical content column
+// on this site is a few hundred px, nowhere near the board's native size, so
+// falling back to "no scaling" (ratio 1) would render the board hugely
+// oversized rather than just imperfectly sized -- assume a plausible column
+// width instead, ResizeObserver corrects it for real the moment it can.
+const FALLBACK_CONTAINER_WIDTH = 680;
+
 function recalcScale() {
-  const availableWidth = boardWrap.clientWidth || naturalW;
-  ratio = Math.min(1, availableWidth / naturalW) || 1;
+  const availableWidth = boardWrap.clientWidth || FALLBACK_CONTAINER_WIDTH;
+  ratio = Math.min(1, availableWidth / naturalW) || (FALLBACK_CONTAINER_WIDTH / naturalW);
   const cssW = naturalW * ratio;
   const cssH = naturalH * ratio;
   board.style.width = `${cssW}px`;
@@ -75,13 +83,21 @@ function recalcScale() {
 }
 
 let resizeRaf = null;
-window.addEventListener("resize", () => {
+function scheduleRecalc() {
   if (resizeRaf) return;
   resizeRaf = requestAnimationFrame(() => {
     recalcScale();
     resizeRaf = null;
   });
-});
+}
+window.addEventListener("resize", scheduleRecalc);
+// Self-corrects even if the first recalcScale() ran before boardWrap had a
+// real, stable width (e.g. right as the editor becomes visible) -- fires
+// immediately on observe with whatever size is current, then again on any
+// later change, so a wrong initial guess never sticks.
+if (typeof ResizeObserver !== "undefined") {
+  new ResizeObserver(scheduleRecalc).observe(boardWrap);
+}
 
 function genId() { return ++idCounter; }
 
@@ -91,6 +107,12 @@ function startEditorIfNeeded() {
   editor.style.display = "block";
   board.style.background = bgColorInput.value;
   recalcScale();
+
+  // Once there's a board to look at, the big empty dropzone isn't the focus
+  // anymore, shrink it to a slim "add more" strip instead of two competing
+  // full-size drop targets stacked on top of each other.
+  dropzone.classList.add("compact");
+  dropzone.querySelector(".dz-title").textContent = "+ Add more photos";
 }
 
 initDropzone(dropzone, fileInput, async (newFiles) => {
