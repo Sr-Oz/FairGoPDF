@@ -111,7 +111,7 @@
 })();
 
 (function heroVideoMotion() {
-  const video = document.querySelector(".hero-video");
+  const video = document.querySelector(".hero-bg-video");
   if (!video) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     video.removeAttribute("autoplay");
