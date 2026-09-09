@@ -110,6 +110,15 @@
   if (el) el.textContent = new Date().getFullYear();
 })();
 
+(function heroVideoMotion() {
+  const video = document.querySelector(".hero-video");
+  if (!video) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    video.removeAttribute("autoplay");
+    video.pause();
+  }
+})();
+
 (function scrollReveal() {
   const cards = document.querySelectorAll(".tool-grid .tool-card");
   if (!cards.length || !("IntersectionObserver" in window)) return;
