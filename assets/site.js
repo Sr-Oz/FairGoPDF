@@ -52,6 +52,78 @@
   });
 })();
 
+(function navFlyouts() {
+  const nav = document.getElementById("navLinks");
+  const index = window.SEARCH_INDEX;
+  if (!nav || !Array.isArray(index)) return;
+
+  const CATEGORIES = [
+    { href: "/#pdf-tools", category: "PDF Tool", label: "PDF Tools" },
+    { href: "/#image-tools", category: "Image Tool", label: "Image Tools" },
+    { href: "/#utilities", category: "Utility", label: "Utilities" },
+  ];
+
+  CATEGORIES.forEach(({ href, category, label }) => {
+    const link = nav.querySelector('a[href="' + href + '"]');
+    if (!link) return;
+    const items = index.filter((e) => e.category === category);
+    if (!items.length) return;
+
+    const wrap = document.createElement("div");
+    wrap.className = "nav-item has-flyout";
+    link.replaceWith(wrap);
+    wrap.appendChild(link);
+    link.setAttribute("aria-haspopup", "true");
+    link.setAttribute("aria-expanded", "false");
+
+    const panel = document.createElement("div");
+    panel.className = "nav-flyout";
+    items.forEach((e) => {
+      const a = document.createElement("a");
+      a.href = e.url;
+      a.textContent = e.title;
+      panel.appendChild(a);
+    });
+    const all = document.createElement("a");
+    all.href = href;
+    all.className = "nav-flyout-all";
+    all.textContent = "View all " + label + " →";
+    panel.appendChild(all);
+    wrap.appendChild(panel);
+
+    const setExpanded = (v) => link.setAttribute("aria-expanded", v ? "true" : "false");
+    wrap.addEventListener("mouseenter", () => setExpanded(true));
+    wrap.addEventListener("mouseleave", () => setExpanded(false));
+    wrap.addEventListener("focusin", () => setExpanded(true));
+    wrap.addEventListener("focusout", (e) => {
+      if (!wrap.contains(e.relatedTarget)) setExpanded(false);
+    });
+  });
+
+  // Flip any panel that would spill past the right edge to right-aligned.
+  const panels = nav.querySelectorAll(".nav-flyout");
+  const positionPanels = () => {
+    const vw = document.documentElement.clientWidth;
+    if (!vw) return;
+    panels.forEach((p) => {
+      p.classList.remove("nav-flyout--end");
+      if (p.getBoundingClientRect().right > vw - 12) p.classList.add("nav-flyout--end");
+    });
+  };
+  requestAnimationFrame(positionPanels);
+  window.addEventListener("resize", positionPanels);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const active = document.activeElement;
+    const openItem = active && active.closest && active.closest(".nav-item.has-flyout");
+    if (!openItem) return;
+    const trigger = openItem.querySelector("a[aria-haspopup]");
+    if (trigger) trigger.focus();
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  });
+})();
+
 (function backToTop() {
   const btn = document.getElementById("backToTop");
   if (!btn) return;
