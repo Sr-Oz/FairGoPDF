@@ -235,9 +235,14 @@ img { max-width: 100%; }
   color: var(--text-muted);
 }
 
-.nav-flyout a:hover {
+.nav-flyout a:hover,
+.nav-flyout a:focus-visible {
+  /* Brand-tinted highlight, mixed onto the panel's own background so it
+     reads cleanly in both themes (dark teal on pale teal in light,
+     mint on deep teal in dark). Fallback for browsers without color-mix. */
   background: var(--bg-alt);
-  color: var(--text);
+  background: color-mix(in srgb, var(--brand) 18%, var(--bg));
+  color: var(--brand);
   text-decoration: none;
 }
 
