@@ -194,10 +194,10 @@ img { max-width: 100%; }
   left: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: repeat(2, minmax(172px, 1fr));
+  grid-template-columns: repeat(var(--cols, 2), 158px);
   gap: 2px 8px;
-  min-width: 364px;
-  max-height: calc(100vh - 96px);
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 80px);
   overflow: hidden auto;
   padding: 10px;
   background: var(--bg);

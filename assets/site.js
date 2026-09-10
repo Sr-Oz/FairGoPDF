@@ -78,6 +78,9 @@
 
     const panel = document.createElement("div");
     panel.className = "nav-flyout";
+    // Enough columns that no column exceeds 10 items (so the panel never
+    // needs to scroll), clamped to 2..4.
+    panel.style.setProperty("--cols", Math.min(4, Math.max(2, Math.ceil(items.length / 10))));
     items.forEach((e) => {
       const a = document.createElement("a");
       a.href = e.url;
@@ -100,14 +103,26 @@
     });
   });
 
-  // Flip any panel that would spill past the right edge to right-aligned.
+  // Keep each panel on screen: prefer left-anchored, fall back to
+  // right-anchored, and if it fits neither (wide panel + centred nav
+  // item) pin it 12px from the viewport's right edge.
   const panels = nav.querySelectorAll(".nav-flyout");
   const positionPanels = () => {
     const vw = document.documentElement.clientWidth;
     if (!vw) return;
     panels.forEach((p) => {
       p.classList.remove("nav-flyout--end");
-      if (p.getBoundingClientRect().right > vw - 12) p.classList.add("nav-flyout--end");
+      p.style.left = "";
+      p.style.right = "";
+      const itemRect = p.closest(".nav-item").getBoundingClientRect();
+      const pw = p.offsetWidth;
+      if (itemRect.left + pw <= vw - 12) return; // fits left-anchored
+      if (itemRect.right - pw >= 12) { // fits right-anchored
+        p.classList.add("nav-flyout--end");
+        return;
+      }
+      p.style.left = vw - 12 - pw - itemRect.left + "px"; // pin to right edge
+      p.style.right = "auto";
     });
   };
   requestAnimationFrame(positionPanels);
