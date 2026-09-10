@@ -20,7 +20,7 @@
   --card-shadow: 0 1px 2px rgba(0, 77, 64, 0.05), 0 8px 24px rgba(0, 77, 64, 0.08);
   --radius: 10px;
   --max-width: 1080px;
-  --font-heading: "Pliant", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: "Roboto Condensed", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --footer-gradient: linear-gradient(90deg, #FFD700 0%, #004D40 100%);
   --band-bg: #1B1C1C;
   --band-bg-alt: #262727;
