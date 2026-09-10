@@ -214,7 +214,7 @@ img { max-width: 100%; }
   visibility: hidden;
   pointer-events: none;
   transform: translateY(-6px);
-  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.18s;
 }
 
 /* Flipped to right-aligned by site.js when left-anchoring would
@@ -234,6 +234,18 @@ img { max-width: 100%; }
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
+}
+
+/* "Warm" state: a menu is already open, so moving to an adjacent item
+   swaps the panel with a quick cross-fade and no slide-in, rather than
+   animating a fresh open. site.js clears it once the pointer leaves. */
+.nav-links.flyouts-warm .nav-flyout {
+  transform: none;
+  transition: opacity 0.09s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-flyout { transition: opacity 0.12s ease, visibility 0.12s; transform: none; }
 }
 
 .nav-flyout a {

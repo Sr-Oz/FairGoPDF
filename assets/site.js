@@ -66,6 +66,37 @@
   // Shorter labels used only in the fly-out (the tool pages/search keep their full names).
   const MENU_LABELS = { "/alternate-mix-pages/": "Alternate & Mix" };
 
+  // Shared open/close state so moving between top-level items swaps the
+  // panel instantly instead of fading two panels over each other.
+  let openWrap = null;
+  let closeTimer = null;
+
+  const closeWrap = (w) => {
+    w.classList.remove("open");
+    w.querySelector("a[aria-haspopup]").setAttribute("aria-expanded", "false");
+    if (openWrap === w) openWrap = null;
+    if (!openWrap) nav.classList.remove("flyouts-warm");
+  };
+
+  const openMenu = (w) => {
+    clearTimeout(closeTimer);
+    if (openWrap && openWrap !== w) {
+      // Another menu is already up: drop it now (no fade-out) and keep
+      // the nav "warm" so the new panel appears without the slide-in.
+      openWrap.classList.remove("open");
+      openWrap.querySelector("a[aria-haspopup]").setAttribute("aria-expanded", "false");
+    }
+    nav.classList.add("flyouts-warm");
+    w.classList.add("open");
+    w.querySelector("a[aria-haspopup]").setAttribute("aria-expanded", "true");
+    openWrap = w;
+  };
+
+  const scheduleClose = (w) => {
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => closeWrap(w), 220);
+  };
+
   CATEGORIES.forEach(({ href, category, label }) => {
     const link = nav.querySelector('a[href="' + href + '"]');
     if (!link) return;
@@ -98,27 +129,13 @@
     wrap.appendChild(panel);
 
     // Hover-intent: open on enter, close on a short delay so the pointer
-    // can cross the gap between the trigger and the detached panel
-    // without the menu vanishing.
-    const setExpanded = (v) => link.setAttribute("aria-expanded", v ? "true" : "false");
-    let closeTimer;
-    const open = () => {
-      clearTimeout(closeTimer);
-      wrap.classList.add("open");
-      setExpanded(true);
-    };
-    const close = () => {
-      wrap.classList.remove("open");
-      setExpanded(false);
-    };
-    wrap.addEventListener("mouseenter", open);
-    wrap.addEventListener("mouseleave", () => {
-      clearTimeout(closeTimer);
-      closeTimer = setTimeout(close, 220);
-    });
-    wrap.addEventListener("focusin", open);
+    // can cross the gap between the trigger and the detached panel, and
+    // so moving to an adjacent item swaps the panel rather than closing.
+    wrap.addEventListener("mouseenter", () => openMenu(wrap));
+    wrap.addEventListener("mouseleave", () => scheduleClose(wrap));
+    wrap.addEventListener("focusin", () => openMenu(wrap));
     wrap.addEventListener("focusout", (e) => {
-      if (!wrap.contains(e.relatedTarget)) close();
+      if (!wrap.contains(e.relatedTarget)) closeWrap(wrap);
     });
   });
 
