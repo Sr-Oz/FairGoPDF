@@ -200,7 +200,12 @@ img { max-width: 100%; }
   max-height: calc(100vh - 80px);
   overflow: hidden auto;
   padding: 10px;
-  background: var(--bg);
+  /* Translucent "glass" panel: mostly-transparent --bg with a blur so
+     text stays legible over the hero video / page content in both
+     themes. Browsers without backdrop-filter fall back to opaque --bg. */
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  backdrop-filter: blur(16px) saturate(1.5);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: 0 18px 44px -14px rgba(0, 0, 0, 0.28);
@@ -209,6 +214,10 @@ img { max-width: 100%; }
   pointer-events: none;
   transform: translateY(-6px);
   transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav-flyout { background: var(--bg); }
 }
 
 /* Flipped to right-aligned by site.js when left-anchoring would
