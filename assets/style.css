@@ -147,7 +147,16 @@ img { max-width: 100%; }
 }
 .logo-text > span { color: var(--brand); }
 
-.footer-logo-img { height: 22px; width: auto; display: block; }
+.footer-logo-mark { height: 22px; width: 22px; display: block; flex-shrink: 0; }
+.footer-logo-text {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: #fff9f2;
+}
+.footer-logo-text > span { color: #4ECDC4; }
 
 .logo .mark {
   display: inline-flex;
