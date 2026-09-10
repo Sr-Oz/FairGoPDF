@@ -118,7 +118,14 @@
     items.forEach((e) => {
       const a = document.createElement("a");
       a.href = e.url;
-      a.textContent = MENU_LABELS[e.url] || e.title;
+      if (e.icon) {
+        const ic = document.createElement("span");
+        ic.className = "material-symbols-outlined nav-flyout-icon";
+        ic.setAttribute("aria-hidden", "true");
+        ic.textContent = e.icon;
+        a.appendChild(ic);
+      }
+      a.appendChild(document.createTextNode(MENU_LABELS[e.url] || e.title));
       panel.appendChild(a);
     });
     const all = document.createElement("a");
