@@ -217,17 +217,6 @@ img { max-width: 100%; }
   transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
 }
 
-/* Invisible bridge across the gap so the pointer can travel from the
-   trigger to the panel without the menu closing. */
-.nav-flyout::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 0;
-  right: 0;
-  height: 10px;
-}
-
 /* Flipped to right-aligned by site.js when left-anchoring would
    overflow the viewport (e.g. the rightmost nav item). */
 .nav-flyout.nav-flyout--end {
@@ -235,8 +224,12 @@ img { max-width: 100%; }
   right: 0;
 }
 
+/* .open is toggled by site.js with a short close delay (hover intent),
+   which is what actually bridges the gap to the detached panel;
+   :hover / :focus-within keep it working without JS and for keyboard. */
 .nav-item.has-flyout:hover .nav-flyout,
-.nav-item.has-flyout:focus-within .nav-flyout {
+.nav-item.has-flyout:focus-within .nav-flyout,
+.nav-item.has-flyout.open .nav-flyout {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;

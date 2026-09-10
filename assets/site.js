@@ -97,12 +97,28 @@
     panel.appendChild(all);
     wrap.appendChild(panel);
 
+    // Hover-intent: open on enter, close on a short delay so the pointer
+    // can cross the gap between the trigger and the detached panel
+    // without the menu vanishing.
     const setExpanded = (v) => link.setAttribute("aria-expanded", v ? "true" : "false");
-    wrap.addEventListener("mouseenter", () => setExpanded(true));
-    wrap.addEventListener("mouseleave", () => setExpanded(false));
-    wrap.addEventListener("focusin", () => setExpanded(true));
+    let closeTimer;
+    const open = () => {
+      clearTimeout(closeTimer);
+      wrap.classList.add("open");
+      setExpanded(true);
+    };
+    const close = () => {
+      wrap.classList.remove("open");
+      setExpanded(false);
+    };
+    wrap.addEventListener("mouseenter", open);
+    wrap.addEventListener("mouseleave", () => {
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(close, 220);
+    });
+    wrap.addEventListener("focusin", open);
     wrap.addEventListener("focusout", (e) => {
-      if (!wrap.contains(e.relatedTarget)) setExpanded(false);
+      if (!wrap.contains(e.relatedTarget)) close();
     });
   });
 
