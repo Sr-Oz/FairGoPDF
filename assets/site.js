@@ -63,6 +63,9 @@
     { href: "/#utilities", category: "Utility", label: "Utilities" },
   ];
 
+  // Shorter labels used only in the fly-out (the tool pages/search keep their full names).
+  const MENU_LABELS = { "/alternate-mix-pages/": "Alternate & Mix" };
+
   CATEGORIES.forEach(({ href, category, label }) => {
     const link = nav.querySelector('a[href="' + href + '"]');
     if (!link) return;
@@ -84,7 +87,7 @@
     items.forEach((e) => {
       const a = document.createElement("a");
       a.href = e.url;
-      a.textContent = e.title;
+      a.textContent = MENU_LABELS[e.url] || e.title;
       panel.appendChild(a);
     });
     const all = document.createElement("a");
