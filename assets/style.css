@@ -129,23 +129,25 @@ img { max-width: 100%; }
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 700;
-  font-size: 1.05rem;
   color: var(--text);
 }
 
 .logo:hover { text-decoration: none; }
 
-.logo-img { height: 28px; width: auto; display: block; }
-.footer-logo-img { height: 22px; width: auto; display: block; }
+.logo-mark { height: 28px; width: 28px; display: block; flex-shrink: 0; }
 
-/* Header sits on var(--bg), which flips dark in dark mode — the logo SVG
-   is a static image (no CSS var inheritance), so swap the whole asset
-   instead of trying to recolor it. Footer's background never changes
-   with the theme, so it doesn't need this. */
-.logo-img-dark { display: none; }
-:root[data-theme="dark"] .logo-img-light { display: none; }
-:root[data-theme="dark"] .logo-img-dark { display: block; }
+/* Wordmark as live text so it uses the site's heading font and themes
+   via CSS variables (no separate light/dark image assets needed). */
+.logo-text {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.logo-text > span { color: var(--brand); }
+
+.footer-logo-img { height: 22px; width: auto; display: block; }
 
 .logo .mark {
   display: inline-flex;
