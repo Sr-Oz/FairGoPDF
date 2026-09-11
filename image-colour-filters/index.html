@@ -5,18 +5,18 @@
 <meta name="author" content="The Dato Family Labs">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Rotate PDF Freely, Any Angle Online Free | FairGo PDF</title>
-<meta name="description" content="Straighten a wonky scan by rotating a PDF's pages to any exact angle, for free, right in your browser.">
-<link rel="canonical" href="https://fairgopdf.au/rotate-pdf-freely/">
+<title>Image Colour Filters Online Free, B&amp;W, Sepia, Brightness | FairGo PDF</title>
+<meta name="description" content="Apply greyscale, sepia, brightness, contrast and saturation filters to images for free, right in your browser. No upload, no signup.">
+<link rel="canonical" href="https://fairgopdf.au/image-colour-filters/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FairGo PDF">
-<meta property="og:title" content="Rotate PDF Freely, Any Angle Online Free">
-<meta property="og:description" content="Straighten a wonky scan by rotating a PDF's pages to any exact angle, for free, right in your browser.">
-<meta property="og:url" content="https://fairgopdf.au/rotate-pdf-freely/">
+<meta property="og:title" content="Image Colour Filters Online Free, B&amp;W, Sepia, Brightness">
+<meta property="og:description" content="Apply greyscale, sepia, brightness, contrast and saturation filters to images for free, right in your browser. No upload, no signup.">
+<meta property="og:url" content="https://fairgopdf.au/image-colour-filters/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Rotate PDF Freely, Any Angle Online Free">
-<meta name="twitter:description" content="Straighten a wonky scan by rotating a PDF's pages to any exact angle, for free, right in your browser.">
+<meta name="twitter:title" content="Image Colour Filters Online Free, B&amp;W, Sepia, Brightness">
+<meta name="twitter:description" content="Apply greyscale, sepia, brightness, contrast and saturation filters to images for free, right in your browser. No upload, no signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
@@ -54,43 +54,76 @@
 <main id="main-content">
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">Rotate PDF Freely</span>
+      <a href="/">Home</a><span class="sep">/</span><a href="/#image-tools">Image Tools</a><span class="sep">/</span><span class="current">Image Colour Filters</span>
     </nav>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
       {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
-      {"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://fairgopdf.au/#pdf-tools"},
-      {"@type":"ListItem","position":3,"name":"Rotate PDF Freely","item":"https://fairgopdf.au/rotate-pdf-freely/"}
+      {"@type":"ListItem","position":2,"name":"Image Tools","item":"https://fairgopdf.au/#image-tools"},
+      {"@type":"ListItem","position":3,"name":"Image Colour Filters","item":"https://fairgopdf.au/image-colour-filters/"}
     ]}
     </script>
     <div class="tool-page-header">
-      <h1>Rotate PDF Freely</h1>
-      <p>Straighten a crooked scan by rotating every page to any exact angle, not just 90°. Processed locally, nothing is uploaded.</p>
+      <h1>Image Colour Filters</h1>
+      <p>Adjust greyscale, sepia, brightness, contrast and saturation with a live preview. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">rotate_right</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose an image or drag and drop">
+        <div class="dz-icon"><span class="material-symbols-outlined">palette</span></div>
+        <div class="dz-title">Drop your image here, easy as.</div>
+        <div class="dz-sub">JPEG, PNG or WebP · one image at a time</div>
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp">
       </div>
 
       <div id="editor" style="display:none;">
-        <p class="help-text">Drag the slider until the preview looks straight, then apply it to the whole document.</p>
-        <div id="previewWrap" class="rotate-preview-wrap"></div>
+        <div class="preview-stage" id="previewStage">
+          <canvas id="displayCanvas"></canvas>
+        </div>
+
         <div class="controls-row">
-          <div class="field" style="flex:1; min-width:220px;">
-            <label for="angleSlider">Angle (° clockwise)</label>
-            <input type="range" id="angleSlider" min="-45" max="45" step="0.5" value="0" style="width:100%;">
+          <div class="field">
+            <label for="grayscale">Greyscale (<span id="grayscaleVal">0</span>%)</label>
+            <input type="range" id="grayscale" min="0" max="100" value="0">
           </div>
           <div class="field">
-            <label for="angleNumber">Exact angle</label>
-            <input type="number" id="angleNumber" min="-45" max="45" step="0.5" value="0" style="width:90px;">
+            <label for="sepia">Sepia (<span id="sepiaVal">0</span>%)</label>
+            <input type="range" id="sepia" min="0" max="100" value="0">
+          </div>
+          <div class="field">
+            <label for="brightness">Brightness (<span id="brightnessVal">100</span>%)</label>
+            <input type="range" id="brightness" min="0" max="200" value="100">
           </div>
         </div>
+        <div class="controls-row">
+          <div class="field">
+            <label for="contrast">Contrast (<span id="contrastVal">100</span>%)</label>
+            <input type="range" id="contrast" min="0" max="200" value="100">
+          </div>
+          <div class="field">
+            <label for="saturate">Saturation (<span id="saturateVal">100</span>%)</label>
+            <input type="range" id="saturate" min="0" max="200" value="100">
+          </div>
+          <div class="field">
+            <label>&nbsp;</label>
+            <button class="btn secondary small" id="resetFilters">Reset filters</button>
+          </div>
+        </div>
+
+        <div class="controls-row">
+          <div class="field">
+            <label for="format">Output format</label>
+            <select id="format">
+              <option value="keep">Keep original format</option>
+              <option value="image/jpeg">JPEG</option>
+              <option value="image/webp">WebP</option>
+              <option value="image/png">PNG</option>
+            </select>
+          </div>
+        </div>
+
         <div class="actions-row">
-          <button class="btn" id="runBtn">Rotate &amp; Download</button>
+          <button class="btn" id="runBtn">Apply &amp; Download</button>
           <button class="btn secondary" id="clearBtn">Start over</button>
         </div>
       </div>
@@ -101,13 +134,17 @@
     <section class="related-tools-section">
       <h2>Related tools</h2>
       <div class="tool-grid related-tools-grid">
-        <a class="tool-card related-tool-card" href="/organise-pdf/">
-          <span class="icon"><span class="material-symbols-outlined">reorder</span></span>
-          <h3>Organise PDF Pages</h3>
-        </a>
-        <a class="tool-card related-tool-card" href="/crop-pdf/">
+        <a class="tool-card related-tool-card" href="/crop-rotate-image/">
           <span class="icon"><span class="material-symbols-outlined">crop</span></span>
-          <h3>Crop PDF Pages</h3>
+          <h3>Crop &amp; Rotate Image</h3>
+        </a>
+        <a class="tool-card related-tool-card" href="/add-border-to-image/">
+          <span class="icon"><span class="material-symbols-outlined">border_style</span></span>
+          <h3>Add Border to Image</h3>
+        </a>
+        <a class="tool-card related-tool-card" href="/watermark-image/">
+          <span class="icon"><span class="material-symbols-outlined">water_drop</span></span>
+          <h3>Watermark Image</h3>
         </a>
       </div>
     </section>
@@ -115,11 +152,10 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF file, the first page renders as a live preview.</li>
-        <li>Drag the slider (or type an exact number) until the preview looks straight.</li>
-        <li>Click "Rotate &amp; Download" to apply that angle to every page and save.</li>
+        <li>Add a JPEG, PNG or WebP image.</li>
+        <li>Drag the sliders, the preview updates live.</li>
+        <li>Click "Apply &amp; Download" to save the filtered image.</li>
       </ol>
-      <p class="help-text">The output page is sized to fit the fully rotated content, with a white margin filling the corners, so nothing gets clipped.</p>
     </section>
   </div>
 </main>
@@ -189,7 +225,7 @@
 </button>
 
 <script src="/assets/tools.js"></script>
-<script type="module" src="/assets/tools/rotate-pdf-freely.js"></script>
+<script src="/assets/tools/image-colour-filters.js"></script>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>

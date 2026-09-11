@@ -5,21 +5,30 @@
 <meta name="author" content="The Dato Family Labs">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Rotate PDF Freely, Any Angle Online Free | FairGo PDF</title>
-<meta name="description" content="Straighten a wonky scan by rotating a PDF's pages to any exact angle, for free, right in your browser.">
-<link rel="canonical" href="https://fairgopdf.au/rotate-pdf-freely/">
-<meta property="og:type" content="website">
+<title>How to rotate, delete and reorder PDF pages | FairGo PDF</title>
+<meta name="description" content="How to fix a sideways scan, drop a blank page, or reorder a PDF's pages without redoing the whole document, free and in your browser.">
+<link rel="canonical" href="https://fairgopdf.au/blog/organise-pdf-pages/">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="FairGo PDF">
-<meta property="og:title" content="Rotate PDF Freely, Any Angle Online Free">
-<meta property="og:description" content="Straighten a wonky scan by rotating a PDF's pages to any exact angle, for free, right in your browser.">
-<meta property="og:url" content="https://fairgopdf.au/rotate-pdf-freely/">
+<meta property="og:title" content="How to rotate, delete and reorder PDF pages">
+<meta property="og:description" content="How to fix a sideways scan, drop a blank page, or reorder a PDF's pages without redoing the whole document.">
+<meta property="og:url" content="https://fairgopdf.au/blog/organise-pdf-pages/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Rotate PDF Freely, Any Angle Online Free">
-<meta name="twitter:description" content="Straighten a wonky scan by rotating a PDF's pages to any exact angle, for free, right in your browser.">
+<meta name="twitter:title" content="How to rotate, delete and reorder PDF pages">
+<meta name="twitter:description" content="How to fix a sideways scan, drop a blank page, or reorder a PDF's pages without redoing the whole document.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting",
+"author":{"@type":"Organization","name":"The Dato Family Labs"},
+"publisher":{"@type":"Organization","name":"The Dato Family Labs"},
+"headline":"How to rotate, delete and reorder PDF pages",
+"datePublished":"2026-08-14","dateModified":"2026-08-14",
+"description":"How to fix a sideways scan, drop a blank page, or reorder a PDF's pages without redoing the whole document.",
+"mainEntityOfPage":"https://fairgopdf.au/blog/organise-pdf-pages/"}
+</script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
@@ -52,75 +61,64 @@
 </header>
 
 <main id="main-content">
+<div class="scroll-progress" id="scrollProgress"></div>
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">Rotate PDF Freely</span>
+      <a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span><span class="current">Organise PDF</span>
     </nav>
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
-      {"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://fairgopdf.au/#pdf-tools"},
-      {"@type":"ListItem","position":3,"name":"Rotate PDF Freely","item":"https://fairgopdf.au/rotate-pdf-freely/"}
-    ]}
-    </script>
+
     <div class="tool-page-header">
-      <h1>Rotate PDF Freely</h1>
-      <p>Straighten a crooked scan by rotating every page to any exact angle, not just 90°. Processed locally, nothing is uploaded.</p>
+      <h1>How to rotate, delete and reorder PDF pages</h1>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">rotate_right</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace" style="max-width: 720px;">
+      <p class="byline">Published 14 August 2026 · 3 min read</p>
+      <button class="copy-link-btn" type="button">
+        <span class="material-symbols-outlined" aria-hidden="true">link</span>
+        <span class="copy-link-label">Copy link</span>
+      </button>
+      <section class="info-section" style="margin-top:0; border-top:none; padding-top:0;">
+        <p>
+          Every scanner app produces the occasional sideways page, blank cover sheet, or pages saved
+          in the wrong order. None of that requires re-scanning the whole document, a page-level
+          editor is enough to fix it in place.
+        </p>
 
-      <div id="editor" style="display:none;">
-        <p class="help-text">Drag the slider until the preview looks straight, then apply it to the whole document.</p>
-        <div id="previewWrap" class="rotate-preview-wrap"></div>
-        <div class="controls-row">
-          <div class="field" style="flex:1; min-width:220px;">
-            <label for="angleSlider">Angle (° clockwise)</label>
-            <input type="range" id="angleSlider" min="-45" max="45" step="0.5" value="0" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="angleNumber">Exact angle</label>
-            <input type="number" id="angleNumber" min="-45" max="45" step="0.5" value="0" style="width:90px;">
-          </div>
-        </div>
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Rotate &amp; Download</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
-      </div>
+        <h2>Step by step</h2>
+        <ol>
+          <li>Open <a href="/organise-pdf/">Organise PDF Pages</a> and add your file, every page
+            renders as a thumbnail.</li>
+          <li><strong>To reorder:</strong> drag a thumbnail to its new position.</li>
+          <li><strong>To rotate:</strong> use the ⟲ / ⟳ buttons on a page, each click turns it 90°.</li>
+          <li><strong>To remove:</strong> click ✕ to mark a page for deletion (click again to bring it
+            back if you change your mind before saving).</li>
+          <li>Click "Save PDF" once everything looks right.</li>
+        </ol>
 
-      <div class="status-box" id="status"></div>
+        <h2>A few practical tips</h2>
+        <ul>
+          <li><strong>Nothing is final until you save.</strong> Rotations and deletions are just marks
+            on the working copy, you can undo a deletion by clicking ✕ again, right up until you click
+            "Save PDF."</li>
+          <li><strong>Only need to pull a few pages out, not reorganise the rest?</strong>
+            <a href="/split-pdf/">Split PDF</a> is faster for that, pick the pages you want and extract
+            them directly.</li>
+          <li><strong>Rotation is per-page, not global.</strong> If half your scan is sideways and half
+            isn't, that's fine, rotate only the pages that need it.</li>
+        </ul>
+
+        <div class="cta-box">
+          <p>Ready to fix your PDF?</p>
+          <a class="btn" href="/organise-pdf/">Open Organise PDF Pages</a>
+        </div>
+
+        <h2>Related guides</h2>
+        <ul>
+          <li><a href="/blog/split-pdf-pages/">How to split a PDF into separate pages</a></li>
+          <li><a href="/blog/merge-pdf-online/">How to Merge PDF Files Online for Free</a></li>
+        </ul>
+      </section>
     </div>
-
-    <section class="related-tools-section">
-      <h2>Related tools</h2>
-      <div class="tool-grid related-tools-grid">
-        <a class="tool-card related-tool-card" href="/organise-pdf/">
-          <span class="icon"><span class="material-symbols-outlined">reorder</span></span>
-          <h3>Organise PDF Pages</h3>
-        </a>
-        <a class="tool-card related-tool-card" href="/crop-pdf/">
-          <span class="icon"><span class="material-symbols-outlined">crop</span></span>
-          <h3>Crop PDF Pages</h3>
-        </a>
-      </div>
-    </section>
-
-    <section class="info-section">
-      <h2>How it works</h2>
-      <ol>
-        <li>Add a PDF file, the first page renders as a live preview.</li>
-        <li>Drag the slider (or type an exact number) until the preview looks straight.</li>
-        <li>Click "Rotate &amp; Download" to apply that angle to every page and save.</li>
-      </ol>
-      <p class="help-text">The output page is sized to fit the fully rotated content, with a white margin filling the corners, so nothing gets clipped.</p>
-    </section>
   </div>
 </main>
 
@@ -188,8 +186,6 @@
   <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
 </button>
 
-<script src="/assets/tools.js"></script>
-<script type="module" src="/assets/tools/rotate-pdf-freely.js"></script>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>

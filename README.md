@@ -22,7 +22,7 @@ https://fairgopdf.au/
 | Resize Image | `/resize-image/` | Resize by exact pixel dimensions or by percentage |
 | Crop & Rotate Image | `/crop-rotate-image/` | Rotate, flip, and drag-to-crop |
 | Add Border to Image | `/add-border-to-image/` | Add a solid colour frame around one or more images |
-| Image Colour Filters | `/image-color-filters/` | Greyscale, sepia, brightness, contrast and saturation |
+| Image Colour Filters | `/image-colour-filters/` | Greyscale, sepia, brightness, contrast and saturation |
 | Round Corners / Circle Crop | `/round-corners-image/` | Round an image's corners or crop it to a circle |
 | Watermark Image | `/watermark-image/` | Stamp custom text across one or more images |
 | Social Media Cropper | `/social-media-cropper/` | Crop to exact Instagram/X/YouTube/LinkedIn/Facebook sizes |
@@ -36,7 +36,7 @@ https://fairgopdf.au/
 | Compress PDF | `/compress-pdf/` | Reduce PDF file size (quick clean or strong/rasterised) |
 | Images to PDF | `/images-to-pdf/` | Combine JPG/PNG images into a single PDF |
 | PDF to Images | `/pdf-to-images/` | Export every page as a PNG, JPG or WebP |
-| Organise PDF Pages | `/organize-pdf/` | Rotate, delete, reorder, add blank pages, or reverse order |
+| Organise PDF Pages | `/organise-pdf/` | Rotate, delete, reorder, add blank pages, or reverse order |
 | Extract PDF Text | `/extract-pdf-text/` | Pull all text out of a PDF to copy or download as .txt |
 | Edit PDF Metadata | `/pdf-metadata/` | View, change, or clear title, author, subject and keywords |
 | Add Page Numbers | `/add-page-numbers/` | Stamp page numbers in any position/format, with zero-padding for Bates-style numbering |
@@ -46,7 +46,7 @@ https://fairgopdf.au/
 | Compare PDFs | `/compare-pdfs/` | Diff the text of two PDF versions line by line |
 | Fill PDF Form | `/fill-pdf-form/` | Fill text fields, checkboxes and dropdowns on a PDF form |
 | Sign PDF | `/sign-pdf/` | Draw or type a signature and place it on any page |
-| PDF Colour Filters | `/pdf-color-filters/` | Greyscale, invert, or adjust brightness/contrast/saturation across every page |
+| PDF Colour Filters | `/pdf-colour-filters/` | Greyscale, invert, or adjust brightness/contrast/saturation across every page |
 | Text to PDF | `/text-to-pdf/` | Turn plain text into a paginated PDF |
 | Flatten PDF | `/flatten-pdf/` | Turn fillable form fields into static, non-editable content |
 | N-Up PDF | `/n-up-pdf/` | Combine 2, 4, 6 or 9 pages onto a single sheet |
@@ -64,11 +64,11 @@ https://fairgopdf.au/
 | PDF Form Builder | `/pdf-form-builder/` | Add fillable text fields, checkboxes, radio buttons and dropdowns as real AcroForm fields |
 | Remove Blank Pages | `/remove-blank-pages/` | Auto-detect and strip blank pages from a scanned PDF |
 | Rotate PDF Freely | `/rotate-pdf-freely/` | Straighten a wonky scan by rotating pages to any exact angle |
-| Sanitise PDF | `/sanitize-pdf/` | Strip embedded scripts, auto-actions, attachments and metadata |
+| Sanitise PDF | `/sanitise-pdf/` | Strip embedded scripts, auto-actions, attachments and metadata |
 | Remove Annotations | `/remove-annotations/` | Strip comments, highlights and markup, links and forms stay intact |
-| PDF Background Colour | `/pdf-background-color/` | Add a solid colour behind every page of a PDF |
+| PDF Background Colour | `/pdf-background-colour/` | Add a solid colour behind every page of a PDF |
 | Divide PDF Pages | `/divide-pdf-pages/` | Split every page in half, top/bottom or left/right |
-| Posterise PDF | `/posterize-pdf/` | Blow up a page across multiple sheets for large-format printing |
+| Posterise PDF | `/posterise-pdf/` | Blow up a page across multiple sheets for large-format printing |
 | Combine Pages Into One | `/combine-pages-into-one/` | Stitch every page into one continuous, scrollable page |
 | Markdown to PDF | `/markdown-to-pdf/` | Turn Markdown into a styled, paginated PDF |
 
@@ -83,7 +83,7 @@ https://fairgopdf.au/
 | Hash / Checksum Generator | `/hash-generator/` | Generate SHA-1/256/384/512 hashes of text or a file |
 | JSON Formatter | `/json-formatter/` | Pretty-print, minify and validate JSON |
 | Case Converter | `/case-converter/` | Convert text between UPPERCASE, lowercase, camelCase and more |
-| Colour Picker & Converter | `/color-picker/` | Pick a colour and convert between HEX, RGB and HSL live |
+| Colour Picker & Converter | `/colour-picker/` | Pick a colour and convert between HEX, RGB and HSL live |
 | Word & Character Counter | `/word-counter/` | Count words, characters, sentences and paragraphs, with reading time |
 | Read Aloud | `/read-aloud/` | Have a PDF, Word doc, .txt file or pasted text read aloud, with live word highlighting |
 | Handwriting Worksheets | `/handwriting-worksheets/` | Printable cursive or print handwriting practice sheets with traceable letters |
