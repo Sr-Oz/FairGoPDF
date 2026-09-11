@@ -112,7 +112,7 @@ hexInput.addEventListener("input", () => {
     updateFromRgb(rgb.r, rgb.g, rgb.b, "hex");
     clearStatus(statusEl);
   } else {
-    setStatus(statusEl, "That doesn't look like a valid HEX color (e.g. #004D40 or #0D4).", "error");
+    setStatus(statusEl, "That doesn't look like a valid HEX colour (e.g. #004D40 or #0D4).", "error");
   }
 });
 

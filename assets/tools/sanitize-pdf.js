@@ -128,12 +128,12 @@ clearBtn.addEventListener("click", () => {
 runBtn.addEventListener("click", async () => {
   if (!currentFile) return;
   if (!optScripts.checked && !optFiles.checked && !optMetadata.checked) {
-    setStatus(statusEl, "Tick at least one option to sanitize.", "error");
+    setStatus(statusEl, "Tick at least one option to sanitise.", "error");
     statusEl.classList.add("visible");
     return;
   }
   runBtn.disabled = true;
-  setStatus(statusEl, "Sanitizing…", "");
+  setStatus(statusEl, "Sanitising…", "");
   statusEl.classList.add("visible");
 
   try {
