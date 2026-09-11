@@ -156,7 +156,10 @@ img { max-width: 100%; }
   line-height: 1;
   color: #fff9f2;
 }
-.footer-logo-text > span { color: #4ECDC4; }
+/* Dark brand teal, not the mint used elsewhere: the footer band is
+   always the gold end of --footer-gradient here, and mint on gold
+   has too little contrast to read (they're close in luminance). */
+.footer-logo-text > span { color: #004D40; }
 
 .logo .mark {
   display: inline-flex;
