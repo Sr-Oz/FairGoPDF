@@ -595,7 +595,11 @@ img { max-width: 100%; }
   padding: 28px 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  margin: 8px 0 40px;
+  margin: 8px auto 40px;
+  /* With 5 signals, a wider max-width lets 4 fit on the first row and
+     strands the 5th alone (looks unbalanced even though it's centered).
+     Capping it forces an even 3+2 wrap instead. */
+  max-width: 900px;
 }
 
 .trust-signals .signal {
@@ -614,6 +618,8 @@ img { max-width: 100%; }
   border-radius: 10px;
   background: var(--bg-alt);
 }
+
+.glyph-flag { width: 27px; height: 18px; border-radius: 3px; display: block; }
 
 .trust-signals .signal .label {
   display: flex;
