@@ -615,7 +615,10 @@ img { max-width: 100%; }
   background: var(--bg-alt);
 }
 
-.glyph-flag { width: 27px; height: 18px; border-radius: 3px; display: block; }
+/* Source badge is a 512x512 square (a circular "Made in Australia"
+   stamp painted on a black square canvas) -- a round mask crops
+   exactly to its own circle and hides the black corners. */
+.glyph-flag { width: 32px; height: 32px; border-radius: 50%; display: block; }
 
 .trust-signals .signal .label {
   display: flex;
@@ -1599,6 +1602,33 @@ img { max-width: 100%; }
   opacity: 0.85;
   max-width: 30ch;
 }
+
+.footer-connect {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-au-badge { width: 40px; height: 40px; border-radius: 50%; display: block; flex-shrink: 0; }
+
+.footer-social { display: flex; align-items: center; gap: 10px; }
+
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 249, 242, 0.12);
+  color: #fff9f2;
+  opacity: 0.9;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.footer-social a:hover { background: rgba(255, 249, 242, 0.22); opacity: 1; }
+.footer-social a svg { width: 18px; height: 18px; display: block; }
 
 .footer-support-cta {
   margin-top: 14px;
