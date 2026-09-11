@@ -34,6 +34,15 @@ window.SEARCH_INDEX = [
   { title: "PDF Editor", url: "/pdf-editor/", icon: "edit_document", desc: "Drag text and image boxes anywhere on any page, resize and style them", category: "PDF Tool" },
   { title: "Add Links to PDF", url: "/add-links-to-pdf/", icon: "link", desc: "Draw a clickable area that opens a website or jumps to another page", category: "PDF Tool" },
   { title: "PDF Form Builder", url: "/pdf-form-builder/", icon: "checklist", desc: "Add fillable text fields, checkboxes, radio buttons and dropdowns", category: "PDF Tool" },
+  { title: "Remove Blank Pages", url: "/remove-blank-pages/", icon: "auto_delete", desc: "Auto-detect and strip blank pages from a scanned PDF", category: "PDF Tool" },
+  { title: "Rotate PDF Freely", url: "/rotate-pdf-freely/", icon: "rotate_right", desc: "Straighten a wonky scan by rotating pages to any exact angle", category: "PDF Tool" },
+  { title: "Sanitize PDF", url: "/sanitize-pdf/", icon: "cleaning_services", desc: "Strip embedded scripts, auto-actions, attachments and metadata", category: "PDF Tool" },
+  { title: "Remove Annotations", url: "/remove-annotations/", icon: "comments_disabled", desc: "Strip comments, highlights and markup, links and forms stay intact", category: "PDF Tool" },
+  { title: "PDF Background Colour", url: "/pdf-background-color/", icon: "format_color_fill", desc: "Add a solid colour behind every page of a PDF", category: "PDF Tool" },
+  { title: "Divide PDF Pages", url: "/divide-pdf-pages/", icon: "view_agenda", desc: "Split every page in half, top/bottom or left/right", category: "PDF Tool" },
+  { title: "Posterize PDF", url: "/posterize-pdf/", icon: "grid_on", desc: "Blow up a page across multiple sheets for large-format printing", category: "PDF Tool" },
+  { title: "Combine Pages Into One", url: "/combine-pages-into-one/", icon: "view_stream", desc: "Stitch every page into one continuous, scrollable page", category: "PDF Tool" },
+  { title: "Markdown to PDF", url: "/markdown-to-pdf/", icon: "markdown", desc: "Turn Markdown into a styled, paginated PDF", category: "PDF Tool" },
 
   // Image tools
   { title: "Compress Image", url: "/compress-image/", icon: "compress", desc: "Reduce JPEG/PNG/WebP file size with a quality slider", category: "Image Tool" },

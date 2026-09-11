@@ -62,6 +62,15 @@ https://fairgopdf.au/
 | PDF Editor | `/pdf-editor/` | Drag text and image boxes anywhere on any page, resize and style them |
 | Add Links to PDF | `/add-links-to-pdf/` | Draw a clickable area on a page that opens a website or jumps to another page |
 | PDF Form Builder | `/pdf-form-builder/` | Add fillable text fields, checkboxes, radio buttons and dropdowns as real AcroForm fields |
+| Remove Blank Pages | `/remove-blank-pages/` | Auto-detect and strip blank pages from a scanned PDF |
+| Rotate PDF Freely | `/rotate-pdf-freely/` | Straighten a wonky scan by rotating pages to any exact angle |
+| Sanitize PDF | `/sanitize-pdf/` | Strip embedded scripts, auto-actions, attachments and metadata |
+| Remove Annotations | `/remove-annotations/` | Strip comments, highlights and markup, links and forms stay intact |
+| PDF Background Colour | `/pdf-background-color/` | Add a solid colour behind every page of a PDF |
+| Divide PDF Pages | `/divide-pdf-pages/` | Split every page in half, top/bottom or left/right |
+| Posterize PDF | `/posterize-pdf/` | Blow up a page across multiple sheets for large-format printing |
+| Combine Pages Into One | `/combine-pages-into-one/` | Stitch every page into one continuous, scrollable page |
+| Markdown to PDF | `/markdown-to-pdf/` | Turn Markdown into a styled, paginated PDF |
 
 ### Utilities
 | Tool | URL | What it does |

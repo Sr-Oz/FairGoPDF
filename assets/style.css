@@ -1169,6 +1169,26 @@ img { max-width: 100%; }
   margin: 20px 0;
 }
 
+.rotate-preview-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+  padding: 40px;
+  margin: 16px 0;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.rotate-preview-wrap canvas {
+  max-width: 220px;
+  max-height: 260px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease;
+}
+
 .field {
   display: flex;
   flex-direction: column;
