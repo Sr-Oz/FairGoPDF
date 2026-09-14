@@ -98,4 +98,5 @@ window.SEARCH_INDEX = [
 
   // Other pages
   { title: "FAQ", url: "/faq/", desc: "Common questions about privacy, cost, file limits and browser support", category: "Page" },
+  { title: "Partner With Us", url: "/partnerships/", desc: "Sponsor FairGo PDF, or partner with us as an AU/NZ government organisation", category: "Page" },
 ];
