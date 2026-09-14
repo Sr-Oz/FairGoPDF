@@ -1212,6 +1212,17 @@ img { max-width: 100%; }
 
 .field input[type="range"] { width: 180px; }
 
+.field-error {
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin: 4px 0 0;
+}
+
+.field.has-error input,
+.field.has-error textarea {
+  border-color: var(--danger);
+}
+
 .radio-group {
   display: flex;
   gap: 14px;

@@ -5,18 +5,18 @@
 <meta name="author" content="The Dato Family Labs">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>PDF Colour Filters Online Free, Greyscale, Invert, Brightness | FairGo PDF</title>
-<meta name="description" content="Apply greyscale, brightness, contrast, saturation and invert filters to every page of a PDF, free and right in your browser. No upload, no signup.">
-<link rel="canonical" href="https://fairgopdf.au/pdf-colour-filters/">
+<title>Contact Us | FairGo PDF</title>
+<meta name="description" content="Get in touch with FairGo PDF, questions, feedback, partnership enquiries, bug reports, whatever it is, we'd love to hear from you.">
+<link rel="canonical" href="https://fairgopdf.au/contact/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FairGo PDF">
-<meta property="og:title" content="PDF Colour Filters Online Free, Greyscale, Invert, Brightness">
-<meta property="og:description" content="Apply greyscale, brightness, contrast, saturation and invert filters to every page of a PDF, free and right in your browser. No upload, no signup.">
-<meta property="og:url" content="https://fairgopdf.au/pdf-colour-filters/">
+<meta property="og:title" content="Contact Us">
+<meta property="og:description" content="Get in touch with FairGo PDF, questions, feedback, partnership enquiries, bug reports, whatever it is, we'd love to hear from you.">
+<meta property="og:url" content="https://fairgopdf.au/contact/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PDF Colour Filters Online Free, Greyscale, Invert, Brightness">
-<meta name="twitter:description" content="Apply greyscale, brightness, contrast, saturation and invert filters to every page of a PDF, free and right in your browser. No upload, no signup.">
+<meta name="twitter:title" content="Contact Us">
+<meta name="twitter:description" content="Get in touch with FairGo PDF, questions, feedback, partnership enquiries, bug reports, whatever it is, we'd love to hear from you.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
@@ -54,104 +54,73 @@
 <main id="main-content">
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">PDF Colour Filters</span>
+      <a href="/">Home</a><span class="sep">/</span><span class="current">Contact Us</span>
     </nav>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
       {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
-      {"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://fairgopdf.au/#pdf-tools"},
-      {"@type":"ListItem","position":3,"name":"PDF Colour Filters","item":"https://fairgopdf.au/pdf-colour-filters/"}
+      {"@type":"ListItem","position":2,"name":"Contact Us","item":"https://fairgopdf.au/contact/"}
     ]}
     </script>
+
     <div class="tool-page-header">
-      <h1>PDF Colour Filters</h1>
-      <p>Turn a PDF greyscale, invert it, or tweak brightness, contrast and saturation across every page. Processed locally, nothing is uploaded.</p>
+      <h1>Contact Us</h1>
+      <p>Questions, feedback, bug reports, partnership enquiries, whatever it is, we'd love to hear from you.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">tonality</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file · preview shows page 1</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
-
-      <div id="editor" style="display:none;">
-        <div class="preview-stage" id="previewStage">
-          <canvas id="displayCanvas"></canvas>
+    <div class="tool-workspace" style="max-width: 620px;">
+      <form id="contactForm" novalidate>
+        <div class="field" style="margin-bottom: 16px;">
+          <label for="cfName">Full name</label>
+          <input type="text" id="cfName" name="name" autocomplete="name" required style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--bg-alt); color:var(--text); font-size:0.95rem;">
+          <p class="field-error" id="cfNameError" hidden></p>
         </div>
 
-        <div class="controls-row">
-          <div class="field">
-            <label><input type="checkbox" id="invert"> Invert colours</label>
-          </div>
-          <div class="field">
-            <label for="grayscale">Greyscale (<span id="grayscaleVal">0</span>%)</label>
-            <input type="range" id="grayscale" min="0" max="100" value="0">
-          </div>
-        </div>
-        <div class="controls-row">
-          <div class="field">
-            <label for="brightness">Brightness (<span id="brightnessVal">100</span>%)</label>
-            <input type="range" id="brightness" min="0" max="200" value="100">
-          </div>
-          <div class="field">
-            <label for="contrast">Contrast (<span id="contrastVal">100</span>%)</label>
-            <input type="range" id="contrast" min="0" max="200" value="100">
-          </div>
-          <div class="field">
-            <label for="saturate">Saturation (<span id="saturateVal">100</span>%)</label>
-            <input type="range" id="saturate" min="0" max="200" value="100">
-          </div>
-        </div>
-        <div class="controls-row">
-          <div class="field">
-            <label>&nbsp;</label>
-            <button class="btn secondary small" id="resetFilters">Reset filters</button>
-          </div>
-          <div class="field">
-            <label for="dpi">Output resolution</label>
-            <select id="dpi">
-              <option value="96">96 DPI (smallest)</option>
-              <option value="150" selected>150 DPI (recommended)</option>
-              <option value="200">200 DPI (sharper)</option>
-            </select>
-          </div>
+        <div class="field" style="margin-bottom: 16px;">
+          <label for="cfEmail">Email address</label>
+          <input type="email" id="cfEmail" name="email" autocomplete="email" required style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--bg-alt); color:var(--text); font-size:0.95rem;">
+          <p class="field-error" id="cfEmailError" hidden></p>
         </div>
 
-        <p class="help-text">Every page is re-rendered as an image with these filters applied, selectable text will no longer be searchable/selectable in the output.</p>
+        <div class="field" style="margin-bottom: 16px;">
+          <label for="cfSubject">Subject</label>
+          <input type="text" id="cfSubject" name="subject" required style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--bg-alt); color:var(--text); font-size:0.95rem;">
+          <p class="field-error" id="cfSubjectError" hidden></p>
+        </div>
+
+        <div class="field" style="margin-bottom: 16px;">
+          <label for="cfMessage">Message</label>
+          <textarea id="cfMessage" name="message" rows="6" required style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--bg-alt); color:var(--text); font-size:0.95rem; resize:vertical;"></textarea>
+          <p class="field-error" id="cfMessageError" hidden></p>
+        </div>
+
+        <!-- Honeypot: real people never see or fill this in. Any bot that fills every
+             field blindly will trip it, and we quietly drop the submission. -->
+        <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+          <label for="cfWebsite">Leave this field blank</label>
+          <input type="text" id="cfWebsite" name="website_url" tabindex="-1" autocomplete="off">
+        </div>
 
         <div class="actions-row">
-          <button class="btn" id="runBtn">Apply &amp; Download</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
+          <button class="btn" id="cfSubmit" type="submit">Send Message</button>
         </div>
-      </div>
 
-      <div class="status-box" id="status"></div>
+        <div class="status-box" id="cfStatus"></div>
+      </form>
+
+      <section class="info-section">
+        <p class="help-text">
+          Sponsorship or government partnership enquiry? Have a read of our
+          <a href="/partnerships/">partnerships page</a> first, it covers what we're after.
+        </p>
+        <p class="help-text">
+          Messages sent through this form go via <a href="https://web3forms.com/" target="_blank" rel="noopener">Web3Forms</a>,
+          a third-party relay that forwards them straight to our inbox without ever putting our email
+          address in this page's code, so it can't be scraped and spammed. We don't see or store
+          anything beyond what you type here.
+        </p>
+      </section>
     </div>
-
-    <section class="related-tools-section">
-      <h2>Related tools</h2>
-      <div class="tool-grid related-tools-grid">
-        <a class="tool-card related-tool-card" href="/compress-pdf/">
-          <span class="icon"><span class="material-symbols-outlined">compress</span></span>
-          <h3>Compress PDF</h3>
-        </a>
-        <a class="tool-card related-tool-card" href="/image-colour-filters/">
-          <span class="icon"><span class="material-symbols-outlined">palette</span></span>
-          <h3>Image Colour Filters</h3>
-        </a>
-      </div>
-    </section>
-
-    <section class="info-section">
-      <h2>How it works</h2>
-      <ol>
-        <li>Add a PDF file, page 1 shows a live preview.</li>
-        <li>Adjust the sliders or invert colours, the preview updates instantly.</li>
-        <li>Click "Apply &amp; Download" to render every page with those filters.</li>
-      </ol>
-    </section>
   </div>
 </main>
 
@@ -222,7 +191,7 @@
 </button>
 
 <script src="/assets/tools.js"></script>
-<script type="module" src="/assets/tools/pdf-colour-filters.js"></script>
+<script src="/assets/contact.js"></script>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>
