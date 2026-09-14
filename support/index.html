@@ -20,6 +20,12 @@
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
+<style>
+  .support-tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; }
+  @media (max-width: 640px) { .support-tiers { grid-template-columns: 1fr; } }
+  .support-tiers .pillar-card { max-width: none; margin: 0; text-align: center; }
+  .support-tiers .glyph-img { width: 48px; height: 48px; border-radius: 12px; display: block; margin: 0 auto 14px; }
+</style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
@@ -89,11 +95,19 @@
         </p>
       </section>
 
-      <div class="pillar-card" style="max-width: 320px; margin: 32px auto; text-align: center;">
-        <span class="glyph"><span class="material-symbols-outlined">coffee</span></span>
-        <h3>Shout a Coffee</h3>
-        <p>A one-off thanks, pick your own amount.</p>
-        <a class="btn" href="https://buy.stripe.com/8x23cwgEP6Cj4aLfWo3ZK00" target="_blank" rel="noopener" style="margin-top: 14px;">Shout a Coffee</a>
+      <div class="support-tiers">
+        <div class="pillar-card">
+          <img src="/assets/img/fair-goer.png" alt="" class="glyph-img">
+          <h3>Fair Goer</h3>
+          <p>LEGENDS like you make work like ours possible. Donate up to $50, your choice.</p>
+          <a class="btn" href="https://buy.stripe.com/8x23cwgEP6Cj4aLfWo3ZK00" target="_blank" rel="noopener" style="margin-top: 14px;">Donate Now</a>
+        </div>
+        <div class="pillar-card">
+          <img src="/assets/img/true-blue-legend.png" alt="" class="glyph-img">
+          <h3>True Blue Legend</h3>
+          <p>Donate $100 or more and get FairGo PDF branded swag plus a personalised letter from the developer. Free delivery.</p>
+          <a class="btn" href="https://buy.stripe.com/aFaeVebkv4ub9v5h0s3ZK01" target="_blank" rel="noopener" style="margin-top: 14px;">Donate Now</a>
+        </div>
       </div>
 
       <section class="info-section">
