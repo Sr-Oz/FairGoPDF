@@ -32,17 +32,18 @@
     padding: 28px;
   }
 
-  .contact-info { padding-top: 4px; }
-  .contact-info h2 { color: var(--brand); margin: 0 0 12px; }
-  .contact-info > p { color: var(--text-muted); }
+  /* Matches .contact-form-card's own padding, so this column's text starts
+     level with "Full name" inside the card rather than the card's border. */
+  .contact-info { padding-top: 28px; }
+  .contact-info > p { color: var(--text-muted); margin-top: 0; }
 
   .contact-info-item {
     display: flex; align-items: center; gap: 10px;
-    margin: 20px 0; color: var(--text); font-weight: 600; font-size: 0.94rem;
+    margin: 16px 0 0; color: var(--text); font-weight: 600; font-size: 0.94rem;
   }
   .contact-info-item .material-symbols-outlined { color: var(--brand); }
 
-  .contact-info-social { display: flex; gap: 10px; margin: 0 0 24px; }
+  .contact-info-social { display: flex; gap: 10px; margin: 20px 0 24px; }
   .contact-info-social a {
     display: inline-flex; align-items: center; justify-content: center;
     width: 40px; height: 40px; border-radius: 50%;
@@ -57,9 +58,9 @@
     border-radius: var(--radius);
     overflow: hidden;
     border: 1px solid var(--border);
-    aspect-ratio: 4 / 3;
   }
-  .contact-map iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .contact-map img { width: 100%; height: auto; display: block; }
+  .contact-map-credit { margin: 6px 0 0; font-size: 0.72rem; color: var(--text-muted); }
 </style>
 </head>
 <body>
@@ -153,13 +154,7 @@
         </div>
 
         <div class="contact-info">
-          <h2>Reach Us</h2>
           <p>We're a small, independent team, not a call centre. The form is the fastest way to reach us, and a real person reads every message.</p>
-
-          <div class="contact-info-item">
-            <span class="material-symbols-outlined" aria-hidden="true">location_on</span>
-            <span>Perth, Western Australia, Australia</span>
-          </div>
 
           <div class="contact-info-social">
             <a href="https://www.instagram.com/fairgopdf/" target="_blank" rel="noopener" aria-label="FairGo PDF on Instagram"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg></a>
@@ -167,7 +162,13 @@
           </div>
 
           <div class="contact-map">
-            <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=115.75%2C-32.05%2C116.05%2C-31.85&amp;marker=-31.9523%2C115.8613&amp;layer=mapnik" loading="lazy" title="Map showing Perth, Western Australia"></iframe>
+            <img src="/assets/img/perth-map.jpg" alt="Map of Perth, Western Australia" width="700" height="460" loading="lazy">
+          </div>
+          <p class="contact-map-credit">Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</p>
+
+          <div class="contact-info-item">
+            <span class="material-symbols-outlined" aria-hidden="true">location_on</span>
+            <span>Perth, Western Australia, Australia</span>
           </div>
         </div>
       </div>
