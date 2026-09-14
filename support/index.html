@@ -23,7 +23,9 @@
 <style>
   .support-tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; }
   @media (max-width: 640px) { .support-tiers { grid-template-columns: 1fr; } }
-  .support-tiers .pillar-card { max-width: none; margin: 0; text-align: center; }
+  .support-tiers .pillar-card { max-width: none; margin: 0; text-align: center; display: flex; flex-direction: column; }
+  .support-tiers .pillar-card p:last-of-type { margin-bottom: auto; }
+  .support-tiers .pillar-card .btn { margin-top: 14px; }
   .support-tiers .glyph-img { width: 48px; height: 48px; border-radius: 12px; display: block; margin: 0 auto 14px; }
 </style>
 </head>
@@ -100,13 +102,13 @@
           <img src="/assets/img/fair-goer.png" alt="" class="glyph-img">
           <h3>Fair Goer</h3>
           <p>LEGENDS like you make work like ours possible. Donate up to $50, your choice.</p>
-          <a class="btn" href="https://buy.stripe.com/8x23cwgEP6Cj4aLfWo3ZK00" target="_blank" rel="noopener" style="margin-top: 14px;">Donate Now</a>
+          <a class="btn" href="https://buy.stripe.com/8x23cwgEP6Cj4aLfWo3ZK00" target="_blank" rel="noopener">Donate Now</a>
         </div>
         <div class="pillar-card">
           <img src="/assets/img/true-blue-legend.png" alt="" class="glyph-img">
           <h3>True Blue Legend</h3>
-          <p>Donate $100 or more and get FairGo PDF branded swag plus a personalised letter from the developer. Free delivery.</p>
-          <a class="btn" href="https://buy.stripe.com/aFaeVebkv4ub9v5h0s3ZK01" target="_blank" rel="noopener" style="margin-top: 14px;">Donate Now</a>
+          <p>Donate here and get branded swag plus a personalised letter from the developer.</p>
+          <a class="btn" href="https://buy.stripe.com/aFaeVebkv4ub9v5h0s3ZK01" target="_blank" rel="noopener">Donate Now</a>
         </div>
       </div>
 
