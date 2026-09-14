@@ -145,6 +145,18 @@
               <input type="text" id="cfWebsite" name="website_url" tabindex="-1" autocomplete="off">
             </div>
 
+            <div class="field" style="margin-bottom: 16px;">
+              <div class="h-captcha" data-captcha="true" id="hcaptchaWidget"></div>
+              <script>
+                try {
+                  if (localStorage.getItem('theme') === 'dark') {
+                    document.getElementById('hcaptchaWidget').setAttribute('data-theme', 'dark');
+                  }
+                } catch (e) {}
+              </script>
+              <p class="field-error" id="cfCaptchaError" hidden></p>
+            </div>
+
             <div class="actions-row">
               <button class="btn" id="cfSubmit" type="submit" style="width:100%;">Send Message</button>
             </div>
@@ -260,5 +272,6 @@
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>
+<script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>

@@ -16,6 +16,21 @@ const pageLoadedAt = Date.now();
 const form = document.getElementById("contactForm");
 const statusEl = document.getElementById("cfStatus");
 const submitBtn = document.getElementById("cfSubmit");
+const captchaError = document.getElementById("cfCaptchaError");
+
+// hCaptcha (via Web3Forms' zero-config proxy, see /assets/contact.js script tag
+// in contact/index.html) writes its verification token into this hidden
+// textarea once solved. There's no sitekey to manage here, Web3Forms injects it.
+function getHcaptchaToken() {
+  const el = form.querySelector('textarea[name="h-captcha-response"]');
+  return el ? el.value : "";
+}
+
+function resetHcaptcha() {
+  if (window.hcaptcha && typeof window.hcaptcha.reset === "function") {
+    window.hcaptcha.reset();
+  }
+}
 
 const fields = {
   name: {
@@ -94,6 +109,14 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
+  const hcaptchaToken = getHcaptchaToken();
+  captchaError.hidden = Boolean(hcaptchaToken);
+  captchaError.textContent = hcaptchaToken ? "" : "Please complete the captcha.";
+  if (!hcaptchaToken) {
+    setStatus(statusEl, "Please complete the captcha before sending.", "error");
+    return;
+  }
+
   if (WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY") {
     setStatus(statusEl, "This form isn't wired up to an inbox yet, contact the site owner directly.", "error");
     console.warn("contact.js: set WEB3FORMS_ACCESS_KEY before this form can send anything.");
@@ -113,6 +136,7 @@ form.addEventListener("submit", async (e) => {
         email: fields.email.input.value.trim(),
         subject: `[FairGo PDF] ${fields.subject.input.value.trim()}`,
         message: fields.message.input.value.trim(),
+        "h-captcha-response": hcaptchaToken,
       }),
     });
     const result = await res.json();
@@ -129,5 +153,6 @@ form.addEventListener("submit", async (e) => {
     setStatus(statusEl, "Couldn't reach the server, check your connection and try again.", "error");
   } finally {
     submitBtn.disabled = false;
+    resetHcaptcha();
   }
 });
