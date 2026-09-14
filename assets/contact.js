@@ -3,7 +3,7 @@
 // this file or the page's HTML. Get a free Access Key at https://web3forms.com —
 // it's a public identifier by design (safe to expose client-side), the actual
 // inbox it forwards to is configured in your Web3Forms dashboard, not here.
-const WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
+const WEB3FORMS_ACCESS_KEY = "c6713af2-1cc2-489a-ba5c-69aae4ba13a3";
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
 // Bots that submit faster than a human could plausibly read and fill the form
