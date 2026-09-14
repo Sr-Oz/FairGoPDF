@@ -1,6 +1,18 @@
 // Shared helpers used by every tool page. Loaded as a plain <script> (not a module)
 // so it can be reused with simple <script src> includes across tool pages.
 
+// File names come from the user's own file system and can contain HTML-significant
+// characters; anything interpolated into innerHTML must go through this first.
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  }[c]));
+}
+
 function formatBytes(bytes) {
   if (bytes === 0) return "0 B";
   const units = ["B", "KB", "MB", "GB"];

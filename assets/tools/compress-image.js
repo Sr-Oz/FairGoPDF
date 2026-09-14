@@ -20,7 +20,7 @@
     fileListEl.innerHTML = "";
     files.forEach((f, i) => {
       const li = document.createElement("li");
-      li.innerHTML = `<span class="name">${f.name}</span><span class="meta">${formatBytes(f.size)}</span>`;
+      li.innerHTML = `<span class="name">${escapeHtml(f.name)}</span><span class="meta">${formatBytes(f.size)}</span>`;
       const btn = document.createElement("button");
       btn.className = "remove";
       btn.setAttribute("aria-label", `Remove ${f.name}`);
@@ -108,7 +108,7 @@
         item.className = "result-item";
         const previewUrl = URL.createObjectURL(blob);
         item.innerHTML = `
-          <img class="preview" src="${previewUrl}" alt="Compressed preview of ${file.name}">
+          <img class="preview" src="${previewUrl}" alt="Compressed preview of ${escapeHtml(file.name)}">
           <div class="info">
             <div>${outName}</div>
             <div class="meta" style="color:var(--text-muted);font-size:0.82rem;">
@@ -127,7 +127,7 @@
         console.error(err);
         const item = document.createElement("div");
         item.className = "result-item";
-        item.innerHTML = `<div class="info">${file.name}: failed to process (${err.message || "unknown error"})</div>`;
+        item.innerHTML = `<div class="info">${escapeHtml(file.name)}: failed to process (${escapeHtml(err.message || "unknown error")})</div>`;
         resultItemsEl.appendChild(item);
       }
     }

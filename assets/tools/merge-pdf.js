@@ -14,7 +14,7 @@ function renderFileList() {
   fileListEl.innerHTML = "";
   files.forEach((f, i) => {
     const li = document.createElement("li");
-    li.innerHTML = `<span class="name">${i + 1}. ${f.name}</span><span class="meta">${formatBytes(f.size)}</span>`;
+    li.innerHTML = `<span class="name">${i + 1}. ${escapeHtml(f.name)}</span><span class="meta">${formatBytes(f.size)}</span>`;
 
     const upBtn = document.createElement("button");
     upBtn.className = "remove";
