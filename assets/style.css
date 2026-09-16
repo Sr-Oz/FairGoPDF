@@ -1474,11 +1474,9 @@ img { max-width: 100%; }
   .cursor { animation: none; }
 }
 
-/* Footer: a green "isolated box" sitting on the page's own background,
-   with a gold rule above it marking the seam from the content above. */
+/* Footer: a green "isolated box" sitting on the page's own background. */
 .site-footer {
   background: var(--bg);
-  border-top: 4px solid var(--accent);
   padding: 48px 0;
   margin-top: 40px;
 }
@@ -1499,8 +1497,6 @@ img { max-width: 100%; }
   grid-template-columns: repeat(5, 1fr);
   gap: 28px;
 }
-
-.footer-grid + .footer-grid { margin-top: 28px; }
 
 .footer-col h5 {
   margin: 0 0 14px;
@@ -1579,7 +1575,7 @@ img { max-width: 100%; }
 }
 
 .footer-mark-big {
-  height: 56px;
+  height: 112px;
   width: auto;
   flex-shrink: 0;
   /* The source mark is solid brand green; invert it to white so it reads
@@ -1592,7 +1588,7 @@ img { max-width: 100%; }
   margin: 0 0 6px;
   font-size: 0.85rem;
   opacity: 0.85;
-  max-width: 42ch;
+  white-space: nowrap;
 }
 
 .footer-bottom {
@@ -1616,6 +1612,8 @@ img { max-width: 100%; }
 @media (max-width: 600px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-bottom-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-mark-big { height: 84px; }
+  .footer-brand-text p { white-space: normal; }
 }
 
 .spinner {
