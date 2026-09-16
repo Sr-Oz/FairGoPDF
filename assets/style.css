@@ -142,20 +142,6 @@ img { max-width: 100%; }
 }
 .logo-text > span { color: var(--brand); }
 
-.footer-logo-mark { height: 22px; width: 22px; display: block; flex-shrink: 0; }
-.footer-logo-text {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  color: #fff9f2;
-}
-/* Dark brand teal, not the mint used elsewhere: the footer band is
-   always the gold end of --footer-gradient here, and mint on gold
-   has too little contrast to read (they're close in luminance). */
-.footer-logo-text > span { color: #004D40; }
-
 .logo .mark {
   display: inline-flex;
   align-items: center;
@@ -1490,8 +1476,9 @@ img { max-width: 100%; }
 
 /* Footer */
 .site-footer {
-  background: var(--footer-gradient);
-  padding: 32px 0;
+  background: #004D40;
+  border-top: 4px solid var(--accent);
+  padding: 48px 0 32px;
   margin-top: 40px;
   color: #fff9f2;
   font-size: 0.85rem;
@@ -1514,7 +1501,7 @@ img { max-width: 100%; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #fff9f2;
+  color: var(--accent);
 }
 
 .footer-col a {
@@ -1527,18 +1514,6 @@ img { max-width: 100%; }
   font-weight: 700;
   opacity: 0.95;
 }
-
-.footer-brand .footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  font-size: 1rem;
-  color: #fff9f2;
-  margin-bottom: 10px;
-}
-
-.footer-brand .footer-logo .material-symbols-outlined { font-size: 1.1rem; }
 
 .footer-brand p {
   margin: 0;
@@ -1591,17 +1566,35 @@ img { max-width: 100%; }
 
 .footer-support-cta .btn {
   background: #fff9f2;
-  color: var(--brand-dark);
+  color: #004D40;
 }
 
 .footer-support-cta .btn:hover { background: #ffffff; }
 
-.footer-bottom {
+.footer-bottom-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 28px;
   border-top: 1px solid rgba(255, 249, 242, 0.25);
-  padding-top: 20px;
+}
+
+.footer-mark-big {
+  height: 56px;
+  width: auto;
+  flex-shrink: 0;
+  /* The source mark is solid brand green; invert it to white so it reads
+     against the footer's own green background. */
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
+.footer-bottom {
   font-size: 0.8rem;
   line-height: 1.6;
   opacity: 0.85;
+  text-align: right;
 }
 
 .footer-bottom .attribution {
@@ -1618,6 +1611,8 @@ img { max-width: 100%; }
 
 @media (max-width: 480px) {
   .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom-row { flex-direction: column-reverse; align-items: flex-start; gap: 16px; }
+  .footer-bottom { text-align: left; }
 }
 
 .spinner {
