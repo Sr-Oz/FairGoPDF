@@ -424,6 +424,61 @@ img { max-width: 100%; }
 
 .back-to-top:hover { background: var(--brand-dark); }
 
+/* Cookie consent banner */
+body:has(#cookieBanner) .back-to-top { bottom: 96px; }
+
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  background: #004D40;
+  color: #fff9f2;
+  border-top: 1px solid rgba(255, 249, 242, 0.2);
+  box-shadow: 0 -8px 24px -8px rgba(0, 0, 0, 0.25);
+}
+
+.cookie-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 20px;
+}
+
+.cookie-banner p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.cookie-banner a { color: #fff9f2; text-decoration: underline; }
+
+.cookie-banner-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-banner .btn.secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 249, 242, 0.4);
+  color: #fff9f2;
+}
+.cookie-banner .btn.secondary:hover { background: rgba(255, 249, 242, 0.12); }
+
+.cookie-banner .btn:not(.secondary) {
+  background: #fff9f2;
+  color: #004D40;
+}
+.cookie-banner .btn:not(.secondary):hover { background: #ffffff; }
+
+@media (max-width: 640px) {
+  .cookie-banner-inner { flex-direction: column; align-items: stretch; gap: 12px; }
+  .cookie-banner-actions { justify-content: flex-end; }
+}
+
 /* Scroll progress bar (blog articles) */
 .scroll-progress {
   position: fixed;
@@ -1835,7 +1890,7 @@ img { max-width: 100%; }
 @media print {
   .site-header, .site-footer, .back-to-top, .skip-link, .scroll-progress,
   .dropzone, .actions-row, .btn, .copy-link-btn, .status-box,
-  .hero-ctas {
+  .hero-ctas, .cookie-banner {
     display: none !important;
   }
 

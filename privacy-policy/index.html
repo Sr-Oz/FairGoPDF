@@ -1,24 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KNCQ0MCB30"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-KNCQ0MCB30');
-</script>
-
-<!-- Microsoft Clarity -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "yj2448l98c");
-</script>
+<!-- Analytics/session-recording consent gate: loads Google Analytics and
+     Microsoft Clarity only after the visitor accepts the cookie banner.
+     See assets/consent.js and /privacy-policy/. -->
+<script src="/assets/consent.js"></script>
 
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.clarity.ms https://web3forms.com https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://hcaptcha.com https://*.hcaptcha.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.clarity.ms https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
@@ -26,17 +12,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Privacy Policy | FairGo PDF</title>
-<meta name="description" content="How FairGo PDF handles your data: your files are never uploaded, and the site currently collects no analytics.">
+<meta name="description" content="How FairGo PDF handles your data: your files are never uploaded. Optional analytics only load if you accept the cookie banner.">
 <link rel="canonical" href="https://fairgopdf.au/privacy-policy/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FairGo PDF">
 <meta property="og:title" content="Privacy Policy | FairGo PDF">
-<meta property="og:description" content="How FairGo PDF handles your data: your files are never uploaded, and the site currently collects no analytics.">
+<meta property="og:description" content="How FairGo PDF handles your data: your files are never uploaded. Optional analytics only load if you accept the cookie banner.">
 <meta property="og:url" content="https://fairgopdf.au/privacy-policy/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Privacy Policy | FairGo PDF">
-<meta name="twitter:description" content="How FairGo PDF handles your data: your files are never uploaded, and the site currently collects no analytics.">
+<meta name="twitter:description" content="How FairGo PDF handles your data: your files are never uploaded. Optional analytics only load if you accept the cookie banner.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
@@ -110,16 +96,36 @@
 
         <h2>Cookies and local storage</h2>
         <p>
-          The site does not set cookies. It uses your browser's local storage for exactly one thing,
-          remembering whether you've chosen dark or light mode, stored only on your device and never sent
-          anywhere. Nothing else is stored locally, and none of it is used to track you.
+          Local storage is used for two things, both stored only on your device and never sent anywhere:
+          remembering whether you've chosen dark or light mode, and remembering the choice you make on the
+          cookie banner. If you accept it, Google Analytics and Microsoft Clarity (see below) each set their
+          own cookies to recognise you as a returning visitor. Reject the banner, or just leave it there,
+          and neither one sets anything, nothing loads until you say yes.
         </p>
 
-        <h2>Analytics and advertising</h2>
+        <h2>Analytics and session recordings</h2>
         <p>
-          As of this writing, the site runs no analytics (no Google Analytics, no Plausible, no similar
-          service) and shows no ads. If that ever changes, this page will be updated first, and any
-          analytics added will be disclosed here along with what it collects.
+          This site uses two third-party services, and only after you accept the cookie banner shown on
+          your first visit (change your mind any time via "Cookie Preferences" in the footer):
+        </p>
+        <ul>
+          <li>
+            <strong>Google Analytics</strong> — page views, traffic sources, and general usage patterns
+            (which pages are popular, what device and browser visitors use). Governed by
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a>.
+          </li>
+          <li>
+            <strong>Microsoft Clarity</strong> — session recordings and heatmaps showing how visitors move
+            around and click on pages, so we can spot confusing bits of the interface. Governed by
+            <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft's
+            privacy statement</a>.
+          </li>
+        </ul>
+        <p>
+          Neither tool ever sees the files you process with this site's tools, that processing happens
+          entirely in your browser and is never transmitted anywhere, whatever you choose on the banner.
+          Rejecting, or simply not responding, means neither script loads at all, not just that tracking is
+          switched off after the fact. The site shows no ads.
         </p>
 
         <h2>Support payments</h2>
@@ -212,6 +218,7 @@
           <a href="/support/">Support Us</a>
           <a href="/partnerships/">Partner With Us</a>
           <a href="/contact/">Contact Us</a>
+          <a href="#" id="cookiePrefsLink">Cookie Preferences</a>
         </div>
         <div class="footer-col">
           <h5>Follow Us</h5>

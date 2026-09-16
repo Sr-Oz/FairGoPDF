@@ -1,7 +1,7 @@
 // Shared site-wide behaviors, loaded on every page (not just tool pages):
 // theme toggle, mobile nav toggle, back-to-top, scroll progress bar,
-// copy-link buttons, and the footer year. Every handler no-ops if its
-// target element isn't present on the current page.
+// copy-link buttons, the footer year, and the cookie preferences link.
+// Every handler no-ops if its target element isn't present on the page.
 
 (function themeToggle() {
   const btn = document.getElementById("themeToggle");
@@ -250,6 +250,15 @@
 (function footerYear() {
   const el = document.getElementById("year");
   if (el) el.textContent = new Date().getFullYear();
+})();
+
+(function cookiePreferences() {
+  const link = document.getElementById("cookiePrefsLink");
+  if (!link) return;
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (typeof window.reopenCookieBanner === "function") window.reopenCookieBanner();
+  });
 })();
 
 (function heroVideoMotion() {
