@@ -1575,6 +1575,7 @@ img { max-width: 100%; }
 .footer-mark-big {
   height: 112px;
   width: auto;
+  max-width: none;
   flex-shrink: 0;
   /* The source mark is solid brand green; invert it to white so it reads
      against the footer's own green background. */
@@ -1609,7 +1610,19 @@ img { max-width: 100%; }
 
 @media (max-width: 600px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .footer-bottom-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+  /* Same column widths as .footer-grid above, so grid-column 1 here lines
+     up under its grid-column 1 (the first tool column) and the logo can
+     centre within that, rather than under the whole (wider) box. */
+  .footer-bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .footer-mark-big, .footer-brand-text {
+    grid-column: 1;
+    justify-self: center;
+  }
+  .footer-brand-text { text-align: center; }
   .footer-mark-big { height: 84px; }
   .footer-brand-text p { white-space: normal; }
 }
