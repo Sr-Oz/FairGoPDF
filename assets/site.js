@@ -253,11 +253,11 @@
 })();
 
 (function cookiePreferences() {
-  const link = document.getElementById("cookiePrefsLink");
+  const link = document.getElementById("fgpConsentPrefsLink");
   if (!link) return;
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    if (typeof window.reopenCookieBanner === "function") window.reopenCookieBanner();
+    if (typeof window.reopenConsentBar === "function") window.reopenConsentBar();
   });
 })();
 

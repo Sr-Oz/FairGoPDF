@@ -1,9 +1,15 @@
-// Cookie consent gate for the two third-party trackers this site uses
-// (Google Analytics, Microsoft Clarity). Neither loads until the visitor
-// accepts; rejecting is remembered the same way accepting is, so the
-// banner doesn't nag on every page. See /privacy-policy/ for what each
-// tool collects. This file is intentionally dependency-free so it can run
-// as early as the old inline snippets did.
+// Consent gate for the two third-party trackers this site uses (Google
+// Analytics, Microsoft Clarity). Neither loads until the visitor accepts;
+// rejecting is remembered the same way accepting is, so the banner
+// doesn't nag on every page. See /privacy-policy/ for what each tool
+// collects. This file is intentionally dependency-free so it can run as
+// early as the old inline snippets did.
+//
+// Naming note: deliberately avoids generic "cookie-banner" / "cookie"
+// id and class names. Ad blockers with cosmetic-filter lists (Brave
+// Shields' "Block Cookie Consent Notices" among them) target exactly
+// those common patterns and will silently hide or dead-click a banner
+// that uses them.
 (function () {
   "use strict";
   var CONSENT_KEY = "cookieConsent"; // "accepted" | "rejected"
@@ -43,51 +49,51 @@
     loadClarity();
   }
 
-  function hideBanner() {
-    var el = document.getElementById("cookieBanner");
+  function hideBar() {
+    var el = document.getElementById("fgpConsentBar");
     if (el) el.remove();
   }
 
-  function buildBanner() {
-    if (document.getElementById("cookieBanner")) return;
+  function buildBar() {
+    if (document.getElementById("fgpConsentBar")) return;
     var wrap = document.createElement("div");
-    wrap.className = "cookie-banner";
-    wrap.id = "cookieBanner";
+    wrap.className = "fgp-consent-bar";
+    wrap.id = "fgpConsentBar";
     wrap.setAttribute("role", "region");
-    wrap.setAttribute("aria-label", "Cookie consent");
+    wrap.setAttribute("aria-label", "Analytics consent");
     wrap.innerHTML =
-      '<div class="container cookie-banner-inner">' +
+      '<div class="container fgp-consent-bar-inner">' +
         '<p>This site uses cookies for site analytics (Google Analytics) and session recordings (Microsoft Clarity), ' +
         "so we can see how visitors use FairGo PDF. Your files are never affected either way, they're always processed " +
         'locally on your device. See the <a href="/privacy-policy/">Privacy Policy</a> for what each collects.</p>' +
-        '<div class="cookie-banner-actions">' +
-          '<button type="button" class="btn secondary small" id="cookieRejectBtn">Reject</button>' +
-          '<button type="button" class="btn small" id="cookieAcceptBtn">Accept</button>' +
+        '<div class="fgp-consent-bar-actions">' +
+          '<button type="button" class="btn secondary small" id="fgpConsentReject">Reject</button>' +
+          '<button type="button" class="btn small" id="fgpConsentAccept">Accept</button>' +
         "</div>" +
       "</div>";
     document.body.appendChild(wrap);
 
-    document.getElementById("cookieAcceptBtn").addEventListener("click", function () {
+    document.getElementById("fgpConsentAccept").addEventListener("click", function () {
       setConsent("accepted");
-      hideBanner();
+      hideBar();
       loadTrackers();
     });
-    document.getElementById("cookieRejectBtn").addEventListener("click", function () {
+    document.getElementById("fgpConsentReject").addEventListener("click", function () {
       setConsent("rejected");
-      hideBanner();
+      hideBar();
     });
   }
 
-  function showBanner() {
-    if (document.body) buildBanner();
-    else document.addEventListener("DOMContentLoaded", buildBanner);
+  function showBar() {
+    if (document.body) buildBar();
+    else document.addEventListener("DOMContentLoaded", buildBar);
   }
 
-  // Lets a "Cookie preferences" link (in the footer) reopen the banner so
-  // a visitor can change their mind later, in either direction.
-  window.reopenCookieBanner = showBanner;
+  // Lets a "Cookie Preferences" link (in the footer) reopen the bar so a
+  // visitor can change their mind later, in either direction.
+  window.reopenConsentBar = showBar;
 
   var consent = getConsent();
   if (consent === "accepted") loadTrackers();
-  else if (consent !== "rejected") showBanner();
+  else if (consent !== "rejected") showBar();
 })();

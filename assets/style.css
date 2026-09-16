@@ -425,9 +425,9 @@ img { max-width: 100%; }
 .back-to-top:hover { background: var(--brand-dark); }
 
 /* Cookie consent banner */
-body:has(#cookieBanner) .back-to-top { bottom: 96px; }
+body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
 
-.cookie-banner {
+.fgp-consent-bar {
   position: fixed;
   left: 0;
   right: 0;
@@ -439,44 +439,44 @@ body:has(#cookieBanner) .back-to-top { bottom: 96px; }
   box-shadow: 0 -8px 24px -8px rgba(0, 0, 0, 0.25);
 }
 
-.cookie-banner-inner {
+.fgp-consent-bar-inner {
   display: flex;
   align-items: center;
   gap: 24px;
   padding: 16px 20px;
 }
 
-.cookie-banner p {
+.fgp-consent-bar p {
   margin: 0;
   font-size: 0.85rem;
   line-height: 1.5;
   opacity: 0.9;
 }
 
-.cookie-banner a { color: #fff9f2; text-decoration: underline; }
+.fgp-consent-bar a { color: #fff9f2; text-decoration: underline; }
 
-.cookie-banner-actions {
+.fgp-consent-bar-actions {
   display: flex;
   gap: 10px;
   flex-shrink: 0;
 }
 
-.cookie-banner .btn.secondary {
+.fgp-consent-bar .btn.secondary {
   background: transparent;
   border: 1px solid rgba(255, 249, 242, 0.4);
   color: #fff9f2;
 }
-.cookie-banner .btn.secondary:hover { background: rgba(255, 249, 242, 0.12); }
+.fgp-consent-bar .btn.secondary:hover { background: rgba(255, 249, 242, 0.12); }
 
-.cookie-banner .btn:not(.secondary) {
+.fgp-consent-bar .btn:not(.secondary) {
   background: #fff9f2;
   color: #004D40;
 }
-.cookie-banner .btn:not(.secondary):hover { background: #ffffff; }
+.fgp-consent-bar .btn:not(.secondary):hover { background: #ffffff; }
 
 @media (max-width: 640px) {
-  .cookie-banner-inner { flex-direction: column; align-items: stretch; gap: 12px; }
-  .cookie-banner-actions { justify-content: flex-end; }
+  .fgp-consent-bar-inner { flex-direction: column; align-items: stretch; gap: 12px; }
+  .fgp-consent-bar-actions { justify-content: flex-end; }
 }
 
 /* Scroll progress bar (blog articles) */
@@ -1890,7 +1890,7 @@ body:has(#cookieBanner) .back-to-top { bottom: 96px; }
 @media print {
   .site-header, .site-footer, .back-to-top, .skip-link, .scroll-progress,
   .dropzone, .actions-row, .btn, .copy-link-btn, .status-box,
-  .hero-ctas, .cookie-banner {
+  .hero-ctas, .fgp-consent-bar {
     display: none !important;
   }
 
