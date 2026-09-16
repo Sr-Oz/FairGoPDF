@@ -1,0 +1,8 @@
+This directory vendors files from Google's MediaPipe project
+(@mediapipe/tasks-vision, version 0.10.14) and MediaPipe Model Maker
+model assets (selfie_segmenter, blaze_face_short_range).
+
+Licensed under the Apache License, Version 2.0:
+http://www.apache.org/licenses/LICENSE-2.0
+
+Source: https://github.com/google-ai-edge/mediapipe
