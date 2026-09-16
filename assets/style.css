@@ -1474,26 +1474,33 @@ img { max-width: 100%; }
   .cursor { animation: none; }
 }
 
-/* Footer */
+/* Footer: a green "isolated box" sitting on the page's own background,
+   with a gold rule above it marking the seam from the content above. */
 .site-footer {
-  background: #004D40;
+  background: var(--bg);
   border-top: 4px solid var(--accent);
-  padding: 48px 0 32px;
+  padding: 48px 0;
   margin-top: 40px;
+}
+
+.footer-box {
+  background: #004D40;
+  border-radius: 28px;
+  padding: 48px;
   color: #fff9f2;
   font-size: 0.85rem;
 }
 
-
-.site-footer a { color: #fff9f2; opacity: 0.9; }
-.site-footer a:hover { opacity: 1; }
+.footer-box a { color: #fff9f2; opacity: 0.9; }
+.footer-box a:hover { opacity: 1; }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(5, 1fr);
   gap: 28px;
-  padding-bottom: 28px;
 }
+
+.footer-grid + .footer-grid { margin-top: 28px; }
 
 .footer-col h5 {
   margin: 0 0 14px;
@@ -1515,18 +1522,10 @@ img { max-width: 100%; }
   opacity: 0.95;
 }
 
-.footer-brand p {
-  margin: 0;
-  font-size: 0.85rem;
-  opacity: 0.85;
-  max-width: 30ch;
-}
-
 .footer-connect {
-  margin-top: 14px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
 .footer-au-badge { width: 40px; height: 40px; border-radius: 50%; display: block; flex-shrink: 0; }
@@ -1550,7 +1549,7 @@ img { max-width: 100%; }
 .footer-social a svg { width: 18px; height: 18px; display: block; }
 
 .footer-support-cta {
-  margin-top: 14px;
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1561,7 +1560,6 @@ img { max-width: 100%; }
   margin: 0;
   font-size: 0.85rem;
   opacity: 0.85;
-  max-width: 30ch;
 }
 
 .footer-support-cta .btn {
@@ -1574,8 +1572,8 @@ img { max-width: 100%; }
 .footer-bottom-row {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
   gap: 24px;
+  margin-top: 40px;
   padding-top: 28px;
   border-top: 1px solid rgba(255, 249, 242, 0.25);
 }
@@ -1590,11 +1588,17 @@ img { max-width: 100%; }
   opacity: 0.95;
 }
 
+.footer-brand-text p {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+  max-width: 42ch;
+}
+
 .footer-bottom {
   font-size: 0.8rem;
   line-height: 1.6;
   opacity: 0.85;
-  text-align: right;
 }
 
 .footer-bottom .attribution {
@@ -1602,17 +1606,16 @@ img { max-width: 100%; }
   white-space: nowrap;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+  .footer-box { padding: 36px 28px; }
   .footer-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
-  .footer-brand { grid-column: 1 / -1; }
 }
 
-@media (max-width: 480px) {
-  .footer-grid { grid-template-columns: 1fr; }
-  .footer-bottom-row { flex-direction: column-reverse; align-items: flex-start; gap: 16px; }
-  .footer-bottom { text-align: left; }
+@media (max-width: 600px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-bottom-row { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
 
 .spinner {
