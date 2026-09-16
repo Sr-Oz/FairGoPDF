@@ -48,11 +48,8 @@
     wrap.setAttribute("aria-label", "Analytics consent");
     wrap.innerHTML =
       '<div class="container fgp-consent-bar-inner">' +
-        "<p>We respect your privacy. This site doesn't track you or record your sessions, " +
-        "the only thing it optionally uses is Google Analytics, for website improvement purposes only " +
-        "(which pages get used, so we know what to fix or build next). Your files are never affected " +
-        'either way, they\'re always processed locally on your device. See the ' +
-        '<a href="/privacy-policy/">Privacy Policy</a> for details.</p>' +
+        "<p>We use analytics cookies to improve the site. See our " +
+        '<a href="/privacy-policy/">Privacy Policy</a>.</p>' +
         '<div class="fgp-consent-bar-actions">' +
           '<button type="button" class="btn secondary small" id="fgpConsentReject">Reject</button>' +
           '<button type="button" class="btn small" id="fgpConsentAccept">Accept</button>' +
