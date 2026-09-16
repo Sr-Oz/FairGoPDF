@@ -136,22 +136,6 @@
         <li>Download the result as a transparent PNG.</li>
       </ol>
     </section>
-
-    <section class="info-section">
-      <h2>Frequently asked questions</h2>
-      <details class="faq-item" open>
-        <summary>Does this upload my photo anywhere?</summary>
-        <p>No. The AI model runs entirely in your browser tab using WebAssembly. Your photo is never sent to a server, only the model itself is downloaded once and then cached by your browser.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Why is the first run slower?</summary>
-        <p>The segmentation model (a few hundred kilobytes) and the WebAssembly runtime it needs (a few megabytes) download the first time you use this tool. Your browser caches both, so it's much faster the next time.</p>
-      </details>
-      <details class="faq-item">
-        <summary>What kind of photos work best?</summary>
-        <p>Photos with one clear subject against a reasonably distinct background, portraits and product shots especially. Busy scenes with multiple overlapping subjects are harder for any segmentation model to get perfectly clean.</p>
-      </details>
-    </section>
   </div>
 </main>
 
