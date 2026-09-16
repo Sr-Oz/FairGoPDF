@@ -56,7 +56,6 @@ window.SEARCH_INDEX = [
   { title: "Social Media Cropper", url: "/social-media-cropper/", icon: "photo_size_select_large", desc: "Crop to exact Instagram/X/YouTube/LinkedIn/Facebook sizes", category: "Image Tool" },
   { title: "Collage Studio", url: "/collage-studio/", icon: "auto_awesome_mosaic", desc: "Drag, resize and rotate photos anywhere on a board, no fixed grid", category: "Image Tool" },
   { title: "Remove Background", url: "/remove-background/", icon: "background_replace", desc: "Cut a photo's background out using an on-device AI model", category: "Image Tool" },
-  { title: "Blur Faces in a Photo", url: "/blur-faces-image/", icon: "blur_on", desc: "Automatically find and blur faces before posting a photo", category: "Image Tool" },
   { title: "Remove Photo Metadata", url: "/remove-exif-data/", icon: "location_off", desc: "Strip EXIF and GPS data from photos, see what's hiding first", category: "Image Tool" },
   { title: "Colour Palette Generator", url: "/colour-palette-generator/", icon: "gradient", desc: "Pull the dominant colours out of a photo as hex codes", category: "Image Tool" },
 
