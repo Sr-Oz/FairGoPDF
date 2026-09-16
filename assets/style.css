@@ -442,17 +442,16 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
 .fgp-consent-bar-inner {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 24px;
   padding: 16px 20px;
 }
 
 .fgp-consent-bar p {
-  flex: 1;
   margin: 0;
   font-size: 0.85rem;
   line-height: 1.5;
   opacity: 0.9;
-  text-align: center;
 }
 
 .fgp-consent-bar a { color: #fff9f2; text-decoration: underline; }
