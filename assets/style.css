@@ -1492,9 +1492,14 @@ img { max-width: 100%; }
 .footer-box a { color: #fff9f2; opacity: 0.9; }
 .footer-box a:hover { opacity: 1; }
 
+/* minmax(0, 1fr), not plain 1fr: a bare 1fr track still won't shrink past
+   its content's min-content width, which would size .footer-grid's tracks
+   differently from .footer-bottom-row's (different content, same column
+   count) even though both say "repeat(5, 1fr)" — breaking the alignment
+   between the two. Forcing a 0 floor makes both purely proportional. */
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 28px;
 }
 
@@ -1565,22 +1570,32 @@ img { max-width: 100%; }
 
 .footer-support-cta .btn:hover { background: #ffffff; }
 
+/* Shares .footer-grid's own column tracks (redeclared alongside it at each
+   breakpoint below) so the logo lines up under column 1 and the text lines
+   up under column 2 ("Image Tools"), instead of the two just flowing one
+   after another at whatever width they happen to add up to. */
 .footer-bottom-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px;
+  align-items: end;
   margin-top: 40px;
 }
 
 .footer-mark-big {
+  grid-column: 1;
+  justify-self: start;
   height: 112px;
   width: auto;
   max-width: none;
-  flex-shrink: 0;
   /* The source mark is solid brand green; invert it to white so it reads
      against the footer's own green background. */
   filter: brightness(0) invert(1);
   opacity: 0.95;
+}
+
+.footer-brand-text {
+  grid-column: 2 / -1;
 }
 
 .footer-brand-text p {
@@ -1603,26 +1618,14 @@ img { max-width: 100%; }
 
 @media (max-width: 900px) {
   .footer-box { padding: 36px 28px; }
-  .footer-grid {
-    grid-template-columns: 1fr 1fr 1fr;
+  .footer-grid, .footer-bottom-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 600px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  /* Same column widths as .footer-grid above, so grid-column 1 here lines
-     up under its grid-column 1 (the first tool column) and the logo can
-     centre within that, rather than under the whole (wider) box. */
-  .footer-bottom-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .footer-mark-big, .footer-brand-text {
-    grid-column: 1;
-    justify-self: center;
-  }
-  .footer-brand-text { text-align: center; }
+  .footer-grid, .footer-bottom-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-bottom-row { gap: 16px; }
   .footer-mark-big { height: 84px; }
   .footer-brand-text p { white-space: normal; }
 }
