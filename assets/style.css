@@ -447,10 +447,12 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
 }
 
 .fgp-consent-bar p {
+  flex: 1;
   margin: 0;
   font-size: 0.85rem;
   line-height: 1.5;
   opacity: 0.9;
+  text-align: center;
 }
 
 .fgp-consent-bar a { color: #fff9f2; text-decoration: underline; }
