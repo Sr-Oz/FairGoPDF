@@ -64,7 +64,19 @@
   ];
 
   // Shorter labels used only in the fly-out (the tool pages/search keep their full names).
-  const MENU_LABELS = { "/alternate-mix-pages/": "Alternate & Mix" };
+  const MENU_LABELS = {
+    "/alternate-mix-pages/": "Alternate & Mix",
+    "/pdf-background-colour/": "Background Colour",
+    "/combine-pages-into-one/": "Combine Into One",
+    "/convert-image/": "Convert Image",
+    "/round-corners-image/": "Round Corners",
+    "/remove-exif-data/": "Remove Metadata",
+    "/colour-palette-generator/": "Colour Palette",
+    "/hash-generator/": "Hash / Checksum",
+    "/colour-picker/": "Colour Picker",
+    "/word-counter/": "Word Counter",
+    "/handwriting-worksheets/": "Handwriting Sheets",
+  };
 
   // Shared open/close state so moving between top-level items swaps the
   // panel instantly instead of fading two panels over each other.
