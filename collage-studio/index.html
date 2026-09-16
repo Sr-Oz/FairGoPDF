@@ -31,30 +31,6 @@
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
-<style>
-  /* This tool's editor needs the full container width for its 3-column
-     layout, so it opts out of the site-wide two-column tool-page grid.
-     Related tools / How it works stack full-width below instead of
-     sitting side by side, but keep the same card look (border, shadow,
-     padding) every other tool page uses, rather than going flat. */
-  .container:has(> .tool-workspace + .related-tools-section) { display: block; }
-  .container:has(> .tool-workspace + .related-tools-section) > .tool-workspace,
-  .container:has(> .tool-workspace + .related-tools-section) > .related-tools-section,
-  .container:has(> .tool-workspace + .related-tools-section) > .info-section {
-    grid-column: auto;
-    max-width: none;
-    margin: 0 0 32px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--bg);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 20px -10px rgba(0, 0, 0, 0.12);
-    padding: 32px;
-  }
-  .container:has(> .tool-workspace + .related-tools-section) > .related-tools-section,
-  .container:has(> .tool-workspace + .related-tools-section) > .info-section {
-    padding: 28px;
-  }
-</style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
