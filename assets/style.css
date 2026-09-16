@@ -22,11 +22,6 @@
   --max-width: 1080px;
   --font-heading: "Roboto Condensed", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --footer-gradient: linear-gradient(90deg, #FFD700 0%, #004D40 100%);
-  --band-bg: #1B1C1C;
-  --band-bg-alt: #262727;
-  --band-text: #f2f2f2;
-  --band-text-muted: #b9bdbc;
-  --band-border: #3a3b3b;
 }
 
 /* Dark mode: opt-in only, via the toggle in the header (adds
@@ -1479,85 +1474,6 @@ img { max-width: 100%; }
 
 .info-section li { margin-bottom: 6px; }
 
-/* Dark contrast band — a single full-width section styled with our own
-   dark tokens (see --band-* above), used sparingly for visual rhythm. */
-.dark-band {
-  --bg: var(--band-bg);
-  --bg-alt: var(--band-bg-alt);
-  --text: var(--band-text);
-  --text-muted: var(--band-text-muted);
-  --border: var(--band-border);
-  background: var(--band-bg);
-  color: var(--band-text);
-  padding: 56px 0;
-  margin: 48px 0 0;
-}
-
-.dark-band a { color: var(--accent); }
-.dark-band .info-section { border-top: none; margin-top: 0; padding-top: 0; }
-
-.dark-band-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 40px;
-  align-items: center;
-}
-
-.dark-band-grid .info-section {
-  border-top: none;
-  margin-top: 0;
-  padding-top: 0;
-}
-
-@media (max-width: 760px) {
-  .dark-band-grid { grid-template-columns: 1fr; }
-}
-
-.terminal-box {
-  background: #17130f;
-  border: 1px solid var(--band-border);
-  border-radius: var(--radius);
-  width: 100%;
-  max-width: 480px;
-  margin: 0;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-}
-
-@media (max-width: 760px) {
-  .terminal-box { max-width: 100%; }
-}
-
-.terminal-chrome {
-  display: flex;
-  gap: 6px;
-  padding: 10px 14px;
-  background: #221c17;
-  border-bottom: 1px solid var(--band-border);
-}
-
-.terminal-chrome .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.terminal-chrome .dot.red { background: #ff5f56; }
-.terminal-chrome .dot.yellow { background: #ffbd2e; }
-.terminal-chrome .dot.green { background: #27c93f; }
-
-.terminal-lines {
-  margin: 0;
-  padding: 20px 22px;
-  min-height: 108px;
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, Menlo, monospace;
-  font-size: 0.88rem;
-  line-height: 1.7;
-  color: var(--accent);
-  white-space: pre-wrap;
-  text-align: left;
-}
-
 .cursor {
   display: inline-block;
   animation: cursor-blink 1s step-end infinite;
@@ -1581,9 +1497,6 @@ img { max-width: 100%; }
   font-size: 0.85rem;
 }
 
-/* Used when the footer directly follows a .dark-band, so there's no gap
-   of body-background color between the two. */
-.site-footer.flush { margin-top: 0; }
 
 .site-footer a { color: #fff9f2; opacity: 0.9; }
 .site-footer a:hover { opacity: 1; }
@@ -1912,7 +1825,7 @@ img { max-width: 100%; }
 @media print {
   .site-header, .site-footer, .back-to-top, .skip-link, .scroll-progress,
   .dropzone, .actions-row, .btn, .copy-link-btn, .status-box,
-  .hero-ctas, .terminal-box {
+  .hero-ctas {
     display: none !important;
   }
 
