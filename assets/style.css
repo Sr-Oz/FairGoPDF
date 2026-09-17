@@ -104,6 +104,14 @@ img { max-width: 100%; }
   padding: 0 20px;
 }
 
+/* Wider cap for the homepage's tool-grid sections only, so cards fill
+   more of very wide screens instead of sitting in a narrow (--max-width)
+   column with large empty gutters either side. Everything else (tool
+   pages, blog prose, the footer) keeps the standard width. */
+.container-wide {
+  max-width: 1440px;
+}
+
 /* Header */
 .site-header {
   border-bottom: 1px solid var(--border);
