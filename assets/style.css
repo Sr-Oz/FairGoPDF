@@ -1636,7 +1636,7 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
   gap: 28px;
 }
 
-.footer-col h5 {
+.footer-col h3 {
   margin: 0 0 14px;
   font-size: 0.8rem;
   font-weight: 700;

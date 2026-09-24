@@ -1,0 +1,113 @@
+{
+  "redirects": [
+    {
+      "source": "/color-picker",
+      "destination": "/colour-picker/",
+      "permanent": true
+    },
+    {
+      "source": "/color-picker/",
+      "destination": "/colour-picker/",
+      "permanent": true
+    },
+    {
+      "source": "/image-color-filters",
+      "destination": "/image-colour-filters/",
+      "permanent": true
+    },
+    {
+      "source": "/image-color-filters/",
+      "destination": "/image-colour-filters/",
+      "permanent": true
+    },
+    {
+      "source": "/organize-pdf",
+      "destination": "/organise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/organize-pdf/",
+      "destination": "/organise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-background-color",
+      "destination": "/pdf-background-colour/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-background-color/",
+      "destination": "/pdf-background-colour/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-color-filters",
+      "destination": "/pdf-colour-filters/",
+      "permanent": true
+    },
+    {
+      "source": "/pdf-color-filters/",
+      "destination": "/pdf-colour-filters/",
+      "permanent": true
+    },
+    {
+      "source": "/posterize-pdf",
+      "destination": "/posterise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/posterize-pdf/",
+      "destination": "/posterise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/sanitize-pdf",
+      "destination": "/sanitise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/sanitize-pdf/",
+      "destination": "/sanitise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/organize-pdf-pages",
+      "destination": "/blog/organise-pdf-pages/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/organize-pdf-pages/",
+      "destination": "/blog/organise-pdf-pages/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/vendor/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/assets/video/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/assets/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    }
+  ]
+}
