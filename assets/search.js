@@ -62,9 +62,10 @@
     for (const entry of index) {
       const title = entry.title.toLowerCase();
       const desc = entry.desc.toLowerCase();
+      const alt = (entry.alt || "").toLowerCase();
       let score = -1;
       if (title.startsWith(q)) score = 3;
-      else if (title.includes(q)) score = 2;
+      else if (title.includes(q) || alt.includes(q)) score = 2;
       else if (desc.includes(q) || entry.category.toLowerCase().includes(q)) score = 1;
       if (score > 0) scored.push({ entry, score });
     }
