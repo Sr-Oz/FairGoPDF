@@ -1682,7 +1682,7 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
 
 .footer-badge {
   display: inline-block;
-  margin-top: 10px;
+  margin-bottom: 10px;
   line-height: 0;
 }
 .footer-badge img {
