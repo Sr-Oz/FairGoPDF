@@ -1680,6 +1680,18 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
   white-space: nowrap;
 }
 
+.footer-badge {
+  display: inline-block;
+  margin-top: 10px;
+  line-height: 0;
+}
+.footer-badge img {
+  display: block;
+  width: 150px;
+  max-width: 100%;
+  height: auto;
+}
+
 @media (max-width: 900px) {
   .footer-box { padding: 36px 28px; }
   .footer-grid, .footer-bottom-row {
