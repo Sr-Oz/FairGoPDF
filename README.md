@@ -181,6 +181,8 @@ Then open the printed local URL (e.g. `http://localhost:3000` or `http://localho
 ├── compress-image/index.html   # Each tool lives at its own clean URL
 ├── merge-pdf/index.html
 ├── ...
+├── partials/                    # Master copies of the shared header and footer
+├── scripts/sync-partials.py     # Copies the partials into every page (see CONTRIBUTING)
 └── .github/workflows/deploy.yml
 ```
 
