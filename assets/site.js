@@ -101,6 +101,7 @@
     const vw = document.documentElement.clientWidth;
     const vh = document.documentElement.clientHeight;
     if (!vw || !vh) return;
+    const navTop = nav.getBoundingClientRect().top;
     nav.querySelectorAll(".nav-flyout").forEach((p) => {
       p.classList.remove("nav-flyout--end");
       p.style.left = "";
@@ -127,7 +128,12 @@
         p.style.right = "auto";
       }
 
-      const absTop = Math.max(12, Math.min(itemRect.top, vh - 12 - ph));
+      // Prefer flush with the row that opened it; if a tall panel (e.g.
+      // PDF Tools' long "Organise" column) would run off the bottom, shift
+      // it up just enough to fit — but never past the box's own top edge,
+      // so it stays visually anchored to the box instead of floating above
+      // it, up near the header icons.
+      const absTop = Math.max(navTop, Math.min(itemRect.top, vh - 12 - ph));
       p.style.top = absTop - itemRect.top + "px";
     });
   };
