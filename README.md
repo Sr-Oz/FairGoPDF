@@ -79,6 +79,7 @@ https://fairgopdf.au/
 | PDF to Word | `/pdf-to-word/` | Turn a PDF into an editable Word document |
 | PDF Annotator | `/pdf-annotator/` | Highlight, freehand draw and add sticky notes |
 | PDF Scanner | `/pdf-scanner/` | Turn a photo of a document into a straightened PDF |
+| CBZ to PDF | `/cbz-to-pdf/` | Turn a CBZ comic book archive into a PDF |
 
 ### Utilities
 | Tool | URL | What it does |

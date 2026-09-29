@@ -51,6 +51,7 @@ window.SEARCH_INDEX = [
   { title: "PDF to Word", url: "/pdf-to-word/", icon: "swap_horiz", desc: "Turn a PDF into an editable Word (.docx) document", category: "PDF Tool" },
   { title: "PDF Annotator", url: "/pdf-annotator/", icon: "draw", desc: "Highlight text, freehand draw and add sticky notes to a PDF", category: "PDF Tool" },
   { title: "PDF Scanner", url: "/pdf-scanner/", icon: "document_scanner", desc: "Turn a photo of a document into a clean, straightened PDF using your camera", category: "PDF Tool" },
+  { title: "CBZ to PDF", url: "/cbz-to-pdf/", icon: "auto_stories", desc: "Turn a CBZ comic book archive into a PDF, reorder or drop pages first", category: "PDF Tool" },
 
   // Image tools
   { title: "Compress Image", url: "/compress-image/", icon: "compress", desc: "Reduce JPEG/PNG/WebP file size with a quality slider", category: "Image Tool" },
