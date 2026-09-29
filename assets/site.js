@@ -97,6 +97,7 @@
   // — unlike the old always-visible bar (where every trigger sat on the
   // same row, right under the header), triggers are now stacked rows in a
   // box, so a panel anchored to a lower row can run off the bottom.
+  const MIN_PANEL_WIDTH = 240; // roughly one column
   const positionPanels = () => {
     const vw = document.documentElement.clientWidth;
     const vh = document.documentElement.clientHeight;
@@ -104,30 +105,23 @@
     const navTop = nav.getBoundingClientRect().top;
     nav.querySelectorAll(".nav-flyout").forEach((p) => {
       p.classList.remove("nav-flyout--end");
-      p.style.left = "";
-      p.style.right = "";
       p.style.top = "";
-      p.style.maxWidth = vw - 24 + "px";
       const itemRect = p.closest(".nav-item").getBoundingClientRect();
-      const pw = p.offsetWidth;
+
+      // Cap the panel's width to whatever room its chosen side actually
+      // has *before* measuring it — otherwise a wide panel (PDF Tools' 6
+      // columns) lays out at close to full viewport width first, and then
+      // has to be shifted so far to stay on-screen that it ends up
+      // overlapping the box it belongs to. Capping first lets the columns
+      // (flex-wrap) stack onto extra rows instead, so the panel always
+      // stays fully beside the box rather than on top of it.
+      const availLeft = itemRect.left - 10 - 12;
+      const availRight = vw - itemRect.right - 10 - 12;
+      const openRight = availLeft < MIN_PANEL_WIDTH && availRight > availLeft;
+      if (openRight) p.classList.add("nav-flyout--end");
+      p.style.maxWidth = Math.max(MIN_PANEL_WIDTH, openRight ? availRight : availLeft) + "px";
+
       const ph = p.offsetHeight;
-
-      const fitsLeft = itemRect.left - pw - 10 >= 12;
-      const fitsRight = itemRect.right + pw + 10 <= vw - 12;
-      if (!fitsLeft) {
-        // Doesn't fit to the left: open to the right instead.
-        p.classList.add("nav-flyout--end");
-      }
-      if (!fitsLeft && !fitsRight) {
-        // Wide panel (e.g. PDF Tools' 6 columns), doesn't fit either side of
-        // this small box: clamp it within the viewport instead of letting
-        // it run off-screen. Absolute position first, then expressed
-        // relative to the item (what left/right are measured from).
-        const absLeft = Math.max(12, Math.min(itemRect.left, vw - 12 - pw));
-        p.style.left = absLeft - itemRect.left + "px";
-        p.style.right = "auto";
-      }
-
       // Prefer flush with the row that opened it; if a tall panel (e.g.
       // PDF Tools' long "Organise" column) would run off the bottom, shift
       // it up just enough to fit — but never past the box's own top edge,

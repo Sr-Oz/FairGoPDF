@@ -376,17 +376,19 @@ html.nav-js .nav-links > .nav-item > a:focus-visible {
 .icon-btn:hover { border-color: var(--brand); }
 .icon-btn .material-symbols-outlined { font-size: 1.2rem; }
 
+/* Icon-only, matching the search/theme/hamburger buttons it sits next
+   to — the label used to spell out "Shout a Coffee" but that's what the
+   aria-label and title are for. */
 .header-support-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
-  border-radius: 999px;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 8px;
   background: var(--brand);
   color: var(--brand-contrast);
-  font-weight: 700;
-  font-size: 0.85rem;
-  white-space: nowrap;
   transition: background 0.15s ease, transform 0.15s ease;
 }
 
@@ -396,20 +398,9 @@ html.nav-js .nav-links > .nav-item > a:focus-visible {
   transform: translateY(-1px);
 }
 
-.header-support-btn .material-symbols-outlined { font-size: 1.1rem; }
+.header-support-btn .material-symbols-outlined { font-size: 1.2rem; }
 
-/* Below 600px, collapse the header CTA to an icon-only button to match
-   the theme-toggle/hamburger buttons and avoid header overflow. */
-@media (max-width: 600px) {
-  .header-support-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    justify-content: center;
-    border-radius: 8px;
-  }
-  .header-support-btn-label { display: none; }
-}
+.header-support-btn-label { display: none; }
 
 /* Skip link: hidden until keyboard-focused */
 .skip-link {
