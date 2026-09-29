@@ -248,16 +248,38 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionPanels);
   }
 
+  const closeNav = () => {
+    nav.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+  };
+
   btn.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
     btn.setAttribute("aria-expanded", open ? "true" : "false");
   });
 
   nav.addEventListener("click", (e) => {
-    if (e.target.tagName === "A") {
-      nav.classList.remove("open");
-      btn.setAttribute("aria-expanded", "false");
-    }
+    if (e.target.tagName === "A") closeNav();
+  });
+
+  // Close the box itself once the pointer leaves the toggle+box cluster —
+  // same hover-intent delay as the flyouts, so moving from the button down
+  // into the box doesn't trip it, but leaving the area for good does.
+  const headerRight = btn.closest(".header-right");
+  let navCloseTimer = null;
+  if (headerRight) {
+    headerRight.addEventListener("mouseleave", () => {
+      navCloseTimer = setTimeout(closeNav, 220);
+    });
+    headerRight.addEventListener("mouseenter", () => clearTimeout(navCloseTimer));
+  }
+
+  // Also close on an outside click/tap, for keyboard and touch users who
+  // never trigger a mouseleave.
+  document.addEventListener("click", (e) => {
+    if (!nav.classList.contains("open")) return;
+    if (headerRight && headerRight.contains(e.target)) return;
+    closeNav();
   });
 
   document.addEventListener("keydown", (e) => {
@@ -273,8 +295,7 @@
       return;
     }
     if (nav.classList.contains("open")) {
-      nav.classList.remove("open");
-      btn.setAttribute("aria-expanded", "false");
+      closeNav();
       btn.focus();
     }
   });

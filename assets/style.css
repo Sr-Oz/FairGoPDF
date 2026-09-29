@@ -191,8 +191,11 @@ html.nav-js .icon-btn.nav-toggle { display: inline-flex; }
 html.nav-js .nav-links {
   display: none;
   position: absolute;
-  top: 64px;
-  right: 20px;
+  /* Anchored to .header-right (not .site-header, which is full-bleed) so
+     this sits precisely under the icon cluster regardless of how much
+     empty gutter the centred .container leaves on a wide viewport. */
+  top: calc(100% + 8px);
+  right: 0;
   left: auto;
   width: 220px;
   flex-direction: column;
@@ -210,12 +213,15 @@ html.nav-js .nav-links {
 }
 html.nav-js .nav-links.open { display: flex; }
 
-html.nav-js .nav-links > a {
+html.nav-js .nav-links > a,
+html.nav-js .nav-links > .nav-item > a {
   padding: 9px 10px;
   border-radius: 8px;
 }
 html.nav-js .nav-links > a:hover,
-html.nav-js .nav-links > a:focus-visible {
+html.nav-js .nav-links > a:focus-visible,
+html.nav-js .nav-links > .nav-item > a:hover,
+html.nav-js .nav-links > .nav-item > a:focus-visible {
   background: var(--bg-alt);
   color: var(--text);
 }
@@ -350,6 +356,7 @@ html.nav-js .nav-links > a:focus-visible {
   display: flex;
   align-items: center;
   gap: 16px;
+  position: relative;
 }
 
 .icon-btn {
