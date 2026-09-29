@@ -823,7 +823,7 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 55%, #7a1d0f 100%);
   color: #fff9f2;
   padding: 56px 40px;
-  margin: 8px 0 56px;
+  margin: 24px 0 56px;
 }
 
 .blog-hero::after {
@@ -852,7 +852,7 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   margin-bottom: 22px;
 }
 
-.blog-hero h2 {
+.blog-hero h1 {
   font-size: clamp(1.7rem, 4.2vw, 2.7rem);
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -862,8 +862,8 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   text-wrap: balance;
 }
 
-.blog-hero h2 a { color: inherit; }
-.blog-hero h2 a:hover { text-decoration: none; opacity: 0.9; }
+.blog-hero h1 a { color: inherit; }
+.blog-hero h1 a:hover { text-decoration: none; opacity: 0.9; }
 
 .blog-hero p {
   color: rgba(255, 249, 242, 0.88);
