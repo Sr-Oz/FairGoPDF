@@ -53,18 +53,18 @@
   if (!btn || !nav) return;
 
   // Marks that JS is driving the nav now, so the CSS can turn it from an
-  // always-visible stacked list (the no-JS baseline) into a hamburger-
-  // toggled dropdown. See the .nav-links rules in style.css.
+  // always-visible stacked list (the no-JS baseline) into a small
+  // hamburger-toggled box. See the .nav-links rules in style.css.
   document.documentElement.classList.add("nav-js");
 
   const index = window.SEARCH_INDEX;
 
-  // The order task-based groups appear in (matching the homepage's own
-  // sub-headings) — not the order tools happen to sit in search-data.js,
-  // which is roughly creation order.
+  // The order task-based groups appear in the fly-out (matching the
+  // homepage's own sub-headings) — not the order tools happen to sit in
+  // search-data.js, which is roughly creation order.
   const GROUP_ORDER = ["Organise", "Convert", "Edit & Design", "Forms & Signatures", "Protect & Privacy", "Fix & Optimise"];
 
-  // Shorter labels used only in this menu (the tool pages/search keep their full names).
+  // Shorter labels used only in the fly-out (the tool pages/search keep their full names).
   const MENU_LABELS = {
     "/alternate-mix-pages/": "Alternate & Mix",
     "/pdf-background-colour/": "Background Colour",
@@ -79,31 +79,98 @@
     "/handwriting-worksheets/": "Handwriting Sheets",
   };
 
-  function collapseAllPanels() {
-    nav.querySelectorAll(".nav-group-panel.open").forEach((p) => p.classList.remove("open"));
-    nav.querySelectorAll('.nav-chevron[aria-expanded="true"]').forEach((c) => c.setAttribute("aria-expanded", "false"));
-  }
+  // Shared open/close state so moving between rows swaps the panel
+  // instantly instead of fading two panels over each other.
+  let openWrap = null;
+  let closeTimer = null;
 
-  // Build one expand/collapse accordion panel per category link (PDF
-  // Tools/Image Tools/Utilities), inserted right after its .nav-link-row.
-  // Grouped categories (PDF Tools has a `group` on each entry) get a
-  // sub-heading per group; ungrouped ones (Image Tools, Utilities, which
-  // have no group data yet) just get a flat list — no need to fake columns
-  // here the way the old hover fly-out did, this is one scrollable column.
+  const closeWrap = (w) => {
+    w.classList.remove("open");
+    w.querySelector("a[aria-haspopup]").setAttribute("aria-expanded", "false");
+    if (openWrap === w) openWrap = null;
+    if (!openWrap) nav.classList.remove("flyouts-warm");
+  };
+
+  // Keep each panel on screen: prefer opening to the row's left (the
+  // hamburger box sits at the header's right edge, so that's normally the
+  // only side with room), fall back to the right, and clamp vertically too
+  // — unlike the old always-visible bar (where every trigger sat on the
+  // same row, right under the header), triggers are now stacked rows in a
+  // box, so a panel anchored to a lower row can run off the bottom.
+  const positionPanels = () => {
+    const vw = document.documentElement.clientWidth;
+    const vh = document.documentElement.clientHeight;
+    if (!vw || !vh) return;
+    nav.querySelectorAll(".nav-flyout").forEach((p) => {
+      p.classList.remove("nav-flyout--end");
+      p.style.left = "";
+      p.style.right = "";
+      p.style.top = "";
+      p.style.maxWidth = vw - 24 + "px";
+      const itemRect = p.closest(".nav-item").getBoundingClientRect();
+      const pw = p.offsetWidth;
+      const ph = p.offsetHeight;
+
+      const fitsLeft = itemRect.left - pw - 10 >= 12;
+      const fitsRight = itemRect.right + pw + 10 <= vw - 12;
+      if (!fitsLeft) {
+        // Doesn't fit to the left: open to the right instead.
+        p.classList.add("nav-flyout--end");
+      }
+      if (!fitsLeft && !fitsRight) {
+        // Wide panel (e.g. PDF Tools' 6 columns), doesn't fit either side of
+        // this small box: clamp it within the viewport instead of letting
+        // it run off-screen. Absolute position first, then expressed
+        // relative to the item (what left/right are measured from).
+        const absLeft = Math.max(12, Math.min(itemRect.left, vw - 12 - pw));
+        p.style.left = absLeft - itemRect.left + "px";
+        p.style.right = "auto";
+      }
+
+      const absTop = Math.max(12, Math.min(itemRect.top, vh - 12 - ph));
+      p.style.top = absTop - itemRect.top + "px";
+    });
+  };
+
+  const openMenu = (w) => {
+    clearTimeout(closeTimer);
+    if (openWrap && openWrap !== w) {
+      // Another menu is already up: drop it now (no fade-out) and keep
+      // the nav "warm" so the new panel appears without the slide-in.
+      openWrap.classList.remove("open");
+      openWrap.querySelector("a[aria-haspopup]").setAttribute("aria-expanded", "false");
+    }
+    positionPanels();
+    nav.classList.add("flyouts-warm");
+    w.classList.add("open");
+    w.querySelector("a[aria-haspopup]").setAttribute("aria-expanded", "true");
+    openWrap = w;
+  };
+
+  const scheduleClose = (w) => {
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => closeWrap(w), 220);
+  };
+
+  // Wrap each category row (PDF Tools/Image Tools/Utilities) with its
+  // fly-out sub-menu, built from SEARCH_INDEX. Grouped categories (PDF
+  // Tools has a `group` on each entry) get one labelled column per group;
+  // ungrouped ones (Image Tools, Utilities, no group data yet) split
+  // evenly into 2-4 anonymous columns of up to ~10 items, same as before.
   if (Array.isArray(index)) {
-    nav.querySelectorAll(".nav-link-row[data-category]").forEach((row) => {
-      const category = row.dataset.category;
+    nav.querySelectorAll("a[data-category]").forEach((link) => {
+      const category = link.dataset.category;
       const items = index.filter((e) => e.category === category);
-      const chevron = row.querySelector(".nav-chevron");
-      if (!items.length || !chevron) return;
+      if (!items.length) return;
 
-      const link = row.querySelector("a");
-      const panelId = "navPanel-" + category.replace(/\s+/g, "-");
-      const panel = document.createElement("div");
-      panel.className = "nav-group-panel";
-      panel.id = panelId;
+      const wrap = document.createElement("div");
+      wrap.className = "nav-item has-flyout";
+      link.replaceWith(wrap);
+      wrap.appendChild(link);
+      link.setAttribute("aria-haspopup", "true");
+      link.setAttribute("aria-expanded", "false");
 
-      let groups;
+      let blocks;
       if (items.some((e) => e.group)) {
         const order = [];
         const byGroup = new Map();
@@ -119,61 +186,97 @@
           if (ib === -1) return -1;
           return ia - ib;
         });
-        groups = order.map((g) => ({ title: g || null, items: byGroup.get(g) }));
+        blocks = order.map((g) => ({ title: g || null, items: byGroup.get(g) }));
       } else {
-        groups = [{ title: null, items }];
+        const numCols = Math.min(4, Math.max(2, Math.ceil(items.length / 10)));
+        const perCol = Math.ceil(items.length / numCols);
+        blocks = [];
+        for (let c = 0; c < numCols; c++) {
+          blocks.push({ title: null, items: items.slice(c * perCol, c * perCol + perCol) });
+        }
       }
 
-      groups.forEach((group) => {
-        if (group.title) {
+      const panel = document.createElement("div");
+      panel.className = "nav-flyout";
+      const groupsWrap = document.createElement("div");
+      groupsWrap.className = "nav-flyout-groups";
+      blocks.forEach((block) => {
+        if (!block.items.length) return;
+        const col = document.createElement("div");
+        col.className = "nav-flyout-group";
+        if (block.title) {
           const h = document.createElement("div");
-          h.className = "nav-subgroup-title";
-          h.textContent = group.title;
-          panel.appendChild(h);
+          h.className = "nav-flyout-group-title";
+          h.textContent = block.title;
+          col.appendChild(h);
         }
-        group.items.forEach((e) => {
+        block.items.forEach((e) => {
           const a = document.createElement("a");
           a.href = e.url;
-          a.textContent = MENU_LABELS[e.url] || e.title;
-          panel.appendChild(a);
+          if (e.icon) {
+            const ic = document.createElement("span");
+            ic.className = "material-symbols-outlined nav-flyout-icon";
+            ic.setAttribute("aria-hidden", "true");
+            ic.textContent = e.icon;
+            a.appendChild(ic);
+          }
+          a.appendChild(document.createTextNode(MENU_LABELS[e.url] || e.title));
+          col.appendChild(a);
         });
+        groupsWrap.appendChild(col);
       });
-
+      panel.appendChild(groupsWrap);
       const all = document.createElement("a");
       all.href = link.getAttribute("href");
-      all.className = "nav-view-all";
+      all.className = "nav-flyout-all";
       all.textContent = "View all " + link.textContent.trim() + " →";
       panel.appendChild(all);
+      wrap.appendChild(panel);
 
-      row.insertAdjacentElement("afterend", panel);
-      chevron.setAttribute("aria-controls", panelId);
-      chevron.addEventListener("click", () => {
-        const open = panel.classList.toggle("open");
-        chevron.setAttribute("aria-expanded", open ? "true" : "false");
+      // Hover-intent: open on enter, close on a short delay so the pointer
+      // can cross the gap between the trigger and the detached panel, and
+      // so moving to an adjacent row swaps the panel rather than closing.
+      wrap.addEventListener("mouseenter", () => openMenu(wrap));
+      wrap.addEventListener("mouseleave", () => scheduleClose(wrap));
+      wrap.addEventListener("focusin", () => openMenu(wrap));
+      wrap.addEventListener("focusout", (e) => {
+        if (!wrap.contains(e.relatedTarget)) closeWrap(wrap);
       });
     });
+
+    window.addEventListener("resize", positionPanels);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionPanels);
   }
 
   btn.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
     btn.setAttribute("aria-expanded", open ? "true" : "false");
-    if (!open) collapseAllPanels();
   });
 
   nav.addEventListener("click", (e) => {
     if (e.target.tagName === "A") {
       nav.classList.remove("open");
       btn.setAttribute("aria-expanded", "false");
-      collapseAllPanels();
     }
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape" || !nav.classList.contains("open")) return;
-    nav.classList.remove("open");
-    btn.setAttribute("aria-expanded", "false");
-    collapseAllPanels();
-    btn.focus();
+    if (e.key !== "Escape") return;
+    const active = document.activeElement;
+    // Only back out to the trigger when focus is inside the flyout panel
+    // itself — if focus is already on the trigger, closest(".nav-item")
+    // would match forever and Escape could never reach the nav below.
+    const insideFlyout = active && active.closest && active.closest(".nav-flyout");
+    if (insideFlyout) {
+      const trigger = insideFlyout.closest(".nav-item").querySelector("a[aria-haspopup]");
+      if (trigger) trigger.focus();
+      return;
+    }
+    if (nav.classList.contains("open")) {
+      nav.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+      btn.focus();
+    }
   });
 })();
 
