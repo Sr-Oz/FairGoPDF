@@ -191,9 +191,8 @@ img { max-width: 100%; }
   /* Detached from the header by a gap so it reads as its own separate
      layer (like iLovePDF), not something bleeding into the page. */
   margin-top: 10px;
-  display: grid;
-  grid-template-columns: repeat(var(--cols, 2), 186px);
-  gap: 2px 6px;
+  display: flex;
+  flex-direction: column;
   max-width: calc(100vw - 24px);
   max-height: calc(100vh - 80px);
   overflow: hidden auto;
@@ -240,6 +239,33 @@ img { max-width: 100%; }
   .nav-flyout { transition: opacity 0.12s ease, visibility 0.12s; transform: none; }
 }
 
+.nav-flyout-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+  /* Without this, being nested in an absolutely-positioned shrink-to-fit
+     parent leaves the browser free to size this flex row by its narrowest
+     (min-content) width, wrapping every group onto its own line instead of
+     laying them out side by side up to .nav-flyout's own max-width cap. */
+  width: max-content;
+  max-width: 100%;
+}
+
+.nav-flyout-group {
+  display: flex;
+  flex-direction: column;
+  width: 186px;
+}
+
+.nav-flyout-group-title {
+  padding: 8px 10px 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
 .nav-flyout a {
   display: flex;
   align-items: flex-start;
@@ -274,7 +300,6 @@ img { max-width: 100%; }
 }
 
 .nav-flyout-all {
-  grid-column: 1 / -1;
   margin-top: 4px;
   padding-top: 10px !important;
   border-top: 1px solid var(--border);
@@ -683,6 +708,23 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: 0.85rem;
+}
+
+/* Sub-heading splitting a large section-title group (PDF tools) into
+   task-based clusters (Organise, Convert, ...). Bordered and title-case so it
+   doesn't get lost next to .section-title's shoutier uppercase label. */
+.tool-subgroup-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 28px 0 12px;
+  padding-top: 16px;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+}
+.section-title + .tool-subgroup-title {
+  margin-top: 4px;
+  padding-top: 0;
+  border-top: none;
 }
 
 .tool-grid {
