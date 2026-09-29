@@ -703,28 +703,36 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
 .section-title {
   font-size: 1.1rem;
   font-weight: 700;
-  margin: 40px 0 16px;
+  margin: 48px 0 16px;
+  padding-top: 32px;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+/* The divider belongs between PDF tools / Image tools / Utilities, not
+   above the very first one, right under the trust-signals row. */
+.section-title:first-of-type {
+  margin-top: 40px;
+  padding-top: 0;
+  border-top: none;
 }
 
 /* Sub-heading splitting a large section-title group (PDF tools) into
-   task-based clusters (Organise, Convert, ...). Bordered and title-case so it
-   doesn't get lost next to .section-title's shoutier uppercase label. */
+   task-based clusters (Organise, Convert, ...). Deliberately lighter than
+   .section-title (smaller, muted, no border) so the PDF tools / Image tools
+   / Utilities split still reads as the main hierarchy, and Organise/Convert/
+   etc. clearly sit a level below it, not the other way around. */
 .tool-subgroup-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin: 28px 0 12px;
-  padding-top: 16px;
-  color: var(--text);
-  border-top: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin: 20px 0 10px;
+  color: var(--text-muted);
+  opacity: 0.85;
 }
 .section-title + .tool-subgroup-title {
   margin-top: 4px;
-  padding-top: 0;
-  border-top: none;
 }
 
 .tool-grid {
