@@ -1783,16 +1783,26 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   white-space: nowrap;
 }
 
+.footer-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+}
 .footer-badge {
   display: inline-block;
-  margin-bottom: 10px;
   line-height: 0;
 }
 .footer-badge img {
   display: block;
   width: 150px;
+  height: 50px;
   max-width: 100%;
-  height: auto;
+  /* Both badges arrive at their own native aspect ratio (SaaSHub 3:1,
+     Product Hunt ~4.6:1) — contain keeps each one undistorted inside a
+     shared 150x50 footprint instead of stretching to fill it. */
+  object-fit: contain;
 }
 
 @media (max-width: 900px) {
