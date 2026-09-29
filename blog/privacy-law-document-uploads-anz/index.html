@@ -6,22 +6,22 @@
 <meta name="author" content="The Dato Family Labs">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Why does my PDF file size keep growing? | FairGo PDF</title>
-<meta name="description" content="The real reasons a PDF balloons in size every time it's edited or re-saved, and how to actually fix it instead of just living with it.">
-<link rel="canonical" href="https://fairgopdf.au/blog/why-pdf-file-size-keeps-growing/">
+<title>What AU/NZ privacy law says about uploading documents | FairGo PDF</title>
+<meta name="description" content="The Privacy Act, the Australian Privacy Principles and NZ's Privacy Act 2020 all say something about where your files end up. What actually applies when you use an online document tool.">
+<link rel="canonical" href="https://fairgopdf.au/blog/privacy-law-document-uploads-anz/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="FairGo PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="Why does my PDF file size keep growing?">
-<meta property="og:description" content="The real reasons a PDF balloons in size every time it's edited or re-saved, and how to fix it.">
-<meta property="og:url" content="https://fairgopdf.au/blog/why-pdf-file-size-keeps-growing/">
+<meta property="og:title" content="What Australian and NZ privacy law says about uploading your documents online">
+<meta property="og:description" content="The Privacy Act, the Australian Privacy Principles and NZ's Privacy Act 2020 all say something about where your files end up. What actually applies when you use an online document tool.">
+<meta property="og:url" content="https://fairgopdf.au/blog/privacy-law-document-uploads-anz/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="FairGo PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Why does my PDF file size keep growing?">
-<meta name="twitter:description" content="The real reasons a PDF balloons in size every time it's edited or re-saved, and how to fix it.">
+<meta name="twitter:title" content="What Australian and NZ privacy law says about uploading your documents online">
+<meta name="twitter:description" content="The Privacy Act, the Australian Privacy Principles and NZ's Privacy Act 2020 all say something about where your files end up, what actually applies when you use an online document tool.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,16 +36,19 @@
 {"@context":"https://schema.org","@type":"BlogPosting",
 "author":{"@type":"Organization","name":"The Dato Family Labs"},
 "publisher":{"@type":"Organization","name":"The Dato Family Labs"},
-"headline":"Why does my PDF file size keep growing?",
-"datePublished":"2026-08-14","dateModified":"2026-08-14",
-"description":"The real reasons a PDF balloons in size every time it's edited or re-saved, and how to fix it.",
-"mainEntityOfPage":"https://fairgopdf.au/blog/why-pdf-file-size-keeps-growing/"}
+"headline":"What Australian and NZ privacy law says about uploading your documents online",
+"datePublished":"2026-09-29","dateModified":"2026-09-29",
+"description":"The Privacy Act, the Australian Privacy Principles and NZ's Privacy Act 2020 all say something about where your files end up. What actually applies when you use an online document tool, and why it matters more for businesses than individuals.",
+"mainEntityOfPage":"https://fairgopdf.au/blog/privacy-law-document-uploads-anz/"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-  {"@type":"Question","name":"Does deleting content from a PDF automatically shrink the file?","acceptedAnswer":{"@type":"Answer","text":"Not always. Some editors mark content as deleted without immediately rewriting the file, leaving the old data in place. A clean re-save (or running it through a tool like Quick clean) is often needed to actually reclaim the space."}},
-  {"@type":"Question","name":"Why did my file get bigger after I merged several PDFs?","acceptedAnswer":{"@type":"Answer","text":"Because merging concatenates the source files' content, including whatever overhead each one already carried. If the sources were inefficient, that carries straight over into the merged file, running a compression pass afterward can clean it up."}},
-  {"@type":"Question","name":"Can I see which page is taking up the most space in a PDF?","acceptedAnswer":{"@type":"Answer","text":"Not with this site's tools currently, there's no page-by-page size breakdown. As a rough heuristic, image-heavy or scanned pages are almost always the biggest contributors, far more than text-only pages."}}
+{"@type":"Question","name":"Does privacy law apply to me if I'm a sole trader or freelancer?",
+"acceptedAnswer":{"@type":"Answer","text":"In Australia, it depends on turnover: businesses with annual turnover of AU$3 million or less are generally exempt from the Privacy Act, unless they're in a category that's excluded from the exemption, such as health service providers or businesses that trade in personal information. In New Zealand, the Privacy Act 2020 has no small business exemption, it applies to every organisation that holds personal information, regardless of size."}},
+{"@type":"Question","name":"Is it illegal to use a free online PDF tool under privacy law?",
+"acceptedAnswer":{"@type":"Answer","text":"Not automatically, no. Using a tool that uploads a file containing personal information isn't itself an offence, but if it counts as a disclosure of personal information overseas, it can trigger obligations under APP 8 in Australia or IPP 12 in New Zealand, obligations that are easy to miss if you haven't checked where the tool actually processes your file."}},
+{"@type":"Question","name":"Is this article legal advice?",
+"acceptedAnswer":{"@type":"Answer","text":"No. It's a general explanation of how these laws work, written for people who aren't lawyers. If you handle other people's personal information as part of your work and you're unsure of your specific obligations, it's worth a conversation with a privacy professional or the OAIC/Office of the Privacy Commissioner directly."}}
 ]}
 </script>
 </head>
@@ -83,110 +86,138 @@
 <div class="scroll-progress" id="scrollProgress"></div>
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span><span class="current">PDF File Size</span>
+      <a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span><span class="current">Privacy law &amp; uploads</span>
     </nav>
 
     <div class="tool-page-header">
-      <h1>Why does my PDF file size keep growing?</h1>
+      <h1>What Australian and NZ privacy law says about uploading your documents online</h1>
     </div>
 
     <div class="tool-workspace" style="max-width: 720px;">
-      <p class="byline">Published 14 August 2026 · 5 min read</p>
+      <p class="byline">Published 29 September 2026 · 6 min read</p>
       <button class="copy-link-btn" type="button">
         <span class="material-symbols-outlined" aria-hidden="true">link</span>
         <span class="copy-link-label">Copy link</span>
       </button>
       <section class="info-section" style="margin-top:0; border-top:none; padding-top:0;">
         <p>
-          A PDF starts out reasonably sized, and then every time it gets edited, signed, or re-saved,
-          it somehow gets a little bigger, even when nothing about it looks different. This isn't
-          your imagination, and it isn't random. There are a small number of concrete, well-understood
-          causes.
+          Most people think of privacy law as something that matters during a big data breach, not
+          when they're merging two PDFs before lunch. But the moment a document containing someone's
+          name, address, signature or account details leaves your device, you may have triggered
+          obligations under the Privacy Act 1988 or New Zealand's Privacy Act 2020, whether or not you
+          meant to. This is a plain-language walk-through of what actually applies, aimed at people
+          who aren't lawyers, not a substitute for advice from one.
         </p>
 
-        <h2>The usual suspects</h2>
-        <ul>
-          <li><strong>Incremental updates that never get cleaned up.</strong> The PDF format supports
-            appending changes to the end of a file rather than rewriting the whole thing, many editors
-            do this by default because it's faster to save. The catch is that old, superseded versions
-            of the content can be left sitting inside the file, invisible to you but still taking up
-            space, until something does a full rewrite.</li>
-          <li><strong>Full-resolution images where a smaller one would do.</strong> A photo straight off
-            a modern phone camera can be many megabytes. Embedding it at full size in a PDF that only
-            displays it at a fraction of that resolution wastes most of that data.</li>
-          <li><strong>Duplicate embedded fonts.</strong> If a document is assembled from several sources
-            (say, several merged PDFs, or pages added at different times), and each one embeds its own
-            copy of the same font rather than sharing one, that adds up.</li>
-          <li><strong>Merging without cleaning up afterward.</strong> Combining several PDFs
-            concatenates their content, overhead included, a merged file inherits every inefficiency
-            of every source file.</li>
-        </ul>
-
-        <h2>Why this catches people off guard</h2>
+        <h2>What counts as "personal information" in a document</h2>
         <p>
-          The frustrating part is that none of these causes are visible from looking at the document.
-          A PDF that looks identical to the version from three edits ago can be noticeably larger,
-          because the size increase is happening in data that never gets displayed, old revisions,
-          redundant font copies, full-resolution image data hiding behind a smaller on-page display
-          size. Two PDFs that look the same on screen can differ in size by an order of magnitude
-          depending entirely on how they were produced and how many times they've been re-saved.
+          Both countries define it broadly. Australia's Privacy Act 1988 covers any information about
+          an identified or reasonably identifiable individual. New Zealand's Privacy Act 2020 uses
+          almost identical wording. In practice, that covers most of what a normal business document
+          contains: a client's name and address, a signature, a phone number, a bank account or tax
+          file number, medical or employment detail. A single scanned tenancy application or client
+          intake form can easily contain half a dozen categories of personal information at once.
         </p>
 
-        <h2>A rough way to tell what's actually taking up the space</h2>
+        <h2>Australia: the Privacy Act and the Australian Privacy Principles</h2>
         <p>
-          Without a dedicated inspector, the most reliable heuristic is simple: compare page count to
-          file size. A 50-page contract that's mostly typed text should be a few hundred kilobytes to
-          a couple of megabytes at most. If a similarly-sized document is instead tens of megabytes,
-          scanned or embedded images are almost certainly the reason, text alone rarely accounts for
-          that kind of size.
+          The Privacy Act 1988 is enforced through 13 Australian Privacy Principles (APPs), overseen
+          by the Office of the Australian Information Commissioner (OAIC). The one that matters most
+          for online tools is <strong>APP 8, cross-border disclosure</strong>. Before an organisation
+          discloses personal information to someone overseas, including an overseas server that a
+          tool uploads a file to, it generally has to take reasonable steps to ensure that recipient
+          doesn't breach the APPs, or fall back on the specific exceptions the Act allows. Uploading a
+          client's document to a PDF tool hosted on a server outside Australia can count as exactly
+          that kind of disclosure, even if nobody at the company ever opens the file.
+        </p>
+        <p>
+          There's an important carve-out: businesses with annual turnover of AU$3 million or less are
+          generally exempt from the Privacy Act, unless they fall into an excluded category such as
+          health service providers or businesses that trade in personal information. If that exemption
+          applies to you, the Act itself doesn't bind you, though reform proposals to narrow or remove
+          the small business exemption have been under discussion for several years, so it's worth
+          checking current guidance rather than assuming it always will.
         </p>
 
-        <h2>Fixing it</h2>
+        <h2>New Zealand: the Privacy Act 2020</h2>
         <p>
-          <a href="/compress-pdf/">Compress PDF</a> addresses both major causes, and it's worth
-          matching the mode to the cause:
+          New Zealand's equivalent is built around 13 Information Privacy Principles (IPPs). IPP 12
+          covers disclosure of personal information outside New Zealand, and works on a similar logic
+          to Australia's APP 8: an agency generally needs to be satisfied the overseas recipient is
+          subject to comparable privacy safeguards, or that a specific exception applies, before
+          sending personal information offshore. The notable difference from Australia is that New
+          Zealand's Privacy Act 2020 has <strong>no small business exemption</strong>. It applies to
+          every agency that holds personal information, a sole trader with one client file is covered
+          the same as a large company.
         </p>
-        <ul>
-          <li>If the bloat is from repeated editing and leftover incremental-update data,
-            <strong>Quick clean</strong> re-saves the file's internal structure more efficiently
-            without touching any content, text stays selectable.</li>
-          <li>If the bloat is from large embedded images or scans, <strong>Strong compression</strong>
-            re-renders each page at a resolution and quality you choose, which is where the real size
-            reduction happens for image-heavy files.</li>
-          <li>If you're not sure which cause applies, try Quick clean first, it's the lower-risk
-            option, and if the file is still much larger than it should be afterward, that's a good
-            sign the real cause is embedded images rather than leftover edit history.</li>
-        </ul>
+
+        <h2>Why this catches more people than expect it to</h2>
+        <p>
+          A bookkeeper merging a client's monthly bank statements. A property manager redacting a
+          tenant's driver's licence number before forwarding an application. A small law firm
+          splitting a signed contract bundle into individual exhibits. None of these feel like "data
+          disclosure" in the way a headline-making breach does, but if the tool doing the work uploads
+          the file to a server, and that server sits overseas, it can be exactly the kind of
+          cross-border disclosure APP 8 and IPP 12 are about. Most people reach for whichever tool
+          shows up first in search results and never check where it actually processes the file.
+        </p>
+
+        <h2>Where processing happens is the whole question</h2>
+        <p>
+          This is a technical point, not a legal one, but it's the one that makes the legal question
+          disappear: if a file never leaves your device, there's no disclosure to assess in the first
+          place. Every tool on this site, from <a href="/redact-pdf/">redacting a PDF</a> to
+          <a href="/merge-pdf/">merging several into one</a>, runs entirely in your browser tab using
+          your device's own memory. Nothing is uploaded, so there's no overseas server in the picture
+          to worry about under APP 8 or IPP 12. It doesn't remove your other privacy obligations, how
+          you store and eventually delete the file is still on you, but it takes the cross-border
+          upload question off the table entirely.
+        </p>
 
         <div class="cta-box">
-          <p>Ready to shrink a bloated PDF?</p>
-          <a class="btn" href="/compress-pdf/">Open Compress PDF</a>
+          <p>Process a document without it leaving your device</p>
+          <a class="btn" href="/">Browse the tools</a>
         </div>
 
         <h2>Frequently asked questions</h2>
         <details class="faq-item" open>
-          <summary>Does deleting content from a PDF automatically shrink the file?</summary>
-          <p>Not always. Some editors mark content as deleted without immediately rewriting the file,
-            leaving the old data in place. A clean re-save (or running it through a tool like Quick
-            clean) is often needed to actually reclaim the space.</p>
+          <summary>Does privacy law apply to me if I'm a sole trader or freelancer?</summary>
+          <p>In Australia, it depends on turnover: businesses with annual turnover of AU$3 million or
+            less are generally exempt from the Privacy Act, unless they're in a category that's
+            excluded from the exemption, such as health service providers or businesses that trade in
+            personal information. In New Zealand, the Privacy Act 2020 has no small business
+            exemption, it applies to every organisation that holds personal information, regardless of
+            size.</p>
         </details>
         <details class="faq-item">
-          <summary>Why did my file get bigger after I merged several PDFs?</summary>
-          <p>Because merging concatenates the source files' content, including whatever overhead each
-            one already carried. If the sources were inefficient, that carries straight over into the
-            merged file, running a compression pass afterward can clean it up.</p>
+          <summary>Is it illegal to use a free online PDF tool under privacy law?</summary>
+          <p>Not automatically, no. Using a tool that uploads a file containing personal information
+            isn't itself an offence, but if it counts as a disclosure of personal information
+            overseas, it can trigger obligations under APP 8 in Australia or IPP 12 in New Zealand,
+            obligations that are easy to miss if you haven't checked where the tool actually processes
+            your file.</p>
         </details>
         <details class="faq-item">
-          <summary>Can I see which page is taking up the most space in a PDF?</summary>
-          <p>Not with this site's tools currently, there's no page-by-page size breakdown. As a rough
-            heuristic, image-heavy or scanned pages are almost always the biggest contributors, far
-            more than text-only pages.</p>
+          <summary>Is this article legal advice?</summary>
+          <p>No. It's a general explanation of how these laws work, written for people who aren't
+            lawyers. If you handle other people's personal information as part of your work and you're
+            unsure of your specific obligations, it's worth a conversation with a privacy professional
+            or the OAIC/Office of the Privacy Commissioner directly.</p>
         </details>
 
         <h2>Related guides</h2>
         <ul>
           <li><a href="/blog/is-it-safe-free-online-pdf-tools/">Is it safe to use free online PDF tools?</a></li>
-          <li><a href="/blog/pdf-vs-jpg-scanned-documents/">PDF vs JPG: which should you use for scanned documents?</a></li>
+          <li><a href="/blog/share-less-personal-information-online/">Why you should share less personal information online</a></li>
+          <li><a href="/blog/pdf-tools-across-anz-industries/">How different industries across Australia and New Zealand use PDF tools</a></li>
+        </ul>
+
+        <h2>Sources</h2>
+        <ul>
+          <li><a href="https://www.oaic.gov.au/privacy/australian-privacy-principles" target="_blank" rel="noopener">OAIC — Australian Privacy Principles</a></li>
+          <li><a href="https://www.oaic.gov.au/privacy/australian-privacy-principles/australian-privacy-principles-guidelines/chapter-8-app-8-cross-border-disclosure-of-personal-information" target="_blank" rel="noopener">OAIC — Chapter 8: APP 8, cross-border disclosure of personal information</a></li>
+          <li><a href="https://www.oaic.gov.au/privacy/privacy-guidance-for-organisations-and-government-agencies/business-resources/privacy-business-resource-3-small-business-and-the-privacy-act" target="_blank" rel="noopener">OAIC — Small business and the Privacy Act</a></li>
+          <li><a href="https://www.privacy.org.nz/privacy-act-2020/privacy-principles/12/" target="_blank" rel="noopener">Office of the Privacy Commissioner (NZ) — IPP 12: disclosure outside New Zealand</a></li>
         </ul>
       </section>
     </div>

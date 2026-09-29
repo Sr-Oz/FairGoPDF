@@ -84,29 +84,13 @@ window.SEARCH_INDEX = [
   { title: "Calendar Generator", url: "/calendar-generator/", icon: "calendar_month", desc: "Printable 12-month calendar PDF for any year, mark birthdays and custom dates", category: "Utility" },
 
   // Blog
-  { title: "How to Edit a PDF Online, Add Text and Images for Free", url: "/blog/edit-pdf-online/", desc: "Drop your own text and images anywhere on a page, drag them into place and resize them", category: "Blog" },
+  { title: "What Australian and NZ Privacy Law Says About Uploading Your Documents Online", url: "/blog/privacy-law-document-uploads-anz/", desc: "The Privacy Act, the Australian Privacy Principles and NZ's Privacy Act 2020, and what actually applies when you use an online document tool", category: "Blog" },
+  { title: "How Different Industries Across Australia and New Zealand Use PDF Tools", url: "/blog/pdf-tools-across-anz-industries/", desc: "Real estate, legal, accounting, healthcare, education and trades, how each actually uses PDF and document tools", category: "Blog" },
   { title: "Why You Should Share Less Personal Information Online", url: "/blog/share-less-personal-information-online/", desc: "What Australian and New Zealand privacy regulators advise, and why 'they'll probably delete it' isn't reassuring", category: "Blog" },
   { title: "What Actually Happens When You Hand a Dodgy Website Your Details", url: "/blog/what-dodgy-websites-do-with-your-details/", desc: "Identity fraud, account takeover and SIM-swaps, with AU/NZ reporting steps if you've already entered yours", category: "Blog" },
-  { title: "How to Actually Redact a PDF (Not Just Draw a Black Box)", url: "/blog/how-to-redact-a-pdf/", desc: "Why covering text with a black rectangle doesn't remove it, and what does", category: "Blog" },
-  { title: "How to Sign a PDF Online for Free", url: "/blog/sign-pdf-online/", desc: "Add a signature without printing, scanning or e-signature software", category: "Blog" },
-  { title: "How to Add Page Numbers to a PDF", url: "/blog/add-page-numbers-to-pdf/", desc: "Number every page, any position, any format, Bates-style numbering", category: "Blog" },
-  { title: "How to Add a Watermark to a PDF", url: "/blog/add-watermark-to-pdf/", desc: "Stamp DRAFT, CONFIDENTIAL or any text diagonally across every page", category: "Blog" },
-  { title: "How to Crop the Margins of a PDF", url: "/blog/crop-pdf-margins/", desc: "Trim oversized margins or scanner borders without touching content", category: "Blog" },
-  { title: "How to Make a Free QR Code (No App, No Sign-Up)", url: "/blog/free-qr-code-generator/", desc: "Turn any text or URL into a QR code, pick the right error correction", category: "Blog" },
-  { title: "How to Generate a Strong, Secure Password", url: "/blog/strong-password-generator/", desc: "What actually makes a password strong, why length beats tricks", category: "Blog" },
-  { title: "How to Compress a PDF Without Losing Quality", url: "/blog/compress-pdf-without-losing-quality/", desc: "The real difference between a lossless clean-up and strong compression", category: "Blog" },
-  { title: "How to Merge Multiple PDFs Into One File", url: "/blog/merge-pdf-online/", desc: "Combine several PDFs into one, in the right order", category: "Blog" },
-  { title: "How to Split a PDF Into Separate Pages", url: "/blog/split-pdf-pages/", desc: "Pull out specific pages or break a big PDF into individual files", category: "Blog" },
   { title: "Why Does My PDF File Size Keep Growing?", url: "/blog/why-pdf-file-size-keeps-growing/", desc: "The real causes of PDF bloat, embedded fonts, oversized images", category: "Blog" },
-  { title: "How to Rotate, Delete and Reorder PDF Pages", url: "/blog/organise-pdf-pages/", desc: "Fix a sideways scan or drop a blank page without redoing everything", alt: "organize", category: "Blog" },
   { title: "PDF vs JPG: Which Should You Use for Scanned Documents?", url: "/blog/pdf-vs-jpg-scanned-documents/", desc: "What each format is built for, and how to convert between them", category: "Blog" },
-  { title: "Images to PDF and Back Again", url: "/blog/convert-images-and-pdf/", desc: "Turn photos or scans into a PDF, or pull PDF pages back out as images", category: "Blog" },
   { title: "Is It Safe to Use Free Online PDF Tools?", url: "/blog/is-it-safe-free-online-pdf-tools/", desc: "What actually happens to your file, and how to verify privacy claims", category: "Blog" },
-  { title: "How to Compress an Image for Web or Email", url: "/blog/compress-image-for-web/", desc: "Get a photo under a size limit without it looking like a fax", category: "Blog" },
-  { title: "How to Convert a PNG to JPG (and When You Should)", url: "/blog/convert-png-to-jpg/", desc: "When converting helps, and when it wrecks transparency or text", category: "Blog" },
-  { title: "The Right Way to Resize Images for Web Without Losing Quality", url: "/blog/resize-images-for-web/", desc: "Picking target dimensions, and why downsizing beats upsizing", category: "Blog" },
-
-  { title: "How to make a free printable calendar PDF", url: "/blog/printable-calendar-generator/", desc: "How to generate a 12-month printable calendar PDF, with birthdays and custom dates marked", category: "Blog" },
 
   // Other pages
   { title: "FAQ", url: "/faq/", desc: "Common questions about privacy, cost, file limits and browser support", category: "Page" },

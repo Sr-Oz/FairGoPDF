@@ -72,12 +72,182 @@
     },
     {
       "source": "/blog/organize-pdf-pages",
-      "destination": "/blog/organise-pdf-pages/",
+      "destination": "/organise-pdf/",
       "permanent": true
     },
     {
       "source": "/blog/organize-pdf-pages/",
-      "destination": "/blog/organise-pdf-pages/",
+      "destination": "/organise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/edit-pdf-online",
+      "destination": "/pdf-editor/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/edit-pdf-online/",
+      "destination": "/pdf-editor/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/compress-pdf-without-losing-quality",
+      "destination": "/compress-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/compress-pdf-without-losing-quality/",
+      "destination": "/compress-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/printable-calendar-generator",
+      "destination": "/calendar-generator/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/printable-calendar-generator/",
+      "destination": "/calendar-generator/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/how-to-redact-a-pdf",
+      "destination": "/redact-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/how-to-redact-a-pdf/",
+      "destination": "/redact-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/sign-pdf-online",
+      "destination": "/sign-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/sign-pdf-online/",
+      "destination": "/sign-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/add-page-numbers-to-pdf",
+      "destination": "/add-page-numbers/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/add-page-numbers-to-pdf/",
+      "destination": "/add-page-numbers/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/add-watermark-to-pdf",
+      "destination": "/watermark-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/add-watermark-to-pdf/",
+      "destination": "/watermark-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/crop-pdf-margins",
+      "destination": "/crop-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/crop-pdf-margins/",
+      "destination": "/crop-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/free-qr-code-generator",
+      "destination": "/qr-code-generator/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/free-qr-code-generator/",
+      "destination": "/qr-code-generator/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/strong-password-generator",
+      "destination": "/password-generator/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/strong-password-generator/",
+      "destination": "/password-generator/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/merge-pdf-online",
+      "destination": "/merge-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/merge-pdf-online/",
+      "destination": "/merge-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/split-pdf-pages",
+      "destination": "/split-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/split-pdf-pages/",
+      "destination": "/split-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/organise-pdf-pages",
+      "destination": "/organise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/organise-pdf-pages/",
+      "destination": "/organise-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/compress-image-for-web",
+      "destination": "/compress-image/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/compress-image-for-web/",
+      "destination": "/compress-image/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/convert-png-to-jpg",
+      "destination": "/convert-image/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/convert-png-to-jpg/",
+      "destination": "/convert-image/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/convert-images-and-pdf",
+      "destination": "/images-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/convert-images-and-pdf/",
+      "destination": "/images-to-pdf/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/resize-images-for-web",
+      "destination": "/resize-image/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/resize-images-for-web/",
+      "destination": "/resize-image/",
       "permanent": true
     }
   ],
