@@ -1889,6 +1889,58 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
 .pdf-obj.selected .crop-handle { display: block; }
 .pdf-obj .crop-handle { display: none; }
 
+/* PDF Annotator: reuses .pdf-obj/.pdf-page-overlay from the editor above,
+   plus its own three shape kinds. */
+.pdf-editor-toolbar button.active {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: rgba(0, 77, 64, 0.08);
+}
+.pdf-editor-toolbar input[type="color"] {
+  width: 36px;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  cursor: pointer;
+}
+
+.pdf-obj-highlight { border: none; mix-blend-mode: multiply; }
+:root[data-theme="dark"] .pdf-obj-highlight { mix-blend-mode: screen; }
+
+.pdf-obj-note {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+.pdf-obj-note .pdf-obj-body { padding: 6px 8px; color: #1a1a1a; }
+
+.pdf-obj-ink svg { display: block; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+
+/* PDF Scanner: camera/upload capture, then a draggable 4-corner overlay for
+   perspective correction. */
+.scanner-adjust-stage {
+  position: relative;
+  max-width: 480px;
+  margin: 16px auto;
+  touch-action: none;
+}
+.scanner-adjust-stage canvas { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+.scanner-adjust-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.scanner-adjust-stage svg polygon { fill: rgba(0, 77, 64, 0.18); stroke: var(--brand); stroke-width: 3; vector-effect: non-scaling-stroke; }
+.scanner-adjust-stage svg circle { fill: var(--brand); stroke: #fff; stroke-width: 2; vector-effect: non-scaling-stroke; cursor: grab; touch-action: none; }
+.scanner-adjust-stage svg circle:active { cursor: grabbing; }
+
+.file-list li img.thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
 @media (max-width: 600px) {
   .hero { padding: 36px 0 24px; }
   .dropzone { padding: 32px 16px; }

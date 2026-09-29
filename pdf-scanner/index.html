@@ -6,22 +6,22 @@
 <meta name="author" content="The Dato Family Labs">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>PDF Editor Online Free, Add Text &amp; Images | FairGo PDF</title>
-<meta name="description" content="A real PDF editor in your browser: drag text and image boxes anywhere on any page, resize them, style the text, then download. No upload, no signup.">
-<link rel="canonical" href="https://fairgopdf.au/pdf-editor/">
+<title>PDF Scanner Online Free, Camera to PDF | FairGo PDF</title>
+<meta name="description" content="Turn a photo of a document into a clean, straightened PDF, free and right in your browser. Use your camera or upload a photo. No upload, no signup.">
+<link rel="canonical" href="https://fairgopdf.au/pdf-scanner/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FairGo PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="PDF Editor Online Free, Add Text & Images">
-<meta property="og:description" content="A real PDF editor in your browser: drag text and image boxes anywhere on any page, resize them, style the text, then download. No upload, no signup.">
-<meta property="og:url" content="https://fairgopdf.au/pdf-editor/">
+<meta property="og:title" content="PDF Scanner Online Free, Camera to PDF">
+<meta property="og:description" content="Turn a photo of a document into a clean, straightened PDF, free and right in your browser. Use your camera or upload a photo. No upload, no signup.">
+<meta property="og:url" content="https://fairgopdf.au/pdf-scanner/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="FairGo PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PDF Editor Online Free, Add Text & Images">
-<meta name="twitter:description" content="A real PDF editor in your browser: drag text and image boxes anywhere on any page, resize them, style the text, then download. No upload, no signup.">
+<meta name="twitter:title" content="PDF Scanner Online Free, Camera to PDF">
+<meta name="twitter:description" content="Turn a photo of a document into a clean, straightened PDF, free and right in your browser. Use your camera or upload a photo. No upload, no signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,71 +66,76 @@
 <main id="main-content">
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">PDF Editor</span>
+      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">PDF Scanner</span>
     </nav>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
       {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
       {"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://fairgopdf.au/#pdf-tools"},
-      {"@type":"ListItem","position":3,"name":"PDF Editor","item":"https://fairgopdf.au/pdf-editor/"}
+      {"@type":"ListItem","position":3,"name":"PDF Scanner","item":"https://fairgopdf.au/pdf-scanner/"}
     ]}
     </script>
     <div class="tool-page-header">
-      <h1>PDF Editor</h1>
-      <p>Drag text and images anywhere on any page, resize and style them, then download. Processed locally, nothing is uploaded.</p>
+      <h1>PDF Scanner</h1>
+      <p>Turn a photo of a document into a clean, straightened PDF. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">edit_document</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
-
-      <div id="editor" style="display:none;">
-        <div class="pdf-editor-toolbar">
-          <button class="btn secondary small" id="addTextBtn" type="button">
-            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">text_fields</span> Add Text
+      <div class="scanner-capture" id="captureStep">
+        <div class="actions-row">
+          <button class="btn" id="useCameraBtn" type="button">
+            <span class="material-symbols-outlined" aria-hidden="true">photo_camera</span> Use Camera
           </button>
-          <button class="btn secondary small" id="addImageBtn" type="button">
-            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">add_photo_alternate</span> Add Image
+          <button class="btn secondary" id="uploadBtn" type="button">
+            <span class="material-symbols-outlined" aria-hidden="true">upload</span> Upload a Photo
           </button>
-          <input type="file" id="imageInput" accept="image/png,image/jpeg" style="display:none;">
+          <input type="file" id="fileInput" accept="image/*" style="display:none;">
+        </div>
 
-          <div class="pdf-obj-toolbar" id="objToolbar">
-            <div class="field">
-              <label for="objFontFamily">Font</label>
-              <select id="objFontFamily">
-                <option value="Helvetica">Helvetica</option>
-                <option value="TimesRoman">Times</option>
-                <option value="Courier">Courier</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="objFontSize">Size</label>
-              <input type="number" id="objFontSize" min="6" max="200" value="16">
-            </div>
-            <div class="field">
-              <label for="objColor">Colour</label>
-              <input type="color" id="objColor" value="#1a1a1a">
-            </div>
-            <div class="field"><label><input type="checkbox" id="objBold"> Bold</label></div>
-            <div class="field"><label><input type="checkbox" id="objItalic"> Italic</label></div>
-            <button class="btn secondary small" id="deleteObjBtn" type="button">Delete</button>
+        <div id="cameraWrap" style="display:none; margin-top:16px;">
+          <video id="cameraVideo" autoplay playsinline muted style="width:100%; max-width:480px; border-radius:var(--radius); background:#000;"></video>
+          <div class="actions-row">
+            <button class="btn" id="snapBtn" type="button">Capture</button>
+            <button class="btn secondary" id="stopCameraBtn" type="button">Cancel</button>
           </div>
         </div>
+      </div>
 
-        <p class="help-text">Click a page to select it, then "Add Text" or "Add Image." Drag a box to
-          move it, drag a corner dot to resize, click a selected text box again to type. Each Enter
-          starts a new PDF line, a box's width doesn't auto-wrap text.</p>
-
-        <div class="pdf-pages" id="pdfPages"></div>
-
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Save &amp; Download</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
+      <div id="adjustStep" style="display:none; margin-top:16px;">
+        <p class="help-text">Drag the four corners onto the edges of the page, then confirm.</p>
+        <div class="scanner-adjust-stage" id="adjustStage">
+          <canvas id="adjustPreview"></canvas>
+          <svg id="adjustOverlay"></svg>
         </div>
+        <div class="controls-row">
+          <div class="field">
+            <label for="enhanceToggle"><input type="checkbox" id="enhanceToggle" checked> Enhance (black &amp; white, higher contrast)</label>
+          </div>
+        </div>
+        <div class="actions-row">
+          <button class="btn" id="usePageBtn" type="button">Use This Page</button>
+          <button class="btn secondary" id="cancelAdjustBtn" type="button">Discard</button>
+        </div>
+      </div>
+
+      <canvas id="captureCanvas" style="display:none;"></canvas>
+
+      <ul class="file-list" id="pageList"></ul>
+
+      <div class="controls-row" id="buildControls" style="display:none;">
+        <div class="field">
+          <label for="pageSize">Page size</label>
+          <select id="pageSize">
+            <option value="fit" selected>Fit each photo</option>
+            <option value="a4">A4</option>
+            <option value="letter">Letter</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions-row" id="actionsRow" style="display:none;">
+        <button class="btn" id="runBtn">Build PDF</button>
+        <button class="btn secondary" id="clearBtn">Clear</button>
       </div>
 
       <div class="status-box" id="status"></div>
@@ -139,17 +144,17 @@
     <section class="related-tools-section">
       <h2>Related tools</h2>
       <div class="tool-grid related-tools-grid">
-        <a class="tool-card related-tool-card" href="/sign-pdf/">
-          <span class="icon"><span class="material-symbols-outlined">draw</span></span>
-          <h3>Sign PDF</h3>
+        <a class="tool-card related-tool-card" href="/images-to-pdf/">
+          <span class="icon"><span class="material-symbols-outlined">picture_as_pdf</span></span>
+          <h3>Images to PDF</h3>
         </a>
-        <a class="tool-card related-tool-card" href="/fill-pdf-form/">
-          <span class="icon"><span class="material-symbols-outlined">edit_note</span></span>
-          <h3>Fill PDF Form</h3>
+        <a class="tool-card related-tool-card" href="/remove-blank-pages/">
+          <span class="icon"><span class="material-symbols-outlined">auto_delete</span></span>
+          <h3>Remove Blank Pages</h3>
         </a>
-        <a class="tool-card related-tool-card" href="/pdf-annotator/">
-          <span class="icon"><span class="material-symbols-outlined">draw</span></span>
-          <h3>PDF Annotator</h3>
+        <a class="tool-card related-tool-card" href="/crop-pdf/">
+          <span class="icon"><span class="material-symbols-outlined">crop</span></span>
+          <h3>Crop PDF Pages</h3>
         </a>
       </div>
     </section>
@@ -157,13 +162,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF, every page renders below.</li>
-        <li>Click a page to select it, then "Add Text" or "Add Image" to drop a box onto it.</li>
-        <li>Drag a box to reposition it, drag a corner dot to resize (text resizes its font size, images keep their aspect ratio).</li>
-        <li>Click a selected text box again to edit its words, use the toolbar for font, size, colour, bold and italic.</li>
-        <li>Click "Save &amp; Download" when you're done, on every page.</li>
+        <li>Use your camera or upload a photo of a document.</li>
+        <li>Drag the four corner handles onto the page's edges to straighten it.</li>
+        <li>Repeat for each page, then click "Build PDF".</li>
       </ol>
-      <p class="help-text">This adds genuine, selectable text and real embedded images baked into the PDF, using standard Helvetica/Times/Courier fonts, it isn't a scanned/flattened image. Need a signature instead? Use <a href="/sign-pdf/">Sign PDF</a>.</p>
+      <p class="help-text">The perspective correction and clean-up happen on your device, using the same maths a dedicated scanner app uses. Nothing about the camera or the photo ever leaves your browser.</p>
     </section>
   </div>
 </main>
@@ -242,7 +245,7 @@
 </button>
 
 <script src="/assets/tools.js"></script>
-<script type="module" src="/assets/tools/pdf-editor.js"></script>
+<script type="module" src="/assets/tools/pdf-scanner.js"></script>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>

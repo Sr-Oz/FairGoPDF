@@ -43,6 +43,14 @@ window.SEARCH_INDEX = [
   { title: "Posterise PDF", url: "/posterise-pdf/", icon: "grid_on", desc: "Blow up a page across multiple sheets for large-format printing", alt: "posterize", category: "PDF Tool" },
   { title: "Combine Pages Into One", url: "/combine-pages-into-one/", icon: "view_stream", desc: "Stitch every page into one continuous, scrollable page", category: "PDF Tool" },
   { title: "Markdown to PDF", url: "/markdown-to-pdf/", icon: "markdown", desc: "Turn Markdown into a styled, paginated PDF", category: "PDF Tool" },
+  { title: "Word to PDF", url: "/word-to-pdf/", icon: "description", desc: "Turn a Word (.docx) document into a PDF, headings and formatting carry across", category: "PDF Tool" },
+  { title: "CSV to PDF", url: "/csv-to-pdf/", icon: "table_chart", desc: "Turn a CSV file into a paginated PDF table", category: "PDF Tool" },
+  { title: "Excel to PDF", url: "/excel-to-pdf/", icon: "table_view", desc: "Turn an Excel or OpenDocument spreadsheet into a paginated PDF table", category: "PDF Tool" },
+  { title: "RTF to PDF", url: "/rtf-to-pdf/", icon: "text_snippet", desc: "Turn a Rich Text (.rtf) file into a PDF, paragraphs and bold/italic carry across", category: "PDF Tool" },
+  { title: "EPUB to PDF", url: "/epub-to-pdf/", icon: "auto_stories", desc: "Turn an EPUB ebook into a PDF, chapters kept in reading order", category: "PDF Tool" },
+  { title: "PDF to Word", url: "/pdf-to-word/", icon: "swap_horiz", desc: "Turn a PDF into an editable Word (.docx) document", category: "PDF Tool" },
+  { title: "PDF Annotator", url: "/pdf-annotator/", icon: "draw", desc: "Highlight text, freehand draw and add sticky notes to a PDF", category: "PDF Tool" },
+  { title: "PDF Scanner", url: "/pdf-scanner/", icon: "document_scanner", desc: "Turn a photo of a document into a clean, straightened PDF using your camera", category: "PDF Tool" },
 
   // Image tools
   { title: "Compress Image", url: "/compress-image/", icon: "compress", desc: "Reduce JPEG/PNG/WebP file size with a quality slider", category: "Image Tool" },

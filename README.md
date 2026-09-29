@@ -71,6 +71,14 @@ https://fairgopdf.au/
 | Posterise PDF | `/posterise-pdf/` | Blow up a page across multiple sheets for large-format printing |
 | Combine Pages Into One | `/combine-pages-into-one/` | Stitch every page into one continuous, scrollable page |
 | Markdown to PDF | `/markdown-to-pdf/` | Turn Markdown into a styled, paginated PDF |
+| Word to PDF | `/word-to-pdf/` | Turn a Word (.docx) document into a PDF |
+| CSV to PDF | `/csv-to-pdf/` | Turn a CSV file into a paginated PDF table |
+| Excel to PDF | `/excel-to-pdf/` | Turn a spreadsheet into a paginated PDF table |
+| RTF to PDF | `/rtf-to-pdf/` | Turn a Rich Text (.rtf) file into a PDF |
+| EPUB to PDF | `/epub-to-pdf/` | Turn an EPUB ebook into a PDF, chapters in order |
+| PDF to Word | `/pdf-to-word/` | Turn a PDF into an editable Word document |
+| PDF Annotator | `/pdf-annotator/` | Highlight, freehand draw and add sticky notes |
+| PDF Scanner | `/pdf-scanner/` | Turn a photo of a document into a straightened PDF |
 
 ### Utilities
 | Tool | URL | What it does |
