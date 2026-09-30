@@ -243,7 +243,12 @@ html.nav-js .nav-links > .nav-item > a:focus-visible {
   flex-direction: column;
   max-width: calc(100vw - 24px);
   max-height: calc(100vh - 80px);
-  overflow: hidden auto;
+  /* Clips only — the actual scrolling happens one level in, on
+     .nav-flyout-scroll, so a scrollbar never renders flush against this
+     element's own rounded corners (a scrollbar drawn on the same element
+     as the border-radius tends to square off whichever corner it sits
+     against). */
+  overflow: hidden;
   padding: 10px;
   background: var(--bg);
   border: 1px solid var(--border);
@@ -254,6 +259,12 @@ html.nav-js .nav-links > .nav-item > a:focus-visible {
   pointer-events: none;
   transform: translateX(6px);
   transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.18s;
+}
+
+.nav-flyout-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
 }
 
 /* Flipped to open on the row's right by site.js when there isn't room to

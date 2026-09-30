@@ -198,6 +198,12 @@
 
       const panel = document.createElement("div");
       panel.className = "nav-flyout";
+      // Scrolling lives on this inner wrapper, not on .nav-flyout itself —
+      // .nav-flyout only clips (overflow: hidden) so its rounded corners
+      // stay clean; a scrollbar drawn on the same element as the
+      // border-radius tends to square off the corner it sits against.
+      const scrollWrap = document.createElement("div");
+      scrollWrap.className = "nav-flyout-scroll";
       const groupsWrap = document.createElement("div");
       groupsWrap.className = "nav-flyout-groups";
       blocks.forEach((block) => {
@@ -225,12 +231,13 @@
         });
         groupsWrap.appendChild(col);
       });
-      panel.appendChild(groupsWrap);
+      scrollWrap.appendChild(groupsWrap);
       const all = document.createElement("a");
       all.href = link.getAttribute("href");
       all.className = "nav-flyout-all";
       all.textContent = "View all " + link.textContent.trim() + " →";
-      panel.appendChild(all);
+      scrollWrap.appendChild(all);
+      panel.appendChild(scrollWrap);
       wrap.appendChild(panel);
 
       // Hover-intent: open on enter, close on a short delay so the pointer
