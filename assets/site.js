@@ -93,10 +93,10 @@
 
   // Keep each panel on screen: prefer opening to the row's left (the
   // hamburger box sits at the header's right edge, so that's normally the
-  // only side with room), fall back to the right, and clamp vertically too
-  // — unlike the old always-visible bar (where every trigger sat on the
-  // same row, right under the header), triggers are now stacked rows in a
-  // box, so a panel anchored to a lower row can run off the bottom.
+  // only side with room) and fall back to the right, but always flush with
+  // the top of the box itself — every trigger row opens the same panel
+  // position, like the old always-visible bar where every trigger sat on
+  // the same row.
   const MIN_PANEL_WIDTH = 240; // roughly one column
   const positionPanels = () => {
     const vw = document.documentElement.clientWidth;
@@ -121,14 +121,14 @@
       if (openRight) p.classList.add("nav-flyout--end");
       p.style.maxWidth = Math.max(MIN_PANEL_WIDTH, openRight ? availRight : availLeft) + "px";
 
-      const ph = p.offsetHeight;
-      // Prefer flush with the row that opened it; if a tall panel (e.g.
-      // PDF Tools' long "Organise" column) would run off the bottom, shift
-      // it up just enough to fit — but never past the box's own top edge,
-      // so it stays visually anchored to the box instead of floating above
-      // it, up near the header icons.
-      const absTop = Math.max(navTop, Math.min(itemRect.top, vh - 12 - ph));
-      p.style.top = absTop - itemRect.top + "px";
+      // Always flush with the top of the box itself, not the row that
+      // opened it — a panel anchored to its own row sits a few pixels
+      // lower than the box's top edge (the box's own padding), which reads
+      // as a stray gap between the two. Anchoring every panel to the same
+      // line as the box keeps it looking like one connected menu; a panel
+      // taller than the viewport scrolls internally (see .nav-flyout's own
+      // max-height) rather than needing the top shifted to compensate.
+      p.style.top = navTop - itemRect.top + "px";
     });
   };
 
