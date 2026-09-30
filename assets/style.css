@@ -1607,6 +1607,30 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 .diff-summary .added-count { color: var(--success); font-weight: 700; }
 .diff-summary .removed-count { color: var(--danger); font-weight: 700; }
 
+.a11y-check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.a11y-check-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.a11y-check-icon { flex-shrink: 0; font-size: 1.3rem; line-height: 1.3; }
+.a11y-check-item.pass .a11y-check-icon { color: var(--success); }
+.a11y-check-item.fail .a11y-check-icon { color: var(--danger); }
+.a11y-check-item.na .a11y-check-icon { color: var(--text-muted); }
+
+.a11y-check-body h3 { margin: 0 0 4px; font-size: 0.95rem; }
+.a11y-check-body p { margin: 0; color: var(--text-muted); font-size: 0.85rem; }
+
 .cta-box {
   display: flex;
   flex-wrap: wrap;

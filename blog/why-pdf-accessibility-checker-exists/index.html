@@ -6,22 +6,22 @@
 <meta name="author" content="The Dato Family Labs">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Edit PDF Metadata Online Free, Title &amp; Author | FairGo PDF</title>
-<meta name="description" content="View and edit a PDF's title, author, subject and keywords, free and in your browser. No upload, no signup.">
-<link rel="canonical" href="https://fairgopdf.au/pdf-metadata/">
-<meta property="og:type" content="website">
+<title>Why we built a basic PDF accessibility checker | FairGo PDF</title>
+<meta name="description" content="Most PDFs fail screen readers in ways nobody notices until it's too late. Why FairGo PDF added a quick, honest accessibility check, and what it doesn't claim to do.">
+<link rel="canonical" href="https://fairgopdf.au/blog/why-pdf-accessibility-checker-exists/">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="FairGo PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="Edit PDF Metadata Online Free, Title, Author & More">
-<meta property="og:description" content="View and edit a PDF's title, author, subject and keywords, free and in your browser.">
-<meta property="og:url" content="https://fairgopdf.au/pdf-metadata/">
+<meta property="og:title" content="Why we built a basic PDF accessibility checker">
+<meta property="og:description" content="Most PDFs fail screen readers in ways nobody notices until it's too late. Why FairGo PDF added a quick, honest accessibility check, and what it doesn't claim to do.">
+<meta property="og:url" content="https://fairgopdf.au/blog/why-pdf-accessibility-checker-exists/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="FairGo PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Edit PDF Metadata Online Free, Title, Author & More">
-<meta name="twitter:description" content="View and edit a PDF's title, author, subject and keywords, free and in your browser.">
+<meta name="twitter:title" content="Why we built a basic PDF accessibility checker">
+<meta name="twitter:description" content="Most PDFs fail screen readers in ways nobody notices until it's too late. Why FairGo PDF added a quick, honest accessibility check, and what it doesn't claim to do.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +32,25 @@
      visitor accepts the cookie banner. See assets/consent.js and
      /privacy-policy/. -->
 <script src="/assets/consent.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting",
+"author":{"@type":"Organization","name":"The Dato Family Labs"},
+"publisher":{"@type":"Organization","name":"The Dato Family Labs"},
+"headline":"Why we built a basic PDF accessibility checker",
+"datePublished":"2026-09-30","dateModified":"2026-09-30",
+"description":"Most PDFs fail screen readers in ways nobody notices until it's too late. Why FairGo PDF added a quick, honest accessibility check, and what it doesn't claim to do.",
+"mainEntityOfPage":"https://fairgopdf.au/blog/why-pdf-accessibility-checker-exists/"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Does passing all five checks mean my PDF is fully accessible?",
+"acceptedAnswer":{"@type":"Answer","text":"No. It means the five structural basics this tool can check are in place. Full PDF/UA or WCAG conformance also covers things like reading order, colour contrast, and table headers, which need visual and manual review, not just a structural scan."}},
+{"@type":"Question","name":"Why can't a tool like this check colour contrast or reading order automatically?",
+"acceptedAnswer":{"@type":"Answer","text":"Contrast checking needs to render the page and sample actual pixel colours, and reading order needs a human (or a screen reader) to confirm content makes sense in the order it's presented, not just that it's tagged at all. Both are meaningfully harder than reading a handful of structural flags, and getting them wrong quietly would be worse than not claiming them."}},
+{"@type":"Question","name":"Is my PDF uploaded anywhere to run these checks?",
+"acceptedAnswer":{"@type":"Answer","text":"No. The check runs entirely in your browser using the same client-side libraries every other tool on this site uses, nothing is sent anywhere."}}
+]}
+</script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
@@ -64,91 +83,120 @@
 </header>
 
 <main id="main-content">
+<div class="scroll-progress" id="scrollProgress"></div>
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">Edit PDF Metadata</span>
+      <a href="/">Home</a><span class="sep">/</span><a href="/blog/">Blog</a><span class="sep">/</span><span class="current">Accessibility checker</span>
     </nav>
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
-      {"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://fairgopdf.au/#pdf-tools"},
-      {"@type":"ListItem","position":3,"name":"Edit PDF Metadata","item":"https://fairgopdf.au/pdf-metadata/"}
-    ]}
-    </script>
 
     <div class="tool-page-header">
-      <h1>Edit PDF Metadata</h1>
-      <p>View and edit a PDF's title, author, subject and keywords. Processed locally, nothing is uploaded.</p>
+      <h1>Why we built a basic PDF accessibility checker</h1>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">info</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace" style="max-width: 720px;">
+      <p class="byline">Published 30 September 2026 · 5 min read</p>
+      <button class="copy-link-btn" type="button">
+        <span class="material-symbols-outlined" aria-hidden="true">link</span>
+        <span class="copy-link-label">Copy link</span>
+      </button>
+      <section class="info-section" style="margin-top:0; border-top:none; padding-top:0;">
+        <p>
+          Most PDFs fail a screen reader in some way, and almost nobody finds out until someone who
+          actually relies on one tries to open the file. A document can look perfect, correct
+          spelling, clean layout, right logo in the corner, and still be functionally unreadable to
+          anyone using assistive technology. The <a href="/pdf-accessibility-checker/">Accessibility
+          Checker</a> exists to catch the handful of structural issues that cause most of that, in the
+          thirty seconds it takes to drop a file in.
+        </p>
 
-      <div id="editor" style="display:none;">
-        <div class="controls-row" style="flex-direction:column; align-items:stretch;">
-          <div class="field">
-            <label for="metaTitle">Title</label>
-            <input type="text" id="metaTitle" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="metaAuthor">Author</label>
-            <input type="text" id="metaAuthor" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="metaSubject">Subject</label>
-            <input type="text" id="metaSubject" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="metaKeywords">Keywords (comma-separated)</label>
-            <input type="text" id="metaKeywords" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="metaCreator">Creator application</label>
-            <input type="text" id="metaCreator" style="width:100%;">
-          </div>
-        </div>
-        <p class="help-text">"Producer" isn't shown here because pdf-lib always overwrites it on save with its own signature, editing it wouldn't stick.</p>
-        <div class="actions-row">
-          <button class="btn" id="saveBtn">Save PDF</button>
-          <button class="btn secondary" id="clearAllBtn">Clear All Fields</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
-      </div>
+        <h2>What "accessible" actually means for a PDF</h2>
+        <p>
+          A PDF is really two documents in one: the version you see, and a separate structural map,
+          the tag tree, that tells a screen reader what each piece of content actually is: a heading,
+          a paragraph, a table cell, a figure with a caption. Word and most modern editors can generate
+          that map automatically when you export to PDF, but plenty of PDFs never had one, especially
+          scans, old exports, and anything assembled by merging several source files together. Without
+          it, a screen reader has nothing reliable to read, it might announce nothing, announce
+          everything in the wrong order, or skip whole sections.
+        </p>
 
-      <div class="status-box" id="status"></div>
+        <h2>Five things worth checking before anything else</h2>
+        <p>
+          Full accessibility conformance, PDF/UA and WCAG, covers dozens of criteria: contrast ratios,
+          reading order, table headers, link purpose, and more. Most of that needs a human (or a proper
+          screen reader) to verify. But five things can be checked structurally, in a browser, in
+          under a second, and they happen to be the ones that break the experience hardest when
+          they're missing:
+        </p>
+        <ul>
+          <li><strong>Is the document tagged at all?</strong> If not, nothing else matters yet.</li>
+          <li><strong>Is a document language set?</strong> Without it, a screen reader may guess wrong
+            and mispronounce the entire thing.</li>
+          <li><strong>Is there a document title?</strong> Otherwise a screen reader announces the
+            filename, <code>Scan_2024_final_v3.pdf</code> is not a great first impression.</li>
+          <li><strong>Do tagged images have alt text?</strong> A screen reader either skips an
+            untagged image entirely or reads out a meaningless file reference.</li>
+          <li><strong>Do form fields have a description?</strong> A form field with no label reads as
+            "edit text, blank" to a screen reader, useless to anyone who can't see the visual label
+            beside it.</li>
+        </ul>
+
+        <h2>What it deliberately doesn't claim</h2>
+        <p>
+          Passing all five doesn't mean a document is accessible, it means five structural basics are
+          in place. Colour contrast needs the page actually rendered and pixels sampled. Reading order
+          needs confirming that content makes sense in the sequence it's presented, not just that a
+          sequence exists. Table headers need checking that data cells are properly associated with
+          them. None of that is safe to fake with a quick heuristic, getting it wrong confidently would
+          be worse than not claiming it. For that level of review, a dedicated tool like
+          <a href="https://pac.pdf-accessibility.org/en" target="_blank" rel="noopener">PAC</a>, free,
+          and built specifically for PDF/UA and WCAG auditing, including a screen-reader structure
+          preview, is the right next step.
+        </p>
+
+        <h2>Why this runs in the browser at all</h2>
+        <p>
+          The documents most worth checking, enrolment forms, government submissions, HR paperwork,
+          often contain exactly the kind of personal information this site avoids sending anywhere.
+          Where processing actually happens for something like this matters more than it sounds, see
+          our guide to <a href="/blog/privacy-law-document-uploads-anz/">AU/NZ privacy law and document
+          uploads</a> for why. The checker reads the file's internal structure using the same
+          client-side libraries every other tool here already uses, nothing is uploaded to run it.
+        </p>
+
+        <div class="cta-box">
+          <p>Check a document's structural basics</p>
+          <a class="btn" href="/pdf-accessibility-checker/">Try the Accessibility Checker</a>
+        </div>
+
+        <h2>Frequently asked questions</h2>
+        <details class="faq-item" open>
+          <summary>Does passing all five checks mean my PDF is fully accessible?</summary>
+          <p>No. It means the five structural basics this tool can check are in place. Full PDF/UA or
+            WCAG conformance also covers things like reading order, colour contrast, and table
+            headers, which need visual and manual review, not just a structural scan.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why can't a tool like this check colour contrast or reading order automatically?</summary>
+          <p>Contrast checking needs to render the page and sample actual pixel colours, and reading
+            order needs a human (or a screen reader) to confirm content makes sense in the order it's
+            presented, not just that it's tagged at all. Both are meaningfully harder than reading a
+            handful of structural flags, and getting them wrong quietly would be worse than not
+            claiming them.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my PDF uploaded anywhere to run these checks?</summary>
+          <p>No. The check runs entirely in your browser using the same client-side libraries every
+            other tool on this site uses, nothing is sent anywhere.</p>
+        </details>
+
+        <h2>Related guides</h2>
+        <ul>
+          <li><a href="/blog/pdf-tools-in-vet-and-higher-education/">How VET providers and universities across Australia and NZ use PDF tools</a></li>
+          <li><a href="/blog/privacy-law-document-uploads-anz/">What Australian and NZ privacy law says about uploading your documents online</a></li>
+        </ul>
+      </section>
     </div>
-
-    <section class="related-tools-section">
-      <h2>Related tools</h2>
-      <div class="tool-grid related-tools-grid">
-        <a class="tool-card related-tool-card" href="/extract-pdf-text/">
-          <span class="icon"><span class="material-symbols-outlined">text_fields</span></span>
-          <h3>Extract PDF Text</h3>
-        </a>
-        <a class="tool-card related-tool-card" href="/watermark-pdf/">
-          <span class="icon"><span class="material-symbols-outlined">water_drop</span></span>
-          <h3>Watermark PDF</h3>
-        </a>
-        <a class="tool-card related-tool-card" href="/pdf-accessibility-checker/">
-          <span class="icon"><span class="material-symbols-outlined">accessibility_new</span></span>
-          <h3>Accessibility Checker</h3>
-        </a>
-      </div>
-    </section>
-
-    <section class="info-section">
-      <h2>How it works</h2>
-      <ol>
-        <li>Add a PDF file, its current metadata loads into the fields below.</li>
-        <li>Edit any field you want to change (leave others as-is), or click "Clear All Fields" to strip metadata for privacy.</li>
-        <li>Click "Save PDF" to download the updated file.</li>
-      </ol>
-    </section>
   </div>
 </main>
 
@@ -228,8 +276,6 @@
   <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
 </button>
 
-<script src="/assets/tools.js"></script>
-<script type="module" src="/assets/tools/pdf-metadata.js"></script>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>

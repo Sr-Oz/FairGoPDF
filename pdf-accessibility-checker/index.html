@@ -6,22 +6,22 @@
 <meta name="author" content="The Dato Family Labs">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Edit PDF Metadata Online Free, Title &amp; Author | FairGo PDF</title>
-<meta name="description" content="View and edit a PDF's title, author, subject and keywords, free and in your browser. No upload, no signup.">
-<link rel="canonical" href="https://fairgopdf.au/pdf-metadata/">
+<title>Check PDF Accessibility Online Free, Tags &amp; Alt Text | FairGo PDF</title>
+<meta name="description" content="Check a PDF for tagging, language, title, image alt text and form field labels, the basics screen readers rely on. Free, in your browser, nothing is uploaded.">
+<link rel="canonical" href="https://fairgopdf.au/pdf-accessibility-checker/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FairGo PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="Edit PDF Metadata Online Free, Title, Author & More">
-<meta property="og:description" content="View and edit a PDF's title, author, subject and keywords, free and in your browser.">
-<meta property="og:url" content="https://fairgopdf.au/pdf-metadata/">
+<meta property="og:title" content="Check PDF Accessibility Online Free, Tags &amp; Alt Text">
+<meta property="og:description" content="Check a PDF for tagging, language, title, image alt text and form field labels, the basics screen readers rely on.">
+<meta property="og:url" content="https://fairgopdf.au/pdf-accessibility-checker/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="FairGo PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Edit PDF Metadata Online Free, Title, Author & More">
-<meta name="twitter:description" content="View and edit a PDF's title, author, subject and keywords, free and in your browser.">
+<meta name="twitter:title" content="Check PDF Accessibility Online Free, Tags &amp; Alt Text">
+<meta name="twitter:description" content="Check a PDF for tagging, language, title, image alt text and form field labels, the basics screen readers rely on.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,88 +66,74 @@
 <main id="main-content">
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">Edit PDF Metadata</span>
+      <a href="/">Home</a><span class="sep">/</span><a href="/#pdf-tools">PDF Tools</a><span class="sep">/</span><span class="current">Accessibility Checker</span>
     </nav>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
       {"@type":"ListItem","position":1,"name":"Home","item":"https://fairgopdf.au/"},
       {"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://fairgopdf.au/#pdf-tools"},
-      {"@type":"ListItem","position":3,"name":"Edit PDF Metadata","item":"https://fairgopdf.au/pdf-metadata/"}
+      {"@type":"ListItem","position":3,"name":"Accessibility Checker","item":"https://fairgopdf.au/pdf-accessibility-checker/"}
     ]}
     </script>
 
     <div class="tool-page-header">
-      <h1>Edit PDF Metadata</h1>
-      <p>View and edit a PDF's title, author, subject and keywords. Processed locally, nothing is uploaded.</p>
+      <h1>PDF Accessibility Checker</h1>
+      <p>Check the structural basics screen readers rely on: tags, language, title, image alt text and form labels. Processed locally, nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">info</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
+    <div class="tool-workspace" style="max-width: 720px;">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file">
+        <div class="dz-icon"><span class="material-symbols-outlined">accessibility_new</span></div>
+        <div class="dz-title" id="label">Choose a PDF</div>
+        <div class="dz-sub">Click or drop a file</div>
         <input type="file" id="fileInput" accept="application/pdf">
       </div>
 
-      <div id="editor" style="display:none;">
-        <div class="controls-row" style="flex-direction:column; align-items:stretch;">
-          <div class="field">
-            <label for="metaTitle">Title</label>
-            <input type="text" id="metaTitle" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="metaAuthor">Author</label>
-            <input type="text" id="metaAuthor" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="metaSubject">Subject</label>
-            <input type="text" id="metaSubject" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="metaKeywords">Keywords (comma-separated)</label>
-            <input type="text" id="metaKeywords" style="width:100%;">
-          </div>
-          <div class="field">
-            <label for="metaCreator">Creator application</label>
-            <input type="text" id="metaCreator" style="width:100%;">
-          </div>
-        </div>
-        <p class="help-text">"Producer" isn't shown here because pdf-lib always overwrites it on save with its own signature, editing it wouldn't stick.</p>
-        <div class="actions-row">
-          <button class="btn" id="saveBtn">Save PDF</button>
-          <button class="btn secondary" id="clearAllBtn">Clear All Fields</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
+      <div class="actions-row">
+        <button class="btn" id="runBtn" disabled>Check accessibility</button>
+        <button class="btn secondary" id="clearBtn">Start over</button>
       </div>
 
       <div class="status-box" id="status"></div>
+
+      <div id="results" style="display:none;">
+        <div class="a11y-check-list" id="checkList"></div>
+
+        <div class="cta-box">
+          <p>This checks the structural basics. For a full PDF/UA and WCAG audit, including visual and screen-reader checks, try a dedicated tool like <a href="https://pac.pdf-accessibility.org/en" target="_blank" rel="noopener">PAC</a> (free). Read why this exists in <a href="/blog/why-pdf-accessibility-checker-exists/">why we built a basic PDF accessibility checker</a>.</p>
+        </div>
+      </div>
     </div>
 
     <section class="related-tools-section">
       <h2>Related tools</h2>
       <div class="tool-grid related-tools-grid">
-        <a class="tool-card related-tool-card" href="/extract-pdf-text/">
-          <span class="icon"><span class="material-symbols-outlined">text_fields</span></span>
-          <h3>Extract PDF Text</h3>
+        <a class="tool-card related-tool-card" href="/pdf-metadata/">
+          <span class="icon"><span class="material-symbols-outlined">info</span></span>
+          <h3>Edit PDF Metadata</h3>
         </a>
-        <a class="tool-card related-tool-card" href="/watermark-pdf/">
-          <span class="icon"><span class="material-symbols-outlined">water_drop</span></span>
-          <h3>Watermark PDF</h3>
-        </a>
-        <a class="tool-card related-tool-card" href="/pdf-accessibility-checker/">
-          <span class="icon"><span class="material-symbols-outlined">accessibility_new</span></span>
-          <h3>Accessibility Checker</h3>
+        <a class="tool-card related-tool-card" href="/fill-pdf-form/">
+          <span class="icon"><span class="material-symbols-outlined">edit_document</span></span>
+          <h3>Fill PDF Form</h3>
         </a>
       </div>
     </section>
 
     <section class="info-section">
-      <h2>How it works</h2>
-      <ol>
-        <li>Add a PDF file, its current metadata loads into the fields below.</li>
-        <li>Edit any field you want to change (leave others as-is), or click "Clear All Fields" to strip metadata for privacy.</li>
-        <li>Click "Save PDF" to download the updated file.</li>
-      </ol>
+      <h2>What this checks</h2>
+      <ul>
+        <li><strong>Tagging</strong>, whether the PDF has a structure tree a screen reader can follow at all. This is the single biggest gap a PDF can have.</li>
+        <li><strong>Document language</strong>, so a screen reader picks the right pronunciation.</li>
+        <li><strong>Document title</strong>, so a screen reader announces something meaningful instead of the filename.</li>
+        <li><strong>Image alt text</strong>, counting tagged images with and without alternative text (only checkable if the PDF is tagged).</li>
+        <li><strong>Form field descriptions</strong>, whether fillable fields have a tooltip a screen reader can read out.</li>
+      </ul>
+      <h2>What this doesn't check</h2>
+      <p class="help-text">
+        This isn't a PDF/UA or WCAG compliance certifier. It doesn't check colour contrast, reading order, table headers,
+        or run the AI-assisted checks a tool like PAC does. It's a quick, honest first pass, not a substitute for a
+        proper audit before a legal or procurement submission.
+      </p>
     </section>
   </div>
 </main>
@@ -229,7 +215,7 @@
 </button>
 
 <script src="/assets/tools.js"></script>
-<script type="module" src="/assets/tools/pdf-metadata.js"></script>
+<script type="module" src="/assets/tools/pdf-accessibility-checker.js"></script>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>

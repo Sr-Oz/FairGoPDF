@@ -16,6 +16,7 @@ window.SEARCH_INDEX = [
   { title: "Resize PDF Pages", url: "/resize-pdf-pages/", icon: "straighten", desc: "Scale every page to A4, Letter or Legal size", group: "Organise", category: "PDF Tool" },
   { title: "Crop PDF Pages", url: "/crop-pdf/", icon: "crop", desc: "Trim margins or unwanted edges from every page", group: "Organise", category: "PDF Tool" },
   { title: "Compare PDFs", url: "/compare-pdfs/", icon: "compare_arrows", desc: "Diff the text of two PDF versions line by line", group: "Fix & Optimise", category: "PDF Tool" },
+  { title: "Accessibility Checker", url: "/pdf-accessibility-checker/", icon: "accessibility_new", desc: "Check tagging, language, title, alt text and form field labels", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Fill PDF Form", url: "/fill-pdf-form/", icon: "edit_note", desc: "Fill text fields, checkboxes and dropdowns on a PDF form", group: "Forms & Signatures", category: "PDF Tool" },
   { title: "Sign PDF", url: "/sign-pdf/", icon: "draw", desc: "Draw or type a signature and place it on any page", group: "Forms & Signatures", category: "PDF Tool" },
   { title: "PDF Colour Filters", url: "/pdf-colour-filters/", icon: "tonality", desc: "Greyscale, invert, or adjust brightness/contrast/saturation", alt: "color grayscale", group: "Edit & Design", category: "PDF Tool" },
@@ -84,6 +85,7 @@ window.SEARCH_INDEX = [
   { title: "Calendar Generator", url: "/calendar-generator/", icon: "calendar_month", desc: "Printable 12-month calendar PDF for any year, mark birthdays and custom dates", category: "Utility" },
 
   // Blog
+  { title: "Why We Built a Basic PDF Accessibility Checker", url: "/blog/why-pdf-accessibility-checker-exists/", desc: "Most PDFs fail screen readers in ways nobody notices until it's too late, what a quick check can and can't tell you", category: "Blog" },
   { title: "What Australian and NZ Privacy Law Says About Uploading Your Documents Online", url: "/blog/privacy-law-document-uploads-anz/", desc: "The Privacy Act, the Australian Privacy Principles and NZ's Privacy Act 2020, and what actually applies when you use an online document tool", category: "Blog" },
   { title: "How Different Industries Across Australia and New Zealand Use PDF Tools", url: "/blog/pdf-tools-across-anz-industries/", desc: "Real estate, legal, accounting, healthcare, education and trades, how each actually uses PDF and document tools", category: "Blog" },
   { title: "How VET Providers and Universities Across Australia and NZ Use PDF Tools", url: "/blog/pdf-tools-in-vet-and-higher-education/", desc: "RTOs, TAFEs and universities generate huge volumes of assessment, compliance and enrolment paperwork", category: "Blog" },
