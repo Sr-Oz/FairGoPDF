@@ -825,6 +825,147 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   .reveal-ready .tool-grid .tool-card { transition: none; }
 }
 
+/* Experimental "premium" hover effect, Utilities tiles only, for now —
+   a glow, a flickering tile grid and corner brackets that draw in on
+   hover. Scoped to .tool-grid--shine so it can't leak onto any other
+   .tool-card (PDF/Image Tools, related-tool-card) anywhere on the site.
+   The decorative markup (.shine/.background/.tile/.line) is injected by
+   site.js, not hand-authored here, so a card degrades to the plain
+   .tool-card look with no dead markup if JS never runs. */
+/* The glow intentionally bleeds past each card's own edges (below), so
+   clip it at the grid level rather than the card level — far enough out
+   that the effect isn't cut short, but never past the page's own edges,
+   which is what was causing a stray horizontal scrollbar for cards in
+   the rightmost column. */
+.tool-grid--shine { overflow: hidden; }
+.tool-grid--shine .tool-card { position: relative; }
+.tool-grid--shine .tool-card > .icon,
+.tool-grid--shine .tool-card > h3,
+.tool-grid--shine .tool-card > p {
+  position: relative;
+  z-index: 1;
+}
+
+.tool-grid--shine .tool-card .shine {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+.tool-grid--shine .tool-card .shine::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 55%;
+  width: 150%;
+  padding-bottom: 150%;
+  transform: translateX(-50%);
+  filter: blur(35px);
+  background-image: conic-gradient(from 205deg at 50% 50%, transparent 0deg, var(--brand) 25deg, rgba(0, 77, 64, 0.18) 295deg, transparent 360deg);
+}
+.tool-grid--shine .tool-card:hover .shine { opacity: 1; }
+
+/* A 6x4 grid of tiles, individually positioned (not a repeating
+   background pattern) so a radial mask can fade the whole grid toward
+   the card's edges. */
+.tool-grid--shine .tool-card .background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  mask-image: radial-gradient(circle at 60% 5%, black 0%, black 15%, transparent 60%);
+  -webkit-mask-image: radial-gradient(circle at 60% 5%, black 0%, black 15%, transparent 60%);
+}
+.tool-grid--shine .tool-card .tile {
+  position: absolute;
+  width: 16.6667%;
+  height: 25%;
+  background-color: rgba(0, 77, 64, 0.07);
+  opacity: 0;
+  animation-duration: 8s;
+  animation-iteration-count: infinite;
+}
+.tool-grid--shine .tool-card .tile:nth-child(6n+1) { left: 0%; }
+.tool-grid--shine .tool-card .tile:nth-child(6n+2) { left: 16.6667%; }
+.tool-grid--shine .tool-card .tile:nth-child(6n+3) { left: 33.3333%; }
+.tool-grid--shine .tool-card .tile:nth-child(6n+4) { left: 50%; }
+.tool-grid--shine .tool-card .tile:nth-child(6n+5) { left: 66.6667%; }
+.tool-grid--shine .tool-card .tile:nth-child(6n)   { left: 83.3333%; }
+.tool-grid--shine .tool-card .tile:nth-child(-n+6) { top: 0%; }
+.tool-grid--shine .tool-card .tile:nth-child(n+7):nth-child(-n+12) { top: 25%; }
+.tool-grid--shine .tool-card .tile:nth-child(n+13):nth-child(-n+18) { top: 50%; }
+.tool-grid--shine .tool-card .tile:nth-child(n+19):nth-child(-n+24) { top: 75%; }
+/* Negative delays on a scattered subset so tiles flicker out of sync
+   with each other instead of all at once. */
+.tool-grid--shine .tool-card .tile:nth-child(3n+2) { animation-delay: -2.6s; }
+.tool-grid--shine .tool-card .tile:nth-child(5n+1) { animation-delay: -4.8s; }
+
+@keyframes tool-tile-flicker {
+  0%, 12.5%, 100% { opacity: 1; }
+  25%, 82.5% { opacity: 0; }
+}
+.tool-grid--shine .tool-card:hover .tile { animation-name: tool-tile-flicker; }
+
+/* Four corner brackets that grow in from each corner on hover, each
+   with its own stagger so they draw in sequence rather than snapping
+   in together. */
+.tool-grid--shine .tool-card .line {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+.tool-grid--shine .tool-card .line-1 { top: -1px; left: -1px; }
+.tool-grid--shine .tool-card .line-2 { top: -1px; right: -1px; }
+.tool-grid--shine .tool-card .line-3 { bottom: -1px; right: -1px; }
+.tool-grid--shine .tool-card .line-4 { bottom: -1px; left: -1px; }
+
+.tool-grid--shine .tool-card .line::before,
+.tool-grid--shine .tool-card .line::after {
+  content: "";
+  position: absolute;
+  background-color: var(--brand);
+  transition: transform 0.35s ease;
+}
+/* ::before = the horizontal segment, ::after = the vertical segment;
+   each corner anchors (transform-origin) and grows toward its own
+   corner point instead of all sharing line-1's top-left anchor. */
+.tool-grid--shine .tool-card .line::before { top: 0; height: 2px; width: 100%; transform: scaleX(0); }
+.tool-grid--shine .tool-card .line::after { left: 0; width: 2px; height: 100%; transform: scaleY(0); }
+
+.tool-grid--shine .tool-card .line-1::before { left: 0; transform-origin: left; }
+.tool-grid--shine .tool-card .line-1::after { top: 0; transform-origin: top; }
+.tool-grid--shine .tool-card .line-2::before { right: 0; left: auto; transform-origin: right; }
+.tool-grid--shine .tool-card .line-2::after { top: 0; right: 0; left: auto; transform-origin: top; }
+.tool-grid--shine .tool-card .line-3::before { right: 0; left: auto; bottom: 0; top: auto; transform-origin: right; }
+.tool-grid--shine .tool-card .line-3::after { bottom: 0; right: 0; top: auto; left: auto; transform-origin: bottom; }
+.tool-grid--shine .tool-card .line-4::before { left: 0; bottom: 0; top: auto; transform-origin: left; }
+.tool-grid--shine .tool-card .line-4::after { bottom: 0; left: 0; top: auto; transform-origin: bottom; }
+
+.tool-grid--shine .tool-card .line-1::before, .tool-grid--shine .tool-card .line-1::after { transition-delay: 0s; }
+.tool-grid--shine .tool-card .line-2::before, .tool-grid--shine .tool-card .line-2::after { transition-delay: 0.08s; }
+.tool-grid--shine .tool-card .line-3::before, .tool-grid--shine .tool-card .line-3::after { transition-delay: 0.16s; }
+.tool-grid--shine .tool-card .line-4::before, .tool-grid--shine .tool-card .line-4::after { transition-delay: 0.24s; }
+
+.tool-grid--shine .tool-card:hover .line::before { transform: scaleX(1); }
+.tool-grid--shine .tool-card:hover .line::after { transform: scaleY(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the glow/brackets, drop the flicker animation and the staged
+     timing, so hover state appears immediately instead of in stages. */
+  .tool-grid--shine .tool-card .tile { animation: none; }
+  .tool-grid--shine .tool-card .shine,
+  .tool-grid--shine .tool-card .tile,
+  .tool-grid--shine .tool-card .line::before,
+  .tool-grid--shine .tool-card .line::after {
+    transition: none;
+  }
+}
+
 /* Blog index: featured hero */
 .blog-hero {
   position: relative;

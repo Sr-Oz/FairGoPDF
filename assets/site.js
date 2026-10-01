@@ -412,3 +412,42 @@
 
   cards.forEach((card) => observer.observe(card));
 })();
+
+(function premiumShineCards() {
+  // Experimental hover effect (glow + flickering tile grid + corner
+  // brackets), scoped to .tool-grid--shine only — currently just the
+  // Utilities section, while we try it out. The decorative markup is
+  // built here rather than hand-authored in HTML so a card falls back
+  // to the plain .tool-card look if this never runs, and so rolling
+  // this out to (or back out of) other sections later is a one-line
+  // class change, not an HTML rewrite across every tool card.
+  const TILE_COUNT = 24;
+  const cards = document.querySelectorAll(".tool-grid--shine .tool-card");
+  if (!cards.length) return;
+
+  cards.forEach((card) => {
+    const frag = document.createDocumentFragment();
+
+    const shine = document.createElement("span");
+    shine.className = "shine";
+    shine.setAttribute("aria-hidden", "true");
+    frag.appendChild(shine);
+
+    const background = document.createElement("span");
+    background.className = "background";
+    background.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < TILE_COUNT; i++) {
+      background.appendChild(document.createElement("span")).className = "tile";
+    }
+    frag.appendChild(background);
+
+    for (let i = 1; i <= 4; i++) {
+      const line = document.createElement("span");
+      line.className = `line line-${i}`;
+      line.setAttribute("aria-hidden", "true");
+      frag.appendChild(line);
+    }
+
+    card.prepend(frag);
+  });
+})();
