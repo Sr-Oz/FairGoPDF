@@ -167,6 +167,7 @@ ever down):
 - [`mammoth.js`](https://github.com/mwilliamson/mammoth.js) — converting Word (.docx) to HTML (Convert to Markdown)
 - [`turndown`](https://github.com/mixmark-io/turndown) — converting HTML to Markdown (Convert to Markdown)
 - [`qrcode-generator`](https://github.com/kazuhikoarase/qrcode-generator) — QR code encoding (QR Code Generator)
+- [`SheetJS`](https://sheetjs.com/) — reading .xlsx/.xls/.ods spreadsheets (Excel to PDF)
 - [`fflate`](https://github.com/101arrowz/fflate) — ZIP packing and FlateDecode decompression (Extract Images from PDF)
 - Native Canvas API — all image compression/conversion/resize/crop/rotate
 
