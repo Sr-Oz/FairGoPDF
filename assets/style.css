@@ -825,19 +825,23 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   .reveal-ready .tool-grid .tool-card { transition: none; }
 }
 
-/* Experimental "premium" hover effect, Utilities tiles only, for now —
-   a glow, a flickering tile grid and corner brackets that draw in on
-   hover. Scoped to .tool-grid--shine so it can't leak onto any other
-   .tool-card (PDF/Image Tools, related-tool-card) anywhere on the site.
-   The decorative markup (.shine/.background/.tile/.line) is injected by
+/* "Premium" hover effect, Utilities tiles only, for now — a glow, a
+   flickering tile grid and grid-line accents that draw in on hover,
+   rebuilt from https://codepen.io/aaroniker/pen/yLEPJXj (markup/sizes/
+   delays kept faithful to the source; colours swapped for the site's own
+   --brand token, which already resolves correctly in dark mode). Scoped
+   to .tool-grid--shine so it can't leak onto any other .tool-card
+   (PDF/Image Tools, related-tool-card) anywhere on the site. The
+   decorative markup (.shine/.background/.tiles/.line) is injected by
    site.js, not hand-authored here, so a card degrades to the plain
-   .tool-card look with no dead markup if JS never runs. */
-/* The glow intentionally bleeds past each card's own edges (below), so
-   clip it at the grid level rather than the card level — far enough out
-   that the effect isn't cut short, but never past the page's own edges,
-   which is what was causing a stray horizontal scrollbar for cards in
-   the rightmost column. */
-.tool-grid--shine { overflow: hidden; }
+   .tool-card look with no dead markup if JS never runs.
+
+   The first version of this skipped `overflow: hidden` on .shine itself
+   — without it, the glow's intentionally-oversized blurred blob wasn't
+   clipped to its own card at all, and bled across several neighbouring
+   cards into one giant smear. Each effect layer below clips itself
+   (.shine and .background both do), rather than relying on a clip
+   somewhere higher up, which is what actually contains it correctly. */
 .tool-grid--shine .tool-card { position: relative; }
 .tool-grid--shine .tool-card > .icon,
 .tool-grid--shine .tool-card > h3,
@@ -850,6 +854,8 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s;
@@ -861,15 +867,17 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   bottom: 55%;
   width: 150%;
   padding-bottom: 150%;
+  border-radius: 50%;
   transform: translateX(-50%);
   filter: blur(35px);
-  background-image: conic-gradient(from 205deg at 50% 50%, transparent 0deg, var(--brand) 25deg, rgba(0, 77, 64, 0.18) 295deg, transparent 360deg);
+  opacity: 0.3;
+  background-image: conic-gradient(from 225deg at 50% 50%, rgba(0, 77, 64, 0) 0deg, var(--brand) 25deg, color-mix(in srgb, var(--brand) 12%, white) 285deg, white 345deg, rgba(0, 77, 64, 0) 360deg);
 }
 .tool-grid--shine .tool-card:hover .shine { opacity: 1; }
 
-/* A 6x4 grid of tiles, individually positioned (not a repeating
-   background pattern) so a radial mask can fade the whole grid toward
-   the card's edges. */
+/* 10 individually-sized/positioned tiles (not a repeating background),
+   covering roughly the top-right two-thirds of the card so the radial
+   mask below can fade them out toward the edges naturally. */
 .tool-grid--shine .tool-card .background {
   position: absolute;
   inset: 0;
@@ -880,86 +888,87 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   mask-image: radial-gradient(circle at 60% 5%, black 0%, black 15%, transparent 60%);
   -webkit-mask-image: radial-gradient(circle at 60% 5%, black 0%, black 15%, transparent 60%);
 }
+.tool-grid--shine .tool-card .tiles {
+  opacity: 0;
+  transition: opacity 0.25s;
+}
 .tool-grid--shine .tool-card .tile {
   position: absolute;
-  width: 16.6667%;
-  height: 25%;
-  background-color: rgba(0, 77, 64, 0.07);
+  background-color: color-mix(in srgb, var(--brand) 8%, transparent);
   opacity: 0;
   animation-duration: 8s;
   animation-iteration-count: infinite;
 }
-.tool-grid--shine .tool-card .tile:nth-child(6n+1) { left: 0%; }
-.tool-grid--shine .tool-card .tile:nth-child(6n+2) { left: 16.6667%; }
-.tool-grid--shine .tool-card .tile:nth-child(6n+3) { left: 33.3333%; }
-.tool-grid--shine .tool-card .tile:nth-child(6n+4) { left: 50%; }
-.tool-grid--shine .tool-card .tile:nth-child(6n+5) { left: 66.6667%; }
-.tool-grid--shine .tool-card .tile:nth-child(6n)   { left: 83.3333%; }
-.tool-grid--shine .tool-card .tile:nth-child(-n+6) { top: 0%; }
-.tool-grid--shine .tool-card .tile:nth-child(n+7):nth-child(-n+12) { top: 25%; }
-.tool-grid--shine .tool-card .tile:nth-child(n+13):nth-child(-n+18) { top: 50%; }
-.tool-grid--shine .tool-card .tile:nth-child(n+19):nth-child(-n+24) { top: 75%; }
+.tool-grid--shine .tool-card .tile-1 { top: 0; left: 0; height: 10%; width: 22.5%; }
+.tool-grid--shine .tool-card .tile-2 { top: 0; left: 22.5%; height: 10%; width: 27.5%; }
+.tool-grid--shine .tool-card .tile-3 { top: 0; left: 50%; height: 10%; width: 27.5%; }
+.tool-grid--shine .tool-card .tile-4 { top: 0; left: 77.5%; height: 10%; width: 22.5%; }
+.tool-grid--shine .tool-card .tile-5 { top: 10%; left: 0; height: 22.5%; width: 22.5%; }
+.tool-grid--shine .tool-card .tile-6 { top: 10%; left: 22.5%; height: 22.5%; width: 27.5%; }
+.tool-grid--shine .tool-card .tile-7 { top: 10%; left: 50%; height: 22.5%; width: 27.5%; }
+.tool-grid--shine .tool-card .tile-8 { top: 10%; left: 77.5%; height: 22.5%; width: 22.5%; }
+.tool-grid--shine .tool-card .tile-9 { top: 32.5%; left: 50%; height: 22.5%; width: 27.5%; }
+.tool-grid--shine .tool-card .tile-10 { top: 32.5%; left: 77.5%; height: 22.5%; width: 22.5%; }
 /* Negative delays on a scattered subset so tiles flicker out of sync
    with each other instead of all at once. */
-.tool-grid--shine .tool-card .tile:nth-child(3n+2) { animation-delay: -2.6s; }
-.tool-grid--shine .tool-card .tile:nth-child(5n+1) { animation-delay: -4.8s; }
+.tool-grid--shine .tool-card .tile-4,
+.tool-grid--shine .tool-card .tile-6,
+.tool-grid--shine .tool-card .tile-10 { animation-delay: -2s; }
+.tool-grid--shine .tool-card .tile-3,
+.tool-grid--shine .tool-card .tile-5,
+.tool-grid--shine .tool-card .tile-8 { animation-delay: -4s; }
+.tool-grid--shine .tool-card .tile-2,
+.tool-grid--shine .tool-card .tile-9 { animation-delay: -6s; }
 
 @keyframes tool-tile-flicker {
   0%, 12.5%, 100% { opacity: 1; }
   25%, 82.5% { opacity: 0; }
 }
+.tool-grid--shine .tool-card:hover .tiles { opacity: 1; transition-delay: 0.25s; }
 .tool-grid--shine .tool-card:hover .tile { animation-name: tool-tile-flicker; }
 
-/* Four corner brackets that grow in from each corner on hover, each
-   with its own stagger so they draw in sequence rather than snapping
-   in together. */
+/* 3 grid-line accents aligned to the tile boundaries above (not corner
+   brackets) — each is one horizontal + one vertical segment, drawn in
+   from a fixed point on hover with its own stagger. */
 .tool-grid--shine .tool-card .line {
   position: absolute;
-  width: 22px;
-  height: 22px;
-  pointer-events: none;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s;
 }
-.tool-grid--shine .tool-card .line-1 { top: -1px; left: -1px; }
-.tool-grid--shine .tool-card .line-2 { top: -1px; right: -1px; }
-.tool-grid--shine .tool-card .line-3 { bottom: -1px; right: -1px; }
-.tool-grid--shine .tool-card .line-4 { bottom: -1px; left: -1px; }
-
 .tool-grid--shine .tool-card .line::before,
 .tool-grid--shine .tool-card .line::after {
   content: "";
   position: absolute;
-  background-color: var(--brand);
-  transition: transform 0.35s ease;
+  background-color: var(--border);
+  transition: transform 0.35s;
 }
-/* ::before = the horizontal segment, ::after = the vertical segment;
-   each corner anchors (transform-origin) and grows toward its own
-   corner point instead of all sharing line-1's top-left anchor. */
-.tool-grid--shine .tool-card .line::before { top: 0; height: 2px; width: 100%; transform: scaleX(0); }
-.tool-grid--shine .tool-card .line::after { left: 0; width: 2px; height: 100%; transform: scaleY(0); }
+.tool-grid--shine .tool-card .line::before { left: 0; right: 0; height: 1px; transform-origin: 0 50%; transform: scaleX(0); }
+.tool-grid--shine .tool-card .line::after { top: 0; bottom: 0; width: 1px; transform-origin: 50% 0; transform: scaleY(0); }
+.tool-grid--shine .tool-card .line-1::before { top: 10%; }
+.tool-grid--shine .tool-card .line-1::after { left: 22.5%; }
+.tool-grid--shine .tool-card .line-2::before { top: 32.5%; }
+.tool-grid--shine .tool-card .line-2::after { left: 50%; }
+.tool-grid--shine .tool-card .line-3::before { top: 55%; }
+.tool-grid--shine .tool-card .line-3::after { right: 22.5%; }
 
-.tool-grid--shine .tool-card .line-1::before { left: 0; transform-origin: left; }
-.tool-grid--shine .tool-card .line-1::after { top: 0; transform-origin: top; }
-.tool-grid--shine .tool-card .line-2::before { right: 0; left: auto; transform-origin: right; }
-.tool-grid--shine .tool-card .line-2::after { top: 0; right: 0; left: auto; transform-origin: top; }
-.tool-grid--shine .tool-card .line-3::before { right: 0; left: auto; bottom: 0; top: auto; transform-origin: right; }
-.tool-grid--shine .tool-card .line-3::after { bottom: 0; right: 0; top: auto; left: auto; transform-origin: bottom; }
-.tool-grid--shine .tool-card .line-4::before { left: 0; bottom: 0; top: auto; transform-origin: left; }
-.tool-grid--shine .tool-card .line-4::after { bottom: 0; left: 0; top: auto; transform-origin: bottom; }
-
-.tool-grid--shine .tool-card .line-1::before, .tool-grid--shine .tool-card .line-1::after { transition-delay: 0s; }
-.tool-grid--shine .tool-card .line-2::before, .tool-grid--shine .tool-card .line-2::after { transition-delay: 0.08s; }
-.tool-grid--shine .tool-card .line-3::before, .tool-grid--shine .tool-card .line-3::after { transition-delay: 0.16s; }
-.tool-grid--shine .tool-card .line-4::before, .tool-grid--shine .tool-card .line-4::after { transition-delay: 0.24s; }
-
+.tool-grid--shine .tool-card:hover .line { opacity: 1; transition-duration: 0.15s; }
 .tool-grid--shine .tool-card:hover .line::before { transform: scaleX(1); }
 .tool-grid--shine .tool-card:hover .line::after { transform: scaleY(1); }
+.tool-grid--shine .tool-card:hover .line-1::before,
+.tool-grid--shine .tool-card:hover .line-1::after { transition-delay: 0s; }
+.tool-grid--shine .tool-card:hover .line-2::before,
+.tool-grid--shine .tool-card:hover .line-2::after { transition-delay: 0.15s; }
+.tool-grid--shine .tool-card:hover .line-3::before,
+.tool-grid--shine .tool-card:hover .line-3::after { transition-delay: 0.3s; }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Keep the glow/brackets, drop the flicker animation and the staged
+  /* Keep the glow/lines, drop the flicker animation and the staged
      timing, so hover state appears immediately instead of in stages. */
   .tool-grid--shine .tool-card .tile { animation: none; }
   .tool-grid--shine .tool-card .shine,
-  .tool-grid--shine .tool-card .tile,
+  .tool-grid--shine .tool-card .tiles,
+  .tool-grid--shine .tool-card .line,
   .tool-grid--shine .tool-card .line::before,
   .tool-grid--shine .tool-card .line::after {
     transition: none;
@@ -1170,6 +1179,16 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   margin: 0;
   font-size: 0.88rem;
   color: var(--text-muted);
+}
+
+/* Part of the Utilities-only hover effect above: push the icon to a
+   single vibrant brand colour on hover, regardless of which of the 6
+   cycling rest-state colours it normally has. Declared after the
+   nth-child cycling rules (same selector specificity, so source order
+   decides) so this wins on hover instead of being silently shadowed. */
+.tool-grid--shine .tool-card:hover .icon {
+  background: color-mix(in srgb, var(--brand) 20%, transparent);
+  color: var(--brand);
 }
 
 /* Compact "Related tools" cards: same box/hover/icon-cycling as .tool-card, smaller footprint. */

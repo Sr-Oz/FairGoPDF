@@ -414,14 +414,15 @@
 })();
 
 (function premiumShineCards() {
-  // Experimental hover effect (glow + flickering tile grid + corner
-  // brackets), scoped to .tool-grid--shine only — currently just the
-  // Utilities section, while we try it out. The decorative markup is
-  // built here rather than hand-authored in HTML so a card falls back
-  // to the plain .tool-card look if this never runs, and so rolling
-  // this out to (or back out of) other sections later is a one-line
-  // class change, not an HTML rewrite across every tool card.
-  const TILE_COUNT = 24;
+  // Hover effect (glow + flickering tile grid + grid-line accents),
+  // scoped to .tool-grid--shine only — currently just the Utilities
+  // section, while we try it out. Markup/sizes/delays follow
+  // https://codepen.io/aaroniker/pen/yLEPJXj (colours swapped for the
+  // site's own --brand token). Built here rather than hand-authored in
+  // HTML so a card falls back to the plain .tool-card look if this
+  // never runs, and so rolling this out to (or back out of) other
+  // sections later is a one-line class change, not an HTML rewrite
+  // across every tool card.
   const cards = document.querySelectorAll(".tool-grid--shine .tool-card");
   if (!cards.length) return;
 
@@ -436,17 +437,18 @@
     const background = document.createElement("span");
     background.className = "background";
     background.setAttribute("aria-hidden", "true");
-    for (let i = 0; i < TILE_COUNT; i++) {
-      background.appendChild(document.createElement("span")).className = "tile";
+
+    const tiles = document.createElement("span");
+    tiles.className = "tiles";
+    for (let i = 1; i <= 10; i++) {
+      tiles.appendChild(document.createElement("span")).className = `tile tile-${i}`;
+    }
+    background.appendChild(tiles);
+
+    for (let i = 1; i <= 3; i++) {
+      background.appendChild(document.createElement("span")).className = `line line-${i}`;
     }
     frag.appendChild(background);
-
-    for (let i = 1; i <= 4; i++) {
-      const line = document.createElement("span");
-      line.className = `line line-${i}`;
-      line.setAttribute("aria-hidden", "true");
-      frag.appendChild(line);
-    }
 
     card.prepend(frag);
   });
