@@ -100,4 +100,5 @@ window.SEARCH_INDEX = [
   { title: "FAQ", url: "/faq/", desc: "Common questions about privacy, cost, file limits and browser support", category: "Page" },
   { title: "Partner With Us", url: "/partnerships/", desc: "Sponsor Fair Go PDF, or partner with us as an AU/NZ government organisation", category: "Page" },
   { title: "Contact Us", url: "/contact/", desc: "Questions, feedback, partnership enquiries, get in touch", category: "Page" },
+  { title: "Terms & Conditions", url: "/terms-and-conditions/", desc: "The terms that apply to using Fair Go PDF's free browser-based tools", category: "Page" },
 ];
