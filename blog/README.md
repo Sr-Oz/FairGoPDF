@@ -13,7 +13,7 @@ the note on content model below if you're wondering why.
    is a good reference since it has all the pieces: breadcrumb, byline, body, FAQ block, CTA,
    related-guides links, and both JSON-LD schema blocks.
 4. **Fill in these required pieces**:
-   - `<title>` — unique, under ~60 characters, ends with `| FairGo PDF`.
+   - `<title>` — unique, under ~60 characters, ends with `| Fair Go PDF`.
    - `<meta name="description">` — unique, one or two sentences, no keyword stuffing.
    - `<link rel="canonical">` and the `og:*` / `twitter:card` meta tags — update the URL and copy
      matching the title/description.

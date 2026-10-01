@@ -1,4 +1,4 @@
-# FairGo PDF
+# Fair Go PDF
 
 No worries, PDF tools done right. Free, no-signup, privacy-first browser tools for common image and
 PDF tasks — compress, convert, resize, merge, split, and more.
@@ -10,7 +10,7 @@ watermarked output.
 
 [**fairgopdf.au →**](https://fairgopdf.au/)
 
-![FairGo PDF homepage](docs/screenshots/homepage-hero.jpg)
+![Fair Go PDF homepage](docs/screenshots/homepage-hero.jpg)
 
 <table>
 <tr>

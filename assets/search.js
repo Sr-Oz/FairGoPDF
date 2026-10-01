@@ -15,7 +15,7 @@
     overlay = document.createElement("div");
     overlay.className = "search-overlay";
     overlay.innerHTML = `
-      <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search FairGo PDF">
+      <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search Fair Go PDF">
         <div class="search-input-row">
           <span class="material-symbols-outlined" aria-hidden="true">search</span>
           <input type="text" id="searchInput" placeholder="Search tools and guides…" autocomplete="off" spellcheck="false">

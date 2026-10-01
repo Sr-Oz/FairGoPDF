@@ -134,7 +134,7 @@ form.addEventListener("submit", async (e) => {
         access_key: WEB3FORMS_ACCESS_KEY,
         name: fields.name.input.value.trim(),
         email: fields.email.input.value.trim(),
-        subject: `[FairGo PDF] ${fields.subject.input.value.trim()}`,
+        subject: `[Fair Go PDF] ${fields.subject.input.value.trim()}`,
         message: fields.message.input.value.trim(),
         "h-captcha-response": hcaptchaToken,
       }),

@@ -85,7 +85,7 @@ window.SEARCH_INDEX = [
   { title: "Calendar Generator", url: "/calendar-generator/", icon: "calendar_month", desc: "Printable 12-month calendar PDF for any year, mark birthdays and custom dates", category: "Utility" },
 
   // Blog
-  { title: "Why I Built a Basic PDF Accessibility Checker", url: "/blog/why-pdf-accessibility-checker-exists/", desc: "Most PDFs fail screen readers in ways nobody notices until it's too late, what a quick check can and can't tell you", category: "Blog" },
+  { title: "Why Fair Go PDF Built a Basic PDF Accessibility Checker", url: "/blog/why-pdf-accessibility-checker-exists/", desc: "Most PDFs fail screen readers in ways nobody notices until it's too late, what a quick check can and can't tell you", category: "Blog" },
   { title: "What Australian and NZ Privacy Law Says About Uploading Your Documents Online", url: "/blog/privacy-law-document-uploads-anz/", desc: "The Privacy Act, the Australian Privacy Principles and NZ's Privacy Act 2020, and what actually applies when you use an online document tool", category: "Blog" },
   { title: "How Different Industries Across Australia and New Zealand Use PDF Tools", url: "/blog/pdf-tools-across-anz-industries/", desc: "Real estate, legal, accounting, healthcare, education and trades, how each actually uses PDF and document tools", category: "Blog" },
   { title: "How VET Providers and Universities Across Australia and NZ Use PDF Tools", url: "/blog/pdf-tools-in-vet-and-higher-education/", desc: "RTOs, TAFEs and universities generate huge volumes of assessment, compliance and enrolment paperwork", category: "Blog" },
@@ -98,6 +98,6 @@ window.SEARCH_INDEX = [
 
   // Other pages
   { title: "FAQ", url: "/faq/", desc: "Common questions about privacy, cost, file limits and browser support", category: "Page" },
-  { title: "Partner With Us", url: "/partnerships/", desc: "Sponsor FairGo PDF, or partner with us as an AU/NZ government organisation", category: "Page" },
+  { title: "Partner With Us", url: "/partnerships/", desc: "Sponsor Fair Go PDF, or partner with us as an AU/NZ government organisation", category: "Page" },
   { title: "Contact Us", url: "/contact/", desc: "Questions, feedback, partnership enquiries, get in touch", category: "Page" },
 ];
