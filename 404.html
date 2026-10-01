@@ -46,7 +46,7 @@
       <p class="glitch-hero-sub">That page hopped off somewhere, it's not here. Here's how to get back on track.</p>
       <div class="actions-row" style="justify-content:center;">
         <a class="btn" href="/">Back to all tools</a>
-        <a class="btn secondary" href="/#pdf-tools">Browse PDF Tools</a>
+        <a class="btn secondary" href="/" id="randomToolBtn">Surprise Me</a>
       </div>
     </div>
   </section>
@@ -54,5 +54,16 @@
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById("randomToolBtn");
+  if (!btn || !window.SEARCH_INDEX) return;
+  var tools = window.SEARCH_INDEX.filter(function (item) {
+    return item.category === "PDF Tool" || item.category === "Image Tool" || item.category === "Utility";
+  });
+  if (!tools.length) return;
+  btn.href = tools[Math.floor(Math.random() * tools.length)].url;
+})();
+</script>
 </body>
 </html>
