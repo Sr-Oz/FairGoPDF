@@ -8,11 +8,32 @@ is no backend, no upload, and no server that ever sees your files — you could 
 internet after the page loads and every tool would still work. No account, no email gate, no
 watermarked output.
 
-## Live site
+[**fairgopdf.au →**](https://fairgopdf.au/)
 
-https://fairgopdf.au/
+![FairGo PDF homepage](docs/screenshots/homepage-hero.jpg)
+
+<table>
+<tr>
+<td width="50%">
+
+**Dark mode, same privacy**
+![Homepage in dark mode](docs/screenshots/homepage-dark.jpg)
+
+</td>
+<td width="50%">
+
+**One of 72 tools, each its own page**
+![A tool page](docs/screenshots/tool-page.jpg)
+
+</td>
+</tr>
+</table>
 
 ## Tools (v1)
+
+72 tools across three categories — 10 image, 49 PDF, 13 utilities.
+
+![Tool grid hover effect](docs/screenshots/tool-grid.jpg)
 
 ### Image tools
 | Tool | URL | What it does |
@@ -106,7 +127,6 @@ https://fairgopdf.au/
   proper "searchable PDF" output means rebuilding the file with an invisible text layer, not just
   running recognition
 - Cryptographically verified e-signatures
-- PDF to Word / Word to PDF
 - PDF to Excel
 
 Some of these genuinely require server-side processing (format conversion beyond what browsers
@@ -125,7 +145,7 @@ Windows and macOS. A free unsigned Windows build is the realistic first step whe
 picked up.
 
 ### Other pages
-- [Blog](/blog/) — how-to guides for the tools above
+- [Blog](/blog/) — articles on PDF/image know-how, Australian privacy law and industry-specific use cases
 - [FAQ](/faq/) — common questions about privacy, cost, file limits and browser support
 - [Support](/support/) — optional one-off or recurring support via Stripe. **The Stripe Payment Link
   URLs on this page are placeholders (`href="#"`)** — create real ones in your Stripe Dashboard
@@ -177,10 +197,11 @@ Then open the printed local URL (e.g. `http://localhost:3000` or `http://localho
 ├── 404.html
 ├── robots.txt
 ├── sitemap.xml
+├── vercel.json              # Legacy URL redirects + response headers (see Deploying)
 ├── assets/
 │   ├── style.css            # Shared styles (light + dark)
 │   ├── tools.js              # Shared helpers (dropzone, downloads, formatting)
-│   ├── img/og-image.png       # Social share image
+│   ├── img/og-card.png        # Social share image
 │   ├── vendor/                 # Self-hosted pdf-lib / pdf.js (see Tech stack)
 │   └── tools/                 # Per-tool logic, one file per tool
 │       ├── pdf-common.js       # Shared pdf-lib / pdf.js loader + helpers
@@ -191,29 +212,23 @@ Then open the printed local URL (e.g. `http://localhost:3000` or `http://localho
 ├── merge-pdf/index.html
 ├── ...
 ├── partials/                    # Master copies of the shared header and footer
-├── scripts/sync-partials.py     # Copies the partials into every page (see CONTRIBUTING)
-└── .github/workflows/deploy.yml
+└── scripts/sync-partials.py     # Copies the partials into every page (see CONTRIBUTING)
 ```
 
 Each tool page is self-contained: its own `index.html` plus one JS file in `assets/tools/`, sharing
 the common CSS and helper functions.
 
-## Deploying to GitHub Pages
+## Deploying
 
-This is a static site, so there's no build step:
+The live site is deployed on [Vercel](https://vercel.com/), which builds nothing (there's no build
+step) and simply serves the repo's static files on every push to `main`. `vercel.json` defines
+legacy-URL redirects and response headers; the custom domain (`fairgopdf.au`) is configured in the
+Vercel project's dashboard, not in a repo file.
 
-1. In your repo, go to **Settings → Pages**.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions** (the included workflow at
-   `.github/workflows/deploy.yml` handles the rest), or set **Source** to **Deploy from a branch**
-   and pick `main` / `(root)` if you'd rather not use Actions.
-3. Push to `main` — the site will be live at `https://<username>.github.io/<repo>/` within a
-   couple of minutes.
-
-This repo is already configured for a custom domain: the `CNAME` file at the repo root contains
-`fairgopdf.au`, and GitHub Pages is set up with the matching DNS records, which is why the site is
-live at [fairgopdf.au](https://fairgopdf.au/) rather than a `github.io` URL. If you fork this for
-your own domain, replace the `CNAME` file's contents with yours and add the DNS records GitHub
-Pages documents for apex or subdomain setups.
+Being a plain static site, it deploys just as easily to GitHub Pages, Netlify, Cloudflare Pages or
+any other static host — point the host at the repo root and nothing else is needed. A `CNAME` file
+containing `fairgopdf.au` is still in the repo for that case; it's inert on Vercel but is what
+GitHub Pages reads to serve a custom domain if you fork this and deploy there instead.
 
 ## Contributing
 
