@@ -7,6 +7,7 @@ window.SEARCH_INDEX = [
   { title: "Split PDF", url: "/split-pdf/", icon: "call_split", desc: "Extract selected pages or a page range", group: "Organise", category: "PDF Tool" },
   { title: "Compress PDF", url: "/compress-pdf/", icon: "compress", desc: "Reduce PDF file size, quick clean or strong/rasterised", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Images to PDF", url: "/images-to-pdf/", icon: "picture_as_pdf", desc: "Combine JPG/PNG images into a single PDF", group: "Convert", category: "PDF Tool" },
+  { title: "HEIC to PDF", url: "/heic-to-pdf/", icon: "smartphone", desc: "Turn one or more iPhone HEIC/HEIF photos into a single PDF", alt: "heif iphone photo convert", group: "Convert", category: "PDF Tool" },
   { title: "PDF to Images", url: "/pdf-to-images/", icon: "image", desc: "Export every page as a PNG, JPG or WebP", group: "Convert", category: "PDF Tool" },
   { title: "Organise PDF Pages", url: "/organise-pdf/", icon: "reorder", desc: "Rotate, delete, reorder, add blank pages, or reverse order", alt: "organize organizer rearrange", group: "Organise", category: "PDF Tool" },
   { title: "Extract PDF Text", url: "/extract-pdf-text/", icon: "text_fields", desc: "Pull all text out of a PDF to copy or download as .txt", group: "Convert", category: "PDF Tool" },
@@ -57,6 +58,7 @@ window.SEARCH_INDEX = [
   // Image tools
   { title: "Compress Image", url: "/compress-image/", icon: "compress", desc: "Reduce JPEG/PNG/WebP file size with a quality slider", category: "Image Tool" },
   { title: "Convert Image Format", url: "/convert-image/", icon: "sync_alt", desc: "Convert between PNG, JPG, WebP, GIF, BMP and SVG", category: "Image Tool" },
+  { title: "HEIC to JPG", url: "/heic-to-jpg/", icon: "smartphone", desc: "Convert iPhone HEIC/HEIF photos to JPG", alt: "heif iphone photo convert", category: "Image Tool" },
   { title: "Resize Image", url: "/resize-image/", icon: "aspect_ratio", desc: "Resize by exact pixel dimensions or by percentage", category: "Image Tool" },
   { title: "Crop & Rotate Image", url: "/crop-rotate-image/", icon: "crop", desc: "Rotate, flip, and drag-to-crop", category: "Image Tool" },
   { title: "Add Border to Image", url: "/add-border-to-image/", icon: "border_style", desc: "Add a solid colour frame around one or more images", category: "Image Tool" },

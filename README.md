@@ -22,7 +22,7 @@ watermarked output.
 </td>
 <td width="50%">
 
-**One of 72 tools, each its own page**
+**One of 74 tools, each its own page**
 ![A tool page](docs/screenshots/tool-page.jpg)
 
 </td>
@@ -31,7 +31,7 @@ watermarked output.
 
 ## Tools (v1)
 
-72 tools across three categories — 10 image, 49 PDF, 13 utilities.
+74 tools across three categories — 11 image, 50 PDF, 13 utilities.
 
 ![Tool grid hover effect](docs/screenshots/tool-grid.jpg)
 
@@ -40,6 +40,7 @@ watermarked output.
 |---|---|---|
 | Compress Image | `/compress-image/` | Reduce JPEG/PNG/WebP file size with a quality slider |
 | Convert Image Format | `/convert-image/` | Convert between PNG, JPG, WebP, GIF, BMP and SVG |
+| HEIC to JPG | `/heic-to-jpg/` | Convert iPhone HEIC/HEIF photos to JPG |
 | Resize Image | `/resize-image/` | Resize by exact pixel dimensions or by percentage |
 | Crop & Rotate Image | `/crop-rotate-image/` | Rotate, flip, and drag-to-crop |
 | Add Border to Image | `/add-border-to-image/` | Add a solid colour frame around one or more images |
@@ -56,6 +57,7 @@ watermarked output.
 | Split PDF | `/split-pdf/` | Extract selected pages or a page range |
 | Compress PDF | `/compress-pdf/` | Reduce PDF file size (quick clean or strong/rasterised) |
 | Images to PDF | `/images-to-pdf/` | Combine JPG/PNG images into a single PDF |
+| HEIC to PDF | `/heic-to-pdf/` | Turn one or more iPhone HEIC/HEIF photos into a single PDF |
 | PDF to Images | `/pdf-to-images/` | Export every page as a PNG, JPG or WebP |
 | Organise PDF Pages | `/organise-pdf/` | Rotate, delete, reorder, add blank pages, or reverse order |
 | Extract PDF Text | `/extract-pdf-text/` | Pull all text out of a PDF to copy or download as .txt |
@@ -193,6 +195,7 @@ ever down):
 - [`turndown`](https://github.com/mixmark-io/turndown) — converting HTML to Markdown (Convert to Markdown)
 - [`qrcode-generator`](https://github.com/kazuhikoarase/qrcode-generator) — QR code encoding (QR Code Generator)
 - [`SheetJS`](https://sheetjs.com/) — reading .xlsx/.xls/.ods spreadsheets (Excel to PDF)
+- [`heic2any`](https://github.com/alexcorvi/heic2any) — decoding HEIC/HEIF photos to JPEG (HEIC to PDF, HEIC to JPG), bundles `libheif` (LGPL-3.0) compiled to WebAssembly
 - [`fflate`](https://github.com/101arrowz/fflate) — ZIP packing and FlateDecode decompression (Extract Images from PDF)
 - Native Canvas API — all image compression/conversion/resize/crop/rotate
 
