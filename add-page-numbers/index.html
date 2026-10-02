@@ -6,22 +6,22 @@
 <meta name="author" content="Oscar Monsalve">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Add Page Numbers to a PDF Online Free | Fair Go PDF</title>
-<meta name="description" content="Add page numbers to a PDF in the position and format you choose, free and in your browser. No upload, no signup.">
+<title>Add Page Numbers or Bates Numbering to a PDF, Free | Fair Go PDF</title>
+<meta name="description" content="Add page numbers or Bates numbering (DOC-000001 style) to a PDF, any position, free and in your browser. No upload, no signup.">
 <link rel="canonical" href="https://fairgopdf.au/add-page-numbers/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="Add Page Numbers to a PDF Online Free">
-<meta property="og:description" content="Add page numbers to a PDF in the position and format you choose, free and in your browser.">
+<meta property="og:title" content="Add Page Numbers or Bates Numbering to a PDF, Free">
+<meta property="og:description" content="Add page numbers or Bates numbering (DOC-000001 style) to a PDF, any position, free and in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/add-page-numbers/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Fair Go PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Add Page Numbers to a PDF Online Free">
-<meta name="twitter:description" content="Add page numbers to a PDF in the position and format you choose, free and in your browser.">
+<meta name="twitter:title" content="Add Page Numbers or Bates Numbering to a PDF, Free">
+<meta name="twitter:description" content="Add page numbers or Bates numbering (DOC-000001 style) to a PDF, any position, free and in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,7 +78,7 @@
 
     <div class="tool-page-header">
       <h1>Add Page Numbers to a PDF</h1>
-      <p>Number every page in the position and format you choose. Processed locally, nothing is uploaded.</p>
+      <p>Number every page in the position and format you choose, including Bates-style legal numbering. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace">
@@ -120,6 +120,9 @@
           </div>
         </div>
         <p class="help-text">Use <code>{n}</code> for the page number and <code>{total}</code> for the total page count, e.g. "Page {n} of {total}" or just "{n}". Add your own prefix or suffix text around the tokens, e.g. "DOC-{n}", and set "Pad to digits" for zero-padded Bates-style numbering like "DOC-000001".</p>
+        <p>
+          <button type="button" class="btn secondary small" id="batesPresetBtn">Use a Bates numbering preset</button>
+        </p>
         <div class="actions-row">
           <button class="btn" id="runBtn">Add Page Numbers</button>
           <button class="btn secondary" id="clearBtn">Start over</button>

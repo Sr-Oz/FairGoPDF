@@ -128,6 +128,31 @@ watermarked output.
   running recognition
 - Cryptographically verified e-signatures
 - PDF to Excel
+- Convert PDF to PDF/A-3b (archival format) — confirmed feasible client-side via
+  [Ghostscript compiled to WebAssembly](https://github.com/jsscheller/ghostscript-wasm) (real
+  prior art: [Bentopdf](https://huggingface.co/spaces/AUXteam/Bentopdf) does exactly this),
+  deliberately deferred: the WASM binary is ~16–25MB (lazy-loaded only for this tool, not
+  site-wide), there's no client-side way to formally validate the output against the PDF/A-3b
+  spec (same limitation most automated converters have), and Ghostscript is AGPL-licensed, which
+  needs a real legal read before bundling it into an otherwise MIT-licensed site
+- PDF/A structural spot-check tool — checks a PDF against the handful of PDF/A requirements that
+  are actually verifiable with `pdf-lib` alone (tagged structure, `/OutputIntent`/ICC profile
+  present, XMP metadata with the right `pdfaid:part`/`conformance`, no encryption or JavaScript),
+  same honesty pattern as the existing Accessibility Checker: flags the structural basics, doesn't
+  claim full ISO 19005 certification. Informed by [veraPDF](https://github.com/verapdf)'s openly
+  licensed (CC BY 4.0) [validation profiles](https://github.com/veraPDF/veraPDF-validation-profiles)
+  and [test corpus](https://github.com/veraPDF/veraPDF-corpus) as reference/test material, not their
+  actual validation engine (Java/JVM-only, GPL-3.0, no client-side port exists). Doesn't depend on
+  the PDF/A-3b conversion tool above or its AGPL question, since this needs no Ghostscript at all
+- Import a file directly from Google Drive / OneDrive / Dropbox on a tool's dropzone — technically
+  feasible without routing the file through a server (each provider's picker fetches the file bytes
+  straight from the provider to the browser), but deliberately deferred: it needs loading each
+  provider's own JS SDK live from their servers, which can't be self-hosted, a real expansion of the
+  Content-Security-Policy's trusted domains, and an OAuth app registration (plus Google's app
+  verification review) per provider. The bigger reason, though, is positioning, not engineering: an
+  opt-in "Sign in with Google" button is the first thing on the page that visibly contradicts the
+  "nothing talks to anyone except this site" promise the Privacy Policy and Terms & Conditions are
+  built on, even though the file itself would never touch Fair Go PDF's own (non-existent) server
 
 Some of these genuinely require server-side processing (format conversion beyond what browsers
 support natively) and are out of scope for v1 on purpose; others (like OCR above) are feasible

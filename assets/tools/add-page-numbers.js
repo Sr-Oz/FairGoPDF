@@ -8,6 +8,7 @@ const formatInput = document.getElementById("format");
 const startNumInput = document.getElementById("startNum");
 const digitsInput = document.getElementById("digits");
 const fontSizeInput = document.getElementById("fontSize");
+const batesPresetBtn = document.getElementById("batesPresetBtn");
 const runBtn = document.getElementById("runBtn");
 const clearBtn = document.getElementById("clearBtn");
 const statusEl = document.getElementById("status");
@@ -28,6 +29,12 @@ initDropzone(dropzone, fileInput, async (files) => {
   currentBytes = new Uint8Array(await pdf.arrayBuffer());
   editor.style.display = "block";
   clearStatus(statusEl);
+});
+
+batesPresetBtn.addEventListener("click", () => {
+  positionSelect.value = "bottom-right";
+  formatInput.value = "DOC-{n}";
+  digitsInput.value = 6;
 });
 
 clearBtn.addEventListener("click", () => {
