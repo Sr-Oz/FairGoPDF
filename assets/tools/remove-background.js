@@ -58,7 +58,7 @@ async function removeBackground(img) {
   }
 }
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const image = files.find((f) => f.type.startsWith("image/"));
   if (!image) return;
   currentFile = image;
@@ -80,11 +80,32 @@ initDropzone(dropzone, fileInput, async (files) => {
     resultImg.src = URL.createObjectURL(resultBlob);
     resultImg.alt = `Background removed: ${image.name}`;
     setStatus(statusEl, "Sorted — background removed. Download when you're ready.", "success");
+
+    if (window.KeepSorted) {
+      const outName = `${stripExtension(image.name)}-no-bg.png`;
+      KeepSorted.offer({
+        currentTool: "remove-background",
+        blob: resultBlob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     setStatus(statusEl, `Something went wrong: ${err.message || "unknown error"}`, "error");
   }
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "remove-background", dropzone, onFiles: handleFiles });
+}
 
 downloadBtn.addEventListener("click", () => {
   if (!resultBlob || !currentFile) return;

@@ -74,12 +74,16 @@
 
     const quality = Number(qualityInput.value) / 100;
     let successCount = 0;
+    let lastBlob = null;
+    let lastOutName = null;
 
     for (const file of files) {
       try {
         const blob = await convertFile(file, quality);
         successCount++;
         const outName = `${stripExtension(file.name)}.jpg`;
+        lastBlob = blob;
+        lastOutName = outName;
         const previewUrl = URL.createObjectURL(blob);
 
         const item = document.createElement("div");
@@ -108,5 +112,19 @@
 
     setStatus(statusEl, `Sorted — ${successCount} of ${files.length} photo${files.length > 1 ? "s" : ""} converted.`, "success");
     runBtn.disabled = false;
+
+    if (window.KeepSorted && files.length === 1 && successCount === 1) {
+      KeepSorted.offer({
+        currentTool: "heic-to-jpg",
+        blob: lastBlob,
+        filename: lastOutName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   });
 })();

@@ -17,14 +17,7 @@ const statusEl = document.getElementById("status");
 let currentFile = null;
 let currentBytes = null;
 
-initDropzone(dropzone, fileInput, async (files) => {
-  const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
-  if (!pdf) {
-    setStatus(statusEl, "Please choose a PDF file.", "error");
-    statusEl.classList.add("visible");
-    return;
-  }
-
+async function loadFile(pdf) {
   try {
     const bytes = new Uint8Array(await pdf.arrayBuffer());
     const check = await PDFDocument.load(bytes.slice(), { ignoreEncryption: true });
@@ -45,7 +38,21 @@ initDropzone(dropzone, fileInput, async (files) => {
     setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}`, "error");
     statusEl.classList.add("visible");
   }
+}
+
+initDropzone(dropzone, fileInput, async (files) => {
+  const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+  if (!pdf) {
+    setStatus(statusEl, "Please choose a PDF file.", "error");
+    statusEl.classList.add("visible");
+    return;
+  }
+  await loadFile(pdf);
 });
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "protect-pdf", dropzone, onFiles: (files) => loadFile(files[0]) });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;
@@ -91,8 +98,23 @@ runBtn.addEventListener("click", async () => {
     });
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-protected.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-protected.pdf`;
+    triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — your PDF is now password protected (${formatBytes(blob.size)}).`, "success");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "protect-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     setStatus(statusEl, `Something went wrong: ${err.message || "unknown error"}`, "error");

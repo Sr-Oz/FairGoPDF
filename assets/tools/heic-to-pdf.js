@@ -115,6 +115,20 @@ runBtn.addEventListener("click", async () => {
     const outBytes = await doc.save();
     const blob = new Blob([outBytes], { type: "application/pdf" });
     triggerDownload(blob, "photos.pdf");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "heic-to-pdf",
+        blob,
+        filename: "photos.pdf",
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — created a ${formatBytes(blob.size)} PDF with ${files.length} page${files.length > 1 ? "s" : ""}.`, "success");
   } catch (err) {
     console.error(err);

@@ -230,7 +230,7 @@ function startEditorIfNeeded() {
   recalcScale();
 }
 
-initDropzone(dropzone, fileInput, async (newFiles) => {
+async function handleFiles(newFiles) {
   const images = newFiles.filter((f) => f.type.startsWith("image/"));
   if (images.length !== newFiles.length) {
     setStatus(statusEl, "Only image files are supported.", "error");
@@ -251,7 +251,13 @@ initDropzone(dropzone, fileInput, async (newFiles) => {
   }
   renderBoard();
   clearStatus(statusEl);
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "collage-studio", dropzone, onFiles: handleFiles });
+}
 
 addPhotosBtn.addEventListener("click", () => fileInput.click());
 
@@ -721,7 +727,22 @@ runBtn.addEventListener("click", async () => {
 
     const format = formatSelect.value;
     const blob = await canvasToBlob(canvas, format, format === "image/jpeg" ? 0.92 : undefined);
-    triggerDownload(blob, `collage.${extForMime(format)}`);
+    const outName = `collage.${extForMime(format)}`;
+    triggerDownload(blob, outName);
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "collage-studio",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — created a ${canvas.width}×${canvas.height} collage (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

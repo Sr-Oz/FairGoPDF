@@ -108,7 +108,21 @@ runBtn.addEventListener("click", async () => {
     const doc = await renderHtmlSectionsPdf(currentSections, pageSizeSelect.value);
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}.pdf`);
+    const outName = `${stripExtension(currentFile.name)}.pdf`;
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "epub-to-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — created a ${doc.getPageCount()}-page PDF (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

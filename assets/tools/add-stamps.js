@@ -32,7 +32,7 @@ function maybeShowEditor() {
   }
 }
 
-initDropzone(dropzonePdf, pdfInput, async (files) => {
+async function handlePdfFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -43,7 +43,13 @@ initDropzone(dropzonePdf, pdfInput, async (files) => {
   pdfBytes = new Uint8Array(await pdf.arrayBuffer());
   dzTitlePdf.textContent = pdf.name;
   maybeShowEditor();
-});
+}
+
+initDropzone(dropzonePdf, pdfInput, handlePdfFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "add-stamps", dropzone: dropzonePdf, onFiles: handlePdfFiles });
+}
 
 initDropzone(dropzoneImg, imgInput, async (files) => {
   const img = files.find((f) => f.type === "image/png" || f.type === "image/jpeg");
@@ -126,8 +132,23 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(pdfFile.name)}-stamped.pdf`);
+    const outName = `${stripExtension(pdfFile.name)}-stamped.pdf`;
+    triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — stamped ${targetPages.length} page${targetPages.length > 1 ? "s" : ""} (${formatBytes(blob.size)}).`, "success");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "add-stamps",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     setStatus(statusEl, `Something went wrong: ${err.message || "unknown error"}`, "error");

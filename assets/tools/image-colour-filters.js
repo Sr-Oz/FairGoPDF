@@ -67,7 +67,7 @@
     render();
   });
 
-  initDropzone(dropzone, fileInput, async (files) => {
+  async function handleFiles(files) {
     const image = files.find((f) => f.type.startsWith("image/"));
     if (!image) return;
     currentFile = image;
@@ -84,7 +84,13 @@
       setStatus(statusEl, "Could not load that image.", "error");
       statusEl.classList.add("visible");
     }
-  });
+  }
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "image-colour-filters", dropzone, onFiles: handleFiles });
+}
 
   clearBtn.addEventListener("click", () => {
     currentFile = null;
@@ -118,6 +124,19 @@
       const ext = extForMime(blob.type);
       const outName = `${stripExtension(currentFile.name)}-filtered.${ext}`;
       triggerDownload(blob, outName);
+      if (window.KeepSorted) {
+        KeepSorted.offer({
+          currentTool: "image-colour-filters",
+          blob,
+          filename: outName,
+          els: {
+            section: document.getElementById("keepSorted"),
+            list: document.getElementById("keepSortedList"),
+            resetLink: document.getElementById("keepSortedReset"),
+          },
+          relatedSection: document.querySelector(".related-tools-section"),
+        });
+      }
       setStatus(statusEl, `Sorted — downloaded ${outName} (${formatBytes(blob.size)}).`, "success");
     } catch (err) {
       console.error(err);

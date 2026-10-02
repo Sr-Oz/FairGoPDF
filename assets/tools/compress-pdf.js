@@ -17,6 +17,14 @@ const resultItem = document.getElementById("resultItem");
 let currentFile = null;
 let currentBytes = null;
 
+async function loadFile(pdf) {
+  currentFile = pdf;
+  currentBytes = new Uint8Array(await pdf.arrayBuffer());
+  editor.style.display = "block";
+  resultsEl.classList.remove("visible");
+  clearStatus(statusEl);
+}
+
 initDropzone(dropzone, fileInput, async (files) => {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
@@ -24,12 +32,12 @@ initDropzone(dropzone, fileInput, async (files) => {
     statusEl.classList.add("visible");
     return;
   }
-  currentFile = pdf;
-  currentBytes = new Uint8Array(await pdf.arrayBuffer());
-  editor.style.display = "block";
-  resultsEl.classList.remove("visible");
-  clearStatus(statusEl);
+  await loadFile(pdf);
 });
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "compress-pdf", dropzone, onFiles: (files) => loadFile(files[0]) });
+}
 
 document.querySelectorAll('input[name="mode"]').forEach((radio) => {
   radio.addEventListener("change", () => {
@@ -115,6 +123,20 @@ runBtn.addEventListener("click", async () => {
     resultsEl.classList.add("visible");
 
     setStatus(statusEl, savings > 0 ? `Sorted — reduced file size by ${savings}%.` : "Sorted — this PDF was already well optimized.", "success");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "compress-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     setStatus(statusEl, `Something went wrong: ${err.message || "unknown error"}`, "error");

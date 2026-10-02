@@ -29,7 +29,7 @@ let stageHeightPt = 0;
 let baseCanvas = null;
 let dragStartPx = null;
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -67,7 +67,13 @@ initDropzone(dropzone, fileInput, async (files) => {
     setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}`, "error");
     statusEl.classList.add("visible");
   }
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "redact-pdf", dropzone, onFiles: handleFiles });
+}
 
 async function selectPage(index) {
   selectedPageIndex = index;
@@ -233,7 +239,21 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await outDoc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-redacted.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-redacted.pdf`;
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "redact-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(
       statusEl,
       `Sorted — redacted ${markedPages.length} page${markedPages.length > 1 ? "s" : ""} (${formatBytes(blob.size)}).`,

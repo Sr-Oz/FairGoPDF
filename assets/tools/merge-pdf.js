@@ -54,7 +54,7 @@ function renderFileList() {
   clearStatus(statusEl);
 }
 
-initDropzone(dropzone, fileInput, (newFiles) => {
+function addFiles(newFiles) {
   const pdfs = newFiles.filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (pdfs.length !== newFiles.length) {
     setStatus(statusEl, "Some files were skipped because they weren't PDFs.", "error");
@@ -62,7 +62,13 @@ initDropzone(dropzone, fileInput, (newFiles) => {
   }
   files = files.concat(pdfs);
   renderFileList();
-});
+}
+
+initDropzone(dropzone, fileInput, addFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "merge-pdf", dropzone, onFiles: addFiles });
+}
 
 clearBtn.addEventListener("click", () => {
   files = [];
@@ -92,6 +98,20 @@ runBtn.addEventListener("click", async () => {
     const blob = new Blob([outBytes], { type: "application/pdf" });
     triggerDownload(blob, "merged.pdf");
     setStatus(statusEl, `Sorted — merged ${files.length} PDFs into one file (${formatBytes(blob.size)}).`, "success");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "merge-pdf",
+        blob,
+        filename: "merged.pdf",
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     setStatus(statusEl, `Something went wrong: ${err.message || "could not merge these PDFs."}`, "error");

@@ -13,14 +13,7 @@ const statusEl = document.getElementById("status");
 let currentFile = null;
 let currentBytes = null;
 
-initDropzone(dropzone, fileInput, async (files) => {
-  const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
-  if (!pdf) {
-    setStatus(statusEl, "Please choose a PDF file.", "error");
-    statusEl.classList.add("visible");
-    return;
-  }
-
+async function loadFile(pdf) {
   try {
     const bytes = new Uint8Array(await pdf.arrayBuffer());
     const check = await PDFDocument.load(bytes.slice(), { ignoreEncryption: true });
@@ -43,7 +36,21 @@ initDropzone(dropzone, fileInput, async (files) => {
     setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}`, "error");
     statusEl.classList.add("visible");
   }
+}
+
+initDropzone(dropzone, fileInput, async (files) => {
+  const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+  if (!pdf) {
+    setStatus(statusEl, "Please choose a PDF file.", "error");
+    statusEl.classList.add("visible");
+    return;
+  }
+  await loadFile(pdf);
 });
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "unlock-pdf", dropzone, onFiles: (files) => loadFile(files[0]) });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;
@@ -72,8 +79,23 @@ runBtn.addEventListener("click", async () => {
     const doc = await PDFDocument.load(currentBytes.slice(), { password });
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-unlocked.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-unlocked.pdf`;
+    triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — the password has been removed (${formatBytes(blob.size)}).`, "success");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "unlock-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     const message = /password incorrect/i.test(err.message || "")

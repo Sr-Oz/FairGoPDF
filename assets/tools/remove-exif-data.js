@@ -180,6 +180,10 @@
 
   initDropzone(dropzone, fileInput, (files) => addFiles(files));
 
+  if (window.KeepSorted) {
+    KeepSorted.init({ currentTool: "remove-exif-data", dropzone, onFiles: addFiles });
+  }
+
   clearBtn.addEventListener("click", () => {
     queue = [];
     renderQueue();
@@ -196,6 +200,8 @@
     statusEl.classList.add("visible");
 
     let successCount = 0;
+    let lastBlob = null;
+    let lastOutName = null;
     for (const entry of queue) {
       const file = entry.file;
       try {
@@ -212,6 +218,8 @@
         const ext = extForMime(outType);
         const outName = `${stripExtension(file.name)}-clean.${ext}`;
         successCount++;
+        lastBlob = blob;
+        lastOutName = outName;
 
         const item = document.createElement("div");
         item.className = "result-item";
@@ -233,5 +241,19 @@
 
     setStatus(statusEl, `Sorted — cleaned ${successCount} of ${queue.length} file${queue.length === 1 ? "" : "s"}.`, "success");
     runBtn.disabled = false;
+
+    if (window.KeepSorted && queue.length === 1 && successCount === 1) {
+      KeepSorted.offer({
+        currentTool: "remove-exif-data",
+        blob: lastBlob,
+        filename: lastOutName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   });
 })();

@@ -39,7 +39,7 @@ let dragStartPx = null;
 let pendingRectPt = null; // the rect currently being configured in the edit panel
 let editingLink = null; // reference to an existing link object being edited, or null for "new"
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -77,7 +77,13 @@ initDropzone(dropzone, fileInput, async (files) => {
     setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}`, "error");
     statusEl.classList.add("visible");
   }
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "add-links-to-pdf", dropzone, onFiles: handleFiles });
+}
 
 async function selectPage(index) {
   closeEditPanel();
@@ -364,7 +370,21 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-links.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-links.pdf`;
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "add-links-to-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     const totalLinks = markedPages.reduce((sum, [, l]) => sum + l.length, 0);
     setStatus(statusEl, `Sorted — added ${totalLinks} link${totalLinks > 1 ? "s" : ""} (${formatBytes(blob.size)}).`, "success");
   } catch (err) {

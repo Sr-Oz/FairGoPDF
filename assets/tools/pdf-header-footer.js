@@ -18,7 +18,7 @@ const statusEl = document.getElementById("status");
 let currentFile = null;
 let currentBytes = null;
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -29,7 +29,13 @@ initDropzone(dropzone, fileInput, async (files) => {
   currentBytes = new Uint8Array(await pdf.arrayBuffer());
   editor.style.display = "block";
   clearStatus(statusEl);
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "pdf-header-footer", dropzone, onFiles: handleFiles });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;
@@ -107,7 +113,21 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-header-footer.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-header-footer.pdf`;
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "pdf-header-footer",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — added to ${total} page${total > 1 ? "s" : ""} (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

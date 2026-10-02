@@ -25,7 +25,7 @@ async function loadSlot(file, titleEl, subEl, label) {
   return { bytes, count };
 }
 
-initDropzone(dropzoneA, fileInputA, async (files) => {
+async function handleFilesA(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -41,7 +41,13 @@ initDropzone(dropzoneA, fileInputA, async (files) => {
     console.error(err);
     setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}`, "error");
   }
-});
+}
+
+initDropzone(dropzoneA, fileInputA, handleFilesA);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "alternate-mix-pages", dropzone: dropzoneA, onFiles: handleFilesA });
+}
 
 initDropzone(dropzoneB, fileInputB, async (files) => {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
@@ -106,6 +112,20 @@ runBtn.addEventListener("click", async () => {
     const bytes = await out.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     triggerDownload(blob, "interleaved.pdf");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "alternate-mix-pages",
+        blob,
+        filename: "interleaved.pdf",
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — interleaved ${indicesA.length + indicesB.length} pages into one file (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

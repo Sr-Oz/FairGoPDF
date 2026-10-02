@@ -200,7 +200,21 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}.pdf`);
+    const outName = `${stripExtension(currentFile.name)}.pdf`;
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "cbz-to-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — created a ${formatBytes(blob.size)} PDF with ${remaining.length} page${remaining.length > 1 ? "s" : ""}.`, "success");
   } catch (err) {
     console.error(err);

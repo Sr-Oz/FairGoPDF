@@ -43,7 +43,7 @@
     clearStatus(statusEl);
   }
 
-  initDropzone(dropzone, fileInput, async (newFiles) => {
+  async function addFiles(newFiles) {
     const images = newFiles.filter((f) => f.type.startsWith("image/"));
     files = files.concat(images);
     renderFileList();
@@ -56,7 +56,13 @@
         heightInput.placeholder = String(img.naturalHeight);
       } catch (e) { /* ignore */ }
     }
-  });
+  }
+
+  initDropzone(dropzone, fileInput, addFiles);
+
+  if (window.KeepSorted) {
+    KeepSorted.init({ currentTool: "resize-image", dropzone, onFiles: addFiles });
+  }
 
   document.querySelectorAll('input[name="mode"]').forEach((radio) => {
     radio.addEventListener("change", () => {
@@ -137,12 +143,18 @@
     statusEl.classList.add("visible");
 
     let successCount = 0;
+
+    let lastBlob = null;
+
+    let lastOutName = null;
     for (const file of files) {
       try {
         const { blob, targetW, targetH } = await resizeFile(file, mode);
         successCount++;
         const ext = extForMime(blob.type);
         const outName = `${stripExtension(file.name)}-${targetW}x${targetH}.${ext}`;
+        lastBlob = blob;
+        lastOutName = outName;
         const previewUrl = URL.createObjectURL(blob);
 
         const item = document.createElement("div");
@@ -170,6 +182,20 @@
     }
 
     setStatus(statusEl, `Sorted — ${successCount} of ${files.length} image${files.length > 1 ? "s" : ""} resized.`, "success");
+
+    if (window.KeepSorted && files.length === 1 && successCount === 1) {
+      KeepSorted.offer({
+        currentTool: "resize-image",
+        blob: lastBlob,
+        filename: lastOutName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     runBtn.disabled = false;
   });
 })();

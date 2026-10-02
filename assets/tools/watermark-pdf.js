@@ -24,6 +24,13 @@ function hexToRgb01(hex) {
   return { r, g, b };
 }
 
+async function loadFile(pdf) {
+  currentFile = pdf;
+  currentBytes = new Uint8Array(await pdf.arrayBuffer());
+  editor.style.display = "block";
+  clearStatus(statusEl);
+}
+
 initDropzone(dropzone, fileInput, async (files) => {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
@@ -31,11 +38,12 @@ initDropzone(dropzone, fileInput, async (files) => {
     statusEl.classList.add("visible");
     return;
   }
-  currentFile = pdf;
-  currentBytes = new Uint8Array(await pdf.arrayBuffer());
-  editor.style.display = "block";
-  clearStatus(statusEl);
+  await loadFile(pdf);
 });
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "watermark-pdf", dropzone, onFiles: (files) => loadFile(files[0]) });
+}
 
 opacityInput.addEventListener("input", () => { opacityVal.textContent = opacityInput.value; });
 
@@ -87,8 +95,23 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-watermarked.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-watermarked.pdf`;
+    triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — watermark added (${formatBytes(blob.size)}).`, "success");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "watermark-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     setStatus(statusEl, `Something went wrong: ${err.message || "unknown error"}`, "error");

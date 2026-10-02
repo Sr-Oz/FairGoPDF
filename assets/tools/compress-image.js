@@ -40,14 +40,20 @@
     clearStatus(statusEl);
   }
 
-  initDropzone(dropzone, fileInput, (newFiles) => {
+  function addFiles(newFiles) {
     const images = newFiles.filter((f) => f.type.startsWith("image/"));
     if (images.length !== newFiles.length) {
       setStatus(statusEl, "Some files were skipped because they weren't images.", "error");
     }
     files = files.concat(images);
     renderFileList();
-  });
+  }
+
+  initDropzone(dropzone, fileInput, addFiles);
+
+  if (window.KeepSorted) {
+    KeepSorted.init({ currentTool: "compress-image", dropzone, onFiles: addFiles });
+  }
 
   qualityInput.addEventListener("input", () => {
     qualityVal.textContent = qualityInput.value;
@@ -95,6 +101,8 @@
     const outputFormat = formatSelect.value;
 
     let successCount = 0;
+    let lastBlob = null;
+    let lastOutName = null;
 
     for (const file of files) {
       try {
@@ -103,6 +111,8 @@
         const savings = file.size > 0 ? Math.round((1 - blob.size / file.size) * 100) : 0;
         const ext = extForMime(blob.type);
         const outName = `${stripExtension(file.name)}-compressed.${ext}`;
+        lastBlob = blob;
+        lastOutName = outName;
 
         const item = document.createElement("div");
         item.className = "result-item";
@@ -134,5 +144,21 @@
 
     setStatus(statusEl, `Sorted — ${successCount} of ${files.length} image${files.length > 1 ? "s" : ""} compressed.`, "success");
     runBtn.disabled = false;
+
+    // Only offer to continue when exactly one file was processed — with a
+    // batch, there's no single "it" to carry forward.
+    if (window.KeepSorted && files.length === 1 && successCount === 1) {
+      KeepSorted.offer({
+        currentTool: "compress-image",
+        blob: lastBlob,
+        filename: lastOutName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   });
 })();

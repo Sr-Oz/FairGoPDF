@@ -75,7 +75,7 @@
     resetCropBox();
   }
 
-  initDropzone(dropzone, fileInput, async (files) => {
+  async function handleFiles(files) {
     const image = files.find((f) => f.type.startsWith("image/"));
     if (!image) return;
     currentFile = image;
@@ -89,7 +89,13 @@
       setStatus(statusEl, "Could not load that image.", "error");
       statusEl.classList.add("visible");
     }
-  });
+  }
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "social-media-cropper", dropzone, onFiles: handleFiles });
+}
 
   presetSelect.addEventListener("change", resetCropBox);
 
@@ -237,6 +243,19 @@
       const ext = extForMime(blob.type);
       const outName = `${stripExtension(currentFile.name)}-${presetSelect.value}.${ext}`;
       triggerDownload(blob, outName);
+      if (window.KeepSorted) {
+        KeepSorted.offer({
+          currentTool: "social-media-cropper",
+          blob,
+          filename: outName,
+          els: {
+            section: document.getElementById("keepSorted"),
+            list: document.getElementById("keepSortedList"),
+            resetLink: document.getElementById("keepSortedReset"),
+          },
+          relatedSection: document.querySelector(".related-tools-section"),
+        });
+      }
       setStatus(statusEl, `Sorted — downloaded ${outName} (${outW} × ${outH}px, ${formatBytes(blob.size)}).`, "success");
       statusEl.classList.add("visible");
     } catch (err) {

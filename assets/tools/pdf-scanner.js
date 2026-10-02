@@ -259,6 +259,20 @@ runBtn.addEventListener("click", async () => {
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     triggerDownload(blob, "scan.pdf");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "pdf-scanner",
+        blob,
+        filename: "scan.pdf",
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — created a ${formatBytes(blob.size)} PDF with ${pages.length} page${pages.length > 1 ? "s" : ""}.`, "success");
   } catch (err) {
     console.error(err);

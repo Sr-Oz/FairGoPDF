@@ -12,7 +12,7 @@ let currentFile = null;
 let currentBytes = null;
 let pageCount = 0;
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -37,7 +37,13 @@ initDropzone(dropzone, fileInput, async (files) => {
     setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}`, "error");
     statusEl.classList.add("visible");
   }
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "pdf-booklet", dropzone, onFiles: handleFiles });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;
@@ -93,7 +99,21 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await out.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-booklet.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-booklet.pdf`;
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "pdf-booklet",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — created a ${sheets}-sheet booklet (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

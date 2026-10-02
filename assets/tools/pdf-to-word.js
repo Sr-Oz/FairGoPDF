@@ -33,7 +33,7 @@ function pagesToParagraphs(pages) {
   return paragraphs;
 }
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const file = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!file) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -44,7 +44,13 @@ initDropzone(dropzone, fileInput, async (files) => {
   currentBytes = new Uint8Array(await file.arrayBuffer());
   actionsRow.style.display = "flex";
   clearStatus(statusEl);
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "pdf-to-word", dropzone, onFiles: handleFiles });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;

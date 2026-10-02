@@ -112,7 +112,21 @@ runBtn.addEventListener("click", async () => {
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     const pageCount = doc.getPageCount();
-    triggerDownload(blob, "text.pdf");
+    const outName = "text.pdf";
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "text-to-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — created a ${pageCount}-page PDF (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

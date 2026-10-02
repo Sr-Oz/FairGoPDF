@@ -26,7 +26,7 @@ formatSelect.addEventListener("change", updateFormatUI);
 qualityInput.addEventListener("input", () => { qualityVal.textContent = qualityInput.value; });
 updateFormatUI();
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -39,7 +39,13 @@ initDropzone(dropzone, fileInput, async (files) => {
   pageGrid.innerHTML = "";
   downloadAllRow.style.display = "none";
   clearStatus(statusEl);
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "pdf-to-images", dropzone, onFiles: handleFiles });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;
@@ -90,6 +96,22 @@ renderBtn.addEventListener("click", async () => {
 
     downloadAllRow.style.display = renderedBlobs.length ? "flex" : "none";
     setStatus(statusEl, `Sorted — rendered ${pdfJsDoc.numPages} page${pdfJsDoc.numPages > 1 ? "s" : ""}.`, "success");
+
+    // Only offer to continue when the PDF had exactly one page — with
+    // several rendered images, there's no single "it" to carry forward.
+    if (window.KeepSorted && pdfJsDoc.numPages === 1 && renderedBlobs.length === 1) {
+      KeepSorted.offer({
+        currentTool: "pdf-to-images",
+        blob: renderedBlobs[0].blob,
+        filename: renderedBlobs[0].name,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     setStatus(statusEl, `Something went wrong: ${err.message || "unknown error"}`, "error");

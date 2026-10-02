@@ -94,7 +94,7 @@ async function loadFile(file) {
   clearStatus(statusEl);
 }
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -108,7 +108,13 @@ initDropzone(dropzone, fileInput, async (files) => {
     setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}`, "error");
     statusEl.classList.add("visible");
   }
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "remove-blank-pages", dropzone, onFiles: handleFiles });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;
@@ -140,7 +146,21 @@ saveBtn.addEventListener("click", async () => {
     const bytes = await out.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     const removedCount = pages.length - remaining.length;
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-no-blanks.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-no-blanks.pdf`;
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "remove-blank-pages",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — removed ${removedCount} page(s), kept ${remaining.length} (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

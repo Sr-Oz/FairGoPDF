@@ -39,14 +39,20 @@
     clearStatus(statusEl);
   }
 
-  initDropzone(dropzone, fileInput, (newFiles) => {
+  function addFiles(newFiles) {
     const images = newFiles.filter((f) => f.type.startsWith("image/"));
     if (images.length !== newFiles.length) {
       setStatus(statusEl, "Some files were skipped because they weren't images.", "error");
     }
     files = files.concat(images);
     renderFileList();
-  });
+  }
+
+  initDropzone(dropzone, fileInput, addFiles);
+
+  if (window.KeepSorted) {
+    KeepSorted.init({ currentTool: "add-border-to-image", dropzone, onFiles: addFiles });
+  }
 
   borderWidthInput.addEventListener("input", () => {
     borderWidthVal.textContent = borderWidthInput.value;
@@ -86,6 +92,8 @@
     const color = borderColorInput.value;
     const outputFormat = formatSelect.value;
     let successCount = 0;
+    let lastBlob = null;
+    let lastOutName = null;
 
     for (const file of files) {
       try {
@@ -93,6 +101,8 @@
         successCount++;
         const ext = extForMime(blob.type);
         const outName = `${stripExtension(file.name)}-bordered.${ext}`;
+        lastBlob = blob;
+        lastOutName = outName;
         const previewUrl = URL.createObjectURL(blob);
 
         const item = document.createElement("div");
@@ -120,6 +130,20 @@
     }
 
     setStatus(statusEl, `Sorted — ${successCount} of ${files.length} image${files.length > 1 ? "s" : ""} bordered.`, "success");
+
+    if (window.KeepSorted && files.length === 1 && successCount === 1) {
+      KeepSorted.offer({
+        currentTool: "add-border-to-image",
+        blob: lastBlob,
+        filename: lastOutName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     runBtn.disabled = false;
   });
 })();

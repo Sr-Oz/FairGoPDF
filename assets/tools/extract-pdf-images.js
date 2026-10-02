@@ -12,7 +12,7 @@ const statusEl = document.getElementById("status");
 let currentFile = null;
 let currentBytes = null;
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -24,7 +24,13 @@ initDropzone(dropzone, fileInput, async (files) => {
   fileSummary.textContent = `${pdf.name} (${formatBytes(pdf.size)})`;
   editor.style.display = "block";
   clearStatus(statusEl);
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "extract-pdf-images", dropzone, onFiles: handleFiles });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;

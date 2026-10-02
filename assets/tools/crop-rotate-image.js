@@ -80,7 +80,7 @@
     resetCropBox();
   }
 
-  initDropzone(dropzone, fileInput, async (files) => {
+  async function handleFiles(files) {
     const image = files.find((f) => f.type.startsWith("image/"));
     if (!image) return;
     currentFile = image;
@@ -94,7 +94,13 @@
       setStatus(statusEl, "Could not load that image.", "error");
       statusEl.classList.add("visible");
     }
-  });
+  }
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "crop-rotate-image", dropzone, onFiles: handleFiles });
+}
 
   document.getElementById("rotateLeft").addEventListener("click", () => rotate(-90));
   document.getElementById("rotateRight").addEventListener("click", () => rotate(90));
@@ -203,6 +209,19 @@
     const ext = extForMime(blob.type);
     const outName = `${stripExtension(currentFile.name)}-edited.${ext}`;
     triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "crop-rotate-image",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Downloaded ${outName} (${sw} × ${sh}px, ${formatBytes(blob.size)}).`, "success");
     statusEl.classList.add("visible");
   });

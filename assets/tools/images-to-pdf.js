@@ -50,7 +50,7 @@ function renderFileList() {
   clearStatus(statusEl);
 }
 
-initDropzone(dropzone, fileInput, (newFiles) => {
+function addFiles(newFiles) {
   const images = newFiles.filter((f) => f.type === "image/jpeg" || f.type === "image/png");
   if (images.length !== newFiles.length) {
     setStatus(statusEl, "Only JPEG and PNG images are supported for this tool.", "error");
@@ -58,7 +58,13 @@ initDropzone(dropzone, fileInput, (newFiles) => {
   }
   files = files.concat(images);
   renderFileList();
-});
+}
+
+initDropzone(dropzone, fileInput, addFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "images-to-pdf", dropzone, onFiles: addFiles });
+}
 
 pageSizeSelect.addEventListener("change", () => {
   marginField.style.display = pageSizeSelect.value === "fit" ? "none" : "flex";
@@ -106,6 +112,20 @@ runBtn.addEventListener("click", async () => {
     const outBytes = await doc.save();
     const blob = new Blob([outBytes], { type: "application/pdf" });
     triggerDownload(blob, "images.pdf");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "images-to-pdf",
+        blob,
+        filename: "images.pdf",
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — created a ${formatBytes(blob.size)} PDF with ${files.length} page${files.length > 1 ? "s" : ""}.`, "success");
   } catch (err) {
     console.error(err);

@@ -1659,6 +1659,98 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   margin-top: 8px;
 }
 
+/* "Keep it sorted": lives inside .tool-workspace, never as a sibling after
+   it — the two-column tool-page grid above keys off .tool-workspace being
+   immediately followed by .related-tools-section, so a new section between
+   them would silently break that layout for every page that has it. */
+.keep-sorted {
+  display: none;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.keep-sorted-title {
+  font-size: 1rem;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.keep-sorted-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keep-sorted-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-alt);
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+.keep-sorted-item:hover,
+.keep-sorted-item:focus-visible { border-color: var(--brand); transform: translateX(2px); }
+
+.keep-sorted-item .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--brand);
+  flex-shrink: 0;
+}
+.keep-sorted-item .icon .material-symbols-outlined { font-size: 20px; }
+
+.keep-sorted-item .label { flex: 1; min-width: 0; }
+.keep-sorted-item .label .name { font-weight: 600; font-size: 0.92rem; display: block; }
+.keep-sorted-item .label .reason {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 1px;
+}
+
+.keep-sorted-item .chevron { color: var(--text-muted); flex-shrink: 0; }
+
+.keep-sorted-reset {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.keep-sorted-reset:hover { color: var(--text); }
+
+/* The "Continue with <file>?" prompt injected above the dropzone when a
+   compatible stashed file exists from the previous tool. */
+.keep-sorted-resume {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--brand);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--brand) 8%, var(--bg));
+}
+.keep-sorted-resume .material-symbols-outlined:first-child { color: var(--brand); }
+.keep-sorted-resume .text { flex: 1 1 auto; min-width: 180px; font-size: 0.92rem; }
+
 [contenteditable][data-placeholder]:empty:before {
   content: attr(data-placeholder);
   color: var(--text-muted);

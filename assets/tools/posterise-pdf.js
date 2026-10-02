@@ -11,7 +11,7 @@ const statusEl = document.getElementById("status");
 let currentFile = null;
 let currentBytes = null;
 
-initDropzone(dropzone, fileInput, async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
     setStatus(statusEl, "Please choose a PDF file.", "error");
@@ -22,7 +22,13 @@ initDropzone(dropzone, fileInput, async (files) => {
   currentBytes = new Uint8Array(await pdf.arrayBuffer());
   editor.style.display = "block";
   clearStatus(statusEl);
-});
+}
+
+initDropzone(dropzone, fileInput, handleFiles);
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "posterise-pdf", dropzone, onFiles: handleFiles });
+}
 
 clearBtn.addEventListener("click", () => {
   currentFile = null;
@@ -65,7 +71,21 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await out.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-poster.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-poster.pdf`;
+    triggerDownload(blob, outName);
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "posterise-pdf",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     setStatus(statusEl, `Sorted — built ${out.getPageCount()} sheet(s) at ${n}×${n}, print each and tape together (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

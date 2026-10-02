@@ -18,6 +18,13 @@ let currentBytes = null;
 
 const MARGIN = 24;
 
+async function loadFile(pdf) {
+  currentFile = pdf;
+  currentBytes = new Uint8Array(await pdf.arrayBuffer());
+  editor.style.display = "block";
+  clearStatus(statusEl);
+}
+
 initDropzone(dropzone, fileInput, async (files) => {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) {
@@ -25,11 +32,12 @@ initDropzone(dropzone, fileInput, async (files) => {
     statusEl.classList.add("visible");
     return;
   }
-  currentFile = pdf;
-  currentBytes = new Uint8Array(await pdf.arrayBuffer());
-  editor.style.display = "block";
-  clearStatus(statusEl);
+  await loadFile(pdf);
 });
+
+if (window.KeepSorted) {
+  KeepSorted.init({ currentTool: "add-page-numbers", dropzone, onFiles: (files) => loadFile(files[0]) });
+}
 
 batesPresetBtn.addEventListener("click", () => {
   positionSelect.value = "bottom-right";
@@ -80,8 +88,23 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-numbered.pdf`);
+    const outName = `${stripExtension(currentFile.name)}-numbered.pdf`;
+    triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — numbered ${total} page${total > 1 ? "s" : ""} (${formatBytes(blob.size)}).`, "success");
+
+    if (window.KeepSorted) {
+      KeepSorted.offer({
+        currentTool: "add-page-numbers",
+        blob,
+        filename: outName,
+        els: {
+          section: document.getElementById("keepSorted"),
+          list: document.getElementById("keepSortedList"),
+          resetLink: document.getElementById("keepSortedReset"),
+        },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
   } catch (err) {
     console.error(err);
     setStatus(statusEl, `Something went wrong: ${err.message || "unknown error"}`, "error");
