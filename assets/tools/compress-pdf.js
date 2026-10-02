@@ -104,7 +104,7 @@ runBtn.addEventListener("click", async () => {
     const originalSize = currentFile.size;
     const newSize = blob.size;
     const savings = originalSize > 0 ? Math.round((1 - newSize / originalSize) * 100) : 0;
-    const outName = `${stripExtension(currentFile.name)}-compressed.pdf`;
+    const outName = brandFilename("compress-pdf", stripExtension(currentFile.name), "pdf");
 
     resultItem.innerHTML = `
       <div class="info">

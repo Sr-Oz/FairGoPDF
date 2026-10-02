@@ -88,7 +88,7 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}-numbered.pdf`;
+    const outName = brandFilename("add-page-numbers", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — numbered ${total} page${total > 1 ? "s" : ""} (${formatBytes(blob.size)}).`, "success");
 

@@ -146,7 +146,7 @@ saveBtn.addEventListener("click", async () => {
     const bytes = await out.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     const removedCount = pages.length - remaining.length;
-    const outName = `${stripExtension(currentFile.name)}-no-blanks.pdf`;
+    const outName = brandFilename("remove-blank-pages", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

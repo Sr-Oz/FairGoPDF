@@ -111,13 +111,14 @@ runBtn.addEventListener("click", async () => {
 
     const outBytes = await doc.save();
     const blob = new Blob([outBytes], { type: "application/pdf" });
-    triggerDownload(blob, "images.pdf");
+    const outName = brandFilename("images-to-pdf", "images", "pdf");
+    triggerDownload(blob, outName);
 
     if (window.KeepSorted) {
       KeepSorted.offer({
         currentTool: "images-to-pdf",
         blob,
-        filename: "images.pdf",
+        filename: outName,
         els: {
           section: document.getElementById("keepSorted"),
           list: document.getElementById("keepSortedList"),

@@ -157,7 +157,7 @@ copyBtn.addEventListener("click", async () => {
 
 downloadBtn.addEventListener("click", () => {
   const blob = new Blob([markdownOutput.value], { type: "text/markdown" });
-  triggerDownload(blob, `${stripExtension(currentFile.name)}.md`);
+  triggerDownload(blob, brandFilename("convert-to-markdown", stripExtension(currentFile.name), "md"));
 });
 
 clearBtn.addEventListener("click", () => {

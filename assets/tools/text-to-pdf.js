@@ -112,7 +112,7 @@ runBtn.addEventListener("click", async () => {
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     const pageCount = doc.getPageCount();
-    const outName = "text.pdf";
+    const outName = brandFilename("text-to-pdf", "text", "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

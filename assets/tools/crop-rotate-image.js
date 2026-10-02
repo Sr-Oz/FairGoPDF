@@ -207,7 +207,7 @@ if (window.KeepSorted) {
     const quality = Number(qualityInput.value) / 100;
     const blob = await canvasToBlob(out, targetType, quality);
     const ext = extForMime(blob.type);
-    const outName = `${stripExtension(currentFile.name)}-edited.${ext}`;
+    const outName = brandFilename("crop-rotate-image", stripExtension(currentFile.name), ext);
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

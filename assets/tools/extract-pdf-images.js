@@ -193,7 +193,7 @@ runBtn.addEventListener("click", async () => {
     });
     const zipBytes = fflate.zipSync(zipInput, { level: 6 });
     const blob = new Blob([zipBytes], { type: "application/zip" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-images.zip`);
+    triggerDownload(blob, brandFilename("extract-pdf-images", stripExtension(currentFile.name), "zip"));
 
     const skippedNote = skipped > 0 ? `, ${skipped} skipped (unsupported encoding)` : "";
     setStatus(

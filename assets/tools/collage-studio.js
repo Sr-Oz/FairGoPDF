@@ -727,7 +727,7 @@ runBtn.addEventListener("click", async () => {
 
     const format = formatSelect.value;
     const blob = await canvasToBlob(canvas, format, format === "image/jpeg" ? 0.92 : undefined);
-    const outName = `collage.${extForMime(format)}`;
+    const outName = brandFilename("collage-studio", "collage", extForMime(format));
     triggerDownload(blob, outName);
 
     if (window.KeepSorted) {

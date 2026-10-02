@@ -71,7 +71,7 @@ copyBtn.addEventListener("click", async () => {
 
 downloadBtn.addEventListener("click", () => {
   const blob = new Blob([textarea.value], { type: "text/plain" });
-  triggerDownload(blob, `${stripExtension(currentFile.name)}.txt`);
+  triggerDownload(blob, brandFilename("extract-pdf-text", stripExtension(currentFile.name), "txt"));
 });
 
 clearBtn.addEventListener("click", () => {

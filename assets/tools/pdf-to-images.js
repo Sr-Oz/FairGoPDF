@@ -77,7 +77,7 @@ renderBtn.addEventListener("click", async () => {
       setStatus(statusEl, `Rendering page ${i} of ${pdfJsDoc.numPages}…`, "");
       const canvas = await renderPageToCanvasAtScale(pdfJsDoc, i, scale);
       const blob = await canvasToBlob(canvas, targetType, quality);
-      const name = `${stripExtension(currentFile.name)}-page-${i}.${ext}`;
+      const name = brandFilename("pdf-to-images", `${stripExtension(currentFile.name)}-page-${i}`, ext);
       renderedBlobs.push({ blob, name });
 
       const thumb = document.createElement("div");

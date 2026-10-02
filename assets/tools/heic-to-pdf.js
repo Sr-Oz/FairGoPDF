@@ -114,13 +114,14 @@ runBtn.addEventListener("click", async () => {
 
     const outBytes = await doc.save();
     const blob = new Blob([outBytes], { type: "application/pdf" });
-    triggerDownload(blob, "photos.pdf");
+    const outName = brandFilename("heic-to-pdf", "photos", "pdf");
+    triggerDownload(blob, outName);
 
     if (window.KeepSorted) {
       KeepSorted.offer({
         currentTool: "heic-to-pdf",
         blob,
-        filename: "photos.pdf",
+        filename: outName,
         els: {
           section: document.getElementById("keepSorted"),
           list: document.getElementById("keepSortedList"),

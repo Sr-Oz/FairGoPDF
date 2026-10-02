@@ -79,7 +79,7 @@ runBtn.addEventListener("click", async () => {
     const doc = await PDFDocument.load(currentBytes.slice(), { password });
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}-unlocked.pdf`;
+    const outName = brandFilename("unlock-pdf", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — the password has been removed (${formatBytes(blob.size)}).`, "success");
 

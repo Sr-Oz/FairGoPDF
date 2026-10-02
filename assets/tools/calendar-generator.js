@@ -195,7 +195,7 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${year}-calendar.pdf`);
+    triggerDownload(blob, brandFilename("calendar-generator", `${year}-calendar`, "pdf"));
     setStatus(statusEl, `Sorted — created a 12-page ${year} calendar (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);

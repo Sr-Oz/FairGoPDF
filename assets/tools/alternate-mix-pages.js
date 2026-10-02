@@ -111,13 +111,14 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await out.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, "interleaved.pdf");
+    const outName = brandFilename("alternate-mix-pages", "interleaved", "pdf");
+    triggerDownload(blob, outName);
 
     if (window.KeepSorted) {
       KeepSorted.offer({
         currentTool: "alternate-mix-pages",
         blob,
-        filename: "interleaved.pdf",
+        filename: outName,
         els: {
           section: document.getElementById("keepSorted"),
           list: document.getElementById("keepSortedList"),

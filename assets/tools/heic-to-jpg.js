@@ -81,7 +81,7 @@
       try {
         const blob = await convertFile(file, quality);
         successCount++;
-        const outName = `${stripExtension(file.name)}.jpg`;
+        const outName = brandFilename("heic-to-jpg", stripExtension(file.name), "jpg");
         lastBlob = blob;
         lastOutName = outName;
         const previewUrl = URL.createObjectURL(blob);

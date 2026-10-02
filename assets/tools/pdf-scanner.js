@@ -258,13 +258,14 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, "scan.pdf");
+    const outName = brandFilename("pdf-scanner", "scan", "pdf");
+    triggerDownload(blob, outName);
 
     if (window.KeepSorted) {
       KeepSorted.offer({
         currentTool: "pdf-scanner",
         blob,
-        filename: "scan.pdf",
+        filename: outName,
         els: {
           section: document.getElementById("keepSorted"),
           list: document.getElementById("keepSortedList"),

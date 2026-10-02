@@ -103,7 +103,7 @@
         const blob = await convertFile(file, targetType, quality);
         successCount++;
         const ext = extForMime(blob.type);
-        const outName = `${stripExtension(file.name)}.${ext}`;
+        const outName = brandFilename("convert-image", stripExtension(file.name), ext);
         lastBlob = blob;
         lastOutName = outName;
         const previewUrl = URL.createObjectURL(blob);

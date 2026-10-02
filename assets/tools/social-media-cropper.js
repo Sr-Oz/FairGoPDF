@@ -241,7 +241,7 @@ if (window.KeepSorted) {
     try {
       const blob = await canvasToBlob(out, targetType, 0.92);
       const ext = extForMime(blob.type);
-      const outName = `${stripExtension(currentFile.name)}-${presetSelect.value}.${ext}`;
+      const outName = brandFilename("social-media-cropper", stripExtension(currentFile.name), ext);
       triggerDownload(blob, outName);
       if (window.KeepSorted) {
         KeepSorted.offer({

@@ -73,7 +73,7 @@ downloadPngBtn.addEventListener("click", async () => {
     return;
   }
   const blob = await canvasToBlob(canvas, "image/png");
-  triggerDownload(blob, "qrcode.png");
+  triggerDownload(blob, brandFilename("qr-code-generator", "qrcode", "png"));
 });
 
 downloadSvgBtn.addEventListener("click", () => {
@@ -84,5 +84,5 @@ downloadSvgBtn.addEventListener("click", () => {
   }
   const svg = currentQr.createSvgTag(Number(cellSize.value), MARGIN * Number(cellSize.value));
   const blob = new Blob([svg], { type: "image/svg+xml" });
-  triggerDownload(blob, "qrcode.svg");
+  triggerDownload(blob, brandFilename("qr-code-generator", "qrcode", "svg"));
 });

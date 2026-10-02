@@ -110,7 +110,7 @@
         successCount++;
         const savings = file.size > 0 ? Math.round((1 - blob.size / file.size) * 100) : 0;
         const ext = extForMime(blob.type);
-        const outName = `${stripExtension(file.name)}-compressed.${ext}`;
+        const outName = brandFilename("compress-image", stripExtension(file.name), ext);
         lastBlob = blob;
         lastOutName = outName;
 

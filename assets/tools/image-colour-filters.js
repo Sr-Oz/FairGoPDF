@@ -122,7 +122,7 @@ if (window.KeepSorted) {
 
       const blob = await canvasToBlob(out, targetType, 0.92);
       const ext = extForMime(blob.type);
-      const outName = `${stripExtension(currentFile.name)}-filtered.${ext}`;
+      const outName = brandFilename("image-colour-filters", stripExtension(currentFile.name), ext);
       triggerDownload(blob, outName);
       if (window.KeepSorted) {
         KeepSorted.offer({

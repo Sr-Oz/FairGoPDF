@@ -95,7 +95,7 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}-watermarked.pdf`;
+    const outName = brandFilename("watermark-pdf", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — watermark added (${formatBytes(blob.size)}).`, "success");
 

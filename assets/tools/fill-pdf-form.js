@@ -176,7 +176,7 @@ saveBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}-filled.pdf`;
+    const outName = brandFilename("fill-pdf-form", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

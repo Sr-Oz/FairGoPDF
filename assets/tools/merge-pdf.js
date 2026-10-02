@@ -96,14 +96,15 @@ runBtn.addEventListener("click", async () => {
     }
     const outBytes = await merged.save();
     const blob = new Blob([outBytes], { type: "application/pdf" });
-    triggerDownload(blob, "merged.pdf");
+    const outName = brandFilename("merge-pdf", "merged", "pdf");
+    triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — merged ${files.length} PDFs into one file (${formatBytes(blob.size)}).`, "success");
 
     if (window.KeepSorted) {
       KeepSorted.offer({
         currentTool: "merge-pdf",
         blob,
-        filename: "merged.pdf",
+        filename: outName,
         els: {
           section: document.getElementById("keepSorted"),
           list: document.getElementById("keepSortedList"),

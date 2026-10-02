@@ -121,7 +121,7 @@ extractBtn.addEventListener("click", async () => {
     copied.forEach((p) => out.addPage(p));
     const bytes = await out.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}-pages.pdf`);
+    triggerDownload(blob, brandFilename("split-pdf", stripExtension(currentFile.name), "pdf"));
     setStatus(statusEl, `Sorted — extracted ${pages.length} page${pages.length > 1 ? "s" : ""} (${formatBytes(blob.size)}).`, "success");
   } catch (err) {
     console.error(err);
@@ -149,7 +149,7 @@ splitEachBtn.addEventListener("click", async () => {
       out.addPage(copied);
       const bytes = await out.save();
       const blob = new Blob([bytes], { type: "application/pdf" });
-      triggerDownload(blob, `${stripExtension(currentFile.name)}-page-${pages[i]}.pdf`);
+      triggerDownload(blob, brandFilename("split-pdf", `${stripExtension(currentFile.name)}-page-${pages[i]}`, "pdf"));
       await new Promise((r) => setTimeout(r, 250));
     }
     setStatus(statusEl, `Sorted — downloaded ${pages.length} separate PDF file(s).`, "success");

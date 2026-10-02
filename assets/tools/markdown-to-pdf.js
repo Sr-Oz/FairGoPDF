@@ -268,7 +268,7 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = "document.pdf";
+    const outName = brandFilename("markdown-to-pdf", "document", "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

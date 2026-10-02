@@ -104,7 +104,7 @@ if (window.KeepSorted) {
 
     try {
       const blob = await canvasToBlob(canvas, "image/png");
-      const outName = `${stripExtension(currentFile.name)}-${currentShape()}.png`;
+      const outName = brandFilename("round-corners-image", stripExtension(currentFile.name), "png");
       triggerDownload(blob, outName);
       if (window.KeepSorted) {
         KeepSorted.offer({

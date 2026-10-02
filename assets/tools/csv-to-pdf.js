@@ -74,7 +74,7 @@ runBtn.addEventListener("click", async () => {
     const doc = await renderTablePdf(rows, pageSizeSelect.value, landscapeToggle.checked);
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = "table.pdf";
+    const outName = brandFilename("csv-to-pdf", "table", "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

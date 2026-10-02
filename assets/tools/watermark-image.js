@@ -124,7 +124,7 @@
         const blob = await watermarkFile(file, text, size, opacity, rotationDeg, color, outputFormat);
         successCount++;
         const ext = extForMime(blob.type);
-        const outName = `${stripExtension(file.name)}-watermarked.${ext}`;
+        const outName = brandFilename("watermark-image", stripExtension(file.name), ext);
         lastBlob = blob;
         lastOutName = outName;
         const previewUrl = URL.createObjectURL(blob);

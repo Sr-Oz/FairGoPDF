@@ -55,7 +55,7 @@ runBtn.addEventListener("click", async () => {
     const doc = await renderHtmlSectionsPdf([{ html: currentHtml }], pageSizeSelect.value);
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}.pdf`;
+    const outName = brandFilename("word-to-pdf", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

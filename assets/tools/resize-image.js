@@ -152,7 +152,7 @@
         const { blob, targetW, targetH } = await resizeFile(file, mode);
         successCount++;
         const ext = extForMime(blob.type);
-        const outName = `${stripExtension(file.name)}-${targetW}x${targetH}.${ext}`;
+        const outName = brandFilename("resize-image", stripExtension(file.name), ext);
         lastBlob = blob;
         lastOutName = outName;
         const previewUrl = URL.createObjectURL(blob);

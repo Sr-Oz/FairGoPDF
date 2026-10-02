@@ -67,7 +67,7 @@ runBtn.addEventListener("click", async () => {
     doc.getForm().flatten();
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}-flattened.pdf`;
+    const outName = brandFilename("flatten-pdf", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

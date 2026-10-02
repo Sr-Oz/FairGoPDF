@@ -79,7 +79,7 @@ saveBtn.addEventListener("click", async () => {
     doc.setModificationDate(new Date());
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}-metadata.pdf`;
+    const outName = brandFilename("pdf-metadata", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

@@ -82,7 +82,7 @@ async function handleFiles(files) {
     setStatus(statusEl, "Sorted — background removed. Download when you're ready.", "success");
 
     if (window.KeepSorted) {
-      const outName = `${stripExtension(image.name)}-no-bg.png`;
+      const outName = brandFilename("remove-background", stripExtension(image.name), "png");
       KeepSorted.offer({
         currentTool: "remove-background",
         blob: resultBlob,
@@ -109,7 +109,7 @@ if (window.KeepSorted) {
 
 downloadBtn.addEventListener("click", () => {
   if (!resultBlob || !currentFile) return;
-  const outName = `${stripExtension(currentFile.name)}-no-bg.png`;
+  const outName = brandFilename("remove-background", stripExtension(currentFile.name), "png");
   triggerDownload(resultBlob, outName);
 });
 

@@ -100,7 +100,7 @@ runBtn.addEventListener("click", async () => {
     const count = walkMarkupAnnotations(doc, { remove: true });
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}-no-annotations.pdf`;
+    const outName = brandFilename("remove-annotations", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     if (window.KeepSorted) {
       KeepSorted.offer({

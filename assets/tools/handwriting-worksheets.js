@@ -185,7 +185,7 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const outBlob = new Blob([bytes], { type: "application/pdf" });
-    triggerDownload(outBlob, "handwriting-worksheet.pdf");
+    triggerDownload(outBlob, brandFilename("handwriting-worksheets", "worksheet", "pdf"));
     setStatus(statusEl, `Sorted — created a ${pageCount}-page worksheet (${formatBytes(outBlob.size)}).`, "success");
   } catch (err) {
     console.error(err);

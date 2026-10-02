@@ -216,7 +216,7 @@
         const outType = ["image/jpeg", "image/png", "image/webp"].includes(file.type) ? file.type : "image/jpeg";
         const blob = await canvasToBlob(canvas, outType, outType === "image/jpeg" ? 0.95 : undefined);
         const ext = extForMime(outType);
-        const outName = `${stripExtension(file.name)}-clean.${ext}`;
+        const outName = brandFilename("remove-exif-data", stripExtension(file.name), ext);
         successCount++;
         lastBlob = blob;
         lastOutName = outName;

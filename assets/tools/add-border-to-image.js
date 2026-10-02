@@ -100,7 +100,7 @@
         const blob = await addBorder(file, width, color, outputFormat);
         successCount++;
         const ext = extForMime(blob.type);
-        const outName = `${stripExtension(file.name)}-bordered.${ext}`;
+        const outName = brandFilename("add-border-to-image", stripExtension(file.name), ext);
         lastBlob = blob;
         lastOutName = outName;
         const previewUrl = URL.createObjectURL(blob);

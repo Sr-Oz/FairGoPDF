@@ -77,7 +77,7 @@ runBtn.addEventListener("click", async () => {
     setStatus(statusEl, "Building Word document…", "");
     const bytes = buildDocxBytes(paragraphs);
     const blob = new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
-    triggerDownload(blob, `${stripExtension(currentFile.name)}.docx`);
+    triggerDownload(blob, brandFilename("pdf-to-word", stripExtension(currentFile.name), "docx"));
     setStatus(statusEl, `Sorted — created a ${formatBytes(blob.size)} Word document from ${pages.length} page${pages.length > 1 ? "s" : ""}.`, "success");
   } catch (err) {
     console.error(err);

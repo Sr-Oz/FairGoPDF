@@ -132,7 +132,7 @@ runBtn.addEventListener("click", async () => {
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(pdfFile.name)}-stamped.pdf`;
+    const outName = brandFilename("add-stamps", stripExtension(pdfFile.name), "pdf");
     triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — stamped ${targetPages.length} page${targetPages.length > 1 ? "s" : ""} (${formatBytes(blob.size)}).`, "success");
 

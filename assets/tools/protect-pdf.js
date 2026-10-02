@@ -98,7 +98,7 @@ runBtn.addEventListener("click", async () => {
     });
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = `${stripExtension(currentFile.name)}-protected.pdf`;
+    const outName = brandFilename("protect-pdf", stripExtension(currentFile.name), "pdf");
     triggerDownload(blob, outName);
     setStatus(statusEl, `Sorted — your PDF is now password protected (${formatBytes(blob.size)}).`, "success");
 
