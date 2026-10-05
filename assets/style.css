@@ -1751,6 +1751,119 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 .keep-sorted-resume .material-symbols-outlined:first-child { color: var(--brand); }
 .keep-sorted-resume .text { flex: 1 1 auto; min-width: 180px; font-size: 0.92rem; }
 
+/* Share pill (assets/share.js). Collapsed it reads as one teal pill with a
+   "Share" label; on hover, keyboard focus or tap the circles separate and the
+   icons appear. Circles match the 32px icon chips in "Related tools".
+   It's a direct child of .container after .info-section (never between
+   .tool-workspace and .related-tools-section, which must stay adjacent). */
+.share-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 24px 0 64px;
+}
+
+.share-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.share-note:empty { display: none; }
+
+/* Tool pages with a share pill: it takes the slot under "How it works",
+   while "Related tools" spans both rows. The 1fr row absorbs any extra
+   height so "How it works" keeps its natural size. */
+@media (min-width: 900px) {
+  .container:has(> .tool-workspace + .related-tools-section):has(> .share-wrap) {
+    grid-template-areas:
+      "crumbs     crumbs"
+      "header     header"
+      "workspace  workspace"
+      "howitworks related"
+      "share      related";
+    grid-template-rows: auto auto auto auto 1fr;
+  }
+
+  .container:has(> .tool-workspace + .related-tools-section) > .share-wrap {
+    grid-area: share;
+    align-self: start;
+    margin: 0 0 64px;
+  }
+}
+
+.share {
+  --share-size: 32px;
+  --share-ink: var(--accent);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+:root[data-theme="dark"] .share { --share-ink: var(--brand-contrast); }
+
+.share-links {
+  display: inline-flex;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
+}
+
+.share-btn {
+  display: grid;
+  place-items: center;
+  width: var(--share-size);
+  height: var(--share-size);
+  margin: 0 calc(var(--share-size) / -4);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--brand);
+  color: transparent;
+  cursor: pointer;
+  transition: margin 0.3s ease, border-radius 0.3s ease, background 0.2s ease, color 0.3s ease;
+}
+.share-btn:first-child {
+  margin-left: 0;
+  border-radius: calc(var(--share-size) / 2) 0 0 calc(var(--share-size) / 2);
+}
+.share-btn:last-child {
+  margin-right: 0;
+  border-radius: 0 calc(var(--share-size) / 2) calc(var(--share-size) / 2) 0;
+}
+.share-btn svg { width: 16px; height: 16px; display: block; }
+
+.share-toggle {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--share-ink);
+  font: inherit;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+}
+
+.share:is(:hover, :focus-within, .is-open) .share-toggle { opacity: 0; pointer-events: none; }
+.share:is(:hover, :focus-within, .is-open) .share-btn {
+  margin: 0 3px;
+  border-radius: 50%;
+  color: var(--share-ink);
+}
+.share:is(:hover, :focus-within, .is-open) .share-btn:first-child { margin-left: 0; }
+.share:is(:hover, :focus-within, .is-open) .share-btn:last-child { margin-right: 0; }
+.share:is(:hover, :focus-within, .is-open) .share-btn:is(:hover, :focus-visible) {
+  background: var(--accent);
+  color: #00332B;
+}
+.share-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .share-btn, .share-toggle { transition: none; }
+}
+
 [contenteditable][data-placeholder]:empty:before {
   content: attr(data-placeholder);
   color: var(--text-muted);
@@ -2360,7 +2473,7 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 /* Print */
 @media print {
   .site-header, .site-footer, .back-to-top, .skip-link, .scroll-progress,
-  .dropzone, .actions-row, .btn, .copy-link-btn, .status-box,
+  .dropzone, .actions-row, .btn, .copy-link-btn, .status-box, .share-wrap,
   .hero-ctas, .fgp-consent-bar {
     display: none !important;
   }
