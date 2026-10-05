@@ -1311,7 +1311,7 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 
   .container:has(> .tool-workspace + .related-tools-section) > .related-tools-section {
     grid-area: related;
-    align-self: start;
+    align-self: stretch;
     margin: 0 0 64px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -1322,7 +1322,7 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 
   .container:has(> .tool-workspace + .related-tools-section) > .info-section {
     grid-area: howitworks;
-    align-self: start;
+    align-self: stretch;
     margin-top: 0;
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -1770,9 +1770,8 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 }
 .share-note:empty { display: none; }
 
-/* Tool pages with a share pill: it takes the slot under "How it works",
-   while "Related tools" spans both rows. The 1fr row absorbs any extra
-   height so "How it works" keeps its natural size. */
+/* Tool pages with a share pill: "How it works" and "Related tools" share one
+   row and stretch to the same height, with the pill on its own row below. */
 @media (min-width: 900px) {
   .container:has(> .tool-workspace + .related-tools-section):has(> .share-wrap) {
     grid-template-areas:
@@ -1780,8 +1779,11 @@ body.scrolled:has(.hero) .site-header .icon-btn {
       "header     header"
       "workspace  workspace"
       "howitworks related"
-      "share      related";
-    grid-template-rows: auto auto auto auto 1fr;
+      "share      share";
+  }
+
+  .container:has(> .tool-workspace + .related-tools-section):has(> .share-wrap) > .related-tools-section {
+    margin-bottom: 0;
   }
 
   .container:has(> .tool-workspace + .related-tools-section) > .share-wrap {
@@ -1810,23 +1812,16 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   place-items: center;
   width: var(--share-size);
   height: var(--share-size);
-  margin: 0 calc(var(--share-size) / -4);
+  margin: 0 0 0 calc(var(--share-size) * -1);
   padding: 0;
   border: 0;
-  border-radius: 0;
+  border-radius: 50%;
   background: var(--brand);
   color: transparent;
   cursor: pointer;
-  transition: margin 0.3s ease, border-radius 0.3s ease, background 0.2s ease, color 0.3s ease;
+  transition: margin 0.3s ease, background 0.2s ease, color 0.3s ease;
 }
-.share-btn:first-child {
-  margin-left: 0;
-  border-radius: calc(var(--share-size) / 2) 0 0 calc(var(--share-size) / 2);
-}
-.share-btn:last-child {
-  margin-right: 0;
-  border-radius: 0 calc(var(--share-size) / 2) calc(var(--share-size) / 2) 0;
-}
+.share-btn:first-child { margin-left: 0; }
 .share-btn svg { width: 16px; height: 16px; display: block; }
 
 .share-toggle {
@@ -1838,7 +1833,7 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   padding: 0;
   border: 0;
   border-radius: 999px;
-  background: none;
+  background: var(--brand);
   color: var(--share-ink);
   cursor: pointer;
   transition: opacity 0.25s ease;
@@ -1847,12 +1842,10 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 
 .share:is(:hover, :focus-within, .is-open) .share-toggle { opacity: 0; pointer-events: none; }
 .share:is(:hover, :focus-within, .is-open) .share-btn {
-  margin: 0 3px;
-  border-radius: 50%;
+  margin-left: 6px;
   color: var(--share-ink);
 }
 .share:is(:hover, :focus-within, .is-open) .share-btn:first-child { margin-left: 0; }
-.share:is(:hover, :focus-within, .is-open) .share-btn:last-child { margin-right: 0; }
 .share:is(:hover, :focus-within, .is-open) .share-btn:is(:hover, :focus-visible) {
   background: var(--accent);
   color: #00332B;
