@@ -62,7 +62,34 @@
   // The order task-based groups appear in the fly-out (matching the
   // homepage's own sub-headings) — not the order tools happen to sit in
   // search-data.js, which is roughly creation order.
-  const GROUP_ORDER = ["Organise", "Convert", "Edit & Design", "Forms & Signatures", "Protect & Privacy", "Fix & Optimise"];
+  const GROUP_ORDER = ["Organise", "Convert", "Fix & Optimise", "Edit & Design", "Forms & Signatures", "Protect & Privacy"];
+
+  // Tool order inside each fly-out column: the homepage's popularity order
+  // (index.html tile order). Anything not listed sorts to the end, in
+  // search-data.js order, so a new tool still appears before it's ranked.
+  const NAV_ORDER = [
+    "/merge-pdf/", "/split-pdf/", "/organise-pdf/", "/rotate-pdf-freely/", "/crop-pdf/",
+    "/resize-pdf-pages/", "/remove-blank-pages/", "/combine-pages-into-one/", "/divide-pdf-pages/",
+    "/alternate-mix-pages/", "/n-up-pdf/", "/pdf-booklet/", "/posterise-pdf/", "/pdf-to-word/",
+    "/word-to-pdf/", "/images-to-pdf/", "/pdf-to-images/", "/heic-to-pdf/", "/ocr-pdf/", "/pdf-scanner/",
+    "/extract-pdf-text/", "/excel-to-pdf/", "/text-to-pdf/", "/extract-pdf-images/", "/markdown-to-pdf/",
+    "/csv-to-pdf/", "/rtf-to-pdf/", "/epub-to-pdf/", "/cbz-to-pdf/", "/compress-pdf/", "/repair-pdf/",
+    "/compare-pdfs/", "/pdf-accessibility-checker/", "/pdf-editor/", "/add-page-numbers/",
+    "/watermark-pdf/", "/pdf-annotator/", "/pdf-header-footer/", "/add-stamps/", "/add-links-to-pdf/",
+    "/pdf-background-colour/", "/pdf-colour-filters/", "/sign-pdf/", "/fill-pdf-form/", "/flatten-pdf/",
+    "/pdf-form-builder/", "/protect-pdf/", "/unlock-pdf/", "/redact-pdf/", "/sanitise-pdf/",
+    "/pdf-metadata/", "/remove-annotations/", "/compress-image/", "/convert-image/", "/heic-to-jpg/",
+    "/resize-image/", "/remove-background/", "/crop-rotate-image/", "/collage-studio/",
+    "/watermark-image/", "/social-media-cropper/", "/remove-exif-data/", "/add-border-to-image/",
+    "/round-corners-image/", "/image-colour-filters/", "/colour-palette-generator/", "/qr-code-generator/",
+    "/password-generator/", "/word-counter/", "/case-converter/", "/json-formatter/",
+    "/convert-to-markdown/", "/read-aloud/", "/colour-picker/", "/hash-generator/", "/uuid-generator/",
+    "/ai-writing-checker/", "/calendar-generator/", "/handwriting-worksheets/"
+  ];
+  const navRank = (e) => {
+    const i = NAV_ORDER.indexOf(e.url);
+    return i === -1 ? NAV_ORDER.length : i;
+  };
 
   // Shorter labels used only in the fly-out (the tool pages/search keep their full names).
   const MENU_LABELS = {
@@ -160,7 +187,7 @@
   if (Array.isArray(index)) {
     nav.querySelectorAll("a[data-category]").forEach((link) => {
       const category = link.dataset.category;
-      const items = index.filter((e) => e.category === category);
+      const items = index.filter((e) => e.category === category).sort((a, b) => navRank(a) - navRank(b));
       if (!items.length) return;
 
       const wrap = document.createElement("div");
