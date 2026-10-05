@@ -6,22 +6,22 @@
 <meta name="author" content="Oscar Monsalve">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>FAQ: Privacy, Security &amp; Government Use | Fair Go PDF</title>
-<meta name="description" content="Straight answers on privacy, cost, file limits and security, plus how Fair Go PDF fits government, legal and accessibility work in Australia and New Zealand.">
-<link rel="canonical" href="https://fairgopdf.au/faq/">
+<title>Security and sensitive documents: FAQ | Fair Go PDF</title>
+<meta name="description" content="Passwords, redaction, and cleaning hidden data out of files before you share them.">
+<link rel="canonical" href="https://fairgopdf.au/faq/security/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="FAQ: Privacy, Security &amp; Government Use | Fair Go PDF">
-<meta property="og:description" content="Straight answers on privacy, cost, file limits and security, plus how Fair Go PDF fits government, legal and accessibility work in Australia and New Zealand.">
-<meta property="og:url" content="https://fairgopdf.au/faq/">
+<meta property="og:title" content="Security and sensitive documents: FAQ | Fair Go PDF">
+<meta property="og:description" content="Passwords, redaction, and cleaning hidden data out of files before you share them.">
+<meta property="og:url" content="https://fairgopdf.au/faq/security/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Fair Go PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FAQ: Privacy, Security &amp; Government Use | Fair Go PDF">
-<meta name="twitter:description" content="Straight answers on privacy, cost, file limits and security, plus how Fair Go PDF fits government, legal and accessibility work in Australia and New Zealand.">
+<meta name="twitter:title" content="Security and sensitive documents: FAQ | Fair Go PDF">
+<meta name="twitter:description" content="Passwords, redaction, and cleaning hidden data out of files before you share them.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +48,12 @@
       "position": 2,
       "name": "FAQ",
       "item": "https://fairgopdf.au/faq/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Security",
+      "item": "https://fairgopdf.au/faq/security/"
     }
   ]
 }
@@ -84,106 +90,55 @@
 </header>
 
 <main id="main-content">
-  <div class="container faq-hub">
+  <div class="container">
+    <div class="faq-bar">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><span class="current">FAQ</span>
+      <a href="/">Home</a><span class="sep">/</span><a href="/faq/">FAQ</a><span class="sep">/</span><span class="current">Security</span>
     </nav>
-
-    <div class="tool-page-header">
-      <h1>Frequently asked questions</h1>
-      <p>Straight answers on privacy, security and how the tools work, including for government and regulated work in Australia and New Zealand.</p>
-    </div>
-
     <form class="faq-search" role="search" autocomplete="off">
       <span class="material-symbols-outlined" aria-hidden="true">search</span>
       <label class="visually-hidden" for="faqSearch">Search the FAQ</label>
       <input id="faqSearch" type="search" placeholder="Search the FAQ&hellip;" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="faqResults" aria-autocomplete="list">
       <ul class="faq-results" id="faqResults" role="listbox" hidden></ul>
     </form>
-    <div class="faq-common">
-      <span>Common searches:</span>
-        <button type="button" data-faq-search="Free">Free</button>
-        <button type="button" data-faq-search="Offline">Offline</button>
-        <button type="button" data-faq-search="Uploaded">Uploaded</button>
-        <button type="button" data-faq-search="Password">Password</button>
-        <button type="button" data-faq-search="Redact">Redact</button>
-        <button type="button" data-faq-search="Government">Government</button>
     </div>
-
-    <div class="faq-cards">
-      <section class="faq-card">
-        <a class="faq-card-head" href="/faq/privacy/">
-          <h2>Files &amp; privacy</h2>
-          <span class="faq-arrow"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
-        </a>
-        <ul class="faq-card-list">
-          <li><a href="/faq/privacy/do-you-store-or-see-my-files/"><span>Do you store or see my files?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/privacy/how-can-i-check-that-nothing-is-uploaded/"><span>How can I check that nothing is uploaded?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/privacy/is-my-data-used-to-train-ai-models/"><span>Is my data used to train AI models?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
+    <div class="faq-layout">
+    <aside class="faq-side">
+      <nav aria-label="FAQ categories">
+        <ul>
+          <li><a href="/faq/privacy/">Files &amp; privacy</a>
+          </li>
+          <li><a href="/faq/cost/">Cost &amp; accounts</a>
+          </li>
+          <li><a href="/faq/tools/">Using the tools</a>
+          </li>
+          <li><a class="active" aria-current="true" href="/faq/security/">Security</a>
+            <ul class="faq-side-sub">
+              <li><a href="/faq/security/can-i-use-fair-go-pdf-for-sensitive-or-confidential/">Can I use Fair Go PDF for sensitive or confidential documents?</a></li>
+              <li><a href="/faq/security/how-strong-is-the-encryption-in-protect-pdf/">How strong is the encryption in Protect PDF?</a></li>
+              <li><a href="/faq/security/can-unlock-pdf-crack-a-password-i-ve-forgotten/">Can Unlock PDF crack a password I've forgotten?</a></li>
+              <li><a href="/faq/security/does-redact-pdf-really-remove-what-s-underneath/">Does Redact PDF really remove what's underneath?</a></li>
+              <li><a href="/faq/security/how-do-i-strip-hidden-information-before-sharing-a-file/">How do I strip hidden information before sharing a file?</a></li>
+            </ul>
+          </li>
+          <li><a href="/faq/government/">Government &amp; compliance</a>
+          </li>
+          <li><a href="/faq/about/">About</a>
+          </li>
         </ul>
-        <a class="faq-card-more" href="/faq/privacy/">See all 4 questions</a>
-      </section>
-      <section class="faq-card">
-        <a class="faq-card-head" href="/faq/cost/">
-          <h2>Cost &amp; accounts</h2>
-          <span class="faq-arrow"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
-        </a>
-        <ul class="faq-card-list">
-          <li><a href="/faq/cost/is-this-actually-free/"><span>Is this actually free?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/cost/how-does-fair-go-pdf-pay-for-itself/"><span>How does Fair Go PDF pay for itself?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/cost/do-i-need-to-create-an-account/"><span>Do I need to create an account?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-        </ul>
-        <a class="faq-card-more" href="/faq/cost/">See all 4 questions</a>
-      </section>
-      <section class="faq-card">
-        <a class="faq-card-head" href="/faq/tools/">
-          <h2>Using the tools</h2>
-          <span class="faq-arrow"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
-        </a>
-        <ul class="faq-card-list">
-          <li><a href="/faq/tools/what-can-fair-go-pdf-do/"><span>What can Fair Go PDF do?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/tools/is-there-a-file-size-limit/"><span>Is there a file size limit?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/tools/does-it-work-without-an-internet-connection/"><span>Does it work without an internet connection?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-        </ul>
-        <a class="faq-card-more" href="/faq/tools/">See all 9 questions</a>
-      </section>
-      <section class="faq-card">
-        <a class="faq-card-head" href="/faq/security/">
-          <h2>Security</h2>
-          <span class="faq-arrow"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
-        </a>
-        <ul class="faq-card-list">
-          <li><a href="/faq/security/can-i-use-fair-go-pdf-for-sensitive-or-confidential/"><span>Can I use Fair Go PDF for sensitive or confidential documents?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/security/how-strong-is-the-encryption-in-protect-pdf/"><span>How strong is the encryption in Protect PDF?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/security/can-unlock-pdf-crack-a-password-i-ve-forgotten/"><span>Can Unlock PDF crack a password I've forgotten?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-        </ul>
-        <a class="faq-card-more" href="/faq/security/">See all 5 questions</a>
-      </section>
-      <section class="faq-card">
-        <a class="faq-card-head" href="/faq/government/">
-          <h2>Government &amp; compliance</h2>
-          <span class="faq-arrow"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
-        </a>
-        <ul class="faq-card-list">
-          <li><a href="/faq/government/can-government-agencies-and-public-servants-use-fair-go-pdf/"><span>Can government agencies and public servants use Fair Go PDF?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/government/does-using-fair-go-pdf-raise-issues-under-the-privacy-act/"><span>Does using Fair Go PDF raise issues under the Privacy Act or NZ Privacy Act 2020?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/government/can-i-use-it-to-prepare-foi-or-official-information-act/"><span>Can I use it to prepare FOI or Official Information Act releases?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-        </ul>
-        <a class="faq-card-more" href="/faq/government/">See all 7 questions</a>
-      </section>
-      <section class="faq-card">
-        <a class="faq-card-head" href="/faq/about/">
-          <h2>About</h2>
-          <span class="faq-arrow"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span>
-        </a>
-        <ul class="faq-card-list">
-          <li><a href="/faq/about/who-is-behind-fair-go-pdf/"><span>Who is behind Fair Go PDF?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/about/can-i-suggest-a-new-tool-or-report-a-problem/"><span>Can I suggest a new tool or report a problem?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-          <li><a href="/faq/about/how-can-i-support-fair-go-pdf/"><span>How can I support Fair Go PDF?</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></li>
-        </ul>
-      </section>
-    </div>
-
+      </nav>
+    </aside>
+      <div class="faq-main">
+        <h1>Security and sensitive documents</h1>
+        <p class="faq-lede">Passwords, redaction, and cleaning hidden data out of files before you share them.</p>
+        <h2 class="faq-sub">In this section</h2>
+    <ul class="faq-rows">
+      <li><a href="/faq/security/can-i-use-fair-go-pdf-for-sensitive-or-confidential/"><span class="material-symbols-outlined" aria-hidden="true">article</span><span class="t">Can I use Fair Go PDF for sensitive or confidential documents?</span><span class="material-symbols-outlined go" aria-hidden="true">arrow_forward</span></a></li>
+      <li><a href="/faq/security/how-strong-is-the-encryption-in-protect-pdf/"><span class="material-symbols-outlined" aria-hidden="true">article</span><span class="t">How strong is the encryption in Protect PDF?</span><span class="material-symbols-outlined go" aria-hidden="true">arrow_forward</span></a></li>
+      <li><a href="/faq/security/can-unlock-pdf-crack-a-password-i-ve-forgotten/"><span class="material-symbols-outlined" aria-hidden="true">article</span><span class="t">Can Unlock PDF crack a password I've forgotten?</span><span class="material-symbols-outlined go" aria-hidden="true">arrow_forward</span></a></li>
+      <li><a href="/faq/security/does-redact-pdf-really-remove-what-s-underneath/"><span class="material-symbols-outlined" aria-hidden="true">article</span><span class="t">Does Redact PDF really remove what's underneath?</span><span class="material-symbols-outlined go" aria-hidden="true">arrow_forward</span></a></li>
+      <li><a href="/faq/security/how-do-i-strip-hidden-information-before-sharing-a-file/"><span class="material-symbols-outlined" aria-hidden="true">article</span><span class="t">How do I strip hidden information before sharing a file?</span><span class="material-symbols-outlined go" aria-hidden="true">arrow_forward</span></a></li>
+    </ul>
     <aside class="faq-contact">
       <div>
         <h2>Haven't found what you need?</h2>
@@ -191,6 +146,8 @@
       </div>
       <a class="faq-contact-btn" href="/contact/">Contact us</a>
     </aside>
+      </div>
+    </div>
   </div>
 </main>
 <footer class="site-footer">
