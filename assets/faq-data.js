@@ -73,7 +73,7 @@ window.FAQ_DATA = [
  },
  {
   "q": "Does it work without an internet connection?",
-  "a": "Once a tool page has fully loaded, yes: disconnect and keep working, because processing happens on your device. A connection is needed to load the page the first time, and Remove Background downloads a small (about 10MB) on-device AI model on first use, then keeps it for next time.",
+  "a": "Once a tool page has fully loaded, yes: disconnect and keep working, because processing happens on your device. A connection is needed to load the page the first time, and two tools download their on-device models on first use, then keep them for next time: Remove Background (about 10MB) and OCR PDF (about 33MB).",
   "k": "offline no internet wifi disconnected",
   "cat": "Using the tools",
   "url": "/faq/tools/does-it-work-without-an-internet-connection/"
@@ -108,7 +108,7 @@ window.FAQ_DATA = [
  },
  {
   "q": "Can it read text from a scanned PDF?",
-  "a": "No. Tools that read a PDF's text, such as Extract PDF Text, PDF to Word, Read Aloud and Compare PDFs (which compares the text of two files, not how they look), need selectable text. A scan is a picture of text, so they won't find any. Fair Go PDF doesn't do OCR (turning a scan into text), and that's deliberate. OCR can run in a browser, but it needs a large engine and language model (tens of megabytes), relaxed security settings on the page, and most versions download those files from outside servers. Fair Go PDF won't trade away its rule that nothing leaves your browser and nothing is loaded from outside servers. The open-source libraries it does use, such as pdf-lib and pdf.js, are hosted on the site itself. Many scanners and phones have text recognition built in that runs on the device, which keeps the file with you too.",
+  "a": "Yes. OCR PDF reads the text on each scanned page and adds it invisibly underneath, so you can search and copy it while the scan looks exactly the same. It follows the same rule as every other tool: the OCR engine and its language model are files hosted on Fair Go PDF itself and run in your browser, so nothing is uploaded and nothing is fetched from outside servers. The catch is size. The first run downloads about 33 MB, which your browser then keeps, and each page takes roughly 5 to 20 seconds. It works best on clear, upright English or other Latin-script text, and handwriting isn't supported. Once a scan has its text layer, tools like Extract PDF Text, PDF to Word, Read Aloud and Compare PDFs (which compares the text of two files, not how they look) can read it too.",
   "k": "ocr scan image text recognition",
   "cat": "Using the tools",
   "url": "/faq/tools/can-it-read-text-from-a-scanned-pdf/"

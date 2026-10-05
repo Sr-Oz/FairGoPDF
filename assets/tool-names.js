@@ -34,6 +34,7 @@ window.TOOL_NAMES = {
   "markdown-to-pdf": "MarkdownToPDF",
   "merge-pdf": "MergePDF",
   "n-up-pdf": "NUpPDF",
+  "ocr-pdf": "OCRPDF",
   "organise-pdf": "OrganisePDFPages",
   "pdf-annotator": "PDFAnnotator",
   "pdf-background-colour": "PDFBackgroundColour",

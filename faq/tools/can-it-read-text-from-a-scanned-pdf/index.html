@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Can it read text from a scanned PDF? | Fair Go PDF</title>
-<meta name="description" content="No. Tools that read a PDF&#x27;s text, such as Extract PDF Text, PDF to Word, Read Aloud and Compare PDFs (which compares the text of two files, not how they...">
+<meta name="description" content="Yes. OCR PDF reads the text on each scanned page and adds it invisibly underneath, so you can search and copy it while the scan looks exactly the same.">
 <link rel="canonical" href="https://fairgopdf.au/faq/tools/can-it-read-text-from-a-scanned-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Can it read text from a scanned PDF? | Fair Go PDF">
-<meta property="og:description" content="No. Tools that read a PDF&#x27;s text, such as Extract PDF Text, PDF to Word, Read Aloud and Compare PDFs (which compares the text of two files, not how they...">
+<meta property="og:description" content="Yes. OCR PDF reads the text on each scanned page and adds it invisibly underneath, so you can search and copy it while the scan looks exactly the same.">
 <meta property="og:url" content="https://fairgopdf.au/faq/tools/can-it-read-text-from-a-scanned-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Can it read text from a scanned PDF? | Fair Go PDF">
-<meta name="twitter:description" content="No. Tools that read a PDF&#x27;s text, such as Extract PDF Text, PDF to Word, Read Aloud and Compare PDFs (which compares the text of two files, not how they...">
+<meta name="twitter:description" content="Yes. OCR PDF reads the text on each scanned page and adds it invisibly underneath, so you can search and copy it while the scan looks exactly the same.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,7 +74,7 @@
       "name": "Can it read text from a scanned PDF?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Tools that read a PDF's text, such as Extract PDF Text, PDF to Word, Read Aloud and Compare PDFs (which compares the text of two files, not how they look), need selectable text. A scan is a picture of text, so they won't find any. Fair Go PDF doesn't do OCR (turning a scan into text), and that's deliberate. OCR can run in a browser, but it needs a large engine and language model (tens of megabytes), relaxed security settings on the page, and most versions download those files from outside servers. Fair Go PDF won't trade away its rule that nothing leaves your browser and nothing is loaded from outside servers. The open-source libraries it does use, such as pdf-lib and pdf.js, are hosted on the site itself. Many scanners and phones have text recognition built in that runs on the device, which keeps the file with you too."
+        "text": "Yes. OCR PDF reads the text on each scanned page and adds it invisibly underneath, so you can search and copy it while the scan looks exactly the same. It follows the same rule as every other tool: the OCR engine and its language model are files hosted on Fair Go PDF itself and run in your browser, so nothing is uploaded and nothing is fetched from outside servers. The catch is size. The first run downloads about 33 MB, which your browser then keeps, and each page takes roughly 5 to 20 seconds. It works best on clear, upright English or other Latin-script text, and handwriting isn't supported. Once a scan has its text layer, tools like Extract PDF Text, PDF to Word, Read Aloud and Compare PDFs (which compares the text of two files, not how they look) can read it too."
       }
     }
   ]
@@ -157,7 +157,7 @@
       <div class="faq-main">
         <h1>Can it read text from a scanned PDF?</h1>
         <div class="faq-answer">
-          <p>No. Tools that read a PDF's text, such as <a href="/extract-pdf-text/">Extract PDF Text</a>, <a href="/pdf-to-word/">PDF to Word</a>, <a href="/read-aloud/">Read Aloud</a> and <a href="/compare-pdfs/">Compare PDFs</a> (which compares the text of two files, not how they look), need selectable text. A scan is a picture of text, so they won't find any. Fair Go PDF doesn't do OCR (turning a scan into text), and that's deliberate. OCR can run in a browser, but it needs a large engine and language model (tens of megabytes), relaxed security settings on the page, and most versions download those files from outside servers. Fair Go PDF won't trade away its rule that nothing leaves your browser and nothing is loaded from outside servers. The open-source libraries it does use, such as pdf-lib and pdf.js, are hosted on the site itself. Many scanners and phones have text recognition built in that runs on the device, which keeps the file with you too.</p>
+          <p>Yes. <a href="/ocr-pdf/">OCR PDF</a> reads the text on each scanned page and adds it invisibly underneath, so you can search and copy it while the scan looks exactly the same. It follows the same rule as every other tool: the OCR engine and its language model are files hosted on Fair Go PDF itself and run in your browser, so nothing is uploaded and nothing is fetched from outside servers. The catch is size. The first run downloads about 33 MB, which your browser then keeps, and each page takes roughly 5 to 20 seconds. It works best on clear, upright English or other Latin-script text, and handwriting isn't supported. Once a scan has its text layer, tools like <a href="/extract-pdf-text/">Extract PDF Text</a>, <a href="/pdf-to-word/">PDF to Word</a>, <a href="/read-aloud/">Read Aloud</a> and <a href="/compare-pdfs/">Compare PDFs</a> (which compares the text of two files, not how they look) can read it too.</p>
         </div>
         <h2 class="faq-sub">More in Using the tools</h2>
     <ul class="faq-rows">

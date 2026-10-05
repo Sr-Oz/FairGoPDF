@@ -72,7 +72,7 @@ runBtn.addEventListener("click", async () => {
       setStatus(statusEl, `Reading page ${i} of ${total}…`, "");
     });
     const paragraphs = pagesToParagraphs(pages);
-    if (!paragraphs.length) throw new Error("no text found, this PDF may be a scan with no selectable text");
+    if (!paragraphs.length) throw new Error("no text found, this PDF may be a scan with no selectable text, try the OCR PDF tool first");
 
     setStatus(statusEl, "Building Word document…", "");
     const bytes = buildDocxBytes(paragraphs);

@@ -22,7 +22,7 @@ watermarked output.
 </td>
 <td width="50%">
 
-**One of 74 tools, each its own page**
+**One of 75 tools, each its own page**
 ![A tool page](docs/screenshots/tool-page.jpg)
 
 </td>
@@ -31,7 +31,7 @@ watermarked output.
 
 ## Tools (v1)
 
-74 tools across three categories — 11 image, 50 PDF, 13 utilities.
+75 tools across three categories — 11 image, 51 PDF, 13 utilities.
 
 ![Tool grid hover effect](docs/screenshots/tool-grid.jpg)
 
@@ -61,6 +61,7 @@ watermarked output.
 | PDF to Images | `/pdf-to-images/` | Export every page as a PNG, JPG or WebP |
 | Organise PDF Pages | `/organise-pdf/` | Rotate, delete, reorder, add blank pages, or reverse order |
 | Extract PDF Text | `/extract-pdf-text/` | Pull all text out of a PDF to copy or download as .txt |
+| OCR PDF | `/ocr-pdf/` | Make a scanned PDF searchable and copyable with on-device text recognition (self-hosted PaddleOCR engine, ~33 MB on first use) |
 | Edit PDF Metadata | `/pdf-metadata/` | View, change, or clear title, author, subject and keywords |
 | Add Page Numbers | `/add-page-numbers/` | Stamp page numbers in any position/format, with zero-padding for Bates-style numbering |
 | Watermark PDF | `/watermark-pdf/` | Add a custom text watermark across every page |
@@ -122,12 +123,6 @@ watermarked output.
 | Calendar Generator | `/calendar-generator/` | Printable 12-month calendar PDF for any year, mark birthdays and custom dates |
 
 ### Coming soon (v2 backlog)
-- OCR (make scanned PDFs searchable) — confirmed feasible client-side via
-  [`@paddleocr/paddleocr-js`](https://github.com/PaddlePaddle/PaddleOCR/tree/main/paddleocr-js)
-  (ONNX Runtime Web + OpenCV.js, no server), deliberately deferred: it needs self-hosting real
-  OCR model files and ONNX/OpenCV WASM runtimes (tens of MB, sizes not yet pinned down), and a
-  proper "searchable PDF" output means rebuilding the file with an invisible text layer, not just
-  running recognition
 - Cryptographically verified e-signatures
 - PDF to Excel
 - Convert PDF to PDF/A-3b (archival format) — confirmed feasible client-side via
@@ -157,7 +152,7 @@ watermarked output.
   built on, even though the file itself would never touch Fair Go PDF's own (non-existent) server
 
 Some of these genuinely require server-side processing (format conversion beyond what browsers
-support natively) and are out of scope for v1 on purpose; others (like OCR above) are feasible
+support natively) and are out of scope for v1 on purpose; others are feasible
 client-side but deliberately deferred as bigger scoped efforts. If you want to tackle one, see
 [Contributing](CONTRIBUTING.md).
 

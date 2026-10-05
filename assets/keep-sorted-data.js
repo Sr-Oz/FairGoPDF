@@ -40,6 +40,7 @@ window.KEEP_SORTED_TOOLS = {
   "add-links-to-pdf": { title: "Add Links to PDF", icon: "link", outputKind: "pdf", acceptsKind: "pdf" },
   "pdf-form-builder": { title: "PDF Form Builder", icon: "checklist", outputKind: "pdf", acceptsKind: "pdf" },
   "remove-blank-pages": { title: "Remove Blank Pages", icon: "auto_delete", outputKind: "pdf", acceptsKind: "pdf" },
+  "ocr-pdf": { title: "OCR PDF", icon: "find_in_page", outputKind: "pdf", acceptsKind: "pdf" },
   "rotate-pdf-freely": { title: "Rotate PDF Freely", icon: "rotate_right", outputKind: "pdf", acceptsKind: "pdf" },
   "sanitise-pdf": { title: "Sanitise PDF", icon: "cleaning_services", outputKind: "pdf", acceptsKind: "pdf" },
   "remove-annotations": { title: "Remove Annotations", icon: "comments_disabled", outputKind: "pdf", acceptsKind: "pdf" },
@@ -138,6 +139,14 @@ window.KEEP_SORTED_SUGGESTIONS = {
     { tool: "compress-pdf" },
   ],
 
+  // Now the file has a text layer, so the text tools finally have something to read.
+  "ocr-pdf": [
+    { tool: "extract-pdf-text", reason: "now there's real text to pull out" },
+    { tool: "pdf-to-word" },
+    { tool: "compress-pdf", reason: "the scan images keep the file large" },
+    { tool: "protect-pdf" },
+  ],
+
   "merge-pdf": [
     { tool: "add-page-numbers" },
     { tool: "compress-pdf" },
@@ -148,16 +157,19 @@ window.KEEP_SORTED_SUGGESTIONS = {
     { tool: "compress-pdf" },
   ],
   "images-to-pdf": [
+    { tool: "ocr-pdf", reason: "to make scanned text searchable" },
     { tool: "compress-pdf", reason: "photos can make a PDF large" },
     { tool: "add-page-numbers" },
     { tool: "protect-pdf" },
   ],
   "heic-to-pdf": [
+    { tool: "ocr-pdf", reason: "to make scanned text searchable" },
     { tool: "compress-pdf", reason: "photos can make a PDF large" },
     { tool: "add-page-numbers" },
     { tool: "protect-pdf" },
   ],
   "pdf-scanner": [
+    { tool: "ocr-pdf", reason: "to make the scan searchable" },
     { tool: "compress-pdf", reason: "scans are often large" },
     { tool: "sign-pdf" },
     { tool: "add-page-numbers" },
