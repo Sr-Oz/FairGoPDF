@@ -108,7 +108,7 @@ window.FAQ_DATA = [
  },
  {
   "q": "Can it read text from a scanned PDF?",
-  "a": "Not at the moment. Tools that work with a PDF's text, such as Extract PDF Text, PDF to Word, Compare PDFs and Read Aloud, need selectable text. A scan is a picture of text, so they won't find any. Fair Go PDF doesn't do OCR (turning a scan into text) yet.",
+  "a": "No. Tools that read a PDF's text, such as Extract PDF Text, PDF to Word, Read Aloud and Compare PDFs (which compares the text of two files, not how they look), need selectable text. A scan is a picture of text, so they won't find any. Fair Go PDF doesn't do OCR (turning a scan into text), and that's deliberate. OCR can run in a browser, but it needs a large engine and language model (tens of megabytes), relaxed security settings on the page, and most versions download those files from outside servers. Fair Go PDF won't trade away its rule that nothing leaves your browser and nothing is loaded from outside servers. The open-source libraries it does use, such as pdf-lib and pdf.js, are hosted on the site itself. Many scanners and phones have text recognition built in that runs on the device, which keeps the file with you too.",
   "k": "ocr scan image text recognition",
   "cat": "Using the tools",
   "url": "/faq/tools/can-it-read-text-from-a-scanned-pdf/"
