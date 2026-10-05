@@ -9,7 +9,7 @@
   const canonical = document.querySelector('link[rel="canonical"]');
   const url = canonical ? canonical.href : location.origin + location.pathname;
   const toolName = (document.querySelector("h1") || {}).textContent || document.title;
-  const text = `${toolName.trim()} on Fair Go PDF: free, and your files never leave your browser.`;
+  const text = `${toolName.trim()} on Fair Go PDF: free, and nothing ever leaves your browser.`;
   const u = encodeURIComponent(url);
   const t = encodeURIComponent(text);
 
@@ -19,8 +19,8 @@
     x: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>',
     facebook: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 22v-8.2h2.8l.5-3.3h-3.3V8.4c0-.9.4-1.7 1.8-1.7h1.6V3.9c-.3 0-1.3-.2-2.4-.2-2.5 0-4.1 1.5-4.1 4.2v2.6H7.5v3.3h2.9V22h3.1z"/></svg>',
     reddit: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C5.373 0 0 5.373 0 12c0 3.314 1.343 6.314 3.515 8.485l-2.286 2.286C.775 23.225 1.097 24 1.738 24H12c6.627 0 12-5.373 12-12S18.627 0 12 0Zm4.388 3.199c1.104 0 1.999.895 1.999 1.999 0 1.105-.895 2-1.999 2-.946 0-1.739-.657-1.947-1.539v.002c-1.147.162-2.032 1.15-2.032 2.341v.007c1.776.067 3.4.567 4.686 1.363.473-.363 1.064-.58 1.707-.58 1.547 0 2.802 1.254 2.802 2.802 0 1.117-.655 2.081-1.601 2.531-.088 3.256-3.637 5.876-7.997 5.876-4.361 0-7.905-2.617-7.998-5.87-.954-.447-1.614-1.415-1.614-2.538 0-1.548 1.255-2.802 2.803-2.802.645 0 1.239.218 1.712.585 1.275-.79 2.881-1.291 4.64-1.365v-.01c0-1.663 1.263-3.034 2.88-3.207.188-.911.993-1.595 1.959-1.595Zm-8.085 8.376c-.784 0-1.459.78-1.506 1.797-.047 1.016.64 1.429 1.426 1.429.786 0 1.371-.369 1.418-1.385.047-1.017-.553-1.841-1.338-1.841Zm7.406 0c-.786 0-1.385.824-1.338 1.841.047 1.017.634 1.385 1.418 1.385.785 0 1.473-.413 1.426-1.429-.046-1.017-.721-1.797-1.506-1.797Zm-3.703 4.013c-.974 0-1.907.048-2.77.135-.147.015-.241.168-.183.305.483 1.154 1.622 1.964 2.953 1.964 1.33 0 2.47-.81 2.953-1.964.057-.137-.037-.29-.184-.305-.863-.087-1.795-.135-2.769-.135Z"/></svg>',
-    instagram: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg>',
     email: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>',
+    share: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.3M8.3 13.2l7.4 4.3"/></svg>',
     link: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg>',
     check: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   };
@@ -31,18 +31,16 @@
     { key: "x", label: "Share on X", href: `https://x.com/intent/post?text=${t}&url=${u}` },
     { key: "facebook", label: "Share on Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${u}` },
     { key: "reddit", label: "Share on Reddit", href: `https://www.reddit.com/submit?url=${u}&title=${t}` },
-    // Instagram has no web share link, so this copies the link and opens Instagram to paste it.
-    { key: "instagram", label: "Share on Instagram (copies the link)", href: "https://www.instagram.com/", copies: true },
     { key: "email", label: "Share by email", href: `mailto:?subject=${encodeURIComponent(toolName.trim() + " on Fair Go PDF")}&body=${t}%0A%0A${u}`, mail: true },
   ];
 
   const links = NETWORKS.map((n) =>
-    `<a class="share-btn" href="${n.href}"${n.mail ? "" : ' target="_blank" rel="noopener noreferrer"'}${n.copies ? ' data-copies' : ""} aria-label="${n.label}" title="${n.label}">${ICONS[n.key]}</a>`
+    `<a class="share-btn" href="${n.href}"${n.mail ? "" : ' target="_blank" rel="noopener noreferrer"'} aria-label="${n.label}" title="${n.label}">${ICONS[n.key]}</a>`
   ).join("");
 
   host.innerHTML = `
     <div class="share" role="group" aria-label="Share this tool">
-      <button type="button" class="share-toggle" tabindex="-1" aria-hidden="true">Share</button>
+      <button type="button" class="share-toggle" tabindex="-1" aria-hidden="true">${ICONS.share}</button>
       <div class="share-links">
         ${links}
         <button type="button" class="share-btn share-copy" aria-label="Copy link" title="Copy link">${ICONS.link}</button>
@@ -89,7 +87,4 @@
     }
   });
 
-  host.querySelector("[data-copies]").addEventListener("click", async () => {
-    note((await copyUrl()) ? "Link copied, paste it into Instagram" : "Open Instagram and paste this page's address");
-  });
 })();

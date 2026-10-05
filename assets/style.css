@@ -1833,18 +1833,17 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   position: absolute;
   inset: 0;
   z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
   border: 0;
   border-radius: 999px;
   background: none;
   color: var(--share-ink);
-  font: inherit;
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   cursor: pointer;
   transition: opacity 0.25s ease;
 }
+.share-toggle svg { width: 16px; height: 16px; display: block; }
 
 .share:is(:hover, :focus-within, .is-open) .share-toggle { opacity: 0; pointer-events: none; }
 .share:is(:hover, :focus-within, .is-open) .share-btn {
@@ -1935,6 +1934,7 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   hyphens: auto;
 }
 
+.info-section > ol + h2, .info-section > ul + h2 { margin-top: 32px; }
 .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
 .faq-item summary { cursor: pointer; padding: 16px 18px; font-weight: 600; list-style: none; }
 .faq-item summary::-webkit-details-marker { display: none; }
