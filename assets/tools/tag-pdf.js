@@ -8,6 +8,7 @@ const LANGUAGES = [
 ];
 const MAX_HEADING_ROWS = 400;
 const MAX_THUMBNAILS = 60;
+const COLLAPSED_ROWS = 12;
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -24,6 +25,7 @@ const imageList = document.getElementById("imageList");
 const allDecorativeBtn = document.getElementById("allDecorativeBtn");
 const optBookmarks = document.getElementById("optBookmarks");
 const optLinks = document.getElementById("optLinks");
+const pendingNote = document.getElementById("pendingNote");
 const runBtn = document.getElementById("runBtn");
 const clearBtn = document.getElementById("clearBtn");
 const statusEl = document.getElementById("status");
@@ -50,6 +52,11 @@ function setBusy(busy) {
   clearBtn.disabled = busy;
 }
 
+function removeShowAll() {
+  headingList.classList.remove("collapsed");
+  document.querySelectorAll(".tag-showall").forEach((b) => b.remove());
+}
+
 function resetEditor() {
   analysis = null;
   thumbsStarted = false;
@@ -57,6 +64,9 @@ function resetEditor() {
   headingList.innerHTML = "";
   imageList.innerHTML = "";
   findingsEl.innerHTML = "";
+  pendingNote.textContent = "";
+  pendingNote.style.display = "none";
+  removeShowAll();
   setProgress(null);
 }
 
@@ -152,6 +162,7 @@ function fillEditor() {
     headingList.appendChild(p);
   } else {
     headingsCount.textContent = `(${a.headings.length} found)`;
+    removeShowAll();
     a.headings.slice(0, MAX_HEADING_ROWS).forEach((h) => {
       const row = document.createElement("div");
       row.className = "tag-row";
@@ -165,6 +176,21 @@ function fillEditor() {
       row.appendChild(sel);
       headingList.appendChild(row);
     });
+    // On a phone only the first few rows show, with a button for the rest, so the
+    // page doesn't get a scrolling box inside it. (On wider screens CSS ignores this.)
+    const shown = Math.min(a.headings.length, MAX_HEADING_ROWS);
+    if (shown > COLLAPSED_ROWS) {
+      headingList.classList.add("collapsed");
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "btn secondary small tag-showall";
+      more.textContent = `Show all ${shown} headings`;
+      more.addEventListener("click", () => {
+        headingList.classList.remove("collapsed");
+        more.remove();
+      });
+      headingList.after(more);
+    }
     if (a.headings.length > MAX_HEADING_ROWS) {
       const p = document.createElement("p");
       p.className = "help-text";
@@ -181,6 +207,8 @@ function fillEditor() {
     p.textContent = "No content images were found.";
     imageList.appendChild(p);
     allDecorativeBtn.style.display = "none";
+    pendingNote.textContent = "";
+    pendingNote.style.display = "none";
   } else {
     allDecorativeBtn.style.display = "";
     a.images.forEach((im) => {
@@ -208,6 +236,15 @@ function updateImagesCount() {
   const rows = [...imageList.querySelectorAll(".tag-image-row")];
   const done = rows.filter((r) => r.querySelector(".deco input").checked || r.querySelector(".alt").value.trim()).length;
   imagesCount.textContent = `(${done} of ${rows.length} done)`;
+  // Say so before the button is pressed, not only after the file is made.
+  const left = rows.length - done;
+  if (left > 0) {
+    pendingNote.textContent = `${left} image${left === 1 ? " has" : "s have"} no description or "Decorative" tick yet, so a screen reader will announce ${left === 1 ? "it" : "them"} without one.`;
+    pendingNote.style.display = "";
+  } else {
+    pendingNote.textContent = "";
+    pendingNote.style.display = "none";
+  }
 }
 
 imageList.addEventListener("input", (e) => {
