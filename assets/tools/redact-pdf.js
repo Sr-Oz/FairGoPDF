@@ -212,7 +212,6 @@ runBtn.addEventListener("click", async () => {
 
     for (let i = 0; i < srcPages.length; i++) {
       const rects = redactions.get(i);
-      const { width, height } = srcPages[i].getSize();
 
       if (rects && rects.length) {
         setStatus(statusEl, `Flattening page ${i + 1} of ${srcPages.length}…`, "");
@@ -229,6 +228,10 @@ runBtn.addEventListener("click", async () => {
         const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
         const pngBytes = new Uint8Array(await blob.arrayBuffer());
         const image = await outDoc.embedPng(pngBytes);
+        // Size the new page from the rendered view (it honours a crop box and rotation),
+        // not the raw media box, otherwise a cropped page would be stretched to fit.
+        const width = canvas.width / OUTPUT_SCALE;
+        const height = canvas.height / OUTPUT_SCALE;
         const outPage = outDoc.addPage([width, height]);
         outPage.drawImage(image, { x: 0, y: 0, width, height });
       } else {

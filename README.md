@@ -67,7 +67,7 @@ watermarked output.
 | Add Page Numbers | `/add-page-numbers/` | Stamp page numbers in any position/format, with zero-padding for Bates-style numbering |
 | Watermark PDF | `/watermark-pdf/` | Add a custom text watermark across every page |
 | Resize PDF Pages | `/resize-pdf-pages/` | Scale every page to A4, Letter or Legal size |
-| Crop PDF Pages | `/crop-pdf/` | Trim margins or unwanted edges from every page |
+| Crop PDF Pages | `/crop-pdf/` | Trim margins from every page, crop each page on its own, or fit the crop to the content |
 | Compare PDFs | `/compare-pdfs/` | Diff the text of two PDF versions line by line |
 | Fill PDF Form | `/fill-pdf-form/` | Fill text fields, checkboxes and dropdowns on a PDF form |
 | Sign PDF | `/sign-pdf/` | Draw or type a signature and place it on any page |

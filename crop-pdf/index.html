@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Crop PDF Pages Online Free, Trim Margins | Fair Go PDF</title>
-<meta name="description" content="Trim the margins of a PDF by dragging a crop box over the first page, applied to every page. Free and in your browser.">
+<meta name="description" content="Trim the margins of a PDF by dragging a crop box over each page, or fit it to the content automatically. Free and in your browser.">
 <link rel="canonical" href="https://fairgopdf.au/crop-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Crop PDF Pages Online Free, Trim Margins">
-<meta property="og:description" content="Trim the margins of a PDF by dragging a crop box over the first page, applied to every page.">
+<meta property="og:description" content="Trim the margins of a PDF by dragging a crop box over each page, or fit it to the content automatically.">
 <meta property="og:url" content="https://fairgopdf.au/crop-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -78,7 +78,7 @@
 
     <div class="tool-page-header">
       <h1>Crop PDF Pages</h1>
-      <p>Drag the corners to select a crop area on the first page, it's applied proportionally to every page. Processed locally.</p>
+      <p>Drag the corners to choose what to keep. Use one crop for every page, or crop each page on its own. Processed locally.</p>
     </div>
 
     <div class="tool-workspace">
@@ -90,6 +90,11 @@
       </div>
 
       <div id="editor" style="display:none;">
+        <div class="crop-pagenav" id="pageNav" style="display:none;">
+          <button class="btn secondary small" id="prevBtn" type="button" aria-label="Previous page">&larr; Previous</button>
+          <span id="pageLabel" aria-live="polite"></span>
+          <button class="btn secondary small" id="nextBtn" type="button" aria-label="Next page">Next &rarr;</button>
+        </div>
         <div class="crop-stage" id="cropStage">
           <canvas id="displayCanvas"></canvas>
           <div class="crop-box" id="cropBox">
@@ -100,9 +105,14 @@
           </div>
         </div>
         <p class="help-text" id="dimsReadout"></p>
-        <p class="note-box">This crop is applied as the same proportion of each page, if your PDF's pages are different sizes, the crop area on each page will scale to match. Rows and columns of margin trimmed from the first page are trimmed the same way from every page.</p>
+        <div class="controls-row" style="flex-direction:column; align-items:flex-start; gap:10px; margin:12px 0;">
+          <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="optSame" checked> Use the same crop on every page</label>
+        </div>
+        <p class="note-box">With the box ticked, one crop is applied to every page as the same share of the page. Untick it to crop pages separately: flip to a page and move the box, and that page keeps its own crop while the others keep the shared one. "Fit to content" finds the edges of what's on the page, which suits scans and photos of cards or receipts.</p>
         <div class="actions-row">
           <button class="btn" id="runBtn">Crop PDF</button>
+          <button class="btn secondary" id="fitBtn">Fit to content</button>
+          <button class="btn secondary" id="fitAllBtn" style="display:none;">Fit every page</button>
           <button class="btn secondary" id="resetBtn">Reset crop</button>
           <button class="btn secondary" id="clearBtn">Start over</button>
         </div>
@@ -139,7 +149,8 @@
       <h2>How it works</h2>
       <ol>
         <li>Add a PDF file, its first page renders as a preview.</li>
-        <li>Drag the corner handles to select the area you want to keep.</li>
+        <li>Drag the corner handles to select the area you want to keep, or click "Fit to content" to snap to what's on the page.</li>
+        <li>For a PDF with several pages, flip through them. Untick "Use the same crop on every page" to give a page its own crop, or click "Fit every page" to fit each one.</li>
         <li>Click "Crop PDF" to download the result.</li>
       </ol>
     </section>

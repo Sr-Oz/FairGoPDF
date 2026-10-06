@@ -16,7 +16,7 @@ window.SEARCH_INDEX = [
   { title: "Add Page Numbers", url: "/add-page-numbers/", icon: "format_list_numbered", desc: "Stamp page numbers in any position/format, Bates-style numbering", group: "Edit & Design", category: "PDF Tool" },
   { title: "Watermark PDF", url: "/watermark-pdf/", icon: "water_drop", desc: "Add a custom text watermark across every page", group: "Edit & Design", category: "PDF Tool" },
   { title: "Resize PDF Pages", url: "/resize-pdf-pages/", icon: "straighten", desc: "Scale every page to A4, Letter or Legal size", group: "Organise", category: "PDF Tool" },
-  { title: "Crop PDF Pages", url: "/crop-pdf/", icon: "crop", desc: "Trim margins or unwanted edges from every page", group: "Organise", category: "PDF Tool" },
+  { title: "Crop PDF Pages", url: "/crop-pdf/", icon: "crop", desc: "Trim margins from every page, crop each page on its own, or fit to content", group: "Organise", category: "PDF Tool" },
   { title: "Compare PDFs", url: "/compare-pdfs/", icon: "compare_arrows", desc: "Diff the text of two PDF versions line by line", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Tag PDF", url: "/tag-pdf/", icon: "tag", desc: "Add accessibility tags, bookmarks, language and a title so screen readers can follow a PDF", alt: "tagged pdf accessibility tags screen reader ada wcag pdf/ua alt text headings bookmarks make accessible", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Accessibility Checker", url: "/pdf-accessibility-checker/", icon: "accessibility_new", desc: "Check tagging, language, title, alt text and form field labels", group: "Fix & Optimise", category: "PDF Tool" },

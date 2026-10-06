@@ -2555,6 +2555,8 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
   margin: 16px 0;
 }
 
+.crop-pagenav { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 16px 0 0; font-size: 0.92rem; color: var(--text-muted); }
+
 .crop-stage {
   position: relative;
   max-width: 100%;
