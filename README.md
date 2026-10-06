@@ -79,7 +79,7 @@ watermarked output.
 | PDF Booklet Maker | `/pdf-booklet/` | Reorder pages into booklet (saddle-stitch) order for print, fold and staple |
 | Add Stamps | `/add-stamps/` | Place a logo or image stamp on one page, a range, or every page |
 | Repair PDF | `/repair-pdf/` | Attempt to fix a PDF that won't open by leniently re-parsing and rebuilding a clean copy |
-| Extract Images | `/extract-pdf-images/` | Pull every embedded image out of a PDF and download as a ZIP |
+| Extract Images | `/extract-pdf-images/` | Pull every image out of a PDF as JPG or PNG (ICC, indexed, CMYK and JPEG 2000 included), with optional trimming of white borders |
 | Header & Footer | `/pdf-header-footer/` | Add up to six independent left/centre/right text zones to every page's header and footer |
 | Redact PDF | `/redact-pdf/` | Permanently black out sensitive content by flattening marked pages to an image, not just drawing a box over it |
 | Protect PDF | `/protect-pdf/` | Add a password so only people who have it can open the file, with optional printing/copying/editing permissions |

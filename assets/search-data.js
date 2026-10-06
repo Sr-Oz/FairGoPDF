@@ -30,7 +30,7 @@ window.SEARCH_INDEX = [
   { title: "PDF Booklet Maker", url: "/pdf-booklet/", icon: "auto_stories", desc: "Reorder pages into booklet order for print, fold and staple", group: "Organise", category: "PDF Tool" },
   { title: "Add Stamps", url: "/add-stamps/", icon: "approval", desc: "Place a logo or image stamp on one page, a range, or every page", group: "Edit & Design", category: "PDF Tool" },
   { title: "Repair PDF", url: "/repair-pdf/", icon: "build", desc: "Attempt to fix a PDF that won't open by rebuilding a clean copy", group: "Fix & Optimise", category: "PDF Tool" },
-  { title: "Extract Images", url: "/extract-pdf-images/", icon: "photo_library", desc: "Pull every embedded image out of a PDF, download as a ZIP", group: "Convert", category: "PDF Tool" },
+  { title: "Extract Images", url: "/extract-pdf-images/", icon: "photo_library", desc: "Pull every image out of a PDF as JPG or PNG, optionally trimming white borders", group: "Convert", category: "PDF Tool" },
   { title: "Header & Footer", url: "/pdf-header-footer/", icon: "splitscreen", desc: "Add up to six independent text zones to every page's margins", group: "Edit & Design", category: "PDF Tool" },
   { title: "Redact PDF", url: "/redact-pdf/", icon: "block", desc: "Permanently black out sensitive content, flattened not covered", group: "Protect & Privacy", category: "PDF Tool" },
   { title: "Protect PDF", url: "/protect-pdf/", icon: "lock", desc: "Add a password so only people who have it can open the file", group: "Protect & Privacy", category: "PDF Tool" },

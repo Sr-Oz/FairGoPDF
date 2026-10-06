@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Extract Images from a PDF Online Free | Fair Go PDF</title>
-<meta name="description" content="Pull every embedded photo or image out of a PDF and download them as a ZIP, free and right in your browser. No upload, no signup.">
+<meta name="description" content="Pull every image out of a PDF as a JPG or PNG, and trim the white borders off scans. Free, in your browser, nothing uploaded.">
 <link rel="canonical" href="https://fairgopdf.au/extract-pdf-images/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Extract Images from a PDF Online Free">
-<meta property="og:description" content="Pull every embedded photo or image out of a PDF and download them as a ZIP, free and right in your browser.">
+<meta property="og:description" content="Pull every image out of a PDF as a JPG or PNG, and trim the white borders off scans. Free, in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/extract-pdf-images/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Extract Images from a PDF Online Free">
-<meta name="twitter:description" content="Pull every embedded photo or image out of a PDF and download them as a ZIP, free and right in your browser.">
+<meta name="twitter:description" content="Pull every image out of a PDF as a JPG or PNG, and trim the white borders off scans. Free, in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,7 +77,7 @@
     </script>
     <div class="tool-page-header">
       <h1>Extract Images from a PDF</h1>
-      <p>Pull every embedded photo or image out of a PDF and download them as a ZIP. Processed locally, nothing is uploaded.</p>
+      <p>Pull every image stored in a PDF out as a JPG or PNG, and optionally trim the white borders. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace">
@@ -90,6 +90,9 @@
 
       <div id="editor" style="display:none;">
         <p class="help-text" id="fileSummary"></p>
+        <div class="controls-row" style="flex-direction:column; align-items:flex-start; gap:10px;">
+          <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="optTrim"> Trim blank borders (crop each image to what's on it)</label>
+        </div>
         <div class="actions-row">
           <button class="btn" id="runBtn">Extract Images</button>
           <button class="btn secondary" id="clearBtn">Start over</button>
@@ -106,6 +109,10 @@
           <span class="icon"><span class="material-symbols-outlined">image</span></span>
           <h3>PDF to Images</h3>
         </a>
+        <a class="tool-card related-tool-card" href="/crop-rotate-image/">
+          <span class="icon"><span class="material-symbols-outlined">crop</span></span>
+          <h3>Crop &amp; Rotate Image</h3>
+        </a>
         <a class="tool-card related-tool-card" href="/extract-pdf-text/">
           <span class="icon"><span class="material-symbols-outlined">text_fields</span></span>
           <h3>Extract PDF Text</h3>
@@ -117,14 +124,18 @@
       <h2>How it works</h2>
       <ol>
         <li>Add a PDF file.</li>
-        <li>Click "Extract Images", every unique embedded image is pulled out at its original
+        <li>Tick "Trim blank borders" if you want each image cropped to what's actually on it.</li>
+        <li>Click "Extract Images", every unique image stored in the PDF is pulled out at its original
           resolution.</li>
-        <li>Download the ZIP, each image comes out as its own JPG or PNG file.</li>
+        <li>Download the ZIP, each image comes out as its own JPG or PNG file, named by page.</li>
       </ol>
-      <p class="help-text">Images that appear on multiple pages, like a repeated logo, are extracted
-        once. Most common encodings (JPEG photos, and RGB/greyscale PNG-style images) are supported;
-        a small number of less common encodings (JPEG2000, CCITT fax, indexed-palette or CMYK images)
-        aren't, and are skipped with a note in the result.</p>
+      <p class="help-text">This extracts the pictures stored inside the PDF, exactly as they are. A scanned
+        page, or a photo saved as a PDF, is stored as one big image of the whole page, so that is what
+        comes out, white margin and all. Tick "Trim blank borders" to crop a card, receipt or photo
+        out of its white page. JPEG photos are copied out untouched, and other kinds (including ICC colour,
+        indexed, CMYK, JPEG 2000 and scanned fax images) are converted to PNG. Images that appear on several
+        pages, like a repeated logo, are extracted once. Text and shapes drawn on the page aren't images,
+        so use <a href="/pdf-to-images/">PDF to Images</a> for those.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
