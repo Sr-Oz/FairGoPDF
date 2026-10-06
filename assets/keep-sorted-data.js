@@ -40,6 +40,7 @@ window.KEEP_SORTED_TOOLS = {
   "add-links-to-pdf": { title: "Add Links to PDF", icon: "link", outputKind: "pdf", acceptsKind: "pdf" },
   "pdf-form-builder": { title: "PDF Form Builder", icon: "checklist", outputKind: "pdf", acceptsKind: "pdf" },
   "remove-blank-pages": { title: "Remove Blank Pages", icon: "auto_delete", outputKind: "pdf", acceptsKind: "pdf" },
+  "tag-pdf": { title: "Tag PDF", icon: "tag", outputKind: "pdf", acceptsKind: "pdf" },
   "ocr-pdf": { title: "OCR PDF", icon: "find_in_page", outputKind: "pdf", acceptsKind: "pdf" },
   "rotate-pdf-freely": { title: "Rotate PDF Freely", icon: "rotate_right", outputKind: "pdf", acceptsKind: "pdf" },
   "sanitise-pdf": { title: "Sanitise PDF", icon: "cleaning_services", outputKind: "pdf", acceptsKind: "pdf" },
@@ -137,6 +138,14 @@ window.KEEP_SORTED_SUGGESTIONS = {
   "flatten-pdf": [
     { tool: "protect-pdf" },
     { tool: "compress-pdf" },
+  ],
+
+  // Tagged: check the result, then tidy the basics around it.
+  "tag-pdf": [
+    { tool: "pdf-accessibility-checker", reason: "to see how the tagged copy scores" },
+    { tool: "pdf-metadata", reason: "to fine-tune the title and author" },
+    { tool: "compress-pdf" },
+    { tool: "protect-pdf" },
   ],
 
   // Now the file has a text layer, so the text tools finally have something to read.

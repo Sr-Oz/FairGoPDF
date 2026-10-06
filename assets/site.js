@@ -74,7 +74,7 @@
     "/word-to-pdf/", "/images-to-pdf/", "/pdf-to-images/", "/heic-to-pdf/", "/ocr-pdf/", "/pdf-scanner/",
     "/extract-pdf-text/", "/excel-to-pdf/", "/text-to-pdf/", "/extract-pdf-images/", "/markdown-to-pdf/",
     "/csv-to-pdf/", "/rtf-to-pdf/", "/epub-to-pdf/", "/cbz-to-pdf/", "/compress-pdf/", "/repair-pdf/",
-    "/compare-pdfs/", "/pdf-accessibility-checker/", "/pdf-editor/", "/add-page-numbers/",
+    "/compare-pdfs/", "/pdf-accessibility-checker/", "/tag-pdf/", "/pdf-editor/", "/add-page-numbers/",
     "/watermark-pdf/", "/pdf-annotator/", "/pdf-header-footer/", "/add-stamps/", "/add-links-to-pdf/",
     "/pdf-background-colour/", "/pdf-colour-filters/", "/sign-pdf/", "/fill-pdf-form/", "/flatten-pdf/",
     "/pdf-form-builder/", "/protect-pdf/", "/unlock-pdf/", "/redact-pdf/", "/sanitise-pdf/",

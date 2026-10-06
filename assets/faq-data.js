@@ -191,6 +191,13 @@ window.FAQ_DATA = [
   "url": "/faq/government/can-it-check-that-my-pdf-meets-accessibility-requirements/"
  },
  {
+  "q": "Can Fair Go PDF make my PDF accessible?",
+  "a": "Partly. Tag PDF adds a structure screen readers can follow (headings, paragraphs, lists, links, a title, a language and bookmarks) and lets you write descriptions for images. It works best on documents that are mostly text in one column, like letters, reports and minutes. Columns, tables and form fields aren't tagged properly yet, so always check the result with the Accessibility Checker and, for anything official, a full audit with a tool such as the free PAC. The output is a tagged PDF to review, not a PDF/UA or WCAG certificate. A scanned PDF needs OCR PDF first.",
+  "k": "tag tagged tagging alt text headings bookmarks screen reader wcag pdf/ua ada",
+  "cat": "Government & compliance",
+  "url": "/faq/government/can-fair-go-pdf-make-my-pdf-accessible/"
+ },
+ {
   "q": "Where can I find official guidance on staying safe online?",
   "a": "In Australia, Scamwatch and the Australian Signals Directorate's Cyber Security Centre cover scams and cyber security, and the OAIC covers privacy. In New Zealand, try Own Your Online and the Privacy Commissioner. For a plain-English start, see is it safe to use free online PDF tools?",
   "k": "scamwatch acsc oaic scam cyber safe government",

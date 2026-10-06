@@ -65,6 +65,7 @@ window.TOOL_NAMES = {
   "sign-pdf": "SignPDF",
   "social-media-cropper": "SocialMediaCropper",
   "split-pdf": "SplitPDF",
+  "tag-pdf": "TagPDF",
   "text-to-pdf": "TextToPDF",
   "unlock-pdf": "UnlockPDF",
   "watermark-image": "WatermarkImage",

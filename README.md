@@ -22,7 +22,7 @@ watermarked output.
 </td>
 <td width="50%">
 
-**One of 75 tools, each its own page**
+**One of 76 tools, each its own page**
 ![A tool page](docs/screenshots/tool-page.jpg)
 
 </td>
@@ -31,7 +31,7 @@ watermarked output.
 
 ## Tools (v1)
 
-75 tools across three categories — 11 image, 51 PDF, 13 utilities.
+76 tools across three categories — 11 image, 52 PDF, 13 utilities.
 
 ![Tool grid hover effect](docs/screenshots/tool-grid.jpg)
 
@@ -62,6 +62,7 @@ watermarked output.
 | Organise PDF Pages | `/organise-pdf/` | Rotate, delete, reorder, add blank pages, or reverse order |
 | Extract PDF Text | `/extract-pdf-text/` | Pull all text out of a PDF to copy or download as .txt |
 | OCR PDF | `/ocr-pdf/` | Make a scanned PDF searchable and copyable with on-device text recognition (self-hosted PaddleOCR engine, ~33 MB on first use) |
+| Tag PDF | `/tag-pdf/` | Add accessibility tags, bookmarks, language and a title to a mostly-text PDF, with a review screen for headings and image descriptions |
 | Edit PDF Metadata | `/pdf-metadata/` | View, change, or clear title, author, subject and keywords |
 | Add Page Numbers | `/add-page-numbers/` | Stamp page numbers in any position/format, with zero-padding for Bates-style numbering |
 | Watermark PDF | `/watermark-pdf/` | Add a custom text watermark across every page |

@@ -18,6 +18,7 @@ window.SEARCH_INDEX = [
   { title: "Resize PDF Pages", url: "/resize-pdf-pages/", icon: "straighten", desc: "Scale every page to A4, Letter or Legal size", group: "Organise", category: "PDF Tool" },
   { title: "Crop PDF Pages", url: "/crop-pdf/", icon: "crop", desc: "Trim margins or unwanted edges from every page", group: "Organise", category: "PDF Tool" },
   { title: "Compare PDFs", url: "/compare-pdfs/", icon: "compare_arrows", desc: "Diff the text of two PDF versions line by line", group: "Fix & Optimise", category: "PDF Tool" },
+  { title: "Tag PDF", url: "/tag-pdf/", icon: "tag", desc: "Add accessibility tags, bookmarks, language and a title so screen readers can follow a PDF", alt: "tagged pdf accessibility tags screen reader ada wcag pdf/ua alt text headings bookmarks make accessible", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Accessibility Checker", url: "/pdf-accessibility-checker/", icon: "accessibility_new", desc: "Check tagging, language, title, alt text and form field labels", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Fill PDF Form", url: "/fill-pdf-form/", icon: "edit_note", desc: "Fill text fields, checkboxes and dropdowns on a PDF form", group: "Forms & Signatures", category: "PDF Tool" },
   { title: "Sign PDF", url: "/sign-pdf/", icon: "draw", desc: "Draw or type a signature and place it on any page", group: "Forms & Signatures", category: "PDF Tool" },
