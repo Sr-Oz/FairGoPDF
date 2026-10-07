@@ -1181,6 +1181,46 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   color: var(--text-muted);
 }
 
+/* Phones: home page tiles go two to a row, icon over title, so 80 tools aren't
+   a 17,000px scroll. The one-line description stays in the markup but is
+   visually hidden (still read out by screen readers). */
+@media (max-width: 600px) {
+  .tool-grid--shine {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .tool-grid--shine .tool-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 12px;
+  }
+  .tool-grid--shine .tool-card .icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+  .tool-grid--shine .tool-card h3 {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+  .tool-grid--shine .tool-card p {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
 /* Part of the Utilities-only hover effect above: push the icon to a
    single vibrant brand colour on hover, regardless of which of the 6
    cycling rest-state colours it normally has. Declared after the
