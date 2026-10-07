@@ -2942,10 +2942,15 @@ body.search-open { overflow: hidden; }
 }
 
 /* 404 page: photo hero with a CSS-only RGB-split glitch effect on the numeral.
-   Fixed dark-photo styling on purpose, not theme-adaptive (same idea as .blog-hero). */
+   The photo fills the whole screen under the header (the rules below make the page a column
+   and let the hero grow). Fixed dark-photo styling on purpose, not theme-adaptive (same idea as .blog-hero). */
+body:has(.glitch-hero) { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: column; }
+
 .glitch-hero {
   position: relative;
-  min-height: min(72vh, 640px);
+  flex: 1 0 auto;
+  min-height: 480px;
   display: flex;
   align-items: center;
   justify-content: center;
