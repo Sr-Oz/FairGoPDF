@@ -59,7 +59,7 @@ window.FAQ_DATA = [
  },
  {
   "q": "What can Fair Go PDF do?",
-  "a": "More than 75 free tools: PDF tools (merge, split, compress, edit, sign, protect, and convert to and from other formats), image tools (compress, resize, convert, remove a background, strip hidden photo data) and everyday utilities such as a QR code generator and a password generator. Browse them on the home page, or use the magnifying glass at the top of any page to search.",
+  "a": "More than 75 free tools: PDF tools (merge, split, compress, edit, sign, protect, and convert to and from other formats), image tools (compress, resize, convert, strip hidden photo data) and everyday utilities such as a QR code generator and a password generator. Browse them on the home page, or use the magnifying glass at the top of any page to search.",
   "k": "tools list features convert merge split compress",
   "cat": "Using the tools",
   "url": "/faq/tools/what-can-fair-go-pdf-do/"
@@ -73,7 +73,7 @@ window.FAQ_DATA = [
  },
  {
   "q": "Does it work without an internet connection?",
-  "a": "Once a tool page has fully loaded, yes: disconnect and keep working, because processing happens on your device. A connection is needed to load the page the first time, and two tools download their on-device models on first use, then keep them for next time: Remove Background (about 10MB) and OCR PDF (about 33MB).",
+  "a": "Once a tool page has fully loaded, yes: disconnect and keep working, because processing happens on your device. A connection is needed to load the page the first time, and one tool, OCR PDF, downloads its on-device engine (about 33MB) the first time you use it, then keeps it for next time.",
   "k": "offline no internet wifi disconnected",
   "cat": "Using the tools",
   "url": "/faq/tools/does-it-work-without-an-internet-connection/"

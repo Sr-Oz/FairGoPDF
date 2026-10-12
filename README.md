@@ -22,7 +22,7 @@ watermarked output.
 </td>
 <td width="50%">
 
-**One of 76 tools, each its own page**
+**One of 79 tools, each its own page**
 ![A tool page](docs/screenshots/tool-page.jpg)
 
 </td>
@@ -31,7 +31,7 @@ watermarked output.
 
 ## Tools (v1)
 
-76 tools across three categories — 11 image, 52 PDF, 13 utilities.
+79 tools across three categories — 13 image, 53 PDF, 13 utilities.
 
 ![Tool grid hover effect](docs/screenshots/tool-grid.jpg)
 
@@ -126,22 +126,6 @@ watermarked output.
 ### Coming soon (v2 backlog)
 - Cryptographically verified e-signatures
 - PDF to Excel
-- Convert PDF to PDF/A-3b (archival format) — confirmed feasible client-side via
-  [Ghostscript compiled to WebAssembly](https://github.com/jsscheller/ghostscript-wasm) (real
-  prior art: [Bentopdf](https://huggingface.co/spaces/AUXteam/Bentopdf) does exactly this),
-  deliberately deferred: the WASM binary is ~16–25MB (lazy-loaded only for this tool, not
-  site-wide), there's no client-side way to formally validate the output against the PDF/A-3b
-  spec (same limitation most automated converters have), and Ghostscript is AGPL-licensed, which
-  needs a real legal read before bundling it into an otherwise MIT-licensed site
-- PDF/A structural spot-check tool — checks a PDF against the handful of PDF/A requirements that
-  are actually verifiable with `pdf-lib` alone (tagged structure, `/OutputIntent`/ICC profile
-  present, XMP metadata with the right `pdfaid:part`/`conformance`, no encryption or JavaScript),
-  same honesty pattern as the existing Accessibility Checker: flags the structural basics, doesn't
-  claim full ISO 19005 certification. Informed by [veraPDF](https://github.com/verapdf)'s openly
-  licensed (CC BY 4.0) [validation profiles](https://github.com/veraPDF/veraPDF-validation-profiles)
-  and [test corpus](https://github.com/veraPDF/veraPDF-corpus) as reference/test material, not their
-  actual validation engine (Java/JVM-only, GPL-3.0, no client-side port exists). Doesn't depend on
-  the PDF/A-3b conversion tool above or its AGPL question, since this needs no Ghostscript at all
 - Import a file directly from Google Drive / OneDrive / Dropbox on a tool's dropzone — technically
   feasible without routing the file through a server (each provider's picker fetches the file bytes
   straight from the provider to the browser), but deliberately deferred: it needs loading each

@@ -90,7 +90,6 @@ window.KEEP_SORTED_TOOLS = {
   "image-colour-filters": { title: "Image Colour Filters", icon: "palette", outputKind: "image", acceptsKind: "image" },
   "round-corners-image": { title: "Round Corners / Circle Crop", icon: "rounded_corner", outputKind: "image", acceptsKind: "image" },
   "social-media-cropper": { title: "Social Media Cropper", icon: "photo_size_select_large", outputKind: "image", acceptsKind: "image" },
-  "remove-background": { title: "Remove Background", icon: "background_replace", outputKind: "image", acceptsKind: "image" },
 
   // ---- Image tools: conditional (batch-capable, only source/destination
   // when exactly one file was processed) ----
@@ -225,10 +224,6 @@ window.KEEP_SORTED_SUGGESTIONS = {
   "social-media-cropper": [
     { tool: "compress-image" },
     { tool: "watermark-image" },
-  ],
-  "remove-background": [
-    { tool: "add-border-to-image" },
-    { tool: "compress-image" },
   ],
   "remove-exif-data": [
     { tool: "compress-image" },

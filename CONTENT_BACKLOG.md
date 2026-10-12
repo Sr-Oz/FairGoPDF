@@ -8,8 +8,6 @@ soon," not yet written. See [`blog/README.md`](blog/README.md) for how to add on
 - **What EXIF Data Is, and Why Your Photos Might Be Leaking Your Location** — a genuinely useful
   privacy-adjacent topic; would need to honestly note this site's tools don't currently strip EXIF
   data, and either scope that as a feature request or just explain how to check/remove it manually.
-- **PDF/A Explained: Why Archives and Governments Ask for It** — niche but real search demand;
-  needs careful, accurate research before writing (not a topic to guess at).
 - **Why Does OCR Matter, and When Do You Actually Need It?** — sets up demand for the OCR tool once
   it exists (v2 backlog); shouldn't be published before OCR is actually available, to avoid a
   content page promoting a feature that doesn't exist yet.

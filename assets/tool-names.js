@@ -52,7 +52,6 @@ window.TOOL_NAMES = {
   "qr-code-generator": "QRCodeGenerator",
   "redact-pdf": "RedactPDF",
   "remove-annotations": "RemoveAnnotations",
-  "remove-background": "RemoveBackground",
   "remove-blank-pages": "RemoveBlankPages",
   "remove-exif-data": "RemovePhotoMetadata",
   "repair-pdf": "RepairPDF",

@@ -79,7 +79,7 @@
     "/pdf-background-colour/", "/pdf-colour-filters/", "/sign-pdf/", "/fill-pdf-form/", "/flatten-pdf/",
     "/pdf-form-builder/", "/protect-pdf/", "/unlock-pdf/", "/redact-pdf/", "/sanitise-pdf/",
     "/pdf-metadata/", "/remove-annotations/", "/compress-image/", "/convert-image/", "/heic-to-jpg/",
-    "/resize-image/", "/remove-background/", "/crop-rotate-image/", "/collage-studio/",
+    "/resize-image/", "/crop-rotate-image/", "/collage-studio/",
     "/watermark-image/", "/social-media-cropper/", "/remove-exif-data/", "/add-border-to-image/",
     "/round-corners-image/", "/image-colour-filters/", "/colour-palette-generator/", "/qr-code-generator/",
     "/password-generator/", "/word-counter/", "/case-converter/", "/json-formatter/",

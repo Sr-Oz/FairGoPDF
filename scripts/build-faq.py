@@ -46,11 +46,11 @@ GROUPS = [
     ("tools", "Using the tools", "Using the tools",
      "Limits, browsers, offline use, file names and how the tools work together.", [
         ("What can Fair Go PDF do?",
-         "More than 75 free tools: PDF tools (merge, split, compress, edit, sign, protect, and convert to and from other formats), image tools (compress, resize, convert, remove a background, strip hidden photo data) and everyday utilities such as a QR code generator and a password generator. Browse them on the <a href=\"/\">home page</a>, or use the magnifying glass at the top of any page to search."),
+         "More than 75 free tools: PDF tools (merge, split, compress, edit, sign, protect, and convert to and from other formats), image tools (compress, resize, convert, strip hidden photo data) and everyday utilities such as a QR code generator and a password generator. Browse them on the <a href=\"/\">home page</a>, or use the magnifying glass at the top of any page to search."),
         ("Is there a file size limit?",
          "There's no limit set by the site. The practical limit is your device's memory and browser, because everything is processed locally. Very large PDFs and images can be slow on older or lower-powered devices, and a computer will cope better than a phone."),
         ("Does it work without an internet connection?",
-         "Once a tool page has fully loaded, yes: disconnect and keep working, because processing happens on your device. A connection is needed to load the page the first time, and two tools download their on-device models on first use, then keep them for next time: Remove Background (about 10MB) and OCR PDF (about 33MB)."),
+         "Once a tool page has fully loaded, yes: disconnect and keep working, because processing happens on your device. A connection is needed to load the page the first time, and one tool, OCR PDF, downloads its on-device engine (about 33MB) the first time you use it, then keeps it for next time."),
         ("Which browsers and devices are supported?",
          "Recent versions of Chrome, Firefox, Edge and Safari, on desktop, phone or tablet. The tools use standard modern browser features (Canvas, Web Workers, ES modules), so keeping your browser up to date helps."),
         ("Can I process several files at once?",
