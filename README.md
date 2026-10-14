@@ -96,7 +96,7 @@ watermarked output.
 | Posterise PDF | `/posterise-pdf/` | Blow up a page across multiple sheets for large-format printing |
 | Combine Pages Into One | `/combine-pages-into-one/` | Stitch every page into one continuous, scrollable page |
 | Markdown to PDF | `/markdown-to-pdf/` | Turn Markdown into a styled, paginated PDF |
-| Word to PDF | `/word-to-pdf/` | Turn a Word (.docx) document into a PDF |
+| Word to PDF | `/word-to-pdf/` | Turn a Word (.docx) document into a PDF that keeps its fonts, colours, tables, pictures, headers and footers (docx-preview lays it out, pdf-lib redraws it as vector PDF with look-alike fonts) |
 | CSV to PDF | `/csv-to-pdf/` | Turn a CSV file into a paginated PDF table |
 | Excel to PDF | `/excel-to-pdf/` | Turn a spreadsheet into a paginated PDF table |
 | RTF to PDF | `/rtf-to-pdf/` | Turn a Rich Text (.rtf) file into a PDF |

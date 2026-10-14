@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Convert Word to PDF Online Free | Fair Go PDF</title>
-<meta name="description" content="Turn a Word (.docx) document into a PDF, free and right in your browser. Headings, lists and formatting carry across. No upload, no signup.">
+<meta name="description" content="Turn a Word (.docx) document into a PDF that keeps its fonts, colours, tables, pictures, headers and footers. Free, in your browser, nothing uploaded.">
 <link rel="canonical" href="https://fairgopdf.au/word-to-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Convert Word to PDF Online Free">
-<meta property="og:description" content="Turn a Word (.docx) document into a PDF, free and right in your browser. Headings, lists and formatting carry across. No upload, no signup.">
+<meta property="og:description" content="Turn a Word (.docx) document into a PDF that keeps its fonts, colours, tables, pictures, headers and footers. Free, in your browser, nothing uploaded.">
 <meta property="og:url" content="https://fairgopdf.au/word-to-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Convert Word to PDF Online Free">
-<meta name="twitter:description" content="Turn a Word (.docx) document into a PDF, free and right in your browser. Headings, lists and formatting carry across. No upload, no signup.">
+<meta name="twitter:description" content="Turn a Word (.docx) document into a PDF that keeps its fonts, colours, tables, pictures, headers and footers. Free, in your browser, nothing uploaded.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,7 +77,7 @@
     </script>
     <div class="tool-page-header">
       <h1>Word to PDF</h1>
-      <p>Turn a Word document into a PDF. Processed locally, nothing is uploaded.</p>
+      <p>Turn a Word document into a PDF that keeps its look: fonts, colours, tables, pictures, headers and footers. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace">
@@ -88,16 +88,7 @@
         <input type="file" id="fileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
       </div>
 
-      <div class="controls-row" id="controls" style="display:none;">
-        <div class="field">
-          <label for="pageSize">Page size</label>
-          <select id="pageSize">
-            <option value="a4" selected>A4</option>
-            <option value="letter">Letter</option>
-            <option value="legal">Legal</option>
-          </select>
-        </div>
-      </div>
+      <p class="help-text" id="fileSummary"></p>
 
       <div class="actions-row" id="actionsRow" style="display:none;">
         <button class="btn" id="runBtn">Create PDF</button>
@@ -105,6 +96,7 @@
       </div>
 
       <div class="status-box" id="status"></div>
+      <div class="progress-bar" id="progress" style="display:none;"><div class="fill" id="progressFill"></div></div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -134,11 +126,12 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Drop in a .docx file.</li>
-        <li>Choose a page size.</li>
-        <li>Click "Create PDF", headings, bold/italic text, bullet and numbered lists, quotes and tables carry across.</li>
+        <li>Drop in a .docx file (a newer Word document; for an old .doc, open it in Word and choose Save As, .docx).</li>
+        <li>Click "Create PDF". The pages keep the document's own size, margins, fonts, colours, lists, tables, pictures, headers and footers.</li>
+        <li>Download the PDF. Text stays selectable and links stay clickable.</li>
       </ol>
-      <p class="help-text">This reflows your document into a fresh layout, it doesn't preserve exact page breaks, columns, headers/footers, fonts or embedded images from the original Word file.</p>
+      <p class="help-text">A .docx file doesn't contain its fonts, so the PDF uses look-alike fonts with the same letter widths: Carlito for Calibri, Liberation for Arial, Times New Roman and Courier New, and Caladea for Cambria. Other fonts are swapped for the closest sans-serif, serif or monospace, so a line may break in a slightly different place. Page breaks come from the layout, so they can land a little differently from Word.</p>
+      <p class="help-text">It doesn't yet handle text boxes, drawn shapes, charts, SmartArt, equations, tracked changes or multi-column layouts, and characters the built-in fonts don't have (such as Chinese, Japanese or Arabic) are left out. Check the result before sending it. Your file is read and rebuilt in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -227,7 +220,9 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
-<script src="/assets/vendor/mammoth.browser.min.js"></script>
+<script src="/assets/vendor/docx/jszip.min.js"></script>
+<script src="/assets/vendor/docx/docx-preview.min.js"></script>
+<script src="/assets/vendor/docx/fontkit.umd.min.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/word-to-pdf.js"></script>

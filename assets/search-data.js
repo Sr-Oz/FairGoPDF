@@ -47,7 +47,7 @@ window.SEARCH_INDEX = [
   { title: "Posterise PDF", url: "/posterise-pdf/", icon: "grid_on", desc: "Blow up a page across multiple sheets for large-format printing", alt: "posterize", group: "Organise", category: "PDF Tool" },
   { title: "Combine Pages Into One", url: "/combine-pages-into-one/", icon: "view_stream", desc: "Stitch every page into one continuous, scrollable page", group: "Organise", category: "PDF Tool" },
   { title: "Markdown to PDF", url: "/markdown-to-pdf/", icon: "markdown", desc: "Turn Markdown into a styled, paginated PDF", group: "Convert", category: "PDF Tool" },
-  { title: "Word to PDF", url: "/word-to-pdf/", icon: "description", desc: "Turn a Word (.docx) document into a PDF, headings and formatting carry across", group: "Convert", category: "PDF Tool" },
+  { title: "Word to PDF", url: "/word-to-pdf/", icon: "description", desc: "Turn a Word (.docx) document into a PDF that keeps its fonts, colours, tables and pictures", group: "Convert", category: "PDF Tool" },
   { title: "CSV to PDF", url: "/csv-to-pdf/", icon: "table_chart", desc: "Turn a CSV file into a paginated PDF table", group: "Convert", category: "PDF Tool" },
   { title: "Excel to PDF", url: "/excel-to-pdf/", icon: "table_view", desc: "Turn an Excel or OpenDocument spreadsheet into a paginated PDF table", group: "Convert", category: "PDF Tool" },
   { title: "RTF to PDF", url: "/rtf-to-pdf/", icon: "text_snippet", desc: "Turn a Rich Text (.rtf) file into a PDF, paragraphs and bold/italic carry across", group: "Convert", category: "PDF Tool" },
