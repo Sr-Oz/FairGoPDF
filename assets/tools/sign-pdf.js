@@ -1,4 +1,5 @@
 import { PDFLib, loadPdfJsDoc, renderPageThumbCanvas } from "/assets/tools/pdf-common.js";
+import { loadSignatureSource, processSignature } from "/assets/tools/signature-image.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -6,8 +7,15 @@ const editor = document.getElementById("editor");
 const pageGrid = document.getElementById("pageGrid");
 const tabDraw = document.getElementById("tabDraw");
 const tabType = document.getElementById("tabType");
+const tabUpload = document.getElementById("tabUpload");
 const drawPane = document.getElementById("drawPane");
 const typePane = document.getElementById("typePane");
+const uploadPane = document.getElementById("uploadPane");
+const sigFile = document.getElementById("sigFile");
+const sigUploadPreview = document.getElementById("sigUploadPreview");
+const sigUploadWrap = document.getElementById("sigUploadWrap");
+const optTransparent = document.getElementById("optTransparent");
+const optTrim = document.getElementById("optTrim");
 const sigPad = document.getElementById("sigPad");
 const clearSigBtn = document.getElementById("clearSigBtn");
 const typedName = document.getElementById("typedName");
@@ -24,6 +32,8 @@ let currentBytes = null;
 let selectedPageIndex = 0;
 let mode = "draw";
 let hasDrawing = false;
+let uploadSource = null; // the uploaded signature photo, scaled down
+let uploadResult = null; // { canvas, transparent } after the options are applied
 
 const MARGIN = 24;
 
@@ -84,20 +94,58 @@ clearBtn.addEventListener("click", () => {
 });
 
 // --- Tabs ---
-tabDraw.addEventListener("click", () => {
-  mode = "draw";
-  tabDraw.classList.add("active");
-  tabType.classList.remove("active");
-  drawPane.style.display = "block";
-  typePane.style.display = "none";
+const TABS = {
+  draw: { tab: tabDraw, pane: drawPane },
+  type: { tab: tabType, pane: typePane },
+  upload: { tab: tabUpload, pane: uploadPane },
+};
+function showTab(name) {
+  mode = name;
+  for (const [key, { tab, pane }] of Object.entries(TABS)) {
+    tab.classList.toggle("active", key === name);
+    tab.setAttribute("aria-pressed", String(key === name));
+    pane.style.display = key === name ? "block" : "none";
+  }
+}
+tabDraw.addEventListener("click", () => showTab("draw"));
+tabType.addEventListener("click", () => showTab("type"));
+tabUpload.addEventListener("click", () => showTab("upload"));
+
+// --- Upload a signature picture ---
+function refreshUploadPreview() {
+  if (!uploadSource) return;
+  uploadResult = processSignature(uploadSource, { removeBackground: optTransparent.checked, trim: optTrim.checked });
+  const { canvas } = uploadResult;
+  sigUploadPreview.width = canvas.width;
+  sigUploadPreview.height = canvas.height;
+  const pctx = sigUploadPreview.getContext("2d");
+  pctx.clearRect(0, 0, canvas.width, canvas.height);
+  pctx.drawImage(canvas, 0, 0);
+  sigUploadWrap.style.display = "block";
+}
+
+sigFile.addEventListener("change", async () => {
+  const file = sigFile.files && sigFile.files[0];
+  if (!file) return;
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type) && !/\.(jpe?g|png|webp)$/i.test(file.name)) {
+    setStatus(statusEl, "Please choose a JPG, PNG or WebP picture of your signature.", "error");
+    statusEl.classList.add("visible");
+    return;
+  }
+  try {
+    clearStatus(statusEl);
+    uploadSource = await loadSignatureSource(file);
+    refreshUploadPreview();
+  } catch (err) {
+    uploadSource = null;
+    uploadResult = null;
+    sigUploadWrap.style.display = "none";
+    setStatus(statusEl, err.message || "Could not read that picture.", "error");
+    statusEl.classList.add("visible");
+  }
 });
-tabType.addEventListener("click", () => {
-  mode = "type";
-  tabType.classList.add("active");
-  tabDraw.classList.remove("active");
-  drawPane.style.display = "none";
-  typePane.style.display = "block";
-});
+optTransparent.addEventListener("change", refreshUploadPreview);
+optTrim.addEventListener("change", refreshUploadPreview);
 
 // --- Draw pad ---
 const ctx = sigPad.getContext("2d");
@@ -145,6 +193,12 @@ async function getSignatureBlob() {
     if (!hasDrawing) return null;
     return new Promise((resolve) => sigPad.toBlob(resolve, "image/png"));
   }
+  if (mode === "upload") {
+    if (!uploadResult) return null;
+    const { canvas, transparent } = uploadResult;
+    // a signature with its paper removed needs the alpha channel (PNG); an untouched photo is smaller as a JPEG
+    return new Promise((resolve) => canvas.toBlob(resolve, transparent ? "image/png" : "image/jpeg", 0.92));
+  }
   const name = typedName.value.trim();
   if (!name) return null;
   const measureCanvas = document.createElement("canvas");
@@ -173,14 +227,14 @@ runBtn.addEventListener("click", async () => {
   try {
     const sigBlob = await getSignatureBlob();
     if (!sigBlob) {
-      setStatus(statusEl, mode === "draw" ? "Draw a signature first." : "Type your name first.", "error");
+      setStatus(statusEl, mode === "draw" ? "Draw a signature first." : mode === "upload" ? "Add a picture of your signature first." : "Type your name first.", "error");
       runBtn.disabled = false;
       return;
     }
 
     const doc = await PDFLib.PDFDocument.load(currentBytes.slice());
     const sigBytes = new Uint8Array(await sigBlob.arrayBuffer());
-    const sigImage = await doc.embedPng(sigBytes);
+    const sigImage = sigBlob.type === "image/jpeg" ? await doc.embedJpg(sigBytes) : await doc.embedPng(sigBytes);
     const aspect = sigImage.height / sigImage.width;
     const targetWidth = Number(widthInput.value);
     const targetHeight = targetWidth * aspect;

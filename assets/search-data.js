@@ -21,7 +21,7 @@ window.SEARCH_INDEX = [
   { title: "Tag PDF", url: "/tag-pdf/", icon: "tag", desc: "Add accessibility tags, bookmarks, language and a title so screen readers can follow a PDF", alt: "tagged pdf accessibility tags screen reader ada wcag pdf/ua alt text headings bookmarks make accessible", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Accessibility Checker", url: "/pdf-accessibility-checker/", icon: "accessibility_new", desc: "Check tagging, language, title, alt text and form field labels", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Fill PDF Form", url: "/fill-pdf-form/", icon: "edit_note", desc: "Fill text fields, checkboxes and dropdowns on a PDF form", group: "Forms & Signatures", category: "PDF Tool" },
-  { title: "Sign PDF", url: "/sign-pdf/", icon: "draw", desc: "Draw or type a signature and place it on any page", group: "Forms & Signatures", category: "PDF Tool" },
+  { title: "Sign PDF", url: "/sign-pdf/", icon: "draw", desc: "Draw, type or upload a picture of your signature and place it on any page", alt: "signature image jpg png upload scan sign", group: "Forms & Signatures", category: "PDF Tool" },
   { title: "PDF Colour Filters", url: "/pdf-colour-filters/", icon: "tonality", desc: "Greyscale, invert, or adjust brightness/contrast/saturation", alt: "color grayscale", group: "Edit & Design", category: "PDF Tool" },
   { title: "Text to PDF", url: "/text-to-pdf/", icon: "notes", desc: "Turn plain text into a paginated PDF", group: "Convert", category: "PDF Tool" },
   { title: "Flatten PDF", url: "/flatten-pdf/", icon: "layers_clear", desc: "Turn fillable form fields into static, non-editable content", group: "Forms & Signatures", category: "PDF Tool" },

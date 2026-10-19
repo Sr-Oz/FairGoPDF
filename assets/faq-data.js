@@ -178,7 +178,7 @@ window.FAQ_DATA = [
  },
  {
   "q": "Is a signature added with Sign PDF legally valid?",
-  "a": "Sign PDF stamps a drawn or typed image of your signature onto the page. It's a visual signature, not a certificate-based digital signature with an audit trail. Whether it's accepted depends on the document and who's asking. Some forms, contracts, and government or court documents specify how they must be signed, so check the instructions before you sign.",
+  "a": "Sign PDF stamps a drawn, typed or uploaded image of your signature onto the page. It's a visual signature, not a certificate-based digital signature with an audit trail. Whether it's accepted depends on the document and who's asking. Some forms, contracts, and government or court documents specify how they must be signed, so check the instructions before you sign.",
   "k": "signature esign e-signature digital signature sign",
   "cat": "Government & compliance",
   "url": "/faq/government/is-a-signature-added-with-sign-pdf-legally-valid/"

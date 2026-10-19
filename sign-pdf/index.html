@@ -6,22 +6,22 @@
 <meta name="author" content="Oscar Monsalve">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Sign a PDF Online Free, Draw or Type | Fair Go PDF</title>
-<meta name="description" content="Draw or type a signature and place it on any page of a PDF, free and in your browser. No upload, no signup, no account.">
+<title>Sign a PDF Online Free, Draw, Type or Upload | Fair Go PDF</title>
+<meta name="description" content="Draw, type or upload a picture of your signature and place it on any page of a PDF, free and in your browser. No upload, no signup, no account.">
 <link rel="canonical" href="https://fairgopdf.au/sign-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="Sign a PDF Online Free, Draw or Type a Signature">
-<meta property="og:description" content="Draw or type a signature and place it on any page of a PDF, free and in your browser.">
+<meta property="og:title" content="Sign a PDF Online Free, Draw, Type or Upload a Signature">
+<meta property="og:description" content="Draw, type or upload a signature and place it on any page of a PDF, free and in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/sign-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Fair Go PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Sign a PDF Online Free, Draw or Type a Signature">
-<meta name="twitter:description" content="Draw or type a signature and place it on any page of a PDF, free and in your browser.">
+<meta name="twitter:title" content="Sign a PDF Online Free, Draw, Type or Upload a Signature">
+<meta name="twitter:description" content="Draw, type or upload a signature and place it on any page of a PDF, free and in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +36,8 @@
   #typedPreview { font-family: "Caveat", cursive; font-size: 2.6rem; color: #1a1a1a; }
   .sig-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
   .sig-tabs button.active { background: var(--brand); color: var(--brand-contrast); }
+  .sig-upload-preview { margin-top: 12px; padding: 12px; max-width: 420px; border: 2px dashed var(--border); border-radius: 8px; background-color: #fff; background-image: repeating-conic-gradient(#e3e3e3 0% 25%, #fff 0% 50%); background-size: 16px 16px; }
+  .sig-upload-preview canvas { display: block; max-width: 100%; max-height: 160px; margin: 0 auto; }
   #sigPad { touch-action: none; border: 2px dashed var(--border); border-radius: 8px; background: #fff; cursor: crosshair; display: block; }
 </style>
 </head>
@@ -84,7 +86,7 @@
 
     <div class="tool-page-header">
       <h1>Sign a PDF</h1>
-      <p>Draw or type a signature and stamp it on any page. Processed locally, nothing is uploaded.</p>
+      <p>Draw, type or upload a picture of your signature and stamp it on any page. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace">
@@ -103,6 +105,7 @@
         <div class="sig-tabs">
           <button class="btn secondary small active" id="tabDraw" type="button">Draw</button>
           <button class="btn secondary small" id="tabType" type="button">Type</button>
+          <button class="btn secondary small" id="tabUpload" type="button">Upload picture</button>
         </div>
 
         <div id="drawPane">
@@ -115,6 +118,18 @@
         <div id="typePane" style="display:none;">
           <input type="text" id="typedName" placeholder="Type your name" style="width:100%; max-width:400px; font-size:1.1rem; padding:10px;">
           <p id="typedPreview" style="margin-top:12px;"></p>
+        </div>
+
+        <div id="uploadPane" style="display:none;">
+          <p class="help-text">Add a photo or scan of your signature written on white paper (JPG, PNG or WebP). It stays on your device.</p>
+          <input type="file" id="sigFile" accept="image/jpeg,image/png,image/webp" aria-label="Picture of your signature">
+          <div id="sigUploadWrap" style="display:none;">
+            <div class="sig-upload-preview"><canvas id="sigUploadPreview" aria-label="Preview of your signature"></canvas></div>
+            <div class="controls-row" style="flex-direction:column; align-items:flex-start; gap:10px; margin:12px 0 0;">
+              <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="optTransparent" checked> Make the white paper transparent</label>
+              <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="optTrim" checked> Trim the empty space around it</label>
+            </div>
+          </div>
         </div>
 
         <div class="controls-row" style="margin-top:24px;">
@@ -172,7 +187,7 @@
       <h2>How it works</h2>
       <ol>
         <li>Add a PDF and pick which page to sign.</li>
-        <li>Draw your signature with your mouse or finger, or switch to "Type" and enter your name.</li>
+        <li>Draw your signature with your mouse or finger, switch to "Type" and enter your name, or choose "Upload picture" and add a photo or scan of your handwritten signature.</li>
         <li>Choose where on the page it should sit and how big, then click "Sign PDF."</li>
       </ol>
       <p class="help-text">This stamps an image of your signature onto the page, it's a straightforward visual signature, not a cryptographically verified e-signature with an audit trail. For documents that require the latter, you'll need a dedicated e-signature service.</p>
