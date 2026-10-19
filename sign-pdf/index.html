@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Sign a PDF Online Free, Draw, Type or Upload | Fair Go PDF</title>
-<meta name="description" content="Draw, type or upload a picture of your signature and place it on any page of a PDF, free and in your browser. No upload, no signup, no account.">
+<meta name="description" content="Draw, type or upload a picture of your signature and drag it anywhere on any page of a PDF, free and in your browser. No upload, no signup, no account.">
 <link rel="canonical" href="https://fairgopdf.au/sign-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
@@ -38,6 +38,15 @@
   .sig-tabs button.active { background: var(--brand); color: var(--brand-contrast); }
   .sig-upload-preview { margin-top: 12px; padding: 12px; max-width: 420px; border: 2px dashed var(--border); border-radius: 8px; background-color: #fff; background-image: repeating-conic-gradient(#e3e3e3 0% 25%, #fff 0% 50%); background-size: 16px 16px; }
   .sig-upload-preview canvas { display: block; max-width: 100%; max-height: 160px; margin: 0 auto; }
+  .sig-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 8px 0; font-size: 0.92rem; }
+  .sig-pager input { width: 64px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); }
+  .sig-stage { position: relative; max-width: 760px; margin: 8px 0 0; line-height: 0; border: 1px solid var(--border); border-radius: 6px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); touch-action: pan-y; user-select: none; }
+  .sig-stage > canvas { display: block; width: 100%; height: auto; border-radius: 6px; }
+  .sig-overlay { position: absolute; cursor: move; touch-action: none; outline: 2px dashed var(--brand); outline-offset: 2px; background: rgba(0, 77, 64, 0.06); }
+  .sig-overlay:focus-visible { outline-style: solid; }
+  .sig-overlay canvas { display: block; width: 100%; height: auto; pointer-events: none; }
+  .sig-handle { position: absolute; right: -9px; bottom: -9px; width: 20px; height: 20px; border-radius: 50%; background: var(--brand); border: 2px solid #fff; cursor: nwse-resize; touch-action: none; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+  @media (pointer: coarse) { .sig-handle { width: 28px; height: 28px; right: -14px; bottom: -14px; } }
   #sigPad { touch-action: none; border: 2px dashed var(--border); border-radius: 8px; background: #fff; cursor: crosshair; display: block; }
 </style>
 </head>
@@ -86,7 +95,7 @@
 
     <div class="tool-page-header">
       <h1>Sign a PDF</h1>
-      <p>Draw, type or upload a picture of your signature and stamp it on any page. Processed locally, nothing is uploaded.</p>
+      <p>Draw, type or upload a picture of your signature, then drag it exactly where you need it on any page. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace">
@@ -98,10 +107,7 @@
       </div>
 
       <div id="editor" style="display:none;">
-        <p class="help-text">Choose which page to sign:</p>
-        <div class="page-thumb-grid" id="pageGrid"></div>
-
-        <h3 style="margin-top:24px;">Your signature</h3>
+        <h3>1. Your signature</h3>
         <div class="sig-tabs">
           <button class="btn secondary small active" id="tabDraw" type="button">Draw</button>
           <button class="btn secondary small" id="tabType" type="button">Type</button>
@@ -132,22 +138,29 @@
           </div>
         </div>
 
-        <div class="controls-row" style="margin-top:24px;">
-          <div class="field">
-            <label for="sigPosition">Position on page</label>
-            <select id="sigPosition">
-              <option value="bottom-right" selected>Bottom right</option>
-              <option value="bottom-center">Bottom centre</option>
-              <option value="bottom-left">Bottom left</option>
-              <option value="top-right">Top right</option>
-              <option value="top-center">Top centre</option>
-              <option value="top-left">Top left</option>
-            </select>
+        <h3 style="margin-top:28px;">2. Place it on the page</h3>
+        <div class="sig-pager" id="pager">
+          <button class="btn secondary small" id="prevPageBtn" type="button">&larr; Previous</button>
+          <label for="pageNum">Page</label>
+          <input type="number" id="pageNum" min="1" value="1" inputmode="numeric">
+          <span>of <span id="pageTotal">1</span></span>
+          <button class="btn secondary small" id="nextPageBtn" type="button">Next &rarr;</button>
+        </div>
+        <p class="help-text" id="placeHint">Make your signature above first, then drag it to where you need it on the page.</p>
+        <div class="sig-stage" id="sigStage">
+          <canvas id="pageCanvas" aria-label="The page to sign"></canvas>
+          <div class="sig-overlay" id="sigOverlay" tabindex="0" role="group" aria-label="Your signature. Drag to move it, use the arrow keys to nudge it, and plus or minus to resize." style="display:none;">
+            <canvas id="overlayCanvas"></canvas>
+            <span class="sig-handle" id="sigHandle" aria-hidden="true"></span>
           </div>
+        </div>
+
+        <div class="controls-row" style="margin-top:16px;">
           <div class="field">
             <label for="sigWidth">Signature width (<span id="sigWidthVal">150</span>pt)</label>
-            <input type="range" id="sigWidth" min="60" max="300" value="150">
+            <input type="range" id="sigWidth" min="30" max="400" value="150">
           </div>
+          <button class="btn secondary small" id="resetPlaceBtn" type="button">Reset position</button>
         </div>
 
         <div class="actions-row">
@@ -186,9 +199,9 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF and pick which page to sign.</li>
+        <li>Add a PDF. It opens on the last page, where signatures usually go. Use Previous and Next to move to another page.</li>
         <li>Draw your signature with your mouse or finger, switch to "Type" and enter your name, or choose "Upload picture" and add a photo or scan of your handwritten signature.</li>
-        <li>Choose where on the page it should sit and how big, then click "Sign PDF."</li>
+        <li>Drag the signature to exactly where you need it on the page, drag its corner (or use the slider) to resize it, then click "Sign PDF." It is stamped on the page you are looking at.</li>
       </ol>
       <p class="help-text">This stamps an image of your signature onto the page, it's a straightforward visual signature, not a cryptographically verified e-signature with an audit trail. For documents that require the latter, you'll need a dedicated e-signature service.</p>
     </section>

@@ -70,7 +70,7 @@ watermarked output.
 | Crop PDF Pages | `/crop-pdf/` | Trim margins from every page, crop each page on its own, or fit the crop to the content |
 | Compare PDFs | `/compare-pdfs/` | Diff the text of two PDF versions line by line |
 | Fill PDF Form | `/fill-pdf-form/` | Fill text fields, checkboxes and dropdowns on a PDF form |
-| Sign PDF | `/sign-pdf/` | Draw, type or upload a picture of your signature and place it on any page |
+| Sign PDF | `/sign-pdf/` | Draw, type or upload a picture of your signature and drag it anywhere on any page |
 | PDF Colour Filters | `/pdf-colour-filters/` | Greyscale, invert, or adjust brightness/contrast/saturation across every page |
 | Text to PDF | `/text-to-pdf/` | Turn plain text into a paginated PDF |
 | Flatten PDF | `/flatten-pdf/` | Turn fillable form fields into static, non-editable content |
