@@ -5,6 +5,7 @@
 /* Hallmark · dismissed 58 · the page is a directory of 79 tools, and their names and one-line descriptions are the content, so the word budget is the index itself */
 /* Hallmark · reworded hero "Your data is like your partner: ... This is a Fair Go for your data." to "This is a Fair Go for your data." · 58 names a hero sentence over twelve words */
 /* Hallmark · dropped "Your data is like your partner: you don't share it with strangers on the internet. You keep it for yourself." · the owner asked for it to go to recover the space */
+/* Hallmark · added hero line "Made for Australia and New Zealand" between the headline and the sentence · the owner asked for it; 58 counts it with the other hero text */
 /* Hallmark · dismissed 29 · Dusk's product surface is smoked glass with its lit edge, here over the video; the rail is opaque enough (78%) to read on the paper below it */
 /* Hallmark · answered F5 · the round icon chip is the site's own idiom for 79 tool cards and gives each a quick anchor; it is a quiet tint of the one signal, not a coloured set */
 /* Hallmark · dismissed 23 · the rule styles one 48px pill button on the page, the accent covers a small part of the screen */
@@ -120,6 +121,9 @@ html { scrollbar-color: var(--color-muted) var(--color-paper); }
   color: var(--color-hero-muted);
   text-shadow: none;
 }
+/* the region line sits between the headline and the sentence: a step quieter than the headline, a step stronger than the sentence */
+.home .hero .hero-region { max-width: none; margin: 0 0 var(--space-xs); font-size: var(--text-lead); font-weight: 600; letter-spacing: -0.01em; color: var(--color-hero-ink); }
+.home .hero .container > *:nth-child(4) { animation-delay: 0.35s; } /* style.css staggers the first three children; the button is now the fourth */
 .home .hero-ctas { justify-content: flex-start; margin-top: var(--space-lg); }
 
 .home main .btn {
@@ -257,7 +261,10 @@ html { scrollbar-color: var(--color-muted) var(--color-paper); }
   .home .hero-scrim {
     background: linear-gradient(to bottom, color-mix(in oklab, var(--color-shade) 62%, transparent) 0%, color-mix(in oklab, var(--color-shade) 80%, transparent) 50%, color-mix(in oklab, var(--color-shade) 55%, transparent) 82%, var(--color-paper) 100%);
   }
-  .home .trust-signals { grid-template-columns: minmax(0, 1fr); margin-top: calc(-1 * var(--space-lg)); }
+  /* one column: the bar is only as wide as its widest promise and centred, and each promise fills it (style.css caps them at 300px),
+     so the dividing lines run edge to edge */
+  .home .trust-signals { grid-template-columns: minmax(0, 1fr); width: fit-content; max-width: 100%; margin: calc(-1 * var(--space-lg)) auto var(--space-2xl); }
+  .home .trust-signals .signal { width: auto; max-width: none; }
   .home .trust-signals .signal + .signal { border-left: 0; border-top: 1px solid var(--glass-rule); }
   .home .section-title { margin-top: var(--space-2xl); padding-top: var(--space-lg); }
   }
