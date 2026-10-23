@@ -1,4 +1,5 @@
 import { PDFLib, loadPdfJsDoc, renderPageThumbCanvas } from "/assets/tools/pdf-common.js";
+import { PDFDocument as DecryptingPDFDocument } from "/assets/vendor/cantoo-pdf-lib.esm.min.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -11,6 +12,26 @@ const statusEl = document.getElementById("status");
 // Each entry is { file, canvas, pages }: canvas (the first page) and pages arrive once pdf.js has read the file.
 let files = [];
 let dragFrom = -1;
+
+// Many PDFs (certificates, bank statements) are "encrypted" only to stop editing and open with no password. pdf-lib refuses
+// those, so they are opened with the decrypting library (the one Unlock PDF uses) and merged as an unlocked copy.
+// A PDF that really needs a password is named, so the visitor knows which one to unlock first.
+class MergeProblem extends Error {}
+
+async function loadForMerge(file) {
+  const bytes = await file.arrayBuffer();
+  try {
+    return await PDFLib.PDFDocument.load(bytes);
+  } catch (err) {
+    if (!/encrypted/i.test(err.message || "")) throw new MergeProblem(`${file.name} couldn't be read as a PDF (${err.message || "unknown problem"}).`);
+  }
+  try {
+    const open = await DecryptingPDFDocument.load(bytes.slice(0), { password: "" });
+    return await PDFLib.PDFDocument.load(await open.save());
+  } catch (err) {
+    throw new MergeProblem(`${file.name} is password protected. Remove its password with Unlock PDF first, then add it again.`);
+  }
+}
 
 function move(from, to) {
   const [item] = files.splice(from, 1);
@@ -145,8 +166,7 @@ runBtn.addEventListener("click", async () => {
   try {
     const merged = await PDFLib.PDFDocument.create();
     for (const { file } of files) {
-      const bytes = await file.arrayBuffer();
-      const src = await PDFLib.PDFDocument.load(bytes);
+      const src = await loadForMerge(file);
       const pages = await merged.copyPages(src, src.getPageIndices());
       pages.forEach((p) => merged.addPage(p));
     }
@@ -171,7 +191,7 @@ runBtn.addEventListener("click", async () => {
     }
   } catch (err) {
     console.error(err);
-    setStatus(statusEl, `Something went wrong: ${err.message || "could not merge these PDFs."}`, "error");
+    setStatus(statusEl, err instanceof MergeProblem ? err.message : `Something went wrong: ${err.message || "could not merge these PDFs."}`, "error");
   } finally {
     runBtn.disabled = false;
   }
