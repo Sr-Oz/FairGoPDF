@@ -1931,14 +1931,23 @@ body.scrolled:has(.hero) .site-header .icon-btn {
    It's a direct child of .container after .info-section (never between
    .tool-workspace and .related-tools-section, which must stay adjacent). */
 .share-wrap {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 8px 14px;
   margin: 24px 0 64px;
 }
 
+/* Centred under the page; the pill opens equally to the left and right because it grows around its own middle.
+   The note ("Link copied") hangs below it, out of the flow, so it never pushes the pill off centre. */
 .share-note {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
   font-size: 0.82rem;
   color: var(--text-muted);
 }
