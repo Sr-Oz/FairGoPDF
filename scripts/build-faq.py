@@ -151,8 +151,8 @@ HUB_DESC = "Straight answers on privacy, cost, file limits and security, plus ho
 HUB_TITLE = "FAQ: Privacy, Security &amp; Government Use | Fair Go PDF"
 
 CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://web3forms.com "
-       "https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com "
-       "https://hcaptcha.com https://*.hcaptcha.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; "
+       "https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' "
+       "https://hcaptcha.com https://*.hcaptcha.com; font-src 'self'; img-src 'self' data: blob:; "
        "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://api.web3forms.com "
        "https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; "
        "worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'")
@@ -260,9 +260,9 @@ def head(title_html, desc, url, extra_ld):
 <meta name="twitter:title" content="{t}">
 <meta name="twitter:description" content="{d}">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/style.css">
 
 <!-- Analytics consent gate: loads Google Analytics only after the

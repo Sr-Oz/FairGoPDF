@@ -2,7 +2,7 @@
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://web3forms.com https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://hcaptcha.com https://*.hcaptcha.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://web3forms.com https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://hcaptcha.com https://*.hcaptcha.com; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="author" content="Oscar Monsalve">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
@@ -23,9 +23,9 @@
 <meta name="twitter:title" content="Handwriting Practice Worksheet Generator, Free">
 <meta name="twitter:description" content="Create a printable handwriting practice worksheet with traceable dashed letters and ruled guide lines, cursive or print style, free and right in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800&amp;family=Dancing+Script:wght@400..700&amp;family=Schoolbell&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/style.css">
 
 <!-- Analytics consent gate: loads Google Analytics only after the
@@ -148,7 +148,7 @@
         <li>Choose cursive or print style and a letter size, and how many copies of the sheet to include.</li>
         <li>Click "Preview" to check the layout, then "Create Worksheet PDF" to download.</li>
       </ol>
-      <p class="help-text">Each sheet starts with one solid example line, several dashed rows to trace, then blank ruled lines for freehand practice. Fonts are free, open-licence Google Fonts, not a proprietary handwriting font.</p>
+      <p class="help-text">Each sheet starts with one solid example line, several dashed rows to trace, then blank ruled lines for freehand practice. The handwriting fonts (Dancing Script and Schoolbell) are free and open-licence, and are hosted on this site.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>

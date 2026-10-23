@@ -13,7 +13,7 @@ repo has no Tailwind/React and never will unless that changes.
 - `tokens.css` — the `:root` CSS custom properties block (colors, shades/tints, fonts, text-on-* pairings).
 - `tailwind.config.js` — the `theme.extend` block for a Tailwind project. Won't do anything here since Tailwind isn't installed in this repo.
 - `components.css` — button variants, typography scale, nav, search bar / input states. Each rule notes its Tailwind utility-class equivalent in a comment, since the brief asked for both vanilla and Tailwind framing.
-- `sample-hero.html` — a self-contained hero + card layout. Open it directly in a browser (loads Manrope from Google Fonts, pulls in `tokens.css` + `components.css`).
+- `sample-hero.html` — a self-contained hero + card layout. Open it directly in a browser (uses the self-hosted fonts in `/assets/fonts/`, pulls in `tokens.css` + `components.css`).
 
 ## One deviation from the brief, on purpose
 
@@ -29,7 +29,7 @@ neutral text (`#1B1C1C`) on the gold background instead, which clears
   now `#004D40` (was `#d3321d`), `--accent` is `#FFD700` (was `#ffcf67`),
   plus every hardcoded shadow/gradient/icon-cycling color that referenced
   the old red literally (not via the CSS variable) got swapped too.
-- Every `<link>` to Google Fonts across all 34 pages now loads `Manrope`
+- (Historical) Every `<link>` to Google Fonts across all 34 pages loaded `Manrope`
   instead of `Public Sans`.
 - The Southern Cross favicon/logo mark (`assets/img/favicon.svg`,
   `logo-light.svg`, `logo-dark.svg`) was reconciled to this same palette:
