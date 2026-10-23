@@ -1,4 +1,4 @@
-import { PDFLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, loadPdfJsDoc, renderPageThumbCanvas } from "/assets/tools/pdf-common.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -8,46 +8,97 @@ const runBtn = document.getElementById("runBtn");
 const clearBtn = document.getElementById("clearBtn");
 const statusEl = document.getElementById("status");
 
+// Each entry is { file, canvas, pages }: canvas (the first page) and pages arrive once pdf.js has read the file.
 let files = [];
+let dragFrom = -1;
+
+function move(from, to) {
+  const [item] = files.splice(from, 1);
+  files.splice(to, 0, item);
+  renderFileList();
+}
+
+async function loadPreview(entry) {
+  let doc;
+  try {
+    doc = await loadPdfJsDoc(await entry.file.arrayBuffer());
+    entry.pages = doc.numPages;
+    entry.canvas = await renderPageThumbCanvas(doc, 1, 240);
+  } catch (err) {
+    entry.failed = true; // password protected or damaged: the card shows a plain icon and the merge reports the problem
+  } finally {
+    if (doc) doc.loadingTask.destroy();
+  }
+  if (files.includes(entry)) renderFileList();
+}
 
 function renderFileList() {
   fileListEl.innerHTML = "";
-  files.forEach((f, i) => {
+  files.forEach((entry, i) => {
+    const f = entry.file;
     const li = document.createElement("li");
-    li.innerHTML = `<span class="name">${i + 1}. ${escapeHtml(f.name)}</span><span class="meta">${formatBytes(f.size)}</span>`;
+    li.draggable = true;
+    const meta = [entry.pages ? `${entry.pages} page${entry.pages === 1 ? "" : "s"}` : "", formatBytes(f.size)].filter(Boolean).join(" · ");
+    li.innerHTML = `
+      <span class="card-num">${i + 1}</span>
+      <div class="card-thumb"></div>
+      <div class="card-body"><span class="name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</span><span class="meta">${meta}</span></div>`;
+    const thumb = li.querySelector(".card-thumb");
+    if (entry.canvas) thumb.appendChild(entry.canvas);
+    else thumb.innerHTML = entry.failed
+      ? '<span class="material-symbols-outlined" aria-hidden="true">picture_as_pdf</span>'
+      : '<span class="card-loading" aria-hidden="true"></span>';
 
-    const upBtn = document.createElement("button");
-    upBtn.className = "remove";
-    upBtn.textContent = "↑";
-    upBtn.setAttribute("aria-label", `Move ${f.name} up`);
-    upBtn.disabled = i === 0;
-    upBtn.addEventListener("click", () => {
-      [files[i - 1], files[i]] = [files[i], files[i - 1]];
-      renderFileList();
-    });
-
-    const downBtn = document.createElement("button");
-    downBtn.className = "remove";
-    downBtn.textContent = "↓";
-    downBtn.setAttribute("aria-label", `Move ${f.name} down`);
-    downBtn.disabled = i === files.length - 1;
-    downBtn.addEventListener("click", () => {
-      [files[i + 1], files[i]] = [files[i], files[i + 1]];
-      renderFileList();
-    });
-
-    const removeBtn = document.createElement("button");
-    removeBtn.className = "remove";
-    removeBtn.textContent = "✕";
-    removeBtn.setAttribute("aria-label", `Remove ${f.name}`);
-    removeBtn.addEventListener("click", () => {
+    const actions = document.createElement("div");
+    actions.className = "card-actions";
+    const button = (label, text, disabled, onClick) => {
+      const b = document.createElement("button");
+      b.className = "remove";
+      b.textContent = text;
+      b.setAttribute("aria-label", `${label} ${f.name}`);
+      b.disabled = disabled;
+      b.addEventListener("click", onClick);
+      actions.appendChild(b);
+    };
+    button("Move earlier:", "←", i === 0, () => move(i, i - 1));
+    button("Move later:", "→", i === files.length - 1, () => move(i, i + 1));
+    button("Remove", "✕", false, () => {
       files.splice(i, 1);
       renderFileList();
     });
+    li.appendChild(actions);
 
-    li.appendChild(upBtn);
-    li.appendChild(downBtn);
-    li.appendChild(removeBtn);
+    li.addEventListener("dragstart", (e) => {
+      dragFrom = i;
+      li.classList.add("dragging");
+      e.dataTransfer.setData("text/plain", String(i)); // Firefox will not start a drag without data
+      e.dataTransfer.effectAllowed = "move";
+    });
+    li.addEventListener("dragend", () => {
+      dragFrom = -1;
+      fileListEl.querySelectorAll(".dragging, .drop-before, .drop-after").forEach((el) => el.classList.remove("dragging", "drop-before", "drop-after"));
+    });
+    li.addEventListener("dragover", (e) => {
+      if (dragFrom < 0) return; // a file from the desktop goes to the drop area, not onto a card
+      e.preventDefault();
+      const rect = li.getBoundingClientRect();
+      const before = e.clientX - rect.left < rect.width / 2;
+      li.classList.toggle("drop-before", before);
+      li.classList.toggle("drop-after", !before);
+    });
+    li.addEventListener("dragleave", () => li.classList.remove("drop-before", "drop-after"));
+    li.addEventListener("drop", (e) => {
+      if (dragFrom < 0) return;
+      e.preventDefault();
+      const rect = li.getBoundingClientRect();
+      let to = e.clientX - rect.left < rect.width / 2 ? i : i + 1;
+      if (dragFrom < to) to--; // removing the dragged card shifts everything after it
+      const from = dragFrom;
+      dragFrom = -1;
+      if (to !== from) move(from, to);
+      else renderFileList();
+    });
+
     fileListEl.appendChild(li);
   });
   actionsRow.style.display = files.length >= 1 ? "flex" : "none";
@@ -60,8 +111,13 @@ function addFiles(newFiles) {
     setStatus(statusEl, "Some files were skipped because they weren't PDFs.", "error");
     statusEl.classList.add("visible");
   }
-  files = files.concat(pdfs);
+  const entries = pdfs.map((file) => ({ file, canvas: null, pages: 0, failed: false }));
+  files = files.concat(entries);
   renderFileList();
+  // one at a time, so a big batch doesn't read every file into memory at once
+  (async () => {
+    for (const entry of entries) if (files.includes(entry)) await loadPreview(entry);
+  })();
 }
 
 initDropzone(dropzone, fileInput, addFiles);
@@ -88,7 +144,7 @@ runBtn.addEventListener("click", async () => {
 
   try {
     const merged = await PDFLib.PDFDocument.create();
-    for (const file of files) {
+    for (const { file } of files) {
       const bytes = await file.arrayBuffer();
       const src = await PDFLib.PDFDocument.load(bytes);
       const pages = await merged.copyPages(src, src.getPageIndices());
