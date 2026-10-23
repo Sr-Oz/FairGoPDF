@@ -1,4 +1,4 @@
-import { PDFLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, embedSafeFont } from "/assets/tools/pdf-common.js";
 
 const PAGE_SIZES = {
   a4: [595.28, 841.89],
@@ -90,7 +90,7 @@ runBtn.addEventListener("click", async () => {
     const linesPerPage = Math.max(1, Math.floor((height - MARGIN * 2) / lineHeight));
 
     const doc = await PDFLib.PDFDocument.create();
-    const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+    const font = await embedSafeFont(doc, PDFLib.StandardFonts.Helvetica);
 
     const allLines = text.split("\n").flatMap((line) => wrapLine(line, font, fontSize, maxWidth));
 

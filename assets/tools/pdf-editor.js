@@ -1,4 +1,4 @@
-import { PDFLib, loadPdfJsDoc } from "/assets/tools/pdf-common.js";
+import { PDFLib, loadPdfJsDoc, embedSafeFont, enterShownSpace } from "/assets/tools/pdf-common.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -553,7 +553,8 @@ runBtn.addEventListener("click", async () => {
     for (let i = 0; i < pages.length; i++) {
       const page = pdfPagesArr[i];
       if (!page) continue;
-      const { height: pageHeightPt } = page.getSize();
+      const shown = enterShownSpace(page);
+      const pageHeightPt = shown.height;
 
       for (const obj of pages[i].objects) {
         if (obj.type === "text") {
@@ -561,7 +562,7 @@ runBtn.addEventListener("click", async () => {
           if (!text) continue;
           const key = `${obj.fontFamily}|${obj.bold}|${obj.italic}`;
           if (!fontCache.has(key)) {
-            fontCache.set(key, await doc.embedFont(standardFontFor(obj.fontFamily, obj.bold, obj.italic)));
+            fontCache.set(key, await embedSafeFont(doc, standardFontFor(obj.fontFamily, obj.bold, obj.italic)));
           }
           const font = fontCache.get(key);
           const { r, g, b } = hexToRgb01(obj.color);
@@ -586,6 +587,7 @@ runBtn.addEventListener("click", async () => {
           });
         }
       }
+      shown.done();
     }
 
     const bytes = await doc.save();

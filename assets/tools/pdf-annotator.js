@@ -1,4 +1,4 @@
-import { PDFLib, loadPdfJsDoc } from "/assets/tools/pdf-common.js";
+import { PDFLib, loadPdfJsDoc, embedSafeFont, enterShownSpace } from "/assets/tools/pdf-common.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -487,12 +487,13 @@ runBtn.addEventListener("click", async () => {
   try {
     const doc = await PDFLib.PDFDocument.load(currentBytes.slice());
     const pdfPagesArr = doc.getPages();
-    const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+    const font = await embedSafeFont(doc, PDFLib.StandardFonts.Helvetica);
 
     for (let i = 0; i < pages.length; i++) {
       const page = pdfPagesArr[i];
       if (!page) continue;
-      const { height: pageHeightPt } = page.getSize();
+      const shown = enterShownSpace(page);
+      const pageHeightPt = shown.height;
 
       for (const obj of pages[i].objects) {
         const { r, g, b } = hexToRgb01(obj.color);
@@ -536,6 +537,7 @@ runBtn.addEventListener("click", async () => {
           }
         }
       }
+      shown.done();
     }
 
     const bytes = await doc.save();

@@ -1,4 +1,4 @@
-import { PDFLib, parsePageRanges } from "/assets/tools/pdf-common.js";
+import { PDFLib, parsePageRanges, enterShownSpace } from "/assets/tools/pdf-common.js";
 
 const dropzonePdf = document.getElementById("dropzonePdf");
 const pdfInput = document.getElementById("pdfInput");
@@ -110,7 +110,8 @@ runBtn.addEventListener("click", async () => {
 
     for (const pageNum of targetPages) {
       const page = allPages[pageNum - 1];
-      const { width, height } = page.getSize();
+      const shown = enterShownSpace(page);
+      const { width, height } = shown;
 
       let x, y;
       if (position === "center") {
@@ -128,6 +129,7 @@ runBtn.addEventListener("click", async () => {
         opacity,
         rotate: PDFLib.degrees(rotateDeg),
       });
+      shown.done();
     }
 
     const bytes = await doc.save();

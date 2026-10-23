@@ -1,4 +1,4 @@
-import { PDFLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, embedSafeFont, enterShownSpace } from "/assets/tools/pdf-common.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -61,7 +61,7 @@ runBtn.addEventListener("click", async () => {
 
   try {
     const doc = await PDFLib.PDFDocument.load(currentBytes.slice());
-    const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+    const font = await embedSafeFont(doc, PDFLib.StandardFonts.Helvetica);
     const pages = doc.getPages();
     const total = pages.length;
     const start = Number(startNumInput.value) || 1;
@@ -74,7 +74,8 @@ runBtn.addEventListener("click", async () => {
       const n = String(start + i).padStart(digits, "0");
       const text = template.replace(/\{n\}/g, n).replace(/\{total\}/g, String(total));
       const textWidth = font.widthOfTextAtSize(text, fontSize);
-      const { width, height } = page.getSize();
+      const shown = enterShownSpace(page);
+      const { width, height } = shown;
 
       let x, y;
       if (position.endsWith("center")) x = width / 2 - textWidth / 2;
@@ -84,6 +85,7 @@ runBtn.addEventListener("click", async () => {
       y = position.startsWith("top") ? height - MARGIN : MARGIN - fontSize * 0.3;
 
       page.drawText(text, { x, y, size: fontSize, font, color: PDFLib.rgb(0, 0, 0) });
+      shown.done();
     });
 
     const bytes = await doc.save();

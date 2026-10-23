@@ -1,4 +1,4 @@
-import { PDFLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, embedSafeFont } from "/assets/tools/pdf-common.js";
 
 const PAGE_SIZES = {
   a4: [595.28, 841.89],
@@ -165,11 +165,11 @@ runBtn.addEventListener("click", async () => {
 
     const doc = await PDFLib.PDFDocument.create();
     const fonts = {
-      normal: await doc.embedFont(PDFLib.StandardFonts.Helvetica),
-      bold: await doc.embedFont(PDFLib.StandardFonts.HelveticaBold),
-      italic: await doc.embedFont(PDFLib.StandardFonts.HelveticaOblique),
-      boldItalic: await doc.embedFont(PDFLib.StandardFonts.HelveticaBoldOblique),
-      code: await doc.embedFont(PDFLib.StandardFonts.Courier),
+      normal: await embedSafeFont(doc, PDFLib.StandardFonts.Helvetica),
+      bold: await embedSafeFont(doc, PDFLib.StandardFonts.HelveticaBold),
+      italic: await embedSafeFont(doc, PDFLib.StandardFonts.HelveticaOblique),
+      boldItalic: await embedSafeFont(doc, PDFLib.StandardFonts.HelveticaBoldOblique),
+      code: await embedSafeFont(doc, PDFLib.StandardFonts.Courier),
     };
     const gray = PDFLib.rgb(0.4, 0.4, 0.4);
     const black = PDFLib.rgb(0, 0, 0);

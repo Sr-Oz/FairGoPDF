@@ -1,4 +1,4 @@
-import { PDFLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, embedSafeFont, enterShownSpace } from "/assets/tools/pdf-common.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -70,7 +70,7 @@ runBtn.addEventListener("click", async () => {
 
   try {
     const doc = await PDFLib.PDFDocument.load(currentBytes.slice());
-    const font = await doc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+    const font = await embedSafeFont(doc, PDFLib.StandardFonts.HelveticaBold);
     const size = Number(sizeInput.value) || 48;
     const opacity = Number(opacityInput.value) / 100;
     const angleDeg = Number(rotationInput.value) || 0;
@@ -79,7 +79,8 @@ runBtn.addEventListener("click", async () => {
     const textWidth = font.widthOfTextAtSize(text, size);
 
     doc.getPages().forEach((page) => {
-      const { width, height } = page.getSize();
+      const shown = enterShownSpace(page);
+      const { width, height } = shown;
       const centerX = width / 2;
       const centerY = height / 2;
       const x = centerX - (textWidth / 2) * Math.cos(angleRad);
@@ -91,6 +92,7 @@ runBtn.addEventListener("click", async () => {
         opacity,
         rotate: PDFLib.degrees(angleDeg),
       });
+      shown.done();
     });
 
     const bytes = await doc.save();

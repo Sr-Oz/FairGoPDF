@@ -4,7 +4,7 @@
 // model, then lays it out with pdf-lib the same way markdown-to-pdf.js does for
 // Markdown syntax — this is that same word-wrap/draw approach, generalised to
 // read from the DOM instead of Markdown source.
-import { PDFLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, embedSafeFont } from "/assets/tools/pdf-common.js";
 
 const PAGE_SIZES = {
   a4: [595.28, 841.89],
@@ -127,11 +127,11 @@ export function htmlToBlocks(root) {
 
 export async function embedStandardFonts(doc) {
   return {
-    normal: await doc.embedFont(PDFLib.StandardFonts.Helvetica),
-    bold: await doc.embedFont(PDFLib.StandardFonts.HelveticaBold),
-    italic: await doc.embedFont(PDFLib.StandardFonts.HelveticaOblique),
-    boldItalic: await doc.embedFont(PDFLib.StandardFonts.HelveticaBoldOblique),
-    code: await doc.embedFont(PDFLib.StandardFonts.Courier),
+    normal: await embedSafeFont(doc, PDFLib.StandardFonts.Helvetica),
+    bold: await embedSafeFont(doc, PDFLib.StandardFonts.HelveticaBold),
+    italic: await embedSafeFont(doc, PDFLib.StandardFonts.HelveticaOblique),
+    boldItalic: await embedSafeFont(doc, PDFLib.StandardFonts.HelveticaBoldOblique),
+    code: await embedSafeFont(doc, PDFLib.StandardFonts.Courier),
   };
 }
 

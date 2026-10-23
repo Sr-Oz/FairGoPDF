@@ -1,4 +1,4 @@
-import { PDFLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, embedSafeFont, enterShownSpace } from "/assets/tools/pdf-common.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -78,7 +78,7 @@ runBtn.addEventListener("click", async () => {
 
   try {
     const doc = await PDFLib.PDFDocument.load(currentBytes.slice());
-    const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+    const font = await embedSafeFont(doc, PDFLib.StandardFonts.Helvetica);
     const size = Number(fontSizeInput.value) || 9;
     const margin = Number(marginInput.value) || 28;
     const dateLabel = todayLabel();
@@ -86,7 +86,8 @@ runBtn.addEventListener("click", async () => {
     const total = pages.length;
 
     pages.forEach((page, i) => {
-      const { width, height } = page.getSize();
+      const shown = enterShownSpace(page);
+      const { width, height } = shown;
       const n = i + 1;
 
       const drawZone = (template, align, y) => {
@@ -109,6 +110,7 @@ runBtn.addEventListener("click", async () => {
       drawZone(zones["footer-left"], "left", footerY);
       drawZone(zones["footer-center"], "center", footerY);
       drawZone(zones["footer-right"], "right", footerY);
+      shown.done();
     });
 
     const bytes = await doc.save();
