@@ -1,0 +1,6 @@
+# Repo-only files: not part of the site, so not published.
+/scripts
+/docs
+/design-system
+/CONTENT_BACKLOG.md
+/CONTRIBUTING.md
