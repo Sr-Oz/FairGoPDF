@@ -393,6 +393,28 @@
   if (el) el.textContent = new Date().getFullYear();
 })();
 
+// Keep it sorted (keep-sorted.js) leaves a produced file in IndexedDB for 10 minutes. Drop it on any page load once it has
+// expired, so a file nobody picked up doesn't linger. Names and the age limit must match keep-sorted.js.
+// shortcut: browsers without indexedDB.databases() skip this and rely on the tool pages' own expiry check.
+(function expireStash() {
+  if (!window.indexedDB || !indexedDB.databases) return;
+  indexedDB.databases().then((dbs) => {
+    if (!dbs.some((d) => d.name === "fgp-workspace")) return; // opening would create an empty one
+    const req = indexedDB.open("fgp-workspace", 1);
+    req.onsuccess = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains("stash")) return db.close();
+      const tx = db.transaction("stash", "readwrite");
+      const store = tx.objectStore("stash");
+      const get = store.get("current");
+      get.onsuccess = () => {
+        if (get.result && Date.now() - get.result.ts > 10 * 60 * 1000) store.delete("current");
+      };
+      tx.oncomplete = tx.onerror = tx.onabort = () => db.close();
+    };
+  }).catch(() => {});
+})();
+
 (function cookiePreferences() {
   const link = document.getElementById("fgpConsentPrefsLink");
   if (!link) return;

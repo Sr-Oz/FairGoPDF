@@ -20,9 +20,11 @@
     });
   }
 
+  // db.close() waits for open transactions to finish, so it is safe to call right after queuing the last one.
   async function stashFile(blob, name, kind, fromTool) {
+    let db;
     try {
-      const db = await openDb();
+      db = await openDb();
       const tx = db.transaction(STORE_NAME, "readwrite");
       tx.objectStore(STORE_NAME).put({ blob, name, kind, fromTool, ts: Date.now() }, STASH_KEY);
       await new Promise((resolve, reject) => {
@@ -31,12 +33,15 @@
       });
     } catch (e) {
       console.error("Keep it sorted: could not stash file", e);
+    } finally {
+      if (db) db.close();
     }
   }
 
   async function getStash() {
+    let db;
     try {
-      const db = await openDb();
+      db = await openDb();
       const tx = db.transaction(STORE_NAME, "readonly");
       const entry = await new Promise((resolve, reject) => {
         const req = tx.objectStore(STORE_NAME).get(STASH_KEY);
@@ -52,16 +57,21 @@
     } catch (e) {
       console.error("Keep it sorted: could not read stash", e);
       return null;
+    } finally {
+      if (db) db.close();
     }
   }
 
   async function clearStash() {
+    let db;
     try {
-      const db = await openDb();
+      db = await openDb();
       const tx = db.transaction(STORE_NAME, "readwrite");
       tx.objectStore(STORE_NAME).delete(STASH_KEY);
     } catch (e) {
       console.error("Keep it sorted: could not clear stash", e);
+    } finally {
+      if (db) db.close();
     }
   }
 
