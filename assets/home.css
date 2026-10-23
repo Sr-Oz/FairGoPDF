@@ -180,7 +180,7 @@ html { scrollbar-color: var(--color-muted) var(--color-paper); }
   max-width: var(--home-width);
   padding-inline: var(--gutter);
   display: grid;
-  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
   column-gap: var(--space-xl);
   align-items: start;
 }
@@ -208,8 +208,8 @@ html { scrollbar-color: var(--color-muted) var(--color-paper); }
   color: var(--color-ink-2);
   opacity: 1;
 }
-.home .tool-grid { grid-column: 2; gap: var(--space-md); margin-bottom: var(--space-xl); grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
-.home .section-title + .tool-grid { grid-column: 1 / -1; }
+/* every grid sits in the same column and uses the same card width, so PDF, Image and Utilities all run four across */
+.home .tool-grid { grid-column: 2; gap: var(--space-md); margin-bottom: var(--space-xl); grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr)); }
 
 .home .tool-card {
   padding: var(--space-lg);
