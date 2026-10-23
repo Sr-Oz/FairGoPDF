@@ -452,8 +452,11 @@
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add("in-view");
-        observer.unobserve(entry.target);
+        const card = entry.target;
+        card.classList.add("in-view");
+        // the stagger delay would also hold back the hover tilt; the fade (up to 210 ms delay + 500 ms) is over by then
+        setTimeout(() => (card.style.transitionDelay = ""), 800);
+        observer.unobserve(card);
       });
     },
     { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }

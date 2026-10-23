@@ -975,6 +975,23 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   }
 }
 
+/* 3D tilt on hover for the homepage cards: the card turns 20 degrees on both axes and lifts, and its title floats forward.
+   Adapted from "3D Hover" by Cornerstone-04, https://uiverse.io/Cornerstone-04/moody-treefrog-55 (MIT licence).
+   perspective() sits on each card instead of on the grid, so every card tilts the same way wherever it is on the page.
+   Only for a real pointer and when motion is welcome; touch and reduced-motion visitors keep the plain lift above. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tool-grid--shine .tool-card,
+  .reveal-ready .tool-grid--shine .tool-card {
+    transform-style: preserve-3d;
+    transition: transform 0.5s, box-shadow 0.12s ease, border-color 0.12s ease, opacity 0.5s ease;
+  }
+  .tool-grid--shine .tool-card:hover {
+    transform: perspective(500px) translateZ(10px) rotateX(20deg) rotateY(20deg);
+  }
+  .tool-grid--shine .tool-card > h3 { transition: transform 0.5s; }
+  .tool-grid--shine .tool-card:hover > h3 { transform: translateZ(50px); }
+}
+
 /* Blog index: featured hero */
 .blog-hero {
   position: relative;
