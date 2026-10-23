@@ -1,0 +1,276 @@
+/* Hallmark · shape: Directory (head and rail, a grouped tool index) · genre: modern-minimal · theme: dusk (brand palette, day and night) · redesign: full
+ * paper: oklch(98% 0.003 100) · accent: oklch(35% 0.075 178) · display: Manrope · body: Manrope · hero: Stage · nav: kept · footer: kept · signature: the four promises as one smoked-glass rail across the video's lower edge
+ * axes: light/grotesk-sans/chromatic-teal · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, the video is the project's own café clip rather than a landscape at dusk, so the "hour" is warm lamp light; kept because it is the real product story (a person using a tablet) and a stock landscape would be invented */
+/* Hallmark · dismissed 58 · the page is a directory of 79 tools, and their names and one-line descriptions are the content, so the word budget is the index itself */
+/* Hallmark · reworded hero "Your data is like your partner: ... This is a Fair Go for your data." to "This is a Fair Go for your data." · 58 names a hero sentence over twelve words */
+/* Hallmark · dropped "Your data is like your partner: you don't share it with strangers on the internet. You keep it for yourself." · the owner asked for it to go to recover the space */
+/* Hallmark · dismissed 29 · Dusk's product surface is smoked glass with its lit edge, here over the video; the rail is opaque enough (78%) to read on the paper below it */
+/* Hallmark · answered F5 · the round icon chip is the site's own idiom for 79 tool cards and gives each a quick anchor; it is a quiet tint of the one signal, not a coloured set */
+/* Hallmark · dismissed 23 · the rule styles one 48px pill button on the page, the accent covers a small part of the screen */
+/* Hallmark · dropped "→" from the footer's three "View all ..." links · 63 names arrows glued to link text */
+
+/* Homepage only. Loaded after style.css and scoped to .home, so no other page changes.
+   The look follows Dusk (https://www.usehallmark.com/themes/dusk/): photograph under the head, smoked glass for the
+   product, calm surfaces, one signal colour and one second signal. The signals are the project's own: Deep Eucalyptus
+   Teal (a lighter tint of it at night) and wattle gold. Day is the site's light mode, night is its dark mode. */
+
+:root {
+  --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px;
+  --text-sm: 0.875rem; --text-md: 1rem; --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.3rem);
+  --text-title: 1.0625rem; --text-section: clamp(1.75rem, 1.4vw + 1.25rem, 2.5rem);
+  --text-display: clamp(2.6rem, 4.2vw + 0.8rem, 4.6rem);
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif; --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 600; --tracking-display: -0.025em;
+  --radius-card: 18px; --radius-inner: 12px; --radius-pill: 999px;
+  --home-width: 1240px; --gutter: 32px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --dur-micro: 120ms; --dur-short: 220ms;
+
+  /* day: the site's light mode */
+  --color-paper: #f9f9f7; --color-paper-2: #f4f4f2; --color-surface: #ffffff;
+  --color-ink: #1c1b1b; --color-ink-2: #33433d; --color-muted: #566860; --color-rule: #dde5e2;
+  --color-accent: #004D40; --color-accent-ink: #ffffff; --color-accent-hi: #00695c; --color-focus: #00796b;
+  --color-chip: #e2eeeb; --color-chip-ink: #004D40;
+  --shadow-card: 0 1px 2px rgb(0 77 64 / 0.05), 0 10px 28px -14px rgb(0 77 64 / 0.22);
+  --shadow-card-hover: 0 18px 36px -14px rgb(0 77 64 / 0.28), 0 4px 12px rgb(0 77 64 / 0.1);
+  --edge-card: inset 0 0 0 1px transparent;
+
+  /* the hero is always dusk, whichever mode the page is in */
+  --color-shade: #0b1211; --color-hero-ink: #f6f5f1; --color-hero-muted: #d3dfda;
+  --color-hero-accent: #4ECDC4; --color-hero-accent-ink: #052e26; --color-hero-accent-hi: #7EE8DA; --color-hero-focus: #7EE8DA;
+  --color-gold: #FFD700;
+  --glass: rgb(14 22 21 / 0.78); --glass-blur: 22px; --glass-rule: rgb(255 255 255 / 0.1);
+  --glass-edge: inset 0 1px 0 rgb(255 255 255 / 0.14), inset 0 0 0 1px rgb(255 255 255 / 0.06);
+  --shadow-glass: 0 22px 36px -26px rgb(0 0 0 / 0.5);
+  --edge-btn: inset 0 1px 0 rgb(255 255 255 / 0.3); --edge-btn-pressed: inset 0 1px 0 rgb(255 255 255 / 0.2);
+}
+
+:root[data-theme="dark"] {
+  /* night: the site's dark mode, Dusk's slate in the brand's teal */
+  --color-paper: #131817; --color-paper-2: #1a201f; --color-surface: #1c2423;
+  --color-ink: #f3f2ee; --color-ink-2: #cdd8d4; --color-muted: #9db0aa; --color-rule: #2b3634;
+  --color-accent: #4ECDC4; --color-accent-ink: #052e26; --color-accent-hi: #7EE8DA; --color-focus: #7EE8DA;
+  --color-chip: rgb(78 205 196 / 0.14); --color-chip-ink: #4ECDC4;
+  --shadow-card: 0 20px 40px -24px rgb(0 0 0 / 0.7);
+  --shadow-card-hover: 0 24px 44px -18px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(78 205 196 / 0.35);
+  --edge-card: inset 0 1px 0 rgb(255 255 255 / 0.07);
+}
+
+html, body { overflow-x: clip; }
+html { scrollbar-color: var(--color-muted) var(--color-paper); }
+::selection { background: color-mix(in oklab, var(--color-accent) 24%, transparent); color: var(--color-ink); }
+
+.home {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+.home::before { content: none; } /* the grain in style.css; Dusk's surfaces are clean */
+
+.home :focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+.home .hero :focus-visible, .home:not(.scrolled) .site-header :focus-visible { outline-color: var(--color-hero-focus); }
+
+/* ---------- hero: the head over the video, the promises as a glass rail ---------- */
+
+.home .hero {
+  /* the hero is always dusk: its button takes the night-mode accent whichever mode the page is in */
+  --color-accent: var(--color-hero-accent); --color-accent-ink: var(--color-hero-accent-ink); --color-accent-hi: var(--color-hero-accent-hi);
+  align-items: center;
+  justify-content: flex-start;
+  min-height: min(88svh, 800px);
+  padding: 132px 0 var(--space-3xl);
+  text-align: left;
+  color: var(--color-hero-ink);
+}
+/* the clip has its subject in the middle; push it right so the head sits on the dark left and the person stays in view */
+.home .hero-bg-video { transform: translateX(6%) scale(1.14); transform-origin: 50% 40%; }
+/* the fade into the page comes first in the list, so it paints over the side wash and the whole bottom edge ends in the page colour */
+.home .hero-scrim {
+  inset: 0 0 -1px; /* a pixel past the edge, so rounding never leaves a seam of video */
+  background:
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-shade) 40%, transparent) 0%, transparent 24%, transparent 56%, color-mix(in oklab, var(--color-paper) 45%, transparent) 78%, color-mix(in oklab, var(--color-paper) 85%, transparent) 92%, var(--color-paper) 100%),
+    linear-gradient(90deg, color-mix(in oklab, var(--color-shade) 88%, transparent) 0%, color-mix(in oklab, var(--color-shade) 66%, transparent) 40%, color-mix(in oklab, var(--color-shade) 10%, transparent) 76%);
+}
+.home .hero .container { width: 100%; max-width: var(--home-width); padding-inline: var(--gutter); }
+/* the header and footer follow the page width, so the logo lines up with the headline */
+.home .site-header .container, .home .site-footer .container { max-width: var(--home-width); padding-inline: var(--gutter); }
+.home .hero h1 {
+  max-width: 11ch;
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.04;
+  overflow-wrap: break-word;
+  min-width: 0;
+  text-wrap: balance;
+  color: var(--color-hero-ink);
+}
+.home .hero .gradient-text {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--color-gold);
+}
+.home .hero p {
+  max-width: 30ch;
+  margin: 0;
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  color: var(--color-hero-muted);
+  text-shadow: none;
+}
+.home .hero-ctas { justify-content: flex-start; margin-top: var(--space-lg); }
+
+.home main .btn {
+  min-height: 48px;
+  padding: 0 var(--space-lg);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  box-shadow: var(--edge-btn);
+  transition: background var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+}
+.home main .btn:hover { background: var(--color-accent-hi); transform: translateY(-1px); box-shadow: var(--edge-btn), 0 8px 24px -8px var(--color-accent); }
+.home main .btn:active { transform: translateY(0); box-shadow: var(--edge-btn-pressed); }
+.home main .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.home main > .container:has(.trust-signals) { max-width: var(--home-width); padding-inline: var(--gutter); position: relative; z-index: 3; }
+.home .trust-signals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: calc(-1 * var(--space-2xl)) 0 var(--space-2xl);
+  padding: var(--space-md) 0;
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.35);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.35);
+  box-shadow: var(--glass-edge), var(--shadow-glass);
+  color: var(--color-hero-ink);
+  animation: fade-in-up 0.7s var(--ease-out) 0.4s both;
+}
+.home .trust-signals .signal { padding: var(--space-sm) var(--space-lg); gap: var(--space-md); align-items: center; }
+.home .trust-signals .signal + .signal { border-left: 1px solid var(--glass-rule); }
+.home .trust-signals .signal .glyph {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--color-hero-ink) 9%, transparent);
+  color: var(--color-hero-accent);
+  font-size: 1.35rem;
+}
+/* Australia has no icon in Material Symbols, so the outline is drawn to match them: 24-unit box, round joins, the same
+   stroke weight. Shape from Natural Earth's 110m country outlines (public domain), reduced to 46 points. */
+.home .trust-signals .glyph-au { width: 22px; height: 22px; fill: color-mix(in oklab, currentColor 18%, transparent); stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.home .trust-signals .signal .label { font-size: var(--text-sm); line-height: 1.35; }
+.home .trust-signals .signal .label strong { font-size: var(--text-md); font-weight: 600; color: var(--color-hero-ink); }
+.home .trust-signals .signal .label span { color: var(--color-hero-muted); }
+
+/* the footer's column heads are tracked capitals in style.css; on this page they are plain headings like the rest */
+.home .footer-col h3 { text-transform: none; letter-spacing: 0; font-size: var(--text-md); }
+
+/* ---------- the tool index: each group name beside its cards ---------- */
+
+.home main > .container-wide {
+  max-width: var(--home-width);
+  padding-inline: var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+  column-gap: var(--space-xl);
+  align-items: start;
+}
+.home .section-title {
+  grid-column: 1 / -1;
+  margin: var(--space-3xl) 0 var(--space-lg);
+  padding: var(--space-xl) 0 0;
+  border-top: 1px solid var(--color-rule);
+  font-family: var(--font-display);
+  font-size: var(--text-section);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.1;
+  text-transform: none;
+  color: var(--color-ink);
+  scroll-margin-top: 96px;
+}
+.home .section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; } /* the rail above already separates it */
+.home .tool-subgroup-title {
+  grid-column: 1;
+  margin: var(--space-sm) 0 0;
+  font-size: var(--text-title);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink-2);
+  opacity: 1;
+}
+.home .tool-grid { grid-column: 2; gap: var(--space-md); margin-bottom: var(--space-xl); grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+.home .section-title + .tool-grid { grid-column: 1 / -1; }
+
+.home .tool-card {
+  padding: var(--space-lg);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--edge-card), var(--shadow-card);
+  color: var(--color-ink);
+}
+.home .tool-card:hover { border-color: var(--color-accent); box-shadow: var(--edge-card), var(--shadow-card-hover); }
+.home .tool-card:active { border-color: var(--color-accent-hi); }
+.home .tool-grid .tool-card .icon,
+.home .tool-grid .tool-card:hover .icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--color-chip);
+  color: var(--color-chip-ink);
+}
+.home .tool-card h3 {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+.home .tool-card p { font-size: 0.9rem; line-height: 1.5; color: var(--color-muted); }
+
+/* ---------- smaller screens ---------- */
+
+@media (max-width: 60rem) {
+  :root { --gutter: 24px; }
+  .home .trust-signals { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-xs); margin-top: calc(-1 * var(--space-xl)); }
+  .home .trust-signals .signal:nth-child(odd) { border-left: 0; }
+  .home .trust-signals .signal:nth-child(n+3) { border-top: 1px solid var(--glass-rule); }
+  .home main > .container-wide { display: block; }
+  .home .tool-subgroup-title { margin: var(--space-lg) 0 var(--space-sm); }
+}
+@media (max-width: 40rem) {
+  :root { --gutter: 16px; }
+  .home .hero { min-height: 0; padding: 112px 0 var(--space-2xl); }
+  .home .hero h1 { max-width: 9ch; }
+  /* portrait: the text is above the picture, not beside it, so the wash runs top to bottom */
+  .home .hero-scrim {
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--color-shade) 62%, transparent) 0%, color-mix(in oklab, var(--color-shade) 80%, transparent) 50%, color-mix(in oklab, var(--color-shade) 55%, transparent) 82%, var(--color-paper) 100%);
+  }
+  .home .trust-signals { grid-template-columns: minmax(0, 1fr); margin-top: calc(-1 * var(--space-lg)); }
+  .home .trust-signals .signal + .signal { border-left: 0; border-top: 1px solid var(--glass-rule); }
+  .home .section-title { margin-top: var(--space-2xl); padding-top: var(--space-lg); }
+  }
+
+/* phones: tiles two to a row with the description hidden (style.css), so 79 tools are not a very long scroll */
+@media (max-width: 37.5rem) {
+  .home .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm); margin-bottom: var(--space-lg); }
+  .home .tool-card { padding: var(--space-sm); border-radius: var(--radius-inner); }
+  .home .tool-grid .tool-card .icon, .home .tool-grid .tool-card:hover .icon { width: 36px; height: 36px; font-size: 1.15rem; margin-bottom: var(--space-xs); }
+  .home .tool-card h3 { margin: 0; font-size: 0.92rem; line-height: 1.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home .trust-signals { animation: none; }
+  .home main .btn, .home main .btn:hover { transition: none; transform: none; }
+}

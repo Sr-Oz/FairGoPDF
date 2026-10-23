@@ -27,6 +27,7 @@
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/home.css">
 
 <!-- Analytics consent gate: loads Google Analytics only after the
      visitor accepts the cookie banner. See assets/consent.js and
@@ -95,7 +96,7 @@
 }
 </script>
 </head>
-<body>
+<body class="home">
 <a href="#main-content" class="skip-link">Skip to content</a>
 
 <header class="site-header">
@@ -133,7 +134,7 @@
     <div class="hero-scrim"></div>
     <div class="container">
       <h1>Fair, fast, and simple <span class="gradient-text">PDF tools</span>.</h1>
-      <p>"Your data is like your partner: you don't share it with strangers on the internet. You keep it for yourself. This is a Fair Go for your data."</p>
+      <p>This is a Fair Go for your data.</p>
       <div class="hero-ctas">
         <a class="btn" href="#pdf-tools">Get Started for Free</a>
       </div>
@@ -155,7 +156,7 @@
         <span class="label"><strong>Free forever</strong><span>No paywalls, ever</span></span>
       </div>
       <div class="signal">
-        <span class="glyph"><img src="/assets/img/flag-au.svg" alt="" class="glyph-flag"></span>
+        <span class="glyph"><svg class="glyph-au" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.1 19.5 L19.4 19.5 L19.2 20.8 L19 20.7 L18.7 21 L18.3 21 L17.6 19.4 L18.4 19.7ZM8.4 14.8 L7.1 15.7 L4.3 16.3 L2.8 15.9 L3.2 14.4 L2 11.4 L2.4 11.5 L2 10.5 L2.4 9 L2.4 9.5 L5.7 7.9 L8.1 4.9 L10.1 5.3 L10.6 4 L11.6 3.8 L11.5 3.2 L13.5 3.6 L13 5.3 L15.4 6.8 L16.5 3 L17.2 5.1 L17.9 5.3 L18.4 7.5 L19.7 8.3 L21.8 11.4 L21.7 14.5 L20.2 17.6 L18.4 18.5 L17.8 17.9 L17 18.4 L15.6 18 L14.3 16.6 L14.4 16 L13.7 16.4 L14.2 15.2 L13.3 16.2 L12.4 15 L10.9 14.4Z"/></svg></span>
         <span class="label"><strong>Aussie made</strong><span>Designed and built in Perth, WA</span></span>
       </div>
     </div>
@@ -324,7 +325,7 @@
       <a class="tool-card" href="/repair-pdf/">
         <span class="icon"><span class="material-symbols-outlined">build</span></span>
         <h3>Repair PDF</h3>
-        <p>Attempt to fix a PDF that won't open by rebuilding a clean copy.</p>
+        <p>Attempt to fix a PDF that won&rsquo;t open by rebuilding a clean copy.</p>
       </a>
       <a class="tool-card" href="/compare-pdfs/">
         <span class="icon"><span class="material-symbols-outlined">compare_arrows</span></span>
@@ -367,7 +368,7 @@
       <a class="tool-card" href="/pdf-header-footer/">
         <span class="icon"><span class="material-symbols-outlined">splitscreen</span></span>
         <h3>Header &amp; Footer</h3>
-        <p>Add up to six independent text zones to every page's margins.</p>
+        <p>Add up to six independent text zones to every page&rsquo;s margins.</p>
       </a>
       <a class="tool-card" href="/add-stamps/">
         <span class="icon"><span class="material-symbols-outlined">approval</span></span>
@@ -438,7 +439,7 @@
       <a class="tool-card" href="/pdf-metadata/">
         <span class="icon"><span class="material-symbols-outlined">info</span></span>
         <h3>Edit PDF Metadata</h3>
-        <p>View and change a PDF's title, author, subject and keywords.</p>
+        <p>View and change a PDF&rsquo;s title, author, subject and keywords.</p>
       </a>
       <a class="tool-card" href="/remove-annotations/">
         <span class="icon"><span class="material-symbols-outlined">comments_disabled</span></span>
@@ -492,7 +493,7 @@
       <a class="tool-card" href="/remove-exif-data/">
         <span class="icon"><span class="material-symbols-outlined">location_off</span></span>
         <h3>Remove Photo Metadata</h3>
-        <p>Strip EXIF and GPS data from photos, see what's hiding first.</p>
+        <p>Strip EXIF and GPS data from photos, see what&rsquo;s hiding first.</p>
       </a>
       <a class="tool-card" href="/add-border-to-image/">
         <span class="icon"><span class="material-symbols-outlined">border_style</span></span>
@@ -502,7 +503,7 @@
       <a class="tool-card" href="/round-corners-image/">
         <span class="icon"><span class="material-symbols-outlined">rounded_corner</span></span>
         <h3>Round Corners / Circle Crop</h3>
-        <p>Round an image's corners or crop it to a circle.</p>
+        <p>Round an image&rsquo;s corners or crop it to a circle.</p>
       </a>
       <a class="tool-card" href="/image-colour-filters/">
         <span class="icon"><span class="material-symbols-outlined">palette</span></span>
@@ -599,7 +600,7 @@
           <a href="/images-to-pdf/">Images to PDF</a>
           <a href="/pdf-to-images/">PDF to Images</a>
           <a href="/protect-pdf/">Protect PDF</a>
-          <a href="/#pdf-tools" class="footer-view-all">View all PDF Tools &rarr;</a>
+          <a href="/#pdf-tools" class="footer-view-all">View all PDF Tools</a>
         </div>
         <div class="footer-col">
           <h3>Image Tools</h3>
@@ -609,7 +610,7 @@
           <a href="/crop-rotate-image/">Crop &amp; Rotate Image</a>
           <a href="/add-border-to-image/">Add Border to Image</a>
           <a href="/watermark-image/">Watermark Image</a>
-          <a href="/#image-tools" class="footer-view-all">View all Image Tools &rarr;</a>
+          <a href="/#image-tools" class="footer-view-all">View all Image Tools</a>
         </div>
         <div class="footer-col">
           <h3>Utilities</h3>
@@ -619,7 +620,7 @@
           <a href="/qr-code-generator/">QR Code Generator</a>
           <a href="/uuid-generator/">UUID Generator</a>
           <a href="/hash-generator/">Hash Generator</a>
-          <a href="/#utilities" class="footer-view-all">View all Utilities &rarr;</a>
+          <a href="/#utilities" class="footer-view-all">View all Utilities</a>
         </div>
         <div class="footer-col">
           <h3>Resources</h3>
