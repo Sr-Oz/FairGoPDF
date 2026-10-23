@@ -143,6 +143,7 @@
     queue.forEach((entry, i) => {
       const li = document.createElement("li");
       li.innerHTML = `<span class="name">${escapeHtml(entry.file.name)}</span><span class="meta">${formatBytes(entry.file.size)}</span>`;
+      addFileThumb(li, entry.file);
       const btn = document.createElement("button");
       btn.className = "remove";
       btn.textContent = "✕";

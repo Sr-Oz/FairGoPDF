@@ -21,6 +21,7 @@
     files.forEach((f, i) => {
       const li = document.createElement("li");
       li.innerHTML = `<span class="name">${escapeHtml(f.name)}</span><span class="meta">${formatBytes(f.size)}</span>`;
+      addFileThumb(li, f);
       const btn = document.createElement("button");
       btn.className = "remove";
       btn.setAttribute("aria-label", `Remove ${f.name}`);

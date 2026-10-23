@@ -2884,6 +2884,21 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
   flex-shrink: 0;
   border: 1px solid var(--border);
 }
+.file-list li img.thumb { background: var(--bg-alt); }
+.file-list li .thumb-none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--text-muted);
+  font-size: 1.3rem;
+}
 
 @media (max-width: 600px) {
   .hero { padding: 36px 0 24px; }
