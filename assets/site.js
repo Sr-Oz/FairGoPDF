@@ -505,3 +505,28 @@
     card.prepend(frag);
   });
 })();
+
+(function toolGroups() {
+  // The homepage's tool groups are <details> rows. Fill each row's small preview tags with its first tool names, and open the
+  // row a link points at (/#image-tools, /#utilities) so the cards are there when the page lands.
+  const groups = document.querySelectorAll("details.tool-group");
+  if (!groups.length) return;
+
+  groups.forEach((group) => {
+    const tags = group.querySelector(".tool-group-tags");
+    if (!tags) return;
+    [...group.querySelectorAll(".tool-card h3")].slice(0, 4).forEach((h) => {
+      const li = document.createElement("li");
+      li.textContent = h.textContent;
+      tags.appendChild(li);
+    });
+  });
+
+  const openFromHash = () => {
+    const target = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    const group = target && target.closest("details.tool-group");
+    if (group) group.open = true;
+  };
+  openFromHash();
+  window.addEventListener("hashchange", openFromHash);
+})();
