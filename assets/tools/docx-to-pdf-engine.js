@@ -8,7 +8,7 @@
 // Fonts: the PDF embeds look-alike fonts with the same metrics as the Office defaults (Carlito for Calibri,
 // Liberation for Arial / Times New Roman / Courier New, Caladea for Cambria), all SIL OFL. They are loaded into
 // the page under the document's own font names first, so the browser measures with the same widths that the PDF uses.
-import { PDFLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, breathe } from "/assets/tools/pdf-common.js";
 import { subsetTtf } from "/assets/tools/ttf-subset.js";
 
 const FONT_BASE = "/assets/vendor/docx/fonts/";
@@ -546,9 +546,17 @@ function kernSegments(parsed, text, sizePt) {
 // main
 // ---------------------------------------------------------------------------
 
-export async function docxToPdf(arrayBuffer, { fileName = "", onProgress } = {}) {
+const DRAW_SLICE = 400; // drawing items between breaths, about 30 ms of work
+
+// `signal` is an AbortSignal: when it fires, the next checkpoint throws an AbortError.
+// shortcut: reading the file, laying out one section and saving can't be interrupted, so Cancel waits for the end of that step.
+export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal } = {}) {
   if (!window.docx || !window.JSZip || !window.fontkit) throw new DocxError("The Word engine did not load. Refresh the page and try again.");
   const progress = (message, done, total) => onProgress && onProgress({ message, done, total });
+  const checkpoint = async () => {
+    await breathe();
+    if (signal) signal.throwIfAborted();
+  };
 
   // 1. render the .docx to HTML in an off-screen shadow root, so the site's own styles can't leak into the layout
   const outer = document.createElement("div");
@@ -621,6 +629,7 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress } = {})
     let lastFooter = null;
     const totalSections = sections.length;
     for (let si = 0; si < sections.length; si++) {
+      await checkpoint();
       const sec = sections[si];
       progress("Laying out the pages…", si, totalSections);
       const article = sec.querySelector(":scope > article");
@@ -712,6 +721,7 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress } = {})
     const pdfFonts = new Map();
     const parsedFonts = new Map();
     for (const [file, chars] of usedChars) {
+      await checkpoint();
       const bytes = await fontBytes(file);
       const parsed = window.fontkit.create(new Uint8Array(bytes));
       parsedFonts.set(file, parsed);
@@ -727,12 +737,18 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress } = {})
     const totalPages = sectionData.reduce((n, sd) => n + sd.pagesInSection, 0);
     let pageNumber = 0;
     let missingGlyphs = 0;
+    const totalItems = sectionData.reduce((n, sd) => n + sd.items.length, 0);
+    let drawn = 0;
     for (const sd of sectionData) {
       const { pageW, pageH, pagesInSection, items } = sd;
       const pageObjs = [];
       for (let p = 0; p < pagesInSection; p++) pageObjs.push(pdf.addPage([pageW * PX_TO_PT, pageH * PX_TO_PT]));
       const H = pageH * PX_TO_PT;
       for (const it of items) {
+        if (++drawn % DRAW_SLICE === 0) {
+          progress("Drawing the pages…", drawn, totalItems);
+          await checkpoint();
+        }
         const page = pageObjs[it.page];
         if (!page) continue;
         const x = it.x * PX_TO_PT;
@@ -817,6 +833,7 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress } = {})
     pdf.setCreator("Fair Go PDF");
     pdf.setProducer("Fair Go PDF");
     progress("Saving…");
+    await checkpoint();
     const bytes = await pdf.save();
     return { bytes, pageCount: pageNumber, notes: [...new Set(notes)] };
   } finally {

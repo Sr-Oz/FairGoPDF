@@ -1,0 +1,2 @@
+# One line-ending rule for everyone: text files are LF in the repo and in checkouts, whatever the editor or OS does.
+* text=auto eol=lf

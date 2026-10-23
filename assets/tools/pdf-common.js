@@ -59,6 +59,19 @@ export async function extractPdfPageTexts(pdfJsDoc, onProgress) {
   return pages;
 }
 
+// Lets the page repaint and answer a click on Cancel between slices of heavy work. A message, not setTimeout or
+// requestAnimationFrame, because those are throttled or paused while the tab is in the background.
+export function breathe() {
+  return new Promise((resolve) => {
+    const c = new MessageChannel();
+    c.port1.onmessage = () => {
+      c.port1.close();
+      resolve();
+    };
+    c.port2.postMessage(0);
+  });
+}
+
 export function parsePageRanges(input, pageCount) {
   const result = new Set();
   const parts = input.split(",").map((p) => p.trim()).filter(Boolean);
@@ -68,9 +81,8 @@ export function parsePageRanges(input, pageCount) {
       let start = parseInt(m[1], 10);
       let end = parseInt(m[2], 10);
       if (start > end) [start, end] = [end, start];
-      for (let i = start; i <= end; i++) {
-        if (i >= 1 && i <= pageCount) result.add(i);
-      }
+      // only real pages count, so "1-99999999999" must not loop that far
+      for (let i = Math.max(start, 1); i <= Math.min(end, pageCount); i++) result.add(i);
     } else if (/^\d+$/.test(part)) {
       const n = parseInt(part, 10);
       if (n >= 1 && n <= pageCount) result.add(n);

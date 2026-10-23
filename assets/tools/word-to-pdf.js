@@ -6,12 +6,15 @@ const fileSummary = document.getElementById("fileSummary");
 const actionsRow = document.getElementById("actionsRow");
 const runBtn = document.getElementById("runBtn");
 const clearBtn = document.getElementById("clearBtn");
+const cancelBtn = document.getElementById("cancelBtn");
 const statusEl = document.getElementById("status");
 const progressEl = document.getElementById("progress");
 const progressFill = document.getElementById("progressFill");
 
 let currentFile = null;
 let currentBuffer = null;
+let abort = null;
+const BIG_FILE = 5 * 1024 * 1024; // a Word file this size usually means many pages or pictures
 
 function show(message, kind = "") {
   setStatus(statusEl, message, kind);
@@ -40,6 +43,7 @@ async function handleFiles(files) {
   fileSummary.textContent = `${file.name} (${formatBytes(file.size)})`;
   actionsRow.style.display = "flex";
   clearStatus(statusEl);
+  if (file.size > BIG_FILE) show(`This is a large file (${formatBytes(file.size)}). Converting it can take a minute or more. You can cancel at any time.`);
 }
 
 initDropzone(dropzone, fileInput, handleFiles);
@@ -61,12 +65,16 @@ clearBtn.addEventListener("click", () => {
 runBtn.addEventListener("click", async () => {
   if (!currentBuffer) return;
   runBtn.disabled = true;
+  abort = new AbortController();
+  cancelBtn.style.display = "inline-flex";
+  cancelBtn.disabled = false;
   setProgress(0);
   show("Reading the document…");
 
   try {
     const { bytes, pageCount, notes } = await docxToPdf(currentBuffer.slice(0), {
       fileName: currentFile.name,
+      signal: abort.signal,
       onProgress: ({ message, done, total }) => {
         show(message);
         setProgress(total ? done / total : null);
@@ -92,10 +100,22 @@ runBtn.addEventListener("click", async () => {
     if (notes.length) message += ` Note: ${notes.join("; ")}.`;
     show(message, "success");
   } catch (err) {
+    if (err.name === "AbortError") {
+      show("Cancelled. Nothing was changed.");
+      return;
+    }
     console.error(err);
     show(err instanceof DocxError ? err.message : `Something went wrong: ${err.message || "unknown error"}`, "error");
   } finally {
     setProgress(null);
     runBtn.disabled = false;
+    cancelBtn.style.display = "none";
+    abort = null;
   }
+});
+
+cancelBtn.addEventListener("click", () => {
+  cancelBtn.disabled = true;
+  show("Cancelling…");
+  if (abort) abort.abort();
 });

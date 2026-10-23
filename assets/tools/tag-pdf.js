@@ -28,6 +28,7 @@ const optLinks = document.getElementById("optLinks");
 const pendingNote = document.getElementById("pendingNote");
 const runBtn = document.getElementById("runBtn");
 const clearBtn = document.getElementById("clearBtn");
+const cancelBtn = document.getElementById("cancelBtn");
 const statusEl = document.getElementById("status");
 const progressEl = document.getElementById("progress");
 const progressFill = document.getElementById("progressFill");
@@ -36,6 +37,8 @@ let currentFile = null;
 let analysis = null;
 let thumbsStarted = false;
 let session = 0;
+let abort = null;
+const BIG_FILE = 10 * 1024 * 1024; // a PDF this size can take a minute or more
 
 function show(message, kind = "") {
   setStatus(statusEl, message, kind);
@@ -50,6 +53,9 @@ function setProgress(fraction) {
 function setBusy(busy) {
   runBtn.disabled = busy;
   clearBtn.disabled = busy;
+  cancelBtn.style.display = busy ? "inline-flex" : "none";
+  cancelBtn.disabled = false;
+  if (!busy) abort = null;
 }
 
 function removeShowAll() {
@@ -87,18 +93,22 @@ async function handleFiles(files) {
     show("Please choose a PDF file.", "error");
     return;
   }
+  if (abort) abort.abort(); // a file chosen while another is still being read replaces it
   const mine = ++session;
   resetEditor();
   currentFile = pdf;
   setBusy(true);
+  abort = new AbortController();
+  const hint = pdf.size > BIG_FILE ? ` This is a large file (${formatBytes(pdf.size)}), so it can take a minute or more. You can cancel at any time.` : "";
   try {
     const bytes = new Uint8Array(await pdf.arrayBuffer());
-    show("Reading your PDF…");
+    show(`Reading your PDF…${hint}`);
     setProgress(0);
     const result = await analysePdf(bytes, {
+      signal: abort.signal,
       onProgress: ({ phase, done, total }) => {
         if (mine !== session) return;
-        show(`${phase}, page ${Math.min(done + 1, total)} of ${total}…`);
+        show(`${phase}, page ${Math.min(done + 1, total)} of ${total}…${hint}`);
         setProgress(done / total);
       },
     });
@@ -110,14 +120,17 @@ async function handleFiles(files) {
   } catch (err) {
     if (mine !== session) return;
     setProgress(null);
-    if (err instanceof TagError && FRIENDLY[err.code]) {
+    if (err.name === "AbortError") {
+      resetEditor();
+      show("Cancelled. Nothing was changed.");
+    } else if (err instanceof TagError && FRIENDLY[err.code]) {
       showHtml(FRIENDLY[err.code], "error");
     } else {
       console.error(err);
       show(`Could not read that PDF: ${err.message || "unknown error"}`, "error");
     }
   } finally {
-    setBusy(false);
+    if (mine === session) setBusy(false);
   }
 }
 
@@ -338,6 +351,8 @@ runBtn.addEventListener("click", async () => {
   imageList.querySelectorAll(".tag-image-row").forEach((row) => {
     images[row.dataset.id] = { decorative: row.querySelector(".deco input").checked, alt: row.querySelector(".alt").value };
   });
+  abort = new AbortController();
+  cancelBtn.style.display = "inline-flex";
   try {
     const { bytes, stats } = await tagPdf(
       analysis,
@@ -350,6 +365,7 @@ runBtn.addEventListener("click", async () => {
         tagLinks: optLinks.checked,
       },
       {
+        signal: abort.signal,
         onProgress: ({ phase, done, total }) => {
           show(`${phase} ${Math.min(done + 1, total)} of ${total}…`);
           setProgress(done / total);
@@ -387,10 +403,20 @@ runBtn.addEventListener("click", async () => {
     show(message, "success");
     setProgress(null);
   } catch (err) {
-    console.error(err);
-    show(`Something went wrong: ${err.message || "unknown error"}`, "error");
+    if (err.name === "AbortError") {
+      show("Cancelled. Nothing was changed.");
+    } else {
+      console.error(err);
+      show(`Something went wrong: ${err.message || "unknown error"}`, "error");
+    }
     setProgress(null);
   } finally {
     setBusy(false);
   }
+});
+
+cancelBtn.addEventListener("click", () => {
+  cancelBtn.disabled = true;
+  show("Cancelling…");
+  if (abort) abort.abort();
 });

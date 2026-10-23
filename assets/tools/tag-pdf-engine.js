@@ -2,7 +2,7 @@
 // figures and links from where the text sits, then rewrites each page's content
 // stream with marked content and writes the structure tree, bookmarks and metadata.
 // Everything runs in the browser. pdf.js supplies text geometry; pdf-lib writes.
-import { PDFLib, pdfjsLib } from "/assets/tools/pdf-common.js";
+import { PDFLib, pdfjsLib, breathe } from "/assets/tools/pdf-common.js";
 
 const {
   PDFDocument, PDFName, PDFNumber, PDFString, PDFHexString, PDFDict, PDFArray, PDFRawStream, decodePDFRawStream,
@@ -15,7 +15,11 @@ export class TagError extends Error {
   }
 }
 
-const tick = () => new Promise((r) => setTimeout(r, 0));
+// Gives the page a moment to repaint, then stops if the visitor pressed Cancel (`signal` is an AbortSignal).
+const tick = async (signal) => {
+  await breathe();
+  if (signal) signal.throwIfAborted();
+};
 
 /* ---------- 1. Content stream tokenizer (operators with raw byte ranges) ---------- */
 
@@ -383,7 +387,7 @@ function unembeddedFontCount(doc) {
   return missing;
 }
 
-export async function analysePdf(inputBytes, { onProgress } = {}) {
+export async function analysePdf(inputBytes, { onProgress, signal } = {}) {
   let doc;
   try {
     doc = await PDFDocument.load(inputBytes.slice());
@@ -403,7 +407,7 @@ export async function analysePdf(inputBytes, { onProgress } = {}) {
   for (let p = 0; p < pages.length; p++) {
     if (onProgress) onProgress({ phase: "Reading text", done: p, total: pages.length });
     extracted.push(await extractLines(await pdfjsDoc.getPage(p + 1)));
-    if (p % 5 === 4) await tick();
+    if (p % 5 === 4) await tick(signal);
   }
 
   const allLines = extracted.flatMap((e) => e.lines);
@@ -458,7 +462,7 @@ export async function analysePdf(inputBytes, { onProgress } = {}) {
       if (sub && sub.toString() === "/Link") { if (rectOf(doc, d)) links.push(p); }
       else if (!(sub && sub.toString() === "/Widget")) otherAnnots++;
     }
-    if (p % 5 === 4) await tick();
+    if (p % 5 === 4) await tick(signal);
   }
 
   let columnPages = 0;
@@ -564,7 +568,7 @@ function writeXmp(doc, title, lang) {
 
 /* ---------- 7. Tagging ---------- */
 
-export async function tagPdf(analysis, options = {}, { onProgress } = {}) {
+export async function tagPdf(analysis, options = {}, { onProgress, signal } = {}) {
   const {
     title = analysis.suggestedTitle || "Untitled",
     lang = analysis.lang || "en-AU",
@@ -604,7 +608,7 @@ export async function tagPdf(analysis, options = {}, { onProgress } = {}) {
 
   for (let p = 0; p < pages.length; p++) {
     if (onProgress) onProgress({ phase: "Tagging page", done: p, total: pages.length });
-    if (p % 3 === 2) await tick();
+    if (p % 3 === 2) await tick(signal);
     const page = pages[p];
     const { height } = page.getSize();
     const layout = layouts[p];
