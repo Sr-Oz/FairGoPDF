@@ -1,4 +1,5 @@
 import { PDFLib } from "/assets/tools/pdf-common.js";
+import { renderFileCards } from "/assets/tools/file-cards.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -14,35 +15,31 @@ const statusEl = document.getElementById("status");
 
 const PAGE_SIZES = { a4: [595.28, 841.89], letter: [612, 792] };
 
+// Each entry is { file, canvas, failed }: the picture on its card arrives once the browser has read the image.
 let files = [];
 
+// A small copy for the card, so a folder of 12-megapixel photos doesn't sit in memory at full size.
+// "none": the card shows the picture the way it is stored, which is how it goes into the PDF (pdf-lib ignores the camera's rotation flag).
+async function loadPreview(entry) {
+  try {
+    const bitmap = await createImageBitmap(entry.file, { resizeWidth: 240, resizeQuality: "medium", imageOrientation: "none" });
+    const canvas = document.createElement("canvas");
+    canvas.width = bitmap.width;
+    canvas.height = bitmap.height;
+    canvas.getContext("2d").drawImage(bitmap, 0, 0);
+    bitmap.close();
+    entry.canvas = canvas;
+  } catch (err) {
+    entry.failed = true; // the browser couldn't read it; the PDF step will say so
+  }
+  if (files.includes(entry)) renderFileList();
+}
+
 function renderFileList() {
-  fileListEl.innerHTML = "";
-  files.forEach((f, i) => {
-    const li = document.createElement("li");
-    li.innerHTML = `<span class="name">${i + 1}. ${escapeHtml(f.name)}</span><span class="meta">${formatBytes(f.size)}</span>`;
-
-    const upBtn = document.createElement("button");
-    upBtn.className = "remove";
-    upBtn.textContent = "↑";
-    upBtn.disabled = i === 0;
-    upBtn.addEventListener("click", () => { [files[i - 1], files[i]] = [files[i], files[i - 1]]; renderFileList(); });
-
-    const downBtn = document.createElement("button");
-    downBtn.className = "remove";
-    downBtn.textContent = "↓";
-    downBtn.disabled = i === files.length - 1;
-    downBtn.addEventListener("click", () => { [files[i + 1], files[i]] = [files[i], files[i + 1]]; renderFileList(); });
-
-    const removeBtn = document.createElement("button");
-    removeBtn.className = "remove";
-    removeBtn.textContent = "✕";
-    removeBtn.addEventListener("click", () => { files.splice(i, 1); renderFileList(); });
-
-    li.appendChild(upBtn);
-    li.appendChild(downBtn);
-    li.appendChild(removeBtn);
-    fileListEl.appendChild(li);
+  renderFileCards(fileListEl, files, {
+    detail: (entry) => formatBytes(entry.file.size),
+    icon: "image",
+    onChange: renderFileList,
   });
   const hasFiles = files.length > 0;
   controls.style.display = hasFiles ? "flex" : "none";
@@ -56,8 +53,13 @@ function addFiles(newFiles) {
     setStatus(statusEl, "Only JPEG and PNG images are supported for this tool.", "error");
     statusEl.classList.add("visible");
   }
-  files = files.concat(images);
+  const entries = images.map((file) => ({ file, canvas: null, failed: false }));
+  files = files.concat(entries);
   renderFileList();
+  // one at a time, so a big batch doesn't decode every photo at once
+  (async () => {
+    for (const entry of entries) if (files.includes(entry)) await loadPreview(entry);
+  })();
 }
 
 initDropzone(dropzone, fileInput, addFiles);
@@ -84,7 +86,7 @@ runBtn.addEventListener("click", async () => {
     const mode = pageSizeSelect.value;
     const margin = Number(marginInput.value) || 0;
 
-    for (const file of files) {
+    for (const { file } of files) {
       const bytes = new Uint8Array(await file.arrayBuffer());
       const image = file.type === "image/png" ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
       const { width: imgW, height: imgH } = image;

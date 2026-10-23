@@ -1,5 +1,6 @@
 import { PDFLib, loadPdfJsDoc, renderPageThumbCanvas } from "/assets/tools/pdf-common.js";
 import { PDFDocument as DecryptingPDFDocument } from "/assets/vendor/cantoo-pdf-lib.esm.min.js";
+import { renderFileCards } from "/assets/tools/file-cards.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -11,7 +12,6 @@ const statusEl = document.getElementById("status");
 
 // Each entry is { file, canvas, pages }: canvas (the first page) and pages arrive once pdf.js has read the file.
 let files = [];
-let dragFrom = -1;
 
 // Many PDFs (certificates, bank statements) are "encrypted" only to stop editing and open with no password. pdf-lib refuses
 // those, so they are opened with the decrypting library (the one Unlock PDF uses) and merged as an unlocked copy.
@@ -33,12 +33,6 @@ async function loadForMerge(file) {
   }
 }
 
-function move(from, to) {
-  const [item] = files.splice(from, 1);
-  files.splice(to, 0, item);
-  renderFileList();
-}
-
 async function loadPreview(entry) {
   let doc;
   try {
@@ -54,73 +48,9 @@ async function loadPreview(entry) {
 }
 
 function renderFileList() {
-  fileListEl.innerHTML = "";
-  files.forEach((entry, i) => {
-    const f = entry.file;
-    const li = document.createElement("li");
-    li.draggable = true;
-    const meta = [entry.pages ? `${entry.pages} page${entry.pages === 1 ? "" : "s"}` : "", formatBytes(f.size)].filter(Boolean).join(" · ");
-    li.innerHTML = `
-      <span class="card-num">${i + 1}</span>
-      <div class="card-thumb"></div>
-      <div class="card-body"><span class="name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</span><span class="meta">${meta}</span></div>`;
-    const thumb = li.querySelector(".card-thumb");
-    if (entry.canvas) thumb.appendChild(entry.canvas);
-    else thumb.innerHTML = entry.failed
-      ? '<span class="material-symbols-outlined" aria-hidden="true">picture_as_pdf</span>'
-      : '<span class="card-loading" aria-hidden="true"></span>';
-
-    const actions = document.createElement("div");
-    actions.className = "card-actions";
-    const button = (label, text, disabled, onClick) => {
-      const b = document.createElement("button");
-      b.className = "remove";
-      b.textContent = text;
-      b.setAttribute("aria-label", `${label} ${f.name}`);
-      b.disabled = disabled;
-      b.addEventListener("click", onClick);
-      actions.appendChild(b);
-    };
-    button("Move earlier:", "←", i === 0, () => move(i, i - 1));
-    button("Move later:", "→", i === files.length - 1, () => move(i, i + 1));
-    button("Remove", "✕", false, () => {
-      files.splice(i, 1);
-      renderFileList();
-    });
-    li.appendChild(actions);
-
-    li.addEventListener("dragstart", (e) => {
-      dragFrom = i;
-      li.classList.add("dragging");
-      e.dataTransfer.setData("text/plain", String(i)); // Firefox will not start a drag without data
-      e.dataTransfer.effectAllowed = "move";
-    });
-    li.addEventListener("dragend", () => {
-      dragFrom = -1;
-      fileListEl.querySelectorAll(".dragging, .drop-before, .drop-after").forEach((el) => el.classList.remove("dragging", "drop-before", "drop-after"));
-    });
-    li.addEventListener("dragover", (e) => {
-      if (dragFrom < 0) return; // a file from the desktop goes to the drop area, not onto a card
-      e.preventDefault();
-      const rect = li.getBoundingClientRect();
-      const before = e.clientX - rect.left < rect.width / 2;
-      li.classList.toggle("drop-before", before);
-      li.classList.toggle("drop-after", !before);
-    });
-    li.addEventListener("dragleave", () => li.classList.remove("drop-before", "drop-after"));
-    li.addEventListener("drop", (e) => {
-      if (dragFrom < 0) return;
-      e.preventDefault();
-      const rect = li.getBoundingClientRect();
-      let to = e.clientX - rect.left < rect.width / 2 ? i : i + 1;
-      if (dragFrom < to) to--; // removing the dragged card shifts everything after it
-      const from = dragFrom;
-      dragFrom = -1;
-      if (to !== from) move(from, to);
-      else renderFileList();
-    });
-
-    fileListEl.appendChild(li);
+  renderFileCards(fileListEl, files, {
+    detail: (entry) => [entry.pages ? `${entry.pages} page${entry.pages === 1 ? "" : "s"}` : "", formatBytes(entry.file.size)].filter(Boolean).join(" · "),
+    onChange: renderFileList,
   });
   actionsRow.style.display = files.length >= 1 ? "flex" : "none";
   clearStatus(statusEl);
