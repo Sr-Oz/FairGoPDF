@@ -165,8 +165,12 @@
 
   <div class="container container-wide">
     <h2 class="section-title" id="pdf-tools">PDF tools</h2>
-    <div class="tool-group tool-group--plain">
-      <h3 class="tool-subgroup-title">Organise</h3>
+    <details class="tool-group" name="tools" open>
+      <summary>
+        <h3 class="tool-subgroup-title">Organise</h3>
+        <ul class="tool-group-tags" aria-hidden="true"></ul>
+        <span class="material-symbols-outlined tool-group-arrow" aria-hidden="true">arrow_forward</span>
+      </summary>
       <div class="tool-grid tool-grid--shine">
           <a class="tool-card" href="/merge-pdf/">
             <span class="icon"><span class="material-symbols-outlined">call_merge</span></span>
@@ -234,7 +238,7 @@
             <p>Blow up a page across multiple sheets for large-format printing.</p>
           </a>
       </div>
-    </div>
+    </details>
     <details class="tool-group" name="tools">
       <summary>
         <h3 class="tool-subgroup-title">Convert</h3>

@@ -6,7 +6,7 @@
 /* Hallmark · reworded hero "Your data is like your partner: ... This is a Fair Go for your data." to "This is a Fair Go for your data." · 58 names a hero sentence over twelve words */
 /* Hallmark · dropped "Your data is like your partner: you don't share it with strangers on the internet. You keep it for yourself." · the owner asked for it to go to recover the space */
 /* Hallmark · added hero line "Made for Australia and New Zealand" between the headline and the sentence · the owner asked for it; 58 counts it with the other hero text */
-/* Hallmark · added the accordion rows (Convert to Utilities) · the owner asked for them to cut the scrolling; Organise stays open */
+/* Hallmark · added the accordion rows (Convert to Utilities) · the owner asked for them to cut the scrolling; Organise is a row too and starts open */
 /* Hallmark · dismissed 29 · Dusk's product surface is smoked glass with its lit edge, here over the video; the rail is opaque enough (78%) to read on the paper below it */
 /* Hallmark · answered F5 · the round icon chip is the site's own idiom for 79 tool cards and gives each a quick anchor; it is a quiet tint of the one signal, not a coloured set */
 /* Hallmark · dismissed 23 · the rule styles one 48px pill button on the page, the accent covers a small part of the screen */
@@ -179,7 +179,7 @@ html { scrollbar-color: var(--color-muted) var(--color-paper); }
 /* the footer's column heads are tracked capitals in style.css; on this page they are plain headings like the rest */
 .home .footer-col h3 { text-transform: none; letter-spacing: 0; font-size: var(--text-md); }
 
-/* ---------- the tool index: PDF tools open on Organise, every other group a row that opens ---------- */
+/* ---------- the tool index: every group is a row that opens, Organise starts open ---------- */
 /* Look from the "Accordion" pen by Tuna_ (https://codepen.io/Tuna_/pen/KKzXEVO): a hairline between rows, the name with a few small
    tags beside it, an arrow at the right that turns down when the row is open. Rows are native <details>, so they work without
    scripting and from the keyboard, and open one at a time (the shared name). */
@@ -209,8 +209,6 @@ html { scrollbar-color: var(--color-muted) var(--color-paper); }
 .home #pdf-tools { margin-bottom: var(--space-lg); }
 
 .home .tool-group { border-top: 1px solid var(--color-rule); }
-.home .tool-group--plain { border-top: 0; }
-.home .tool-group--plain > .tool-subgroup-title { padding: var(--space-md) 0 var(--space-lg); }
 .home details.tool-group:last-of-type { border-bottom: 1px solid var(--color-rule); }
 .home .tool-group--section { margin-top: var(--space-2xl); }
 .home .tool-group--section + .tool-group--section { margin-top: 0; }
@@ -269,7 +267,6 @@ html { scrollbar-color: var(--color-muted) var(--color-paper); }
   margin-bottom: var(--space-xl);
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); /* four across at the full page width, as before */
 }
-.home .tool-group--plain .tool-grid { margin-bottom: var(--space-2xl); }
 
 @media (max-width: 70rem) { .home .tool-group-tags li:nth-child(n+4) { display: none; } }
 @media (max-width: 52rem) { .home .tool-group-tags li:nth-child(n+3) { display: none; } }
