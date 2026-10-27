@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>QR Code Generator, Free and Private | Fair Go PDF</title>
-<meta name="description" content="Turn any text or URL into a QR code, free and right in your browser. Download as PNG or SVG. Nothing is stored or sent anywhere.">
+<meta name="description" content="Make QR codes for links, social profiles, Wi-Fi, contact cards, events and more, in your own colours and logo. Free, and nothing leaves your browser.">
 <link rel="canonical" href="https://fairgopdf.au/qr-code-generator/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="QR Code Generator, Free and Private">
-<meta property="og:description" content="Turn any text or URL into a QR code, free and right in your browser. Download as PNG or SVG. Nothing is stored or sent anywhere.">
+<meta property="og:description" content="Make QR codes for links, social profiles, Wi-Fi, contact cards, events and more, in your own colours and logo. Free, and nothing leaves your browser.">
 <meta property="og:url" content="https://fairgopdf.au/qr-code-generator/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QR Code Generator, Free and Private">
-<meta name="twitter:description" content="Turn any text or URL into a QR code, free and right in your browser. Download as PNG or SVG. Nothing is stored or sent anywhere.">
+<meta name="twitter:description" content="Make QR codes for links, social profiles, Wi-Fi, contact cards, events and more, in your own colours and logo. Free, and nothing leaves your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
@@ -77,38 +77,95 @@
     </script>
     <div class="tool-page-header">
       <h1>QR Code Generator</h1>
-      <p>Turn any text or URL into a QR code, updated live as you type. Nothing is stored or sent anywhere.</p>
+      <p>Make a QR code for a link, social profile, Wi-Fi network, contact card, event, lost-and-found tag or app, in your own colours. Updated as you type, and nothing is stored or sent anywhere.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="field">
-        <label for="qrText">Text or URL</label>
-        <textarea id="qrText" rows="3" placeholder="https://example.com or any text…" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg-alt); color:var(--text); font-size:0.95rem; resize:vertical;"></textarea>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-tabs" role="tablist" aria-label="QR code settings">
+        <button type="button" role="tab" id="tab-content" aria-controls="panel-content" aria-selected="true"><span class="material-symbols-outlined" aria-hidden="true">qr_code_2</span>Content</button>
+        <button type="button" role="tab" id="tab-style" aria-controls="panel-style" aria-selected="false" tabindex="-1"><span class="material-symbols-outlined" aria-hidden="true">brush</span>Style</button>
+        <button type="button" role="tab" id="tab-templates" aria-controls="panel-templates" aria-selected="false" tabindex="-1"><span class="material-symbols-outlined" aria-hidden="true">grade</span>Templates</button>
       </div>
 
-      <div class="controls-row">
-        <div class="field">
-          <label for="errorLevel">Error correction</label>
-          <select id="errorLevel">
-            <option value="L">Low (7%)</option>
-            <option value="M" selected>Medium (15%)</option>
-            <option value="Q">Quartile (25%)</option>
-            <option value="H">High (30%)</option>
-          </select>
+      <div class="qr-layout">
+        <div class="qr-panels">
+          <section role="tabpanel" id="panel-content" aria-labelledby="tab-content">
+            <div class="qr-types" id="qrTypes" role="group" aria-label="What the QR code should open"></div>
+            <div class="qr-form" id="qrForm"></div>
+            <p class="help-text" id="qrHint" hidden></p>
+          </section>
+
+          <section role="tabpanel" id="panel-style" aria-labelledby="tab-style" hidden>
+            <fieldset class="qr-group">
+              <legend>Colours</legend>
+              <div class="qr-colours" id="qrColours"></div>
+              <button type="button" class="btn secondary small" id="qrSameColour">Use the dots colour for all three</button>
+              <p class="help-text" id="qrGradientNote" hidden>This look uses a colour blend. Pick a colour below to replace the blend.</p>
+            </fieldset>
+            <fieldset class="qr-group">
+              <legend>Shapes</legend>
+              <div class="qr-shapes" id="qrShapes"></div>
+            </fieldset>
+            <fieldset class="qr-group">
+              <legend>Icon in the middle</legend>
+              <div class="qr-icons" id="qrIcons"></div>
+              <div class="qr-logo-row">
+                <label class="btn secondary small qr-upload">Upload your logo<input type="file" id="qrLogoFile" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif"></label>
+                <button type="button" class="btn secondary small" id="qrLogoRemove" hidden>Remove logo</button>
+                <span class="help-text" id="qrLogoName"></span>
+              </div>
+              <div class="qr-field" id="qrIconSizeField" hidden>
+                <label for="qrIconSize">Icon size (<span id="qrIconSizeVal">30</span>% of the code)</label>
+                <input type="range" id="qrIconSize" min="10" max="40" step="1" value="30">
+              </div>
+            </fieldset>
+            <fieldset class="qr-group">
+              <legend>Quality</legend>
+              <div class="qr-field">
+                <label for="qrErrorLevel">Error correction</label>
+                <select id="qrErrorLevel">
+                  <option value="L">Low (7%)</option>
+                  <option value="M" selected>Medium (15%)</option>
+                  <option value="Q">Quartile (25%)</option>
+                  <option value="H">High (30%)</option>
+                </select>
+              </div>
+              <p class="help-text" id="qrErrorNote" hidden>High is used while an icon or logo is in the middle, so the code still scans.</p>
+              <p class="help-text">Higher error correction makes a code more resistant to scuffs and dirt, at the cost of a denser pattern.</p>
+            </fieldset>
+          </section>
+
+          <section role="tabpanel" id="panel-templates" aria-labelledby="tab-templates" hidden>
+            <p class="help-text">Pick a look to start from. It changes the colours and shapes, then you can adjust them in Style. Your content and icon stay as they are.</p>
+            <div class="qr-templates" id="qrTemplates"></div>
+          </section>
         </div>
-        <div class="field">
-          <label for="cellSize">Size (<span id="cellSizeVal">8</span>px per module)</label>
-          <input type="range" id="cellSize" min="4" max="16" value="8">
-        </div>
-      </div>
 
-      <div class="preview-stage" id="previewStage" style="display:flex; align-items:center; justify-content:center; padding:24px; background:var(--bg-alt); border-radius:var(--radius); border:1px solid var(--border);">
-        <canvas id="qrCanvas"></canvas>
-      </div>
-
-      <div class="actions-row">
-        <button class="btn" id="downloadPngBtn">Download PNG</button>
-        <button class="btn secondary" id="downloadSvgBtn">Download SVG</button>
+        <aside class="qr-preview" aria-label="Your QR code">
+          <div class="qr-stage" id="qrStage" role="img" aria-label="Preview of your QR code"></div>
+          <p class="qr-sample-note" id="qrSampleNote">An example. Fill in the form and your own code appears here.</p>
+          <p class="qr-note" id="qrNote" role="status"></p>
+          <div class="qr-download">
+            <div class="qr-field">
+              <label for="qrFormat">Format</label>
+              <select id="qrFormat">
+                <option value="png">PNG</option>
+                <option value="svg">SVG (sharp at any size)</option>
+                <option value="jpeg">JPG</option>
+                <option value="webp">WebP</option>
+              </select>
+            </div>
+            <div class="qr-field">
+              <label for="qrSize">Size</label>
+              <select id="qrSize">
+                <option value="512">512 px</option>
+                <option value="1024" selected>1024 px</option>
+                <option value="2048">2048 px</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn" id="downloadBtn" type="button" disabled>Download</button>
+        </aside>
       </div>
 
       <div class="status-box" id="status"></div>
@@ -131,11 +188,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Type or paste any text or URL, the QR code updates instantly.</li>
-        <li>Adjust the error correction level and size if you need to.</li>
-        <li>Download as a PNG (for most uses) or SVG (for crisp printing at any size).</li>
+        <li>Choose what the code should do: open a website or social profile, join a Wi-Fi network, save a contact, add an event, start a message, help a lost item find its way home and more, then fill in the form.</li>
+        <li>In Style, set your colours, shapes and an icon or logo, or start from a look in Templates.</li>
+        <li>Download it as a PNG for most uses, or SVG for crisp printing at any size.</li>
       </ol>
-      <p class="help-text">Higher error correction levels make the code more resistant to damage or dirt, at the cost of a denser pattern, useful if you're printing it small or somewhere it might get scuffed. Everything is generated locally, the text you enter is never transmitted anywhere.</p>
+      <p class="help-text">Test the finished code with a phone before printing it. Dark marks on a light background scan best, and a logo or icon in the middle makes the code use extra error correction. Everything is made in your browser. What you type and any logo you add are never sent anywhere, and nothing is stored.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -224,6 +281,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/vendor/qr-code-styling.js"></script>
 <script type="module" src="/assets/tools/qr-code-generator.js"></script>
 <script src="/assets/share.js"></script>
 <script src="/assets/search-data.js"></script>
