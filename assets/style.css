@@ -3520,3 +3520,55 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 @media (prefers-reduced-motion: reduce) {
   .qr-tabs button, .qr-type, .qr-template { transition: none; }
 }
+
+/* Password Generator: reuses the QR tabs and layout, adds the results list */
+.pw-layout { grid-template-columns: minmax(0, 1fr) 380px; } /* the passwords are the main column, the settings sit beside them */
+.pw-results { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
+.pw-workspace .qr-form { grid-template-columns: minmax(0, 1fr); }
+.pw-toolbar { display: flex; align-items: flex-end; gap: 12px; }
+.pw-toolbar .qr-field { flex: none; }
+.pw-toolbar .btn { flex: 1; }
+.pw-bulk { display: flex; flex-wrap: wrap; gap: 10px; }
+.pw-bulk[hidden] { display: none; }
+.pw-options { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.pw-stale { padding: 10px 12px; border: 1px solid var(--danger); border-radius: 8px; color: var(--danger); font-size: 0.85rem; }
+.pw-stale[hidden] { display: none; }
+.pw-list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; max-height: max(220px, calc(100vh - 400px)); overflow-y: auto; }
+.pw-item { padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); }
+.pw-value { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 1.3rem; line-height: 1.5; overflow-wrap: anywhere; }
+.pw-value.is-masked { letter-spacing: 0.1em; user-select: none; }
+.pw-meter { height: 6px; margin: 10px 0 6px; border-radius: 999px; background: var(--bg-alt); overflow: hidden; }
+.pw-fill { display: block; height: 100%; border-radius: 999px; transition: width 0.2s ease; }
+.pw-tier-weak { background: var(--danger); }
+.pw-tier-fair { background: #d9a400; }
+.pw-tier-good { background: #5aa89b; }
+.pw-tier-strong { background: var(--brand); }
+.pw-tier-excellent { background: var(--success); }
+.pw-meta { font-size: 0.8rem; color: var(--text-muted); }
+.pw-actions { display: flex; gap: 6px; margin-top: 10px; }
+.pw-icon-btn { display: inline-grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text-muted); cursor: pointer; }
+.pw-icon-btn:hover { border-color: var(--brand); color: var(--text); }
+.pw-icon-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.pw-icon-btn .material-symbols-outlined { font-size: 1.15rem; }
+.pw-hash { margin-top: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; color: var(--text-muted); overflow-wrap: anywhere; user-select: all; }
+.pw-hash[hidden] { display: none; }
+.pw-estimate { margin-top: 0; }
+.pw-toolbar .btn .material-symbols-outlined { font-size: 1.2rem; margin-right: 6px; }
+.pw-print-area { display: none; }
+@media print {
+  body.pw-printing > *:not(main) { display: none !important; }
+  body.pw-printing main .container > *:not(.tool-workspace) { display: none !important; }
+  body.pw-printing .tool-workspace > *:not(.pw-print-area) { display: none !important; }
+  body.pw-printing .pw-print-area { display: block; color: #000; }
+  body.pw-printing .pw-print-area li { margin-bottom: 10px; }
+  body.pw-printing .pw-print-area code { font-size: 14pt; }
+}
+@media (max-width: 899px) {
+  .pw-layout { grid-template-columns: minmax(0, 1fr); }
+  .pw-results { position: static; }
+  .pw-list { max-height: none; }
+}
+@media (max-width: 560px) {
+  .pw-results { padding: 16px; }
+  .pw-value { font-size: 1.1rem; }
+}

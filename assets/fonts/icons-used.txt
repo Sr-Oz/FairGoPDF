@@ -42,6 +42,7 @@ compare_arrows
 compress
 computer
 contact_page
+content_copy
 contrast
 cookie
 corporate_fare
@@ -50,6 +51,7 @@ crop_free
 dark_mode
 dashboard
 data_object
+database
 description
 document_scanner
 draw
@@ -102,12 +104,14 @@ margin
 markdown
 match_case
 menu
+menu_book
 message
 mode
 move
 note
 note_add
 notes
+numbers
 output
 pages
 palette
@@ -128,6 +132,7 @@ qr_code_2
 radio
 radio_button_checked
 record_voice_over
+refresh
 remove
 reorder
 resize
@@ -178,6 +183,7 @@ view_agenda
 view_column
 view_sidebar
 view_stream
+visibility
 visibility_off
 warning
 water_drop

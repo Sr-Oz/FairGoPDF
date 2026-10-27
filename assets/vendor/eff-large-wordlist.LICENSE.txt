@@ -1,0 +1,11 @@
+EFF Large Wordlist for Passphrases
+Copyright (c) 2016 Electronic Frontier Foundation
+Licensed under the Creative Commons Attribution 3.0 United States licence (CC BY 3.0 US):
+https://creativecommons.org/licenses/by/3.0/us/
+
+You may share and adapt the list, including for commercial use, as long as you give credit to the
+Electronic Frontier Foundation and say if you changed it. Fair Go PDF uses the list unchanged
+(assets/vendor/eff-large-wordlist.js holds the same 7,776 words in the same order).
+
+Source: https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt
+About the list: https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases

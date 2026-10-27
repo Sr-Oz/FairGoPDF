@@ -6,26 +6,26 @@
 <meta name="author" content="Oscar Monsalve">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Strong Password Generator, Free and Private | Fair Go PDF</title>
-<meta name="description" content="Generate a strong, random password with a cryptographically secure generator, free and right in your browser. Nothing is stored or sent anywhere.">
+<title>Password and Passphrase Generator, Free and Private | Fair Go PDF</title>
+<meta name="description" content="Make strong random passwords, passphrases you can remember and ready-made rule sets for servers, databases and Wi-Fi, free and right in your browser. Nothing is stored or sent anywhere.">
 <link rel="canonical" href="https://fairgopdf.au/password-generator/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="Strong Password Generator, Free and Private">
-<meta property="og:description" content="Generate a strong, random password with a cryptographically secure generator, free and right in your browser. Nothing is stored or sent anywhere.">
+<meta property="og:title" content="Password and Passphrase Generator, Free and Private">
+<meta property="og:description" content="Make strong random passwords, passphrases you can remember and ready-made rule sets for servers, databases and Wi-Fi, free and right in your browser. Nothing is stored or sent anywhere.">
 <meta property="og:url" content="https://fairgopdf.au/password-generator/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Fair Go PDF, free PDF and image tools made in Australia">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Strong Password Generator, Free and Private">
-<meta name="twitter:description" content="Generate a strong, random password with a cryptographically secure generator, free and right in your browser. Nothing is stored or sent anywhere.">
+<meta name="twitter:title" content="Password and Passphrase Generator, Free and Private">
+<meta name="twitter:description" content="Make strong random passwords, passphrases you can remember and ready-made rule sets for servers, databases and Wi-Fi, free and right in your browser. Nothing is stored or sent anywhere.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=dceca18e" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/fonts/fonts.css?v=dceca18e">
+<link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=cf0269ae" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css?v=cf0269ae">
 <link rel="stylesheet" href="/assets/style.css">
 
 <!-- Analytics consent gate: loads Google Analytics only after the
@@ -77,39 +77,62 @@
     </script>
     <div class="tool-page-header">
       <h1>Password Generator</h1>
-      <p>Generate a strong, random password using your browser's own cryptographic random number generator. Nothing is stored or sent anywhere.</p>
+      <p>Make a strong random password, a ready-made set for a server, database or Wi-Fi network, or a passphrase you can actually remember. Made with your browser's own secure random number generator, and nothing is stored or sent anywhere.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="field">
-        <label for="passwordOutput">Your password</label>
-        <div class="actions-row" style="margin-top:0;">
-          <input type="text" id="passwordOutput" readonly style="flex:1; min-width:0; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg-alt); color:var(--text); font-family:monospace; font-size:1.1rem; letter-spacing:0.02em;">
-          <button class="btn secondary" id="copyBtn" type="button">Copy</button>
-          <button class="btn" id="generateBtn" type="button">Generate</button>
-        </div>
-        <div id="strengthBar" style="margin-top:10px; height:6px; border-radius:999px; background:var(--bg-alt); overflow:hidden;">
-          <div id="strengthFill" style="height:100%; width:0%; border-radius:999px; transition:width 0.2s ease, background 0.2s ease;"></div>
-        </div>
-        <div id="strengthLabel" class="help-text" style="margin-top:6px;"></div>
+    <div class="tool-workspace qr-workspace pw-workspace">
+      <div class="qr-tabs" role="tablist" aria-label="Password type">
+        <button type="button" role="tab" id="tab-password" aria-controls="panel-password" aria-selected="true"><span class="material-symbols-outlined" aria-hidden="true">password</span>Password</button>
+        <button type="button" role="tab" id="tab-custom" aria-controls="panel-custom" aria-selected="false" tabindex="-1"><span class="material-symbols-outlined" aria-hidden="true">tune</span>Custom</button>
+        <button type="button" role="tab" id="tab-passphrase" aria-controls="panel-passphrase" aria-selected="false" tabindex="-1"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Passphrase</button>
       </div>
 
-      <div class="controls-row">
-        <div class="field" style="flex:1; min-width:220px;">
-          <label for="lengthSlider">Length (<span id="lengthVal">16</span> characters)</label>
-          <input type="range" id="lengthSlider" min="6" max="64" value="16">
-        </div>
-      </div>
+      <div class="qr-layout pw-layout">
+        <section class="pw-results" aria-label="Your passwords">
+          <div class="pw-toolbar">
+            <div class="qr-field pw-count">
+              <label for="pwCount">How many</label>
+              <select id="pwCount">
+                <option value="1" selected>1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+            <button class="btn" id="pwGenerate" type="button"><span class="material-symbols-outlined" aria-hidden="true">refresh</span>Generate</button>
+          </div>
+          <div class="pw-stale" id="pwStale" hidden>
+            <span>The settings have changed since these were made. Press Generate for new ones.</span>
+          </div>
+          <ul class="pw-list" id="pwList"></ul>
+          <p class="qr-note" id="pwNote" role="status"></p>
+          <div class="pw-bulk" id="pwBulk">
+            <button class="btn secondary small" id="pwCopyAll" type="button">Copy all</button>
+            <button class="btn secondary small" id="pwExport" type="button">Export</button>
+            <button class="btn secondary small" id="pwPrint" type="button">Print</button>
+            <button class="btn secondary small" id="pwClear" type="button">Clear</button>
+          </div>
+          <div class="pw-options">
+            <div class="qr-field qr-check">
+              <input type="checkbox" id="pwShowAll">
+              <label for="pwShowAll">Show all passwords</label>
+            </div>
+            <div class="qr-field qr-check">
+              <input type="checkbox" id="pwAutoClear">
+              <label for="pwAutoClear">Clear the clipboard 30 seconds after copying</label>
+            </div>
+          </div>
+        </section>
 
-      <div class="controls-row">
-        <div class="field"><label><input type="checkbox" id="optUpper" checked> Uppercase (A-Z)</label></div>
-        <div class="field"><label><input type="checkbox" id="optLower" checked> Lowercase (a-z)</label></div>
-        <div class="field"><label><input type="checkbox" id="optNumbers" checked> Numbers (0-9)</label></div>
-        <div class="field"><label><input type="checkbox" id="optSymbols" checked> Symbols (!@#$…)</label></div>
-        <div class="field"><label><input type="checkbox" id="optAmbiguous"> Exclude ambiguous (0, O, 1, l, I)</label></div>
+        <div class="qr-panels pw-settings">
+          <section role="tabpanel" id="panel-password" aria-labelledby="tab-password"></section>
+          <section role="tabpanel" id="panel-custom" aria-labelledby="tab-custom" hidden></section>
+          <section role="tabpanel" id="panel-passphrase" aria-labelledby="tab-passphrase" hidden></section>
+        </div>
       </div>
 
       <div class="status-box" id="status"></div>
+      <div id="pwPrintArea" class="pw-print-area"></div>
     </div>
 
     <section class="related-tools-section">
@@ -129,11 +152,19 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Choose a length and which character types to include.</li>
-        <li>A password is generated instantly using your browser's cryptographically secure random number generator, the same kind used for encryption keys.</li>
-        <li>Copy it, or click "Generate" again for a fresh one.</li>
+        <li>Pick a tab. <strong>Password</strong> has five ready-made levels, <strong>Custom</strong> lets you set every rule or start from a preset for a server, database, API key or Wi-Fi network, and <strong>Passphrase</strong> joins random words you can remember.</li>
+        <li>Press <strong>Generate</strong>. Each result shows how many bits of randomness it holds and roughly how long a very fast attacker would need to guess it.</li>
+        <li>Copy one, copy them all, export a text file or print the list. Closing the page wipes everything.</li>
       </ol>
-      <p class="help-text">This uses <code>crypto.getRandomValues()</code>, not <code>Math.random()</code>, so the result is unpredictable enough for real passwords. The password is generated and shown entirely in your browser, it's never transmitted, logged or stored anywhere, not even in this site's own code.</p>
+      <p class="help-text">Every character and word is picked with <code>crypto.getRandomValues()</code>, not <code>Math.random()</code>, and the picking is done so that no character is more likely than another. The bits figure is worked out from how the password was built, including any rule you set, rather than guessed from how it looks. The crack time assumes one trillion guesses a second against a stolen database, which is a hard case for most sites, so it is a worst-case guide. Passwords are made and shown only in your browser. They are never sent, logged or stored.</p>
+      <h3>Using them safely</h3>
+      <ul>
+        <li>Use a different password for every account, and keep them in a password manager.</li>
+        <li>For a passphrase, five words from the full list is a sensible minimum for a login, and six or more suits a password manager's master password or a disk. Adding words helps far more than adding symbols.</li>
+        <li>Check what your own system asks for. The presets are starting points based on common rules, not official policies.</li>
+        <li>The hash button shows the SHA-256 of a password, handy when a system stores that rather than the password itself.</li>
+      </ul>
+      <p class="help-text">Passphrases use the <a href="https://www.eff.org/dice" target="_blank" rel="noopener">EFF Large Wordlist</a> by the Electronic Frontier Foundation (<a href="https://creativecommons.org/licenses/by/3.0/us/" target="_blank" rel="noopener">CC BY 3.0 US</a>), unchanged. The sentence-style passphrases and several presets are adapted from the <a href="https://github.com/RadMageIRL/SecurePasswordGenerator" target="_blank" rel="noopener">Secure Password Generator</a> by RadMageIRL (MIT licence).</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -221,7 +252,8 @@
 </button>
 
 <script src="/assets/tools.js"></script>
-<script src="/assets/tools/password-generator.js"></script>
+<script src="/assets/tool-names.js"></script>
+<script type="module" src="/assets/tools/password-generator.js"></script>
 <script src="/assets/share.js"></script>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>

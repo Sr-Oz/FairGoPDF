@@ -1,5 +1,6 @@
 // QR Code Generator page. What the code says comes from qr-content.js, how it looks from qr-style.js, and the drawing from
 // qr-code-styling (self-hosted in /assets/vendor). Everything happens in the browser; nothing is sent anywhere.
+import { h, icon } from "/assets/tools/dom-helpers.js";
 import { TYPES, encode, defaultValues } from "/assets/tools/qr-content.js";
 import {
   DEFAULT_STYLE, TEMPLATES, DOT_TYPES, CORNER_SQUARE_TYPES, CORNER_DOT_TYPES, ICONS,
@@ -21,19 +22,6 @@ const state = {
   tab: "content",
 };
 
-function h(tag, props = {}, ...kids) {
-  const node = document.createElement(tag);
-  for (const [k, v] of Object.entries(props)) {
-    if (v === undefined || v === null || v === false) continue;
-    if (k === "class") node.className = v;
-    else if (k === "text") node.textContent = v;
-    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
-    else node.setAttribute(k, v === true ? "" : v);
-  }
-  for (const kid of kids.flat()) if (kid) node.append(kid);
-  return node;
-}
-const icon = (name) => h("span", { class: "material-symbols-outlined", "aria-hidden": "true", text: name });
 
 function currentEncoded() {
   return encode(state.type, state.values[state.type]);

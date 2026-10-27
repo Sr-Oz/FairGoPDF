@@ -75,7 +75,7 @@ window.SEARCH_INDEX = [
   // Utilities
   { title: "Convert to Markdown", url: "/convert-to-markdown/", icon: "article", desc: "Convert a PDF, Word (.docx) or HTML file to Markdown", category: "Utility" },
   { title: "AI Writing Checker", url: "/ai-writing-checker/", icon: "spellcheck", desc: "Flag AI-sounding words, filler phrases and cliché patterns", category: "Utility" },
-  { title: "Password Generator", url: "/password-generator/", icon: "password", desc: "Generate a strong random password, cryptographically secure", category: "Utility" },
+  { title: "Password Generator", url: "/password-generator/", icon: "password", desc: "Strong random passwords and easy-to-remember passphrases, with ready-made rule sets for servers, databases and Wi-Fi", category: "Utility" },
   { title: "QR Code Generator", url: "/qr-code-generator/", icon: "qr_code_2", desc: "QR codes for links, social profiles, Wi-Fi, contacts, events, lost-and-found tags and apps, in your own colours and logo. Download as PNG, SVG, JPG or WebP", category: "Utility" },
   { title: "UUID Generator", url: "/uuid-generator/", icon: "tag", desc: "Generate random v4 UUIDs, one or in bulk", category: "Utility" },
   { title: "Hash / Checksum Generator", url: "/hash-generator/", icon: "fingerprint", desc: "Generate SHA-1/256/384/512 hashes of text or a file", category: "Utility" },

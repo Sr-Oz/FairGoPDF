@@ -41,6 +41,7 @@ window.TOOL_NAMES = {
   "pdf-booklet": "PDFBookletMaker",
   "pdf-colour-filters": "PDFColourFilters",
   "pdf-editor": "PDFEditor",
+  "password-generator": "PasswordGenerator",
   "pdf-form-builder": "PDFFormBuilder",
   "pdf-header-footer": "HeaderFooter",
   "pdf-metadata": "EditPDFMetadata",
