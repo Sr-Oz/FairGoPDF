@@ -3,11 +3,12 @@
 //
 // `entries` is the tool's own array of { file, canvas, failed }. It is changed in place (move, remove), then onChange() is
 // called so the tool can redraw. canvas is the picture; until it arrives the card shows a spinner, and if `failed` is set
-// it shows `icon` instead. Depends on tools.js (escapeHtml) being loaded first.
+// it shows `icon` instead. `extra(entry)`, if given, returns an element (or null) shown between the name and the buttons, such as
+// a box for choosing pages. Depends on tools.js (escapeHtml) being loaded first.
 
 let dragFrom = -1; // index of the card being dragged; -1 when the drag came from outside (a file from the desktop)
 
-export function renderFileCards(listEl, entries, { detail, icon = "picture_as_pdf", onChange }) {
+export function renderFileCards(listEl, entries, { detail, icon = "picture_as_pdf", extra, onChange }) {
   const move = (from, to) => {
     const [item] = entries.splice(from, 1);
     entries.splice(to, 0, item);
@@ -27,6 +28,14 @@ export function renderFileCards(listEl, entries, { detail, icon = "picture_as_pd
     else thumb.innerHTML = entry.failed
       ? `<span class="material-symbols-outlined" aria-hidden="true">${icon}</span>`
       : '<span class="card-loading" aria-hidden="true"></span>';
+
+    const more = extra ? extra(entry) : null;
+    if (more) {
+      li.appendChild(more);
+      // a card being dragged would swallow the mouse inside a text box, so it stays put while someone is typing in it
+      li.addEventListener("focusin", (e) => { if (e.target.matches("input, textarea")) li.draggable = false; });
+      li.addEventListener("focusout", () => { li.draggable = true; });
+    }
 
     const actions = document.createElement("div");
     actions.className = "card-actions";

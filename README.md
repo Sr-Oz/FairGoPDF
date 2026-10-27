@@ -53,7 +53,7 @@ watermarked output.
 ### PDF tools
 | Tool | URL | What it does |
 |---|---|---|
-| Merge PDF | `/merge-pdf/` | Combine multiple PDFs into one, in any order |
+| Merge PDF | `/merge-pdf/` | Combine PDFs and JPG/PNG/WebP pictures into one, in any order, with a Pages box per file (`1-3, 7`, `10-`, `last`, `except 2`), sort buttons, blank pages for double-sided printing, bookmarks per file, title/author and file name |
 | Split PDF | `/split-pdf/` | Extract selected pages or a page range |
 | Compress PDF | `/compress-pdf/` | Reduce PDF file size (quick clean or strong/rasterised) |
 | Images to PDF | `/images-to-pdf/` | Combine JPG/PNG images into a single PDF |

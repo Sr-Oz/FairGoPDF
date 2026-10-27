@@ -81,8 +81,8 @@
     </div>
 
     <div class="tool-workspace qr-workspace ci-workspace">
-      <div class="qr-layout ci-layout">
-        <div class="ci-main">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
           <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose images or drag and drop">
             <div class="dz-icon"><span class="material-symbols-outlined">compress</span></div>
             <div class="dz-title">Drop your images here, easy as.</div>
@@ -92,7 +92,7 @@
 
           <ul class="file-list" id="fileList"></ul>
 
-          <div class="ci-actions">
+          <div class="side-actions">
             <button class="btn" id="runBtn" type="button" disabled>Compress images</button>
             <button class="btn secondary" id="clearBtn" type="button" disabled>Clear</button>
           </div>
@@ -111,7 +111,7 @@
 
         </div>
 
-        <aside class="qr-preview ci-settings" aria-label="Compression settings" id="ciSettings">
+        <aside class="qr-preview side-settings" aria-label="Compression settings" id="ciSettings">
           <fieldset class="qr-group">
             <legend>Compression</legend>
             <div class="qr-types" role="group" aria-label="How to compress">
@@ -131,7 +131,7 @@
               <p class="help-text">Quality only changes JPEG and WebP. A PNG stays lossless, so to shrink one a lot, save it as WebP or JPEG below.</p>
             </div>
             <div id="targetBlock" hidden>
-              <div class="ci-inline">
+              <div class="side-inline">
                 <div class="qr-field">
                   <label for="targetSize">Largest size for each image</label>
                   <input type="number" id="targetSize" min="1" step="any" value="500" inputmode="decimal">
@@ -184,7 +184,7 @@
                 <option value="crop">Crop to an exact size</option>
               </select>
             </div>
-            <div class="ci-inline" id="fitBlock" hidden>
+            <div class="side-inline" id="fitBlock" hidden>
               <div class="qr-field">
                 <label for="maxW">Max width (px)</label>
                 <input type="number" id="maxW" min="1" step="1" placeholder="No limit" inputmode="numeric">
@@ -198,7 +198,7 @@
               <label for="percent">Scale to (<span id="percentVal">50</span>% of the original)</label>
               <input type="range" id="percent" min="5" max="100" value="50">
             </div>
-            <div class="ci-inline" id="cropBlock" hidden>
+            <div class="side-inline" id="cropBlock" hidden>
               <div class="qr-field">
                 <label for="cropW">Width (px)</label>
                 <input type="number" id="cropW" min="1" step="1" value="1080" inputmode="numeric">

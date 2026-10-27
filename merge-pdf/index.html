@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Merge PDF Files Online Free | Fair Go PDF</title>
-<meta name="description" content="Combine multiple PDF files into one, free and in your browser. No upload, no signup, no watermark.">
+<meta name="description" content="Combine PDFs and pictures into one file, free and in your browser. Pick pages from each, add bookmarks and blank pages for printing. No upload, no signup, no watermark.">
 <link rel="canonical" href="https://fairgopdf.au/merge-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Merge PDF Files Online Free">
-<meta property="og:description" content="Combine multiple PDF files into one, free and in your browser. No upload, no signup, no watermark.">
+<meta property="og:description" content="Combine PDFs and pictures into one file, free and in your browser. Pick pages from each, add bookmarks and blank pages for printing. No upload, no signup, no watermark.">
 <meta property="og:url" content="https://fairgopdf.au/merge-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Merge PDF Files Online Free">
-<meta name="twitter:description" content="Combine multiple PDF files into one, free and in your browser. No upload, no signup, no watermark.">
+<meta name="twitter:description" content="Combine PDFs and pictures into one file, free and in your browser. Pick pages from each, add bookmarks and blank pages for printing. No upload, no signup, no watermark.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,25 +77,94 @@
     </script>
     <div class="tool-page-header">
       <h1>Merge PDF</h1>
-      <p>Combine multiple PDFs into one file, in any order you like. Processed locally, nothing is uploaded.</p>
+      <p>Combine PDFs, and pictures too, into one file. Put them in any order, take only the pages you need from each, add bookmarks and blank pages for printing. Processed locally, nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose PDF files or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">call_merge</span></div>
-        <div class="dz-title">Drop your PDF files here, easy as.</div>
-        <div class="dz-sub">Two or more PDFs · drag the cards to reorder</div>
-        <input type="file" id="fileInput" accept="application/pdf" multiple>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose PDF or image files, or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">call_merge</span></div>
+            <div class="dz-title">Drop your PDF files here, easy as.</div>
+            <div class="dz-sub">PDFs, plus JPG, PNG or WebP pictures · drag the cards to reorder</div>
+            <input type="file" id="fileInput" accept="application/pdf,image/jpeg,image/png,image/webp" multiple>
+          </div>
+
+          <div class="sort-row" id="sortRow" hidden>
+            <span class="sort-label" id="sortLabel">Sort</span>
+            <div class="sort-buttons" role="group" aria-labelledby="sortLabel">
+              <button type="button" class="btn secondary small" data-sort="az">Name A to Z</button>
+              <button type="button" class="btn secondary small" data-sort="za">Name Z to A</button>
+              <button type="button" class="btn secondary small" data-sort="oldest">Oldest first</button>
+              <button type="button" class="btn secondary small" data-sort="newest">Newest first</button>
+              <button type="button" class="btn secondary small" data-sort="reverse">Reverse</button>
+            </div>
+          </div>
+
+          <ul class="file-list file-cards" id="fileList"></ul>
+
+          <div class="side-actions" id="actionsRow">
+            <button class="btn" id="runBtn" type="button" disabled>Merge files</button>
+            <button class="btn secondary" id="clearBtn" type="button" disabled>Clear</button>
+          </div>
+
+          <div class="status-box" id="status"></div>
+        </div>
+
+        <aside class="qr-preview side-settings" aria-label="Merge settings">
+          <fieldset class="qr-group">
+            <legend>Pages</legend>
+            <p class="help-text">Each PDF card has a Pages box. Leave it empty for every page, or type for example <strong>1-3, 7</strong>, <strong>10-</strong> (page 10 to the end), <strong>last</strong> or <strong>except 2, 5</strong>. Pages come out in the order you type them.</p>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Between files</legend>
+            <div class="qr-field">
+              <label for="blankMode">Blank pages</label>
+              <select id="blankMode">
+                <option value="none">None</option>
+                <option value="one">One blank page between files</option>
+                <option value="odd">Only where needed, so each file starts on a right-hand page</option>
+              </select>
+            </div>
+            <p class="help-text">The last choice is for double-sided printing, so the back of one document is never behind the start of the next.</p>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Bookmarks and details</legend>
+            <div class="qr-field qr-check">
+              <input type="checkbox" id="bookmarks" checked>
+              <label for="bookmarks">Add a bookmark for each file</label>
+            </div>
+            <div class="qr-field">
+              <label for="docTitle">Title (optional)</label>
+              <input type="text" id="docTitle" maxlength="200" autocomplete="off">
+            </div>
+            <div class="qr-field">
+              <label for="docAuthor">Author (optional)</label>
+              <input type="text" id="docAuthor" maxlength="200" autocomplete="off">
+            </div>
+            <div class="qr-field">
+              <label for="outName">File name</label>
+              <input type="text" id="outName" value="merged" maxlength="100" autocomplete="off" spellcheck="false">
+            </div>
+            <p class="help-text">Bookmarks use each file's name and appear in the side panel of most PDF readers.</p>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Pictures</legend>
+            <div class="qr-field">
+              <label for="imageSize">Page size for each picture</label>
+              <select id="imageSize">
+                <option value="a4" selected>A4</option>
+                <option value="letter">US Letter</option>
+                <option value="fit">The picture's own size</option>
+              </select>
+            </div>
+            <p class="help-text">A4 and Letter turn sideways for a wide picture, and a photo taken sideways on a phone is turned upright.</p>
+          </fieldset>
+        </aside>
       </div>
-
-      <ul class="file-list file-cards" id="fileList"></ul>
-
-      <div class="actions-row" id="actionsRow" style="display:none;">
-        <button class="btn" id="runBtn">Merge PDFs</button>
-        <button class="btn secondary" id="clearBtn">Clear</button>
-      </div>
-
-      <div class="status-box" id="status"></div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -129,10 +198,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add two or more PDF files.</li>
-        <li>Reorder them with the ↑ / ↓ buttons if needed.</li>
-        <li>Click "Merge PDFs" to download the combined file.</li>
+        <li>Add two or more PDFs. Pictures (JPG, PNG or WebP) can go in the same list and each becomes a page.</li>
+        <li>Drag the cards, use the arrows or press a sort button to set the order. In a PDF's Pages box, type which pages to take, such as 1-3, 7 or except 2.</li>
+        <li>Choose bookmarks, blank pages for double-sided printing, a title and a file name, then press "Merge files" to download the result.</li>
       </ol>
+      <p class="help-text">Merging copies the pages into a new file. The pages and everything printed on them come across, but bookmarks, fillable form fields and links that jump to other pages inside the original files are not reliably kept, so the only bookmarks in the result are the ones this page adds. A PDF that needs a password to open has to be unlocked first with Unlock PDF.</p>
     </section>
 
     <div class="share-wrap" data-share></div>
