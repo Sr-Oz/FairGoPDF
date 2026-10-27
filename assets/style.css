@@ -3461,7 +3461,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .qr-field[hidden] { display: none; }
 .qr-field.qr-wide { grid-column: 1 / -1; }
 .qr-field label { color: var(--text-muted); font-weight: 600; }
-.qr-field input[type="text"], .qr-field input[type="tel"], .qr-field input[type="email"], .qr-field input[type="datetime-local"], .qr-field select, .qr-field textarea {
+.qr-field input[type="text"], .qr-field input[type="number"], .qr-field input[type="tel"], .qr-field input[type="email"], .qr-field input[type="datetime-local"], .qr-field select, .qr-field textarea {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid var(--border);
@@ -3571,4 +3571,46 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 @media (max-width: 560px) {
   .pw-results { padding: 16px; }
   .pw-value { font-size: 1.1rem; }
+}
+
+/* Compress Image: the files and results in the main column, the settings beside them */
+.ci-layout { grid-template-columns: minmax(0, 1fr) 360px; }
+.ci-main { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.ci-main .file-list, .ci-main .results { margin: 0; }
+.ci-settings { position: static; gap: 4px; }
+.ci-settings .qr-group { margin-bottom: 16px; }
+.ci-settings .qr-types { margin-bottom: 14px; }
+.ci-settings .qr-field + .help-text, .ci-settings .ci-presets + .help-text, .ci-settings .ci-inline + .help-text { margin-top: 10px; }
+.ci-settings .help-text { margin: 8px 0 0; }
+.ci-inline { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ci-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.ci-settings .btn { width: auto; }
+.ci-settings .qr-field + .qr-field { margin-top: 12px; }
+.ci-settings .qr-check label input[type="number"] { display: inline-block; width: 4.5em; padding: 4px 8px; margin: 0 2px; }
+.ci-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.ci-results-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
+.ci-results-title { margin: 0; font-size: 1.1rem; }
+.ci-total { flex: 1; color: var(--text-muted); font-size: 0.9rem; }
+.ci-stale { margin: 0 0 8px; color: var(--danger); }
+.ci-stale[hidden] { display: none; }
+.ci-result img.preview { width: 64px; height: 64px; }
+.ci-name { font-weight: 600; overflow-wrap: anywhere; }
+.ci-line { font-size: 0.88rem; }
+.ci-muted { color: var(--text-muted); font-size: 0.82rem; }
+.ci-bigger { color: var(--danger); font-size: 0.82rem; }
+.ci-note { margin-top: 4px; font-size: 0.82rem; color: var(--text-muted); }
+@media (max-width: 899px) {
+  /* one column: files, then the settings, then the button that uses them, then the results */
+  .ci-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .ci-main { display: contents; }
+  .ci-main > .dropzone { order: 1; }
+  .ci-main > .file-list { order: 2; }
+  .ci-settings { order: 3; max-width: none; margin: 0; }
+  .ci-main > .ci-actions { order: 4; }
+  .ci-main > .status-box { order: 5; }
+  .ci-main > .results { order: 6; }
+}
+@media (max-width: 560px) {
+  .ci-result { flex-wrap: wrap; }
+  .ci-result .btn { width: 100%; }
 }

@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Compress Image Online Free, JPEG, PNG, WebP | Fair Go PDF</title>
-<meta name="description" content="Compress JPEG, PNG or WebP images online for free. Adjustable quality, no upload, everything runs in your browser.">
+<meta name="description" content="Compress JPEG, PNG or WebP images online for free. Set the quality or a target file size, resize, convert and download as a ZIP. No upload, everything runs in your browser.">
 <link rel="canonical" href="https://fairgopdf.au/compress-image/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Compress Image Online Free, JPEG, PNG, WebP">
-<meta property="og:description" content="Compress JPEG, PNG or WebP images online for free. Adjustable quality, no upload, everything runs in your browser.">
+<meta property="og:description" content="Compress JPEG, PNG or WebP images online for free. Set the quality or a target file size, resize, convert and download as a ZIP. No upload, everything runs in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/compress-image/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,11 +21,11 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Compress Image Online Free, JPEG, PNG, WebP">
-<meta name="twitter:description" content="Compress JPEG, PNG or WebP images online for free. Adjustable quality, no upload, everything runs in your browser.">
+<meta name="twitter:description" content="Compress JPEG, PNG or WebP images online for free. Set the quality or a target file size, resize, convert and download as a ZIP. No upload, everything runs in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=cf0269ae" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/fonts/fonts.css?v=cf0269ae">
+<link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css?v=1bf508b9">
 <link rel="stylesheet" href="/assets/style.css">
 
 <!-- Analytics consent gate: loads Google Analytics only after the
@@ -77,46 +77,150 @@
     </script>
     <div class="tool-page-header">
       <h1>Compress Image</h1>
-      <p>Reduce the file size of JPEG, PNG or WebP images with an adjustable quality slider. Processed entirely on your device, nothing is uploaded.</p>
+      <p>Shrink JPEG, PNG and WebP images by quality or down to a file size you choose, resize them, change the format and download them one by one or as a ZIP. Processed on your device, nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose images or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">compress</span></div>
-        <div class="dz-title">Drop your images here, easy as.</div>
-        <div class="dz-sub">JPEG, PNG or WebP · multiple files supported</div>
-        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" multiple>
-      </div>
+    <div class="tool-workspace qr-workspace ci-workspace">
+      <div class="qr-layout ci-layout">
+        <div class="ci-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose images or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">compress</span></div>
+            <div class="dz-title">Drop your images here, easy as.</div>
+            <div class="dz-sub">JPEG, PNG or WebP · multiple files supported</div>
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" multiple>
+          </div>
 
-      <ul class="file-list" id="fileList"></ul>
+          <ul class="file-list" id="fileList"></ul>
 
-      <div class="controls-row" id="controls" style="display:none;">
-        <div class="field">
-          <label for="quality">Quality (<span id="qualityVal">80</span>%)</label>
-          <input type="range" id="quality" min="10" max="100" value="80">
+          <div class="ci-actions">
+            <button class="btn" id="runBtn" type="button" disabled>Compress images</button>
+            <button class="btn secondary" id="clearBtn" type="button" disabled>Clear</button>
+          </div>
+
+          <div class="status-box" id="status"></div>
+
+          <div class="results ci-results" id="results">
+            <div class="ci-results-head">
+              <h2 class="ci-results-title">Results</h2>
+              <span class="ci-total" id="ciTotal"></span>
+              <button class="btn secondary small" id="zipBtn" type="button" hidden>Download all as ZIP</button>
+            </div>
+            <p class="help-text ci-stale" id="ciStale" hidden>The settings have changed since these were made. Press Compress images again to use them.</p>
+            <div id="resultItems"></div>
+          </div>
+
         </div>
-        <div class="field">
-          <label for="format">Output format</label>
-          <select id="format">
-            <option value="keep">Keep original format</option>
-            <option value="image/jpeg">JPEG</option>
-            <option value="image/webp">WebP</option>
-            <option value="image/png">PNG (lossless)</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="actions-row" id="actionsRow" style="display:none;">
-        <button class="btn" id="runBtn">Compress Images</button>
-        <button class="btn secondary" id="clearBtn">Clear</button>
-      </div>
+        <aside class="qr-preview ci-settings" aria-label="Compression settings" id="ciSettings">
+          <fieldset class="qr-group">
+            <legend>Compression</legend>
+            <div class="qr-types" role="group" aria-label="How to compress">
+              <button type="button" class="qr-type" id="methodQuality" aria-pressed="true">Choose quality</button>
+              <button type="button" class="qr-type" id="methodTarget" aria-pressed="false">Aim for a file size</button>
+            </div>
+            <div id="qualityBlock">
+              <div class="qr-field">
+                <label for="quality">Quality (<span id="qualityVal">80</span>%)</label>
+                <input type="range" id="quality" min="10" max="100" value="80">
+              </div>
+              <div class="ci-presets" role="group" aria-label="Quality presets">
+                <button type="button" class="btn secondary small" data-quality="50">Smallest</button>
+                <button type="button" class="btn secondary small" data-quality="75">Balanced</button>
+                <button type="button" class="btn secondary small" data-quality="90">Sharp</button>
+              </div>
+              <p class="help-text">Quality only changes JPEG and WebP. A PNG stays lossless, so to shrink one a lot, save it as WebP or JPEG below.</p>
+            </div>
+            <div id="targetBlock" hidden>
+              <div class="ci-inline">
+                <div class="qr-field">
+                  <label for="targetSize">Largest size for each image</label>
+                  <input type="number" id="targetSize" min="1" step="any" value="500" inputmode="decimal">
+                </div>
+                <div class="qr-field">
+                  <label for="targetUnit">Unit</label>
+                  <select id="targetUnit">
+                    <option value="1024" selected>KB</option>
+                    <option value="1048576">MB</option>
+                  </select>
+                </div>
+              </div>
+              <p class="help-text">Finds the highest quality that fits. If an image still will not fit at low quality, it is scaled down a little at a time. PNG files are saved as WebP so the size can be tuned.</p>
+            </div>
+          </fieldset>
 
-      <p class="help-text" id="pngNote" style="display:none;">PNG is a lossless format, so the quality slider won't shrink it much. For a bigger reduction, switch the output format to WebP or JPEG.</p>
+          <fieldset class="qr-group">
+            <legend>Format</legend>
+            <div class="qr-field">
+              <label for="format">Save as</label>
+              <select id="format">
+                <option value="keep">Keep each original format</option>
+                <option value="image/jpeg">JPEG</option>
+                <option value="image/webp" id="webpOption">WebP</option>
+                <option value="image/png" id="pngOption">PNG (lossless)</option>
+              </select>
+            </div>
+            <div class="qr-field qr-check" id="convertBigField">
+              <input type="checkbox" id="convertBig">
+              <label for="convertBig">Save PNGs over <input type="number" id="convertMB" min="0.1" step="any" value="5" inputmode="decimal" aria-label="Size in megabytes"> MB as JPEG</label>
+            </div>
+            <div class="qr-field" id="bgField">
+              <label for="bgColour">Background where an image is see-through</label>
+              <div class="qr-colour-input">
+                <input type="color" id="bgColour" value="#ffffff">
+                <input type="text" id="bgText" value="#ffffff" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Background colour code">
+              </div>
+              <p class="help-text">JPEG cannot be see-through, so transparent parts are filled with this colour.</p>
+            </div>
+          </fieldset>
 
-      <div class="status-box" id="status"></div>
+          <fieldset class="qr-group">
+            <legend>Size</legend>
+            <div class="qr-field">
+              <label for="resizeMode">Resize</label>
+              <select id="resizeMode">
+                <option value="none">Keep the original size</option>
+                <option value="fit">Fit inside a box (keeps proportions)</option>
+                <option value="percent">Scale by a percentage</option>
+                <option value="crop">Crop to an exact size</option>
+              </select>
+            </div>
+            <div class="ci-inline" id="fitBlock" hidden>
+              <div class="qr-field">
+                <label for="maxW">Max width (px)</label>
+                <input type="number" id="maxW" min="1" step="1" placeholder="No limit" inputmode="numeric">
+              </div>
+              <div class="qr-field">
+                <label for="maxH">Max height (px)</label>
+                <input type="number" id="maxH" min="1" step="1" placeholder="No limit" inputmode="numeric">
+              </div>
+            </div>
+            <div class="qr-field" id="percentBlock" hidden>
+              <label for="percent">Scale to (<span id="percentVal">50</span>% of the original)</label>
+              <input type="range" id="percent" min="5" max="100" value="50">
+            </div>
+            <div class="ci-inline" id="cropBlock" hidden>
+              <div class="qr-field">
+                <label for="cropW">Width (px)</label>
+                <input type="number" id="cropW" min="1" step="1" value="1080" inputmode="numeric">
+              </div>
+              <div class="qr-field">
+                <label for="cropH">Height (px)</label>
+                <input type="number" id="cropH" min="1" step="1" value="1080" inputmode="numeric">
+              </div>
+            </div>
+            <p class="help-text" id="resizeNote">Images are never made bigger than they are. Cropping trims evenly from the edges to fill the size exactly.</p>
+          </fieldset>
 
-      <div class="results" id="results">
-        <div id="resultItems"></div>
+          <fieldset class="qr-group">
+            <legend>Safeguards</legend>
+            <div class="qr-field qr-check">
+              <input type="checkbox" id="keepSmaller" checked>
+              <label for="keepSmaller">Keep the original if the result would be bigger</label>
+            </div>
+            <p class="help-text">Photo details such as camera model and location are always removed, and a sideways photo is turned the right way up.</p>
+          </fieldset>
+
+        </aside>
       </div>
 
       <div class="keep-sorted" id="keepSorted">
@@ -148,9 +252,10 @@
       <h2>How it works</h2>
       <ol>
         <li>Add one or more JPEG, PNG or WebP images.</li>
-        <li>Pick a quality level and, optionally, a different output format.</li>
-        <li>Click "Compress Images" and download each result individually.</li>
+        <li>Choose how to compress: set a quality, or give a file size and let the tool find the best quality that fits. Resize, crop or change the format if you like.</li>
+        <li>Press "Compress images", compare the sizes, then download each result or the lot as a ZIP.</li>
       </ol>
+      <p class="help-text">Compressing is done by your browser's own image encoder, so nothing leaves your device. Photo details such as the camera model and where a picture was taken are always removed, and a sideways photo is turned upright. If the result would be bigger than the original, the original is kept (you can turn that off). Saving a PNG as WebP or JPEG is the biggest saving, since PNG is lossless.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -241,7 +346,7 @@
 <script src="/assets/tool-names.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
-<script src="/assets/tools/compress-image.js"></script>
+<script type="module" src="/assets/tools/compress-image.js"></script>
 <script src="/assets/share.js"></script>
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>

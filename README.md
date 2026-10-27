@@ -38,7 +38,7 @@ watermarked output.
 ### Image tools
 | Tool | URL | What it does |
 |---|---|---|
-| Compress Image | `/compress-image/` | Reduce JPEG/PNG/WebP file size with a quality slider |
+| Compress Image | `/compress-image/` | Shrink JPEG/PNG/WebP by quality or down to a target file size, with resize/crop, format change, background colour for JPEG, a keep-the-original safeguard and ZIP download |
 | Convert Image Format | `/convert-image/` | Convert between PNG, JPG, WebP, GIF, BMP and SVG |
 | HEIC to JPG | `/heic-to-jpg/` | Convert iPhone HEIC/HEIF photos to JPG |
 | Resize Image | `/resize-image/` | Resize by exact pixel dimensions or by percentage |

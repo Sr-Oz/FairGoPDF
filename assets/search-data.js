@@ -58,7 +58,7 @@ window.SEARCH_INDEX = [
   { title: "CBZ to PDF", url: "/cbz-to-pdf/", icon: "auto_stories", desc: "Turn a CBZ comic book archive into a PDF, reorder or drop pages first", group: "Convert", category: "PDF Tool" },
 
   // Image tools
-  { title: "Compress Image", url: "/compress-image/", icon: "compress", desc: "Reduce JPEG/PNG/WebP file size with a quality slider", category: "Image Tool" },
+  { title: "Compress Image", url: "/compress-image/", icon: "compress", desc: "Shrink JPEG/PNG/WebP by quality or to a target file size, with resize, format change and ZIP download", category: "Image Tool" },
   { title: "Convert Image Format", url: "/convert-image/", icon: "sync_alt", desc: "Convert between PNG, JPG, WebP, GIF, BMP and SVG", category: "Image Tool" },
   { title: "HEIC to JPG", url: "/heic-to-jpg/", icon: "smartphone", desc: "Convert iPhone HEIC/HEIF photos to JPG", alt: "heif iphone photo convert", category: "Image Tool" },
   { title: "Resize Image", url: "/resize-image/", icon: "aspect_ratio", desc: "Resize by exact pixel dimensions or by percentage", category: "Image Tool" },

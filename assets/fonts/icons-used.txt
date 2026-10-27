@@ -169,6 +169,7 @@ table
 table_chart
 table_view
 tag
+target
 terrain
 text_fields
 text_snippet
