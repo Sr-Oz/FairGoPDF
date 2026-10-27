@@ -16,8 +16,8 @@ const statusEl = $("status");
 const state = {
   type: "url",
   values: Object.fromEntries(TYPES.map((t) => [t.id, defaultValues(t.id)])),
-  style: { ...DEFAULT_STYLE, icon: { ...DEFAULT_STYLE.icon } },
-  template: "classic",
+  style: applyTemplate({ ...DEFAULT_STYLE, icon: { ...DEFAULT_STYLE.icon } }, TEMPLATES[0]), // Fair Go teal, the brand colours
+  template: TEMPLATES[0].id,
   tab: "content",
 };
 

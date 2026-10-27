@@ -73,3 +73,13 @@ test("utf8AsBytes: plain text is unchanged, others become one character per byte
   assert.equal(utf8AsBytes("日").length, 3);
   assert.equal(utf8AsBytes("😀").length, 4);
 });
+
+test("the page starts in Fair Go teal, in the brand colours", () => {
+  const first = TEMPLATES[0];
+  assert.equal(first.id, "fairgo");
+  const style = applyTemplate(DEFAULT_STYLE, first);
+  assert.equal(style.dotsColour.toLowerCase(), "#004d40", "brand teal");
+  assert.equal(style.cornersSquareColour.toLowerCase(), "#004d40");
+  assert.equal(style.cornersDotColour.toLowerCase(), "#00332b", "brand dark teal");
+  assert.deepEqual(scanWarnings(style), [], "and it still scans");
+});

@@ -23,10 +23,12 @@ export const DEFAULT_STYLE = {
 // Looks that fill in the three colours, the shapes and the background. They carry no logos: the Facebook, YouTube and
 // Instagram marks are trademarks, so a template stays a colour and shape scheme and a logo is the visitor's own to add.
 const g = (a, b, rotation = Math.PI / 4) => ({ colours: [a, b], rotation });
+// The first look is the one the page starts with: Fair Go teal, in the brand colours (#004D40 and the darker #00332B).
+// Gold is left out of the code itself on purpose: pale gold on white is too faint for a phone to scan.
 export const TEMPLATES = [
+  { id: "fairgo", name: "Fair Go teal", style: { dotsType: "rounded", dotsColour: "#004D40", cornersSquareType: "extra-rounded", cornersSquareColour: "#004D40", cornersDotType: "dot", cornersDotColour: "#00332B", background: "#ffffff" } },
   { id: "modern", name: "Modern", style: { dotsType: "rounded", dotsColour: "#000000", cornersSquareType: "extra-rounded", cornersSquareColour: "#000000", cornersDotType: "dot", cornersDotColour: "#000000", background: "#ffffff" } },
   { id: "classic", name: "Classic", style: { dotsType: "square", dotsColour: "#000000", cornersSquareType: "square", cornersSquareColour: "#000000", cornersDotType: "square", cornersDotColour: "#000000", background: "#ffffff" } },
-  { id: "fairgo", name: "Fair Go teal", style: { dotsType: "rounded", dotsColour: "#004D40", cornersSquareType: "extra-rounded", cornersSquareColour: "#004D40", cornersDotType: "dot", cornersDotColour: "#00332B", background: "#ffffff" } },
   { id: "ocean", name: "Ocean", style: { dotsType: "dots", dotsColour: "#1d4ed8", dotsGradient: g("#1d4ed8", "#0369a1"), cornersSquareType: "extra-rounded", cornersSquareColour: "#1e3a8a", cornersDotType: "dot", cornersDotColour: "#1e3a8a", background: "#ffffff" } },
   { id: "sunset", name: "Sunset", style: { dotsType: "classy-rounded", dotsColour: "#c2410c", dotsGradient: g("#c2410c", "#be185d"), cornersSquareType: "extra-rounded", cornersSquareColour: "#9f1239", cornersDotType: "dot", cornersDotColour: "#9f1239", background: "#ffffff" } },
   { id: "forest", name: "Forest", style: { dotsType: "classy", dotsColour: "#166534", cornersSquareType: "square", cornersSquareColour: "#14532d", cornersDotType: "square", cornersDotColour: "#14532d", background: "#ffffff" } },
