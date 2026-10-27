@@ -3588,9 +3588,9 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .side-settings .qr-field + .qr-field { margin-top: 12px; }
 .side-settings .qr-check label input[type="number"] { display: inline-block; width: 4.5em; padding: 4px 8px; margin: 0 2px; }
 .side-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.ci-results-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
-.ci-results-title { margin: 0; font-size: 1.1rem; }
-.ci-total { flex: 1; color: var(--text-muted); font-size: 0.9rem; }
+.result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
+.result-title { margin: 0; font-size: 1.1rem; }
+.result-total { flex: 1; color: var(--text-muted); font-size: 0.9rem; }
 .ci-stale { margin: 0 0 8px; color: var(--danger); }
 .ci-stale[hidden] { display: none; }
 .ci-result img.preview { width: 64px; height: 64px; }
@@ -3608,8 +3608,10 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
   .side-main > .file-list { order: 2; }
   .side-settings { order: 3; max-width: none; margin: 0; }
   .side-main > .side-actions { order: 4; }
+  .side-main > .file-bar { order: 2; }
   .side-main > .status-box { order: 5; }
   .side-main > .results { order: 6; }
+  .side-main > .split-grid-wrap { order: 7; }
 }
 @media (max-width: 560px) {
   .ci-result { flex-wrap: wrap; }
@@ -3628,3 +3630,24 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .card-range input[aria-invalid="true"] { border-color: var(--danger); }
 .card-range-note { min-height: 1em; font-size: 0.72rem; color: var(--text-muted); line-height: 1.3; }
 .card-range-note.is-error { color: var(--danger); }
+
+/* Split PDF: the settings stay in view beside the pages, and the pages show which file they go into */
+.side-sticky { position: sticky; top: 88px; max-height: calc(100vh - 110px); overflow-y: auto; }
+.file-bar { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.file-bar[hidden], .split-grid-wrap[hidden] { display: none; }
+.split-grid-wrap .help-text { margin: 0; }
+.split-grid-wrap .page-thumb-grid { margin: 12px 0 0; }
+.mode-block { margin-top: 12px; }
+.mode-block .qr-field textarea { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.9rem; }
+.select-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.split-summary { margin: 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); font-size: 0.88rem; overflow-wrap: anywhere; }
+.split-summary.is-error { border-color: var(--danger); color: var(--danger); }
+.page-thumb .thumb-ph { background: var(--bg-alt); }
+.page-thumb .part-tag { display: none; position: absolute; left: 0; right: 0; bottom: 0; padding: 2px 4px; text-align: center; font-size: 0.7rem; font-weight: 700; color: #fff; background: hsl(var(--hue, 160) 55% 32%); }
+.page-thumb.has-part { border-color: hsl(var(--hue, 160) 55% 40%); }
+.page-thumb.has-part .part-tag { display: block; }
+.page-thumb-grid.readonly .page-thumb { cursor: default; }
+.page-thumb-grid.readonly .page-thumb.selected { border-color: var(--border); }
+@media (max-width: 899px) {
+  .side-sticky { position: static; max-height: none; overflow: visible; }
+}

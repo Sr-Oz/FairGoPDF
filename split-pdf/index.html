@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Split PDF Online Free, Extract Pages | Fair Go PDF</title>
-<meta name="description" content="Split a PDF into individual pages or extract a page range, free and in your browser. No upload, no signup.">
+<meta name="description" content="Split a PDF by page ranges, every few pages, equal parts, bookmarks or a maximum file size, or extract the pages you pick. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/split-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Split PDF Online Free, Extract Pages">
-<meta property="og:description" content="Split a PDF into individual pages or extract a page range, free and in your browser. No upload, no signup.">
+<meta property="og:description" content="Split a PDF by page ranges, every few pages, equal parts, bookmarks or a maximum file size, or extract the pages you pick. Free, in your browser, no upload or signup.">
 <meta property="og:url" content="https://fairgopdf.au/split-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Split PDF Online Free, Extract Pages">
-<meta name="twitter:description" content="Split a PDF into individual pages or extract a page range, free and in your browser. No upload, no signup.">
+<meta name="twitter:description" content="Split a PDF by page ranges, every few pages, equal parts, bookmarks or a maximum file size, or extract the pages you pick. Free, in your browser, no upload or signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,44 +77,123 @@
     </script>
     <div class="tool-page-header">
       <h1>Split PDF</h1>
-      <p>Pick the pages you want and pull them into a new PDF, or split every page into its own file. Nothing is uploaded.</p>
+      <p>Pull out the pages you pick, cut a PDF into custom ranges, every few pages, equal parts or one file per chapter, or keep each file under a size. Several files come as one ZIP. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">call_split</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">call_split</span></div>
+            <div class="dz-title">Drop your PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
+          </div>
 
-      <div id="editor" style="display:none;">
-        <div class="controls-row">
-          <div class="field" style="flex:1; min-width:220px;">
-            <label for="rangeInput">Page ranges (e.g. 1-3,5,8-10)</label>
-            <input type="text" id="rangeInput" placeholder="Leave blank and click pages below instead">
+          <p class="file-bar" id="fileBar" hidden></p>
+
+          <div class="status-box" id="status"></div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your files</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="zipBtn" type="button" hidden>Download all as ZIP</button>
+            </div>
+            <div id="resultItems"></div>
           </div>
-          <div class="field">
-            <label>&nbsp;</label>
-            <button class="btn secondary small" id="selectAllBtn">Select all</button>
-          </div>
-          <div class="field">
-            <label>&nbsp;</label>
-            <button class="btn secondary small" id="selectNoneBtn">Select none</button>
+
+          <div class="split-grid-wrap" id="gridWrap" hidden>
+            <p class="help-text" id="gridHelp"></p>
+            <div class="page-thumb-grid" id="pageGrid"></div>
           </div>
         </div>
 
-        <p class="help-text">Click pages to select them, or type ranges above. Selected pages are highlighted.</p>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Split settings">
+          <fieldset class="qr-group">
+            <legend>How to split</legend>
+            <div class="qr-field">
+              <label for="mode">Split</label>
+              <select id="mode">
+                <option value="selected-one">Pick pages, into one PDF</option>
+                <option value="selected-each">Pick pages, each as its own PDF</option>
+                <option value="ranges">Custom ranges, one PDF for each</option>
+                <option value="every">Every few pages</option>
+                <option value="equal">Into equal parts</option>
+                <option value="bookmarks">At each bookmark (chapter)</option>
+                <option value="size">So each file stays under a size</option>
+              </select>
+            </div>
+            <p class="help-text" id="modeHelp"></p>
 
-        <div class="page-thumb-grid" id="pageGrid"></div>
+            <div class="mode-block" id="block-selected">
+              <div class="qr-field">
+                <label for="rangeInput">Pages</label>
+                <input type="text" id="rangeInput" placeholder="1-3, 7, 10-  or  except 2, 5" autocomplete="off" spellcheck="false">
+                <span class="card-range-note" id="rangeNote"></span>
+              </div>
+              <div class="select-buttons" role="group" aria-label="Quick selections">
+                <button type="button" class="btn secondary small" data-pick="all">All</button>
+                <button type="button" class="btn secondary small" data-pick="none">None</button>
+                <button type="button" class="btn secondary small" data-pick="odd">Odd</button>
+                <button type="button" class="btn secondary small" data-pick="even">Even</button>
+                <button type="button" class="btn secondary small" data-pick="invert">Invert</button>
+              </div>
+            </div>
 
-        <div class="actions-row">
-          <button class="btn" id="extractBtn">Extract Selected Pages (1 file)</button>
-          <button class="btn secondary" id="splitEachBtn">Download Each Selected Page Separately</button>
-        </div>
+            <div class="mode-block" id="block-ranges" hidden>
+              <div class="qr-field">
+                <label for="rangesInput">Pages for each file</label>
+                <textarea id="rangesInput" rows="5" placeholder="1-3&#10;4-7, 9&#10;10-" spellcheck="false"></textarea>
+              </div>
+            </div>
+
+            <div class="mode-block" id="block-every" hidden>
+              <div class="qr-field">
+                <label for="everyN">Pages in each file</label>
+                <input type="number" id="everyN" min="1" step="1" value="5" inputmode="numeric">
+              </div>
+            </div>
+
+            <div class="mode-block" id="block-equal" hidden>
+              <div class="qr-field">
+                <label for="equalN">Number of files</label>
+                <input type="number" id="equalN" min="2" step="1" value="2" inputmode="numeric">
+              </div>
+            </div>
+
+            <div class="mode-block" id="block-size" hidden>
+              <div class="side-inline">
+                <div class="qr-field">
+                  <label for="maxSize">Largest file</label>
+                  <input type="number" id="maxSize" min="0.01" step="any" value="10" inputmode="decimal">
+                </div>
+                <div class="qr-field">
+                  <label for="sizeUnit">Unit</label>
+                  <select id="sizeUnit">
+                    <option value="1024">KB</option>
+                    <option value="1048576" selected>MB</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>File names</legend>
+            <div class="qr-field">
+              <label for="prefix">Start each name with</label>
+              <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+            </div>
+            <p class="help-text">Files are numbered in order, and a ZIP is made when there is more than one.</p>
+          </fieldset>
+
+          <p class="split-summary" id="splitSummary" role="status">Add a PDF to begin.</p>
+          <div class="side-actions">
+            <button class="btn" id="splitBtn" type="button" disabled>Split PDF</button>
+          </div>
+        </aside>
       </div>
-
-      <div class="status-box" id="status"></div>
     </div>
 
     <section class="related-tools-section">
@@ -142,10 +221,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF file.</li>
-        <li>Select pages by clicking thumbnails or typing a range like <code>1-3,5</code>.</li>
-        <li>Extract them into one PDF, or download each page as its own file.</li>
+        <li>Add a PDF. Its pages appear as thumbnails.</li>
+        <li>Choose how to split. Pick pages by clicking them or typing <code>1-3, 7</code>, give a range for each file, cut every few pages or into equal parts, split at the bookmarks, or keep every file under a size such as 10 MB for email.</li>
+        <li>Press "Split PDF". One file downloads as a PDF, several come as a ZIP, and each file is also listed so you can download them one at a time.</li>
       </ol>
+      <p class="help-text">In the pages box, <code>10-</code> means page 10 to the end, <code>last</code> is the final page and <code>except 2, 5</code> takes everything but those pages. Splitting copies the pages into new files, so bookmarks, fillable form fields and links that jump to other pages are not reliably kept in the new files. A PDF that needs a password to open has to be unlocked first with Unlock PDF.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>

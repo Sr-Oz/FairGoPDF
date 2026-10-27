@@ -1,7 +1,8 @@
 import { PDFLib, loadPdfJsDoc, renderPageThumbCanvas } from "/assets/tools/pdf-common.js";
-import { PDFDocument as DecryptingPDFDocument } from "/assets/vendor/cantoo-pdf-lib.esm.min.js";
 import { renderFileCards } from "/assets/tools/file-cards.js";
-import { sortEntries, parsePageSpec, blanksNeeded, imagePlacement, jpegOrientation, bookmarkTitle, safeBaseName } from "/assets/tools/merge-core.js";
+import { OpenProblem, loadEditable } from "/assets/tools/open-pdf.js";
+import { sortEntries, blanksNeeded, imagePlacement, jpegOrientation, bookmarkTitle } from "/assets/tools/merge-core.js";
+import { parsePageSpec, safeBaseName } from "/assets/tools/page-tools.js";
 
 const $ = (id) => document.getElementById(id);
 const dropzone = $("dropzone");
@@ -15,26 +16,6 @@ const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 // Each entry is { file, kind: "pdf" | "image", range, canvas, pages, failed }: canvas (the first page) and pages arrive once
 // pdf.js (or the browser, for a picture) has read the file.
 let files = [];
-
-// Many PDFs (certificates, bank statements) are "encrypted" only to stop editing and open with no password. pdf-lib refuses
-// those, so they are opened with the decrypting library (the one Unlock PDF uses) and merged as an unlocked copy.
-// A PDF that really needs a password is named, so the visitor knows which one to unlock first.
-class MergeProblem extends Error {}
-
-async function loadForMerge(file) {
-  const bytes = await file.arrayBuffer();
-  try {
-    return await PDFLib.PDFDocument.load(bytes);
-  } catch (err) {
-    if (!/encrypted/i.test(err.message || "")) throw new MergeProblem(`${file.name} couldn't be read as a PDF (${err.message || "unknown problem"}).`);
-  }
-  try {
-    const open = await DecryptingPDFDocument.load(bytes.slice(0), { password: "" });
-    return await PDFLib.PDFDocument.load(await open.save());
-  } catch (err) {
-    throw new MergeProblem(`${file.name} is password protected. Remove its password with Unlock PDF first, then add it again.`);
-  }
-}
 
 async function loadPreview(entry) {
   if (entry.kind === "image") {
@@ -166,7 +147,7 @@ async function embedPicture(doc, file) {
     canvas.getContext("2d").drawImage(bitmap, 0, 0);
     bitmap.close();
     const blob = await canvasToBlob(canvas, type, 0.92);
-    if (!blob) throw new MergeProblem(`${file.name} couldn't be read as a picture.`);
+    if (!blob) throw new OpenProblem(`${file.name} couldn't be read as a picture.`);
     return new Uint8Array(await blob.arrayBuffer());
   };
   try {
@@ -174,8 +155,8 @@ async function embedPicture(doc, file) {
     if (file.type === "image/jpeg") return jpegOrientation(bytes) > 1 ? await doc.embedJpg(await viaCanvas("image/jpeg")) : await doc.embedJpg(bytes);
     return await doc.embedPng(await viaCanvas("image/png"));
   } catch (err) {
-    if (err instanceof MergeProblem) throw err;
-    throw new MergeProblem(`${file.name} couldn't be read as a picture (${err.message || "unknown problem"}).`);
+    if (err instanceof OpenProblem) throw err;
+    throw new OpenProblem(`${file.name} couldn't be read as a picture (${err.message || "unknown problem"}).`);
   }
 }
 
@@ -223,9 +204,9 @@ runBtn.addEventListener("click", async () => {
       let src = null;
       let take = [];
       if (entry.kind === "pdf") {
-        src = await loadForMerge(entry.file);
+        src = await loadEditable(entry.file);
         const r = parsePageSpec(range, src.getPageCount());
-        if (r.error) throw new MergeProblem(`${entry.file.name}: ${r.error}`);
+        if (r.error) throw new OpenProblem(`${entry.file.name}: ${r.error}`);
         take = r.pages.map((n) => n - 1);
       }
       const count = entry.kind === "pdf" ? take.length : 1;
@@ -243,7 +224,7 @@ runBtn.addEventListener("click", async () => {
         const at = imagePlacement(image.width, image.height, imageSize);
         merged.addPage([at.pw, at.ph]).drawImage(image, { x: at.x, y: at.y, width: at.width, height: at.height });
       }
-      if (merged.getPageCount() - firstPage !== count) throw new MergeProblem(`${entry.file.name} did not add the pages it should have.`);
+      if (merged.getPageCount() - firstPage !== count) throw new OpenProblem(`${entry.file.name} did not add the pages it should have.`);
       marks.push({ title: bookmarkTitle(entry.file.name), pageIndex: firstPage });
     }
 
@@ -271,7 +252,7 @@ runBtn.addEventListener("click", async () => {
     }
   } catch (err) {
     console.error(err);
-    setStatus(statusEl, err instanceof MergeProblem ? err.message : `Something went wrong: ${err.message || "could not merge these files."}`, "error");
+    setStatus(statusEl, err instanceof OpenProblem ? err.message : `Something went wrong: ${err.message || "could not merge these files."}`, "error");
   } finally {
     runBtn.disabled = files.length < 2;
   }
