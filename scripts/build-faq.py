@@ -261,8 +261,8 @@ def head(title_html, desc, url, extra_ld):
 <meta name="twitter:description" content="{d}">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=dceca18e" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css?v=dceca18e">
 <link rel="stylesheet" href="/assets/style.css">
 
 <!-- Analytics consent gate: loads Google Analytics only after the
