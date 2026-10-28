@@ -114,7 +114,7 @@ async function loadFile(file) {
   syncMode();
 }
 
-initDropzone(dropzone, $("fileInput"), async (files) => {
+async function handleFiles(files) {
   const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
   if (!pdf) { setStatus(statusEl, "Please choose a PDF file.", "error"); return; }
   try {
@@ -123,7 +123,9 @@ initDropzone(dropzone, $("fileInput"), async (files) => {
     console.error(err);
     setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}. If it needs a password, remove it with Unlock PDF first.`, "error");
   }
-});
+}
+initDropzone(dropzone, $("fileInput"), handleFiles);
+if (window.KeepSorted) KeepSorted.init({ currentTool: "split-pdf", dropzone, onFiles: handleFiles });
 
 // ---------------------------------------------------------------- choosing pages
 
@@ -283,6 +285,8 @@ splitBtn.addEventListener("click", async () => {
   if (plan.error) { setStatus(statusEl, plan.error, "error"); return; }
   splitBtn.disabled = true;
   $("results").classList.remove("visible");
+  $("keepSorted").style.display = "none"; // an offer from an earlier run no longer matches
+  document.querySelector(".related-tools-section").style.display = "";
   try {
     setStatus(statusEl, "Splitting…", "");
     const src = await loadEditable(state.file);
@@ -314,6 +318,16 @@ splitBtn.addEventListener("click", async () => {
     showResults(base);
     if (total === 1) download(state.results[0].bytes, brandFilename("split-pdf", stripExtension(state.results[0].name), "pdf"));
     else downloadZip();
+    // with several files there is no single "it" to carry on with, so Keep it sorted is only offered for one
+    if (window.KeepSorted && total === 1) {
+      KeepSorted.offer({
+        currentTool: "split-pdf",
+        blob: new Blob([state.results[0].bytes], { type: "application/pdf" }),
+        filename: brandFilename("split-pdf", stripExtension(state.results[0].name), "pdf"),
+        els: { section: $("keepSorted"), list: $("keepSortedList"), resetLink: $("keepSortedReset") },
+        relatedSection: document.querySelector(".related-tools-section"),
+      });
+    }
     const note = plan.parts.some((p) => p.oversize) ? " One page was bigger than the limit on its own." : "";
     setStatus(statusEl, `Sorted, ${total} file${total === 1 ? "" : "s"} made${total === 1 ? "" : ", downloaded as a ZIP"}.${note}`, "success");
   } catch (err) {

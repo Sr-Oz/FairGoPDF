@@ -3612,6 +3612,8 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
   .side-main > .status-box { order: 5; }
   .side-main > .results { order: 6; }
   .side-main > .split-grid-wrap { order: 7; }
+  .side-main > .view-bar { order: 2; }
+  .side-main > .organise-wrap { order: 2; }
 }
 @media (max-width: 560px) {
   .ci-result { flex-wrap: wrap; }
@@ -3651,3 +3653,28 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 @media (max-width: 899px) {
   .side-sticky { position: static; max-height: none; overflow: visible; }
 }
+
+/* Organise PDF Pages: pick, drag and tidy the pages; the tools sit beside them */
+.view-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.view-bar[hidden] { display: none; }
+.view-buttons { display: flex; gap: 8px; }
+.view-count { flex: 1; color: var(--text-muted); font-size: 0.88rem; }
+.view-size { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.88rem; font-weight: 600; }
+.view-size input { width: 120px; accent-color: var(--brand); }
+.organise-wrap[hidden] { display: none; }
+.organise-wrap .help-text { margin: 0; }
+.organise-grid { --thumb: 150px; grid-template-columns: repeat(auto-fill, minmax(var(--thumb), 1fr)); align-items: start; margin: 12px 0 0; }
+.organise-grid .page-thumb { cursor: pointer; }
+.organise-grid .page-thumb:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.organise-grid .page-thumb.picked { border-color: var(--brand); box-shadow: 0 0 0 2px var(--brand); background: color-mix(in srgb, var(--brand) 10%, var(--bg)); }
+.organise-grid .page-thumb.picked::after { content: "\2713"; position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--brand); color: var(--brand-contrast); font-size: 0.8rem; line-height: 20px; text-align: center; }
+.organise-grid .page-thumb.drop-before { box-shadow: inset 5px 0 0 var(--brand); }
+.organise-grid .page-thumb.drop-after { box-shadow: inset -5px 0 0 var(--brand); }
+.organise-grid .page-thumb.dragging { opacity: 0.4; }
+.organise-grid .thumb-img-wrap { height: auto; display: block; padding: 6px; background: var(--bg-alt); }
+.organise-grid .thumb-img-wrap img { display: block; width: 100%; height: auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18); }
+.organise-grid .thumb-img-wrap.is-blank { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; background: #fff; border: 1px dashed var(--border); margin: 6px; padding: 0; box-sizing: border-box; }
+.tool-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.file-btn { position: relative; cursor: pointer; }
+.file-btn input { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
+.file-btn:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }

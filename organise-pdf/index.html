@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Organise PDF Pages Online Free, Rotate &amp; Delete | Fair Go PDF</title>
-<meta name="description" content="Organise (organize) PDF pages: rotate, delete and reorder them for free, right in your browser. No upload, no signup.">
+<meta name="description" content="Organise (organize) PDF pages: drag to reorder, rotate, delete, duplicate, add blank pages or pages from another PDF, with undo. Free, right in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/organise-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Organise PDF Pages Online Free, Rotate, Delete, Reorder">
-<meta property="og:description" content="Rotate, delete and reorder PDF pages for free, right in your browser. No upload, no signup.">
+<meta property="og:description" content="Reorder, rotate, delete and duplicate PDF pages, add blank pages or pages from another PDF, with undo. Free, right in your browser, no upload or signup.">
 <meta property="og:url" content="https://fairgopdf.au/organise-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Organise PDF Pages Online Free, Rotate, Delete, Reorder">
-<meta name="twitter:description" content="Rotate, delete and reorder PDF pages for free, right in your browser. No upload, no signup.">
+<meta name="twitter:description" content="Reorder, rotate, delete and duplicate PDF pages, add blank pages or pages from another PDF, with undo. Free, right in your browser, no upload or signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,32 +77,103 @@
     </script>
     <div class="tool-page-header">
       <h1>Organise PDF Pages</h1>
-      <p>Organise (or organize) your PDF: drag to reorder, rotate or delete pages, then save a new PDF. Processed locally, nothing is uploaded.</p>
+      <p>Organise (or organize) your PDF: pick pages and drag them into order, rotate, delete, duplicate, insert blank pages or pages from another PDF, with undo if you change your mind. Processed locally, nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">reorder</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">reorder</span></div>
+            <div class="dz-title">Drop your PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
+          </div>
 
-      <div id="editor" style="display:none;">
-        <p class="help-text">Drag a page to reorder it. Use the buttons on each page to rotate or mark it for deletion.</p>
-        <div class="actions-row" style="margin-bottom:12px;">
-          <button class="btn secondary small" id="addBlankBtn">Add Blank Page</button>
-          <button class="btn secondary small" id="reverseBtn">Reverse Order</button>
+          <p class="file-bar" id="fileBar" hidden></p>
+
+          <div class="view-bar" id="viewBar" hidden>
+            <div class="view-buttons">
+              <button type="button" class="btn secondary small" id="undoBtn" disabled>Undo</button>
+              <button type="button" class="btn secondary small" id="redoBtn" disabled>Redo</button>
+            </div>
+            <span class="view-count" id="selCount" role="status"></span>
+            <label class="view-size">Page size <input type="range" id="thumbSize" min="100" max="260" step="10" value="150"></label>
+          </div>
+
+          <div class="status-box" id="status"></div>
+
+          <div class="organise-wrap" id="gridWrap" hidden>
+            <p class="help-text" id="gridHelp">Click a page to pick it, Shift-click for a range, Ctrl-click to add one. Drag a page to move it, and the other picked pages come with it.</p>
+            <div class="page-thumb-grid organise-grid" id="pageGrid"></div>
+          </div>
         </div>
-        <div class="page-thumb-grid" id="pageGrid"></div>
 
-        <div class="actions-row">
-          <button class="btn" id="saveBtn">Save PDF</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Page tools" id="tools">
+          <fieldset class="qr-group">
+            <legend>Choose pages</legend>
+            <div class="select-buttons" role="group" aria-label="Quick picks">
+              <button type="button" class="btn secondary small" data-pick="all">All</button>
+              <button type="button" class="btn secondary small" data-pick="none">None</button>
+              <button type="button" class="btn secondary small" data-pick="odd">Odd</button>
+              <button type="button" class="btn secondary small" data-pick="even">Even</button>
+              <button type="button" class="btn secondary small" data-pick="invert">Invert</button>
+            </div>
+            <div class="qr-field">
+              <label for="pickInput">Or type page numbers</label>
+              <input type="text" id="pickInput" placeholder="1-3, 7, 10-" autocomplete="off" spellcheck="false">
+              <span class="card-range-note" id="pickNote"></span>
+            </div>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Picked pages</legend>
+            <div class="tool-buttons" role="group" aria-label="Actions for the picked pages">
+              <button type="button" class="btn secondary small" data-act="rotl">Rotate left</button>
+              <button type="button" class="btn secondary small" data-act="rotr">Rotate right</button>
+              <button type="button" class="btn secondary small" data-act="del">Delete</button>
+              <button type="button" class="btn secondary small" data-act="restore">Restore</button>
+              <button type="button" class="btn secondary small" data-act="dup">Duplicate</button>
+              <button type="button" class="btn secondary small" data-act="earlier">Move earlier</button>
+              <button type="button" class="btn secondary small" data-act="later">Move later</button>
+              <button type="button" class="btn secondary small" data-act="first">To the start</button>
+              <button type="button" class="btn secondary small" data-act="last">To the end</button>
+            </div>
+            <p class="help-text">Deleted pages stay on screen, faded, until you save, so you can restore them.</p>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Add pages</legend>
+            <div class="tool-buttons">
+              <button type="button" class="btn secondary small" id="addBlank">Blank page</button>
+              <label class="btn secondary small file-btn">Pages from a PDF<input type="file" id="addPdf" accept="application/pdf"></label>
+            </div>
+            <p class="help-text">They go after the last picked page, or at the end if none is picked.</p>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Whole document</legend>
+            <div class="tool-buttons">
+              <button type="button" class="btn secondary small" id="reverseBtn">Reverse order</button>
+              <button type="button" class="btn secondary small" id="originalBtn">Reset all changes</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Save</legend>
+            <div class="qr-field">
+              <label for="outName">File name</label>
+              <input type="text" id="outName" maxlength="100" autocomplete="off" spellcheck="false">
+            </div>
+          </fieldset>
+
+          <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+          <div class="side-actions">
+            <button class="btn" id="saveBtn" type="button" disabled>Save PDF</button>
+            <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+          </div>
+        </aside>
       </div>
-
-      <div class="status-box" id="status"></div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -136,11 +207,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF file, its pages render as thumbnails.</li>
-        <li>Drag thumbnails to reorder, use ⟲/⟳ to rotate, and ✕ to mark a page for deletion.</li>
-        <li>Use "Add Blank Page" to insert an empty page, or "Reverse Order" to flip the whole document.</li>
-        <li>Click "Save PDF" to download the result.</li>
+        <li>Add a PDF. Its pages appear as thumbnails; the Page size slider makes them bigger or smaller.</li>
+        <li>Click pages to pick them (Shift-click for a range, or type numbers like <code>1-3, 7</code>), then rotate, delete, duplicate or move them with the buttons. Or drag pages into place: the other picked pages travel with the one you drag.</li>
+        <li>Add a blank page or pages from another PDF where you need them, undo anything with Undo, then press "Save PDF".</li>
       </ol>
+      <p class="help-text">Ctrl+Z undoes and Ctrl+Y redoes. A duplicated page is stored twice in the new file, so duplicating many pages makes it bigger. Bookmarks, fillable form fields and links that jump to other pages are not reliably kept when pages are copied into a new file. A PDF that needs a password to open has to be unlocked first with Unlock PDF.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>

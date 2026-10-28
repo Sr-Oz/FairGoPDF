@@ -9,7 +9,7 @@ window.SEARCH_INDEX = [
   { title: "Images to PDF", url: "/images-to-pdf/", icon: "picture_as_pdf", desc: "Combine JPG/PNG images into a single PDF", group: "Convert", category: "PDF Tool" },
   { title: "HEIC to PDF", url: "/heic-to-pdf/", icon: "smartphone", desc: "Turn one or more iPhone HEIC/HEIF photos into a single PDF", alt: "heif iphone photo convert", group: "Convert", category: "PDF Tool" },
   { title: "PDF to Images", url: "/pdf-to-images/", icon: "image", desc: "Export every page as a PNG, JPG or WebP", group: "Convert", category: "PDF Tool" },
-  { title: "Organise PDF Pages", url: "/organise-pdf/", icon: "reorder", desc: "Rotate, delete, reorder, add blank pages, or reverse order", alt: "organize organizer rearrange", group: "Organise", category: "PDF Tool" },
+  { title: "Organise PDF Pages", url: "/organise-pdf/", icon: "reorder", desc: "Reorder, rotate, delete and duplicate pages, add blank pages or pages from another PDF, with undo", alt: "organize organizer rearrange", group: "Organise", category: "PDF Tool" },
   { title: "OCR PDF", url: "/ocr-pdf/", icon: "find_in_page", desc: "Make a scanned PDF searchable and copyable, the text recognition runs on your device", alt: "ocr scan scanned searchable text recognition optical character recognition make searchable", group: "Convert", category: "PDF Tool" },
   { title: "Extract PDF Text", url: "/extract-pdf-text/", icon: "text_fields", desc: "Pull all text out of a PDF to copy or download as .txt", group: "Convert", category: "PDF Tool" },
   { title: "Edit PDF Metadata", url: "/pdf-metadata/", icon: "info", desc: "View, change, or clear title, author, subject and keywords", group: "Protect & Privacy", category: "PDF Tool" },

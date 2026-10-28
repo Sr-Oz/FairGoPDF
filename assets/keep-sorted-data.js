@@ -84,6 +84,8 @@ window.KEEP_SORTED_TOOLS = {
   // ---- PDF tools: conditional (only a source/destination when the actual
   // run produced/used exactly one file — checked at call time, not here) ----
   "pdf-to-images": { title: "PDF to Images", icon: "image", outputKind: "image", acceptsKind: "pdf", conditional: true },
+  // Split PDF usually makes several files (a ZIP), so it is only a source when the run made exactly one PDF.
+  "split-pdf": { title: "Split PDF", icon: "call_split", outputKind: "pdf", acceptsKind: "pdf", conditional: true },
 
   // ---- Image tools: clean single-in/single-out (Tier 2, unconditional) ----
   "crop-rotate-image": { title: "Crop & Rotate Image", icon: "crop", outputKind: "image", acceptsKind: "image" },
