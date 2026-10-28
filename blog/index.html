@@ -64,111 +64,79 @@
 </header>
 
 <main id="main-content">
+  <header class="blog-band pb cw-privacy" style="--px:99px;--py:45px">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span class="sep">/</span><span class="current">Blog</span>
+      </nav>
+      <h1>Blog</h1>
+      <p>Practical, honest writing on document privacy, PDF tools and getting documents done. No fluff, no jargon.</p>
+    </div>
+  </header>
   <div class="container">
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span class="sep">/</span><span class="current">Blog</span>
-    </nav>
-
-    <div class="tool-workspace" style="max-width: 100%;">
-      <section class="blog-hero">
-        <span class="blog-hero-badge"><span class="material-symbols-outlined" style="font-size:1rem;">star</span> Featured Guide</span>
-        <h1><a href="/blog/privacy-law-document-uploads-anz/">What Australian and NZ privacy law says about uploading your documents online</a></h1>
-        <p>The Privacy Act, the Australian Privacy Principles and NZ's Privacy Act 2020 all say something about where your files end up, most people never check.</p>
-        <div class="actions-row">
-          <a class="btn" href="/blog/privacy-law-document-uploads-anz/">
-            Read the guide
-            <span class="material-symbols-outlined" style="font-size:1.1rem;">arrow_forward</span>
-          </a>
-          <span class="meta-readtime"><span class="material-symbols-outlined" style="font-size:1rem;">schedule</span> 6 min read</span>
-        </div>
-      </section>
-
-      <div class="blog-section-head">
-        <h2>More guides</h2>
-      </div>
-
-      <div class="blog-grid">
-        <a class="blog-card" href="/blog/cant-lose-what-they-dont-hold/">
-          <div class="visual"><span class="material-symbols-outlined">lock</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">Privacy</span> · 28 Oct 2026 · 6 min read</span>
-            <h3>They can't lose what they don't hold: what this month's data breaches mean for your documents</h3>
-            <p>Breaches affecting over a million people rose from 4 to 11 in six months. How to share less, starting with tax week.</p>
-          </div>
+    <div class="blog-filters" role="group" aria-label="Filter guides by category">
+      <button class="btn secondary small blog-filter" type="button" data-group="all" aria-pressed="true">All</button>
+      <button class="btn secondary small blog-filter" type="button" data-group="privacy" aria-pressed="false">Privacy</button>
+      <button class="btn secondary small blog-filter" type="button" data-group="industries" aria-pressed="false">Industries</button>
+      <button class="btn secondary small blog-filter" type="button" data-group="guides" aria-pressed="false">PDF guides</button>
+      <p class="blog-status" id="blogStatus" role="status"></p>
+    </div>
+    <div class="blog-grid">
+        <a class="blog-card cw-privacy" href="/blog/cant-lose-what-they-dont-hold/" data-group="privacy">
+          <div class="visual pb" style="--px:20px;--py:44px"></div>
+          <h2>They can't lose what they don't hold: what this month's data breaches mean for your documents</h2>
+          <p class="blog-meta"><span class="tag">Privacy</span><span>28 Oct 2026</span><span>6 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/why-pdf-accessibility-checker-exists/">
-          <div class="visual"><span class="material-symbols-outlined">accessibility_new</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">Accessibility</span> · 30 Sep 2026 · 5 min read</span>
-            <h3>Why Fair Go PDF built a basic PDF accessibility checker</h3>
-            <p>Most PDFs fail screen readers in ways nobody notices until it's too late, what a quick check can and can't tell you.</p>
-          </div>
+        <a class="blog-card cw-industries" href="/blog/pdf-tools-in-vet-and-higher-education/" data-group="industries">
+          <div class="visual pb" style="--px:6px;--py:42px"></div>
+          <h2>How VET providers and universities across Australia and NZ use PDF tools</h2>
+          <p class="blog-meta"><span class="tag">Industries</span><span>30 Sep 2026</span><span>6 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/pdf-tools-in-vet-and-higher-education/">
-          <div class="visual"><span class="material-symbols-outlined">school</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">Education</span> · 30 Sep 2026 · 6 min read</span>
-            <h3>How VET providers and universities across Australia and NZ use PDF tools</h3>
-            <p>RTOs, TAFEs and universities generate huge volumes of assessment, compliance and enrolment paperwork.</p>
-          </div>
+        <a class="blog-card cw-industries" href="/blog/pdf-tools-in-mining-wa/" data-group="industries">
+          <div class="visual pb" style="--px:42px;--py:54px"></div>
+          <h2>How Western Australia's mining industry uses PDF tools</h2>
+          <p class="blog-meta"><span class="tag">Industries</span><span>30 Sep 2026</span><span>6 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/pdf-tools-in-mining-wa/">
-          <div class="visual"><span class="material-symbols-outlined">terrain</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">Mining</span> · 30 Sep 2026 · 6 min read</span>
-            <h3>How Western Australia's mining industry uses PDF tools</h3>
-            <p>Site inductions, safety permits and statutory reporting to DMIRS, where PDF tools actually fit in.</p>
-          </div>
+        <a class="blog-card cw-guides" href="/blog/why-pdf-accessibility-checker-exists/" data-group="guides">
+          <div class="visual pb" style="--px:0px;--py:96px"></div>
+          <h2>Why Fair Go PDF built a basic PDF accessibility checker</h2>
+          <p class="blog-meta"><span class="tag">PDF guides</span><span>30 Sep 2026</span><span>5 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/pdf-tools-across-anz-industries/">
-          <div class="visual"><span class="material-symbols-outlined">corporate_fare</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">Business</span> · 29 Sep 2026 · 6 min read</span>
-            <h3>How different industries across Australia and New Zealand use PDF tools</h3>
-            <p>Real estate, legal, accounting, healthcare, education and trades, how each actually uses these tools.</p>
-          </div>
+        <a class="blog-card cw-privacy" href="/blog/privacy-law-document-uploads-anz/" data-group="privacy">
+          <div class="visual pb" style="--px:93px;--py:27px"></div>
+          <h2>What Australian and NZ privacy law says about uploading your documents online</h2>
+          <p class="blog-meta"><span class="tag">Privacy</span><span>29 Sep 2026</span><span>6 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/share-less-personal-information-online/">
-          <div class="visual"><span class="material-symbols-outlined">visibility_off</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">Privacy</span> · 10 Sep 2026 · 5 min read</span>
-            <h3>Why you should share less personal information online</h3>
-            <p>The safest personal detail is the one you never hand over, and what AU/NZ regulators actually advise.</p>
-          </div>
+        <a class="blog-card cw-industries" href="/blog/pdf-tools-across-anz-industries/" data-group="industries">
+          <div class="visual pb" style="--px:37px;--py:19px"></div>
+          <h2>How different industries across Australia and New Zealand use PDF tools</h2>
+          <p class="blog-meta"><span class="tag">Industries</span><span>29 Sep 2026</span><span>6 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/what-dodgy-websites-do-with-your-details/">
-          <div class="visual"><span class="material-symbols-outlined">gpp_maybe</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">Privacy</span> · 10 Sep 2026 · 6 min read</span>
-            <h3>What actually happens when you hand a dodgy website your details</h3>
-            <p>Identity fraud, SIM-swaps and being sold on, and what to do if you've already entered yours.</p>
-          </div>
+        <a class="blog-card cw-privacy" href="/blog/share-less-personal-information-online/" data-group="privacy">
+          <div class="visual pb" style="--px:119px;--py:17px"></div>
+          <h2>Why you should share less personal information online</h2>
+          <p class="blog-meta"><span class="tag">Privacy</span><span>10 Sep 2026</span><span>5 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/is-it-safe-free-online-pdf-tools/">
-          <div class="visual"><span class="material-symbols-outlined">shield</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">Privacy</span> · 14 Aug 2026 · 6 min read</span>
-            <h3>Is it safe to use free online PDF tools?</h3>
-            <p>What actually happens to your file, and how to verify the privacy claims yourself.</p>
-          </div>
+        <a class="blog-card cw-privacy" href="/blog/what-dodgy-websites-do-with-your-details/" data-group="privacy">
+          <div class="visual pb" style="--px:54px;--py:18px"></div>
+          <h2>What actually happens when you hand a dodgy website your details</h2>
+          <p class="blog-meta"><span class="tag">Privacy</span><span>10 Sep 2026</span><span>6 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/why-pdf-file-size-keeps-growing/">
-          <div class="visual"><span class="material-symbols-outlined">trending_up</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">PDF</span> · 14 Aug 2026 · 5 min read</span>
-            <h3>Why does my PDF file size keep growing?</h3>
-            <p>The real causes of PDF bloat, embedded fonts, leftover edit history, oversized images.</p>
-          </div>
+        <a class="blog-card cw-privacy" href="/blog/is-it-safe-free-online-pdf-tools/" data-group="privacy">
+          <div class="visual pb" style="--px:93px;--py:75px"></div>
+          <h2>Is it safe to use free online PDF tools?</h2>
+          <p class="blog-meta"><span class="tag">Privacy</span><span>14 Aug 2026</span><span>6 min read</span></p>
         </a>
-        <a class="blog-card" href="/blog/pdf-vs-jpg-scanned-documents/">
-          <div class="visual"><span class="material-symbols-outlined">compare_arrows</span></div>
-          <div class="body">
-            <span class="blog-meta"><span class="tag">PDF &amp; Images</span> · 14 Aug 2026 · 6 min read</span>
-            <h3>PDF vs JPG: which should you use for scanned documents?</h3>
-            <p>What each format is actually built for, and how to convert between them.</p>
-          </div>
+        <a class="blog-card cw-guides" href="/blog/why-pdf-file-size-keeps-growing/" data-group="guides">
+          <div class="visual pb" style="--px:16px;--py:88px"></div>
+          <h2>Why does my PDF file size keep growing?</h2>
+          <p class="blog-meta"><span class="tag">PDF guides</span><span>14 Aug 2026</span><span>5 min read</span></p>
         </a>
-      </div>
+        <a class="blog-card cw-guides" href="/blog/pdf-vs-jpg-scanned-documents/" data-group="guides">
+          <div class="visual pb" style="--px:90px;--py:102px"></div>
+          <h2>PDF vs JPG: which should you use for scanned documents?</h2>
+          <p class="blog-meta"><span class="tag">PDF guides</span><span>14 Aug 2026</span><span>6 min read</span></p>
+        </a>
     </div>
   </div>
 </main>
@@ -257,5 +225,6 @@
 <script src="/assets/search-data.js"></script>
 <script src="/assets/search.js"></script>
 <script src="/assets/site.js"></script>
+<script src="/assets/blog.js"></script>
 </body>
 </html>

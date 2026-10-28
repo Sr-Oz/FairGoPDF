@@ -9,8 +9,8 @@ the note on content model below if you're wondering why.
 1. **Pick a slug** — lowercase, hyphenated, descriptive (e.g. `password-protect-a-pdf`).
 2. **Create the folder**: `blog/<slug>/index.html`. This gives the post a clean URL:
    `/blog/<slug>/`.
-3. **Copy an existing post** as your starting template — `blog/compress-pdf-without-losing-quality/index.html`
-   is a good reference since it has all the pieces: breadcrumb, byline, body, FAQ block, CTA,
+3. **Copy an existing post** as your starting template — `blog/cant-lose-what-they-dont-hold/index.html`
+   is a good reference since it has all the pieces: header band, body, FAQ block, CTA,
    related-guides links, and both JSON-LD schema blocks.
 4. **Fill in these required pieces**:
    - `<title>` — unique, under ~60 characters, ends with `| Fair Go PDF`.
@@ -22,21 +22,33 @@ the note on content model below if you're wondering why.
    - If the post has an FAQ section, add a matching `FAQPage` JSON-LD block (see any existing post
      for the shape) — the questions/answers should be word-for-word identical to what's visibly on
      the page.
-   - Breadcrumb nav (`Home / Blog / <short title>`).
-   - `<p class="byline">` — publish date and a rough read time (~200 words/minute).
+   - The header band: `<header class="post-band pb cw-<group>">` holds the breadcrumb (`Home / Blog / <short title>`),
+     the `<h1>` and a `post-meta` row with the group tag, the publish date and a rough read time (~200 words/minute).
+     The group is one of `privacy`, `industries` or `guides` (shown as Privacy, Industries and PDF guides); it sets
+     the band's colours. Give the band its own `--px` and `--py` (any pixel offsets) so its pattern differs from the others.
+   - The share image: add the post to `scripts/blog-cards/posts.json` (slug, group, date, a short headline with the
+     highlighted words in `{braces}`, and one sentence), then render it (see below) and point `og:image`,
+     `twitter:image` and the `BlogPosting` schema's `image` at `/assets/img/blog/<slug>.png`.
    - Body: intro paragraph, `<h2>` subheadings, a `.cta-box` linking to the relevant tool page, an
      FAQ block using `.faq-item` (`<details><summary>`) if 2–3 questions fit naturally, and a
      "Related guides" list linking to at least one other post.
    - Header and footer — copy verbatim from another post; don't hand-edit them (they should be
      identical across every page on the site).
-5. **Add a card to `blog/index.html`** — copy one of the existing `.tool-card` entries, update the
-   icon (any [Material Symbols](https://fonts.google.com/icons) name), link, category tag, date,
-   read time, title and excerpt.
+5. **Add a card to `blog/index.html`** — copy one of the existing `.blog-card` entries, newest first, and set its
+   group (`cw-<group>` on the link and the matching `data-group`), link, `--px`/`--py`, title (an `<h2>`), tag, date and
+   read time. The thumbnail is drawn by CSS, so no image is needed. The filter buttons need no change unless a new group is added.
 6. **Add the URL to `/sitemap.xml`** at the repo root.
 7. **Cross-link**: add a link to the new post from at least one existing related post's "Related
    guides" section, and make sure the new post links to at least one tool page and one other post.
 8. **Test locally** (see the main [README](../README.md) for how to run a local server), then check
    the page in a browser: breadcrumb, FAQ accordion (if present) expands/collapses, all links work.
+
+## Rendering a share image
+
+The share image is a 1200 x 630 PNG made from `scripts/blog-cards/card.html`, which draws the post's colours, the page
+pattern, the headline and the sentence. Start the helper with `node scripts/blog-cards/save-server.mjs`, then open
+`http://localhost:5051/scripts/blog-cards/card.html?post=<slug>&export=1` in a browser. The page saves
+`assets/img/blog/<slug>.png` itself and sets its tab title to "saved" when it is done.
 
 ## Content requirements
 

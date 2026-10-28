@@ -16,7 +16,7 @@ import sys
 from urllib.parse import unquote, urlparse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP_DIRS = {".git", ".claude", "node_modules"}
+SKIP_DIRS = {".git", ".claude", "node_modules", "scripts"}  # scripts holds tooling, including the blog card template, which is not a page
 NOT_IN_SITEMAP = ("404.html", "partials/", "design-system/")
 SITE = "https://fairgopdf.au"
 

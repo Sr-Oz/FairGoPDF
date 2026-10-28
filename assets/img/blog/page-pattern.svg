@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="240" viewBox="0 0 200 240">
+  <!-- A scatter of pages with folded corners. Only the shapes' opacity matters: CSS uses this as a mask over a colour. -->
+  <g fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M22 18H76L104 46V128a6 6 0 0 1-6 6H22a6 6 0 0 1-6-6V24a6 6 0 0 1 6-6Z"/>
+    <path d="M76 18V46H104"/>
+    <path d="M120 70H158L184 96V158a6 6 0 0 1-6 6H120a6 6 0 0 1-6-6V76a6 6 0 0 1 6-6Z"/>
+    <path d="M158 70V96H184"/>
+  </g>
+  <g fill="#000">
+    <path d="M40 160H80L100 180V228a6 6 0 0 1-6 6H40a6 6 0 0 1-6-6V166a6 6 0 0 1 6-6Z" fill-opacity=".55"/>
+    <rect x="30" y="76" width="56" height="6" rx="3"/>
+    <rect x="30" y="92" width="44" height="6" rx="3"/>
+    <rect x="30" y="108" width="30" height="6" rx="3"/>
+    <rect x="128" y="112" width="44" height="6" rx="3"/>
+    <rect x="128" y="128" width="32" height="6" rx="3"/>
+  </g>
+</svg>
