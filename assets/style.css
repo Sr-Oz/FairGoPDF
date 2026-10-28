@@ -2622,6 +2622,7 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
 }
 
 .footer-support-cta .btn {
+  display: inline-flex; /* .footer-col a makes links block, which would drop the button's centring */
   background: #fff9f2;
   color: #004D40;
 }
