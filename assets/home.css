@@ -71,6 +71,8 @@ html { scrollbar-color: var(--color-muted) var(--color-paper); }
 
 .home :focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
 .home .hero :focus-visible, .home:not(.scrolled) .site-header :focus-visible { outline-color: var(--color-hero-focus); }
+/* the open menu is a pale panel, not the video, so the header's rings take the normal colour again */
+html.nav-open .home .site-header :focus-visible { outline-color: var(--color-focus); }
 
 /* ---------- hero: the head over the video, the promises as a glass rail ---------- */
 
