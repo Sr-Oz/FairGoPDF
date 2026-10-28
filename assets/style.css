@@ -15,6 +15,7 @@
   --brand-dark: #00332B;
   --brand-contrast: #ffffff;
   --accent: #FFD700;
+  --on-teal: #fff9f2; /* the cream used for text and focus rings on the teal footer, consent bar and blog header */
   --success: #16a34a;
   --danger: #ba1a1a;
   --card-shadow: 0 1px 2px rgba(0, 77, 64, 0.05), 0 8px 24px rgba(0, 77, 64, 0.08);
@@ -1453,15 +1454,26 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 .file-list li .meta { color: var(--text-muted); font-size: 0.82rem; white-space: nowrap; }
 
 .file-list li button.remove {
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  height: 32px;
   background: none;
   border: none;
+  border-radius: 8px;
   color: var(--text-muted);
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
-  padding: 4px;
+  padding: 0 4px;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-.file-list li button.remove:hover { color: var(--danger); }
+@media (hover: hover) {
+  .file-list li button.remove:hover { color: var(--text); background: var(--bg-alt); }
+  .file-list li button.remove:last-child:hover { color: var(--danger); } /* the remove button is always the last one on a card */
+}
+.file-list li button.remove:disabled { opacity: 0.4; color: var(--text-muted); background: none; cursor: not-allowed; }
+@media (pointer: coarse) { .file-list li button.remove { min-width: 44px; height: 44px; } }
 
 /* Merge PDF: one card per file, with the first page as the picture. Drag a card to move it. */
 .file-list.file-cards {
@@ -1526,7 +1538,6 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   line-height: 1.3;
 }
 .file-cards .card-actions { display: flex; justify-content: center; gap: 10px; padding: 4px 6px 8px; }
-.file-cards .card-actions button:disabled { opacity: 0.3; cursor: default; }
 
 .page-thumb-grid {
   display: grid;
@@ -1591,14 +1602,19 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 }
 
 .page-thumb .thumb-actions button {
+  min-width: 28px;
+  height: 28px;
   border: none;
+  border-radius: 6px;
   background: none;
   cursor: pointer;
   font-size: 0.95rem;
   color: var(--text-muted);
-  padding: 2px 4px;
+  padding: 0 4px;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-.page-thumb .thumb-actions button:hover { color: var(--text); }
+@media (hover: hover) { .page-thumb .thumb-actions button:hover { color: var(--text); background: var(--bg-alt); } }
+@media (pointer: coarse) { .page-thumb .thumb-actions button { min-width: 44px; height: 44px; } }
 
 .controls-row {
   display: flex;
@@ -1676,39 +1692,59 @@ body.scrolled:has(.hero) .site-header .icon-btn {
   cursor: pointer;
 }
 
+/* Buttons. A flat filled primary and an outlined secondary, each with a small size; the fill carries the hierarchy, so
+   neither floats on a shadow. A <button> does not inherit the page font on its own, hence the first rule. */
+button { font-family: inherit; }
+
+/* One keyboard ring for every button-like control; rules with their own ring (.qr-*, .pw-*) keep theirs. */
+button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 11px 22px;
+  min-height: 44px;
+  padding: 0 24px;
+  border: 1px solid transparent;
   border-radius: 999px;
-  border: none;
   background: var(--brand);
   color: var(--brand-contrast);
   font-size: 0.95rem;
   font-weight: 700;
-  box-shadow: 0 20px 25px -5px rgba(0, 77, 64, 0.18), 0 8px 10px -6px rgba(0, 77, 64, 0.16);
+  line-height: 1.2;
+  text-align: center;
   cursor: pointer;
-  transition: background 0.15s ease, opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 }
-
-.btn:hover {
-  background: var(--brand-dark);
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 24px 32px -8px rgba(0, 77, 64, 0.32), 0 10px 14px -6px rgba(0, 77, 64, 0.22);
+.btn:focus-visible { outline-offset: 3px; }
+/* on the teal footer, consent bar and blog header the teal ring would vanish, so it goes cream like their buttons */
+.site-footer .btn:focus-visible, .fgp-consent-bar .btn:focus-visible, .blog-hero .btn:focus-visible { outline-color: var(--on-teal); }
+@media (hover: hover) {
+  .btn:hover { background: var(--brand-dark); text-decoration: none; }
 }
-.btn:active { transform: translateY(0) scale(0.98); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn:active { transform: translateY(1px); }
+/* Disabled changes the fill, the text and the cursor together, so it never reads as just a faded button. */
+.btn:disabled, .btn[aria-disabled="true"] { background: var(--border); color: var(--text-muted); cursor: not-allowed; transform: none; }
 
 .btn.secondary {
-  background: var(--bg-alt);
+  background: var(--bg);
   color: var(--text);
-  border: 1px solid var(--border);
+  border-color: color-mix(in srgb, var(--text) 40%, var(--bg));
 }
-.btn.secondary:hover { background: var(--border); }
+@media (hover: hover) {
+  .btn.secondary:hover { background: var(--bg-alt); border-color: var(--brand); }
+}
+.btn.secondary:disabled, .btn.secondary[aria-disabled="true"] { background: var(--bg-alt); border-color: var(--border); color: var(--text-muted); }
 
-.btn.small { padding: 7px 14px; font-size: 0.85rem; }
+.btn.small { min-height: 36px; padding: 0 16px; font-size: 0.85rem; }
+@media (pointer: coarse) { .btn.small { min-height: 44px; } }
+/* the header icons stay 36px so the row fits a phone; an invisible 4px margin brings the tap area to 44px */
+@media (pointer: coarse) {
+  .icon-btn, .header-support-btn { position: relative; }
+  .icon-btn::before, .header-support-btn::before { content: ""; position: absolute; inset: -4px; }
+}
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:active { transform: none; } }
 
 .actions-row {
   display: flex;
