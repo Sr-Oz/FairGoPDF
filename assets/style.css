@@ -3678,3 +3678,14 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .file-btn { position: relative; cursor: pointer; }
 .file-btn input { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
 .file-btn:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* PDF to Word: the result with its preview, and the scan notice */
+.no-text { padding: 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
+.no-text[hidden] { display: none; }
+.no-text p { margin: 8px 0 14px; }
+.word-notes { margin: 0 0 10px; padding-left: 1.2rem; color: var(--text-muted); font-size: 0.9rem; }
+.word-preview { max-height: 70vh; overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: #e6e6e6; }
+.word-preview:empty { display: none; }
+.word-preview .docx-wrapper { padding: 12px; background: transparent; zoom: var(--fit, 1); }
+.word-preview .docx-wrapper > section.docx { box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25); margin-bottom: 12px; color: #000; }
+.results.is-stale .word-preview { opacity: 0.45; }

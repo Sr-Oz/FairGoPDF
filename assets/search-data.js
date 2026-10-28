@@ -52,7 +52,7 @@ window.SEARCH_INDEX = [
   { title: "Excel to PDF", url: "/excel-to-pdf/", icon: "table_view", desc: "Turn an Excel or OpenDocument spreadsheet into a paginated PDF table", group: "Convert", category: "PDF Tool" },
   { title: "RTF to PDF", url: "/rtf-to-pdf/", icon: "text_snippet", desc: "Turn a Rich Text (.rtf) file into a PDF, paragraphs and bold/italic carry across", group: "Convert", category: "PDF Tool" },
   { title: "EPUB to PDF", url: "/epub-to-pdf/", icon: "auto_stories", desc: "Turn an EPUB ebook into a PDF, chapters kept in reading order", group: "Convert", category: "PDF Tool" },
-  { title: "PDF to Word", url: "/pdf-to-word/", icon: "swap_horiz", desc: "Turn a PDF into an editable Word (.docx) document", group: "Convert", category: "PDF Tool" },
+  { title: "PDF to Word", url: "/pdf-to-word/", icon: "swap_horiz", desc: "Turn a PDF into an editable Word (.docx) with paragraphs, headings, lists, links and pictures, and preview it first", group: "Convert", category: "PDF Tool" },
   { title: "PDF Annotator", url: "/pdf-annotator/", icon: "draw", desc: "Highlight text, freehand draw and add sticky notes to a PDF", group: "Edit & Design", category: "PDF Tool" },
   { title: "PDF Scanner", url: "/pdf-scanner/", icon: "document_scanner", desc: "Turn a photo of a document into a clean, straightened PDF using your camera", group: "Convert", category: "PDF Tool" },
   { title: "CBZ to PDF", url: "/cbz-to-pdf/", icon: "auto_stories", desc: "Turn a CBZ comic book archive into a PDF, reorder or drop pages first", group: "Convert", category: "PDF Tool" },

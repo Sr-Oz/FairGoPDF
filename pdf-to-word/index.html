@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Convert PDF to Word Online Free | Fair Go PDF</title>
-<meta name="description" content="Turn a PDF into an editable Word (.docx) document, free and right in your browser. No upload, no signup.">
+<meta name="description" content="Turn a PDF into an editable Word (.docx) document with paragraphs, headings, bold, lists, links and pictures, and check it in a preview. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/pdf-to-word/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Convert PDF to Word Online Free">
-<meta property="og:description" content="Turn a PDF into an editable Word (.docx) document, free and right in your browser. No upload, no signup.">
+<meta property="og:description" content="Turn a PDF into an editable Word (.docx) document with paragraphs, headings, bold, lists, links and pictures, and check it in a preview. Free, in your browser, no upload or signup.">
 <meta property="og:url" content="https://fairgopdf.au/pdf-to-word/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Convert PDF to Word Online Free">
-<meta name="twitter:description" content="Turn a PDF into an editable Word (.docx) document, free and right in your browser. No upload, no signup.">
+<meta name="twitter:description" content="Turn a PDF into an editable Word (.docx) document with paragraphs, headings, bold, lists, links and pictures, and check it in a preview. Free, in your browser, no upload or signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,23 +77,109 @@
     </script>
     <div class="tool-page-header">
       <h1>PDF to Word</h1>
-      <p>Turn a PDF into an editable Word document. Processed locally, nothing is uploaded.</p>
+      <p>Turn a PDF into an editable Word document that keeps its paragraphs, headings, bold and italic, lists, links, pictures and page size. Check the result in a preview before you download it. Processed locally, nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">swap_horiz</span></div>
-        <div class="dz-title">Drop a PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">swap_horiz</span></div>
+            <div class="dz-title">Drop a PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
+          </div>
+
+          <p class="file-bar" id="fileBar" hidden></p>
+
+          <div class="status-box" id="status"></div>
+
+          <div class="no-text" id="noText" hidden>
+            <h2 class="result-title">This PDF has no text to convert</h2>
+            <p>It looks like a scan: the pages are pictures of text, so there are no letters to put in a Word document. Run <strong>OCR PDF</strong> first, which reads the text on each page on your device, then come back here.</p>
+            <button class="btn" id="ocrBtn" type="button">Send this PDF to OCR PDF</button>
+          </div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your Word document</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn small" id="downloadBtn" type="button">Download Word document</button>
+            </div>
+            <ul class="word-notes" id="wordNotes"></ul>
+            <p class="help-text ci-stale" id="staleNote" hidden>The settings have changed since this was made. Press Create Word document again to use them.</p>
+            <p class="help-text">This is a preview of the file made here. Word and other programs may lay it out a little differently, and the fonts depend on what is installed.</p>
+            <div class="word-preview" id="preview" aria-label="Preview of the Word document"></div>
+          </div>
+        </div>
+
+        <aside class="qr-preview side-settings side-sticky" aria-label="Conversion settings">
+          <fieldset class="qr-group">
+            <legend>Pages</legend>
+            <div class="qr-field">
+              <label for="pageRange">Pages to convert</label>
+              <input type="text" id="pageRange" placeholder="All pages, or 1-3, 7, 10-" autocomplete="off" spellcheck="false">
+              <span class="card-range-note" id="rangeNote"></span>
+            </div>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Layout</legend>
+            <div class="qr-field">
+              <label for="pageMode">Pages in Word</label>
+              <select id="pageMode">
+                <option value="flow">Flow the text on continuously</option>
+                <option value="keep">Start each PDF page on a new page</option>
+              </select>
+            </div>
+            <div class="qr-field qr-check"><input type="checkbox" id="usePdfPage" checked><label for="usePdfPage">Use the PDF's page size and margins</label></div>
+            <div class="qr-field qr-check"><input type="checkbox" id="columns" checked><label for="columns">Read two-column pages one column at a time</label></div>
+            <div class="qr-field qr-check"><input type="checkbox" id="dropRunning" checked><label for="dropRunning">Leave out headers, footers and page numbers</label></div>
+            <div class="qr-field qr-check"><input type="checkbox" id="joinHyphens" checked><label for="joinHyphens">Join words split across lines</label></div>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Keep</legend>
+            <div class="qr-field qr-check"><input type="checkbox" id="styling" checked><label for="styling">Headings, bold, italic and font sizes</label></div>
+            <div class="qr-field qr-check"><input type="checkbox" id="lists" checked><label for="lists">Bullet and numbered lists</label></div>
+            <div class="qr-field qr-check"><input type="checkbox" id="links" checked><label for="links">Links</label></div>
+            <div class="qr-field qr-check"><input type="checkbox" id="images" checked><label for="images">Pictures</label></div>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>Document</legend>
+            <div class="qr-field">
+              <label for="language">Language for the spell checker</label>
+              <select id="language">
+                <option value="">Leave it to Word</option>
+                <option value="en-AU">English (Australia)</option>
+                <option value="en-NZ">English (New Zealand)</option>
+                <option value="en-GB">English (United Kingdom)</option>
+                <option value="en-US">English (United States)</option>
+                <option value="mi-NZ">Māori</option>
+                <option value="fr-FR">French</option>
+                <option value="de-DE">German</option>
+                <option value="es-ES">Spanish</option>
+                <option value="it-IT">Italian</option>
+                <option value="pt-PT">Portuguese</option>
+                <option value="nl-NL">Dutch</option>
+              </select>
+            </div>
+            <div class="qr-field">
+              <label for="outName">File name</label>
+              <input type="text" id="outName" maxlength="100" autocomplete="off" spellcheck="false">
+            </div>
+          </fieldset>
+
+          <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+          <div class="side-actions">
+            <button class="btn" id="runBtn" type="button" disabled>Create Word document</button>
+            <button class="btn secondary" id="stopBtn" type="button" hidden>Stop</button>
+            <button class="btn secondary" id="clearBtn" type="button" disabled>Clear</button>
+          </div>
+        </aside>
       </div>
 
-      <div class="actions-row" id="actionsRow" style="display:none;">
-        <button class="btn" id="runBtn">Create Word Document</button>
-        <button class="btn secondary" id="clearBtn">Clear</button>
-      </div>
-
-      <div class="status-box" id="status"></div>
     </div>
 
     <section class="related-tools-section">
@@ -117,11 +203,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Drop in a PDF file.</li>
-        <li>Click "Create Word Document".</li>
-        <li>A .docx file downloads, with each page's text turned into editable paragraphs.</li>
+        <li>Add a PDF. Choose which pages to convert, and how: keep going continuously or start each PDF page on a new page, and what to keep (headings, bold and italic, lists, links, pictures).</li>
+        <li>Press "Create Word document". The text is read with its position and size on each page, then put back together as paragraphs, headings and lists, with two-column pages read one column at a time.</li>
+        <li>Look over the preview, then download the .docx and open it in Word or any other program that reads .docx files.</li>
       </ol>
-      <p class="help-text">This pulls out the text and reflows it into plain paragraphs, it can't reconstruct the original layout, columns, fonts or images. A PDF made from scanned pages has no text to extract at all.</p>
+      <p class="help-text">This works from where text sits on the page, so it suits letters, reports, contracts and articles best. It cannot rebuild tables, text boxes, drawings, form fields or right-to-left text, and a PDF made of scanned pictures has no text to convert until OCR PDF has read it. Tables come out as lines of text separated by tabs, and shapes drawn as lines or graphics are left out. Headers, footers and page numbers are found by looking for text that repeats at the top or bottom of the pages, so a short document may keep some of them. You can turn each of these choices off if the result looks wrong.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -212,6 +298,8 @@
 <script src="/assets/tool-names.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
+<script src="/assets/vendor/docx/jszip.min.js"></script>
+<script src="/assets/vendor/docx/docx-preview.min.js"></script>
 <script type="module" src="/assets/tools/pdf-to-word.js"></script>
 <script src="/assets/share.js"></script>
 <script src="/assets/search-data.js"></script>
