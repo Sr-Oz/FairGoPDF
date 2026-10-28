@@ -2487,6 +2487,7 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
 }
 
 .info-section li { margin-bottom: 6px; }
+.info-section blockquote { margin: 20px 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--brand); font-size: 1.15rem; font-weight: 600; line-height: 1.5; }
 
 .cursor {
   display: inline-block;
