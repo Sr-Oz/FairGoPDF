@@ -277,7 +277,9 @@ html.nav-js .nav-links.anim.open { transition: opacity 0.22s ease, visibility 0s
   opacity: 0;
   pointer-events: none;
 }
-.nav-links .menu-row.is-active > .menu-panel { visibility: visible; opacity: 1; pointer-events: auto; }
+/* Only while the menu is open: a child's own visibility beats its hidden parent's, so without .open here the closed menu's active
+   panel stayed visible to the pointer and the keyboard, an invisible layer over the page that swallowed hovers and clicks. */
+.nav-links.open .menu-row.is-active > .menu-panel { visibility: visible; opacity: 1; pointer-events: auto; }
 
 .nav-links .menu-all {
   display: inline-block;
