@@ -62,7 +62,8 @@ def main():
                 problems.append(f"{rel}: invalid JSON-LD ({str(e)[:60]})")
         if re.search(r"<img(?![^>]*\balt=)[^>]*>", html):
             problems.append(f"{rel}: image without alt text")
-        if not rel.startswith(NOT_IN_SITEMAP):
+        # a page that asks search engines to skip it (the hidden workbench) is not meant to be in the sitemap
+        if not rel.startswith(NOT_IN_SITEMAP) and not re.search(r'<meta name="robots" content="[^"]*noindex', html):
             served.add(url_path)
 
     problems += [f"duplicate title {t!r}: {', '.join(v)}" for t, v in titles.items() if len(v) > 1]

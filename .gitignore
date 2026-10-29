@@ -10,3 +10,6 @@ node_modules/
 *.key
 credentials.json
 service-account*.json
+
+# The workbench page source and its passphrase stay off GitHub; only the encrypted page is committed (see scripts/lab/build.mjs)
+scripts/lab/source/
