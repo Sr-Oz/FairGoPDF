@@ -1,5 +1,5 @@
 /* Hallmark · shape: Directory (head and rail, a grouped tool index) · genre: modern-minimal · theme: dusk (brand palette, day and night) · redesign: full
- * paper: oklch(98% 0.003 100) · accent: oklch(35% 0.075 178) · display: Manrope · body: Manrope · hero: Stage · nav: kept · footer: kept · signature: the four promises as one smoked-glass rail across the video's lower edge
+ * paper: #F5F2E8 · accent: #171614 ink with the #E8F36B marker · display: Manrope · body: Manrope · hero: Stage · nav: kept · footer: kept · signature: the four promises as one smoked-glass rail across the video's lower edge
  * axes: light/grotesk-sans/chromatic-teal · posture: committed · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, the video is the project's own café clip rather than a landscape at dusk, so the "hour" is warm lamp light; kept because it is the real product story (a person using a tablet) and a stock landscape would be invented */
 /* Hallmark · dismissed 58 · the page is a directory of 79 tools, and their names and one-line descriptions are the content, so the word budget is the index itself */
@@ -28,33 +28,33 @@
   --home-width: 1240px; --gutter: 32px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
 
-  /* day: the site's light mode */
-  --color-paper: #f9f9f7; --color-paper-2: #f4f4f2; --color-surface: #ffffff;
-  --color-ink: #1c1b1b; --color-ink-2: #33433d; --color-muted: #566860; --color-rule: #dde5e2;
-  --color-accent: #004D40; --color-accent-ink: #ffffff; --color-accent-hi: #00695c; --color-focus: #00796b;
-  --color-chip: #e2eeeb; --color-chip-ink: #004D40;
-  --shadow-card: 0 1px 2px rgb(0 77 64 / 0.05), 0 10px 28px -14px rgb(0 77 64 / 0.22);
-  --shadow-card-hover: 0 18px 36px -14px rgb(0 77 64 / 0.28), 0 4px 12px rgb(0 77 64 / 0.1);
+  /* day: the site's light mode, the newspaper palette: paper, ink and the marker */
+  --color-paper: #F5F2E8; --color-paper-2: #ECE7D8; --color-surface: #FAF8F1;
+  --color-ink: #171614; --color-ink-2: #3A3833; --color-muted: #5D5A52; --color-rule: #D8D2C0;
+  --color-accent: #171614; --color-accent-ink: #F5F2E8; --color-accent-hi: #000000; --color-focus: #171614;
+  --color-chip: #E6E0CF; --color-chip-ink: #171614;
+  --shadow-card: 0 1px 2px rgb(23 22 20 / 0.06), 0 10px 28px -14px rgb(23 22 20 / 0.22);
+  --shadow-card-hover: 0 18px 36px -14px rgb(23 22 20 / 0.28), 0 4px 12px rgb(23 22 20 / 0.1);
   --edge-card: inset 0 0 0 1px transparent;
 
   /* the hero is always dusk, whichever mode the page is in */
-  --color-shade: #0b1211; --color-hero-ink: #f6f5f1; --color-hero-muted: #d3dfda;
-  --color-hero-accent: #4ECDC4; --color-hero-accent-ink: #052e26; --color-hero-accent-hi: #7EE8DA; --color-hero-focus: #7EE8DA;
-  --color-gold: #FFD700;
-  --glass: rgb(14 22 21 / 0.78); --glass-blur: 22px; --glass-rule: rgb(255 255 255 / 0.1);
+  --color-shade: #0d0d0b; --color-hero-ink: #f6f5f1; --color-hero-muted: #d8d5cc;
+  --color-hero-accent: #E8F36B; --color-hero-accent-ink: #171614; --color-hero-accent-hi: #F4FB9B; --color-hero-focus: #F4FB9B;
+  --color-gold: #E8F36B; /* the marker; the name is from when it was gold */
+  --glass: rgb(18 17 15 / 0.78); --glass-blur: 22px; --glass-rule: rgb(255 255 255 / 0.1);
   --glass-edge: inset 0 1px 0 rgb(255 255 255 / 0.14), inset 0 0 0 1px rgb(255 255 255 / 0.06);
   --shadow-glass: 0 22px 36px -26px rgb(0 0 0 / 0.5);
   --edge-btn: inset 0 1px 0 rgb(255 255 255 / 0.3); --edge-btn-pressed: inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
 :root[data-theme="dark"] {
-  /* night: the site's dark mode, Dusk's slate in the brand's teal */
-  --color-paper: #131817; --color-paper-2: #1a201f; --color-surface: #1c2423;
-  --color-ink: #f3f2ee; --color-ink-2: #cdd8d4; --color-muted: #9db0aa; --color-rule: #2b3634;
-  --color-accent: #4ECDC4; --color-accent-ink: #052e26; --color-accent-hi: #7EE8DA; --color-focus: #7EE8DA;
-  --color-chip: rgb(78 205 196 / 0.14); --color-chip-ink: #4ECDC4;
+  /* night: the site's dark mode, charcoal with the marker as the signal */
+  --color-paper: #141412; --color-paper-2: #1D1C19; --color-surface: #1C1B18;
+  --color-ink: #F2EEE2; --color-ink-2: #CFCABB; --color-muted: #B8B3A4; --color-rule: #34322C;
+  --color-accent: #E8F36B; --color-accent-ink: #141412; --color-accent-hi: #F4FB9B; --color-focus: #F4FB9B;
+  --color-chip: rgb(232 243 107 / 0.14); --color-chip-ink: #E8F36B;
   --shadow-card: 0 20px 40px -24px rgb(0 0 0 / 0.7);
-  --shadow-card-hover: 0 24px 44px -18px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(78 205 196 / 0.35);
+  --shadow-card-hover: 0 24px 44px -18px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(232 243 107 / 0.35);
   --edge-card: inset 0 1px 0 rgb(255 255 255 / 0.07);
 }
 
@@ -105,16 +105,25 @@ html.nav-open .home .site-header :focus-visible { outline-color: var(--color-foc
   font-size: var(--text-display);
   font-weight: var(--display-weight);
   letter-spacing: var(--tracking-display);
-  line-height: 1.04;
+  line-height: 1.16; /* room for the marker block, which is taller than the line */
   overflow-wrap: break-word;
   min-width: 0;
   text-wrap: balance;
   color: var(--color-hero-ink);
 }
 .home .hero .gradient-text {
-  background: none;
+  /* The marker is a block that hugs the lettering (a line height of 1) rather than the whole font box, which reached up into the line
+     above and hid the tail of the p in "simple". The space above it keeps that tail clear. */
+  display: inline-block;
+  margin: 0.1em 0 0 -0.28em;
+  padding: 0.06em 0.28em 0.1em;
+  border-radius: 3px;
+  background: var(--color-gold);
   -webkit-text-fill-color: currentColor;
-  color: var(--color-gold);
+  color: var(--color-accent-ink);
+  line-height: 1;
+  /* The negative left margin pulls the block's own left padding back out, so the text inside starts at the same edge as the lines above,
+     and the l of "tools" stands directly under the p of "simple" (measured within a quarter of a pixel at any width: both scale with the type). */
 }
 .home .hero p {
   max-width: 30ch;
@@ -137,12 +146,11 @@ html.nav-open .home .site-header :focus-visible { outline-color: var(--color-foc
   font-family: var(--font-body);
   font-size: 0.9375rem;
   font-weight: 700;
-  box-shadow: var(--edge-btn);
-  transition: background var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+  /* the outline, the hard shadow, the lift on hover and the press come from the site's .btn in style.css */
 }
-.home main .btn:hover { background: var(--color-accent-hi); transform: translateY(-1px); box-shadow: var(--edge-btn), 0 8px 24px -8px var(--color-accent); }
-.home main .btn:active { transform: translateY(0); box-shadow: var(--edge-btn-pressed); }
-.home main .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+.home main .btn:hover { background: var(--color-accent-hi); }
+/* on the video a dark outline and an accent shadow would vanish, so both go light */
+.home .hero .btn { border-color: var(--color-hero-ink); --btn-shadow: var(--color-hero-ink); }
 
 .home main > .container:has(.trust-signals) { max-width: var(--home-width); padding-inline: var(--gutter); position: relative; z-index: 3; }
 .home .trust-signals {

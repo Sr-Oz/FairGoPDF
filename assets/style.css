@@ -1,50 +1,51 @@
 /* Free Online Tools for Images and PDFs — shared styles */
 
-/* Golden Wattle Modern: --brand is the Deep Eucalyptus Teal (#004D40),
-   matching the Southern Cross mark; --accent is the vibrant wattle gold
-   (#FFD700), reserved for badges, gradients and text on dark backgrounds
-   (it fails contrast as body text on the light --bg, so it's never used
-   for that here). */
+/* Newspaper: paper, ink and a marker. --brand is the ink; --accent is the marker (#E8F36B), which carries highlights, badges and the
+   text on dark grounds (it fails contrast as text on the light --bg, so it never sets text there). --teal-deep and --on-teal keep their
+   old names for the dark grounds (footer, consent bar, blog bands) so the rules that use them need no edits; --teal-deep is now ink. */
 :root {
-  --bg: #f9f9f7;
-  --bg-alt: #f4f4f2;
-  --text: #1c1b1b;
-  --text-muted: #5a6b64;
-  --border: #dde5e2;
-  --brand: #004D40;
-  --brand-dark: #00332B;
-  --brand-contrast: #ffffff;
-  --accent: #FFD700;
-  --on-accent: #00332B; /* dark text for use on the gold accent, in both themes */
-  --teal-deep: #004D40; /* the brand teal, kept the same in both themes for blog grounds */
-  --mint: #d6ebe5;
-  --on-teal: #fff9f2; /* the cream used for text and focus rings on the teal footer, consent bar and blog header */
+  --bg: #F5F2E8;
+  --bg-alt: #ECE7D8;
+  --text: #171614;
+  --text-muted: #5D5A52;
+  --border: #D8D2C0;
+  --brand: #171614;
+  --brand-dark: #000000;
+  --brand-contrast: #F5F2E8;
+  --accent: #E8F36B;
+  --on-accent: #171614; /* dark text for use on the marker, in both themes */
+  --teal-deep: #171614; /* the dark ground, kept as ink in the light theme and a lifted charcoal in the dark one */
+  --mint: #E6E0CF;
+  --on-teal: #F5F2E8; /* paper-coloured text and focus rings on the dark footer, consent bar and blog bands */
   --success: #16a34a;
   --danger: #ba1a1a;
-  --card-shadow: 0 1px 2px rgba(0, 77, 64, 0.05), 0 8px 24px rgba(0, 77, 64, 0.08);
+  --card-shadow: 0 1px 2px rgba(23, 22, 20, 0.06), 0 8px 24px rgba(23, 22, 20, 0.08);
   --radius: 10px;
   --max-width: 1080px;
   --font-heading: "Roboto Condensed", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --footer-gradient: linear-gradient(90deg, #FFD700 0%, #004D40 100%);
+  --footer-gradient: linear-gradient(90deg, #E8F36B 0%, #171614 100%);
 }
 
 /* Dark mode: opt-in only, via the toggle in the header (adds
    data-theme="dark" to <html> and remembers the choice in localStorage).
    The site does not follow the OS/browser preference automatically. */
 :root[data-theme="dark"] {
-  --mint: #214039;
-  --bg: #1B1C1C;
-  --bg-alt: #262727;
-  --text: #f2f2f2;
-  --text-muted: #b9bdbc;
-  --border: #3a3b3b;
-  --brand: #4ECDC4;
-  --brand-dark: #7EE8DA;
-  --brand-contrast: #052e26;
-  --accent: #FFD700;
+  --mint: #34312A;
+  --bg: #141412;
+  --bg-alt: #1D1C19;
+  --text: #F2EEE2;
+  --text-muted: #B8B3A4;
+  --border: #34322C;
+  --brand: #E8F36B;
+  --brand-dark: #F4FB9B;
+  --brand-contrast: #141412;
+  --accent: #E8F36B;
+  --on-accent: #141412;
+  --teal-deep: #2A2823;
+  --on-teal: #F2EEE2;
   --success: #4ade80;
   --danger: #ffb4a6;
-  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.4);
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
 * { box-sizing: border-box; }
@@ -84,6 +85,10 @@ body::before {
 
 a { color: var(--brand); text-decoration: none; }
 a:hover { text-decoration: underline; }
+/* The brand colour is now the same ink as the text, so a link inside running text is underlined to tell them apart. */
+:is(.info-section, .faq-answer, .help-text, .byline, .note-box, .cta-box) a:not(.btn) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+/* the marker, for the one phrase that matters */
+mark { padding: 0.04em 0.28em; border-radius: 3px; background: var(--accent); color: var(--on-accent); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
 img { max-width: 100%; }
 
@@ -143,6 +148,7 @@ img { max-width: 100%; }
 .logo:hover { text-decoration: none; }
 
 .logo-mark { height: 28px; width: 28px; display: block; flex-shrink: 0; }
+:root[data-theme="dark"] .logo-mark { content: url(/assets/img/favicon-dark.svg); } /* the tile in the marker colour, so it stands off the dark page */
 
 /* Wordmark as live text so it uses the site's heading font and themes
    via CSS variables (no separate light/dark image assets needed). */
@@ -153,7 +159,7 @@ img { max-width: 100%; }
   letter-spacing: -0.01em;
   line-height: 1;
 }
-.logo-text > span { color: var(--brand); }
+.logo-text > span { padding: 0 4px; margin-left: 1px; border-radius: 4px; background: var(--accent); color: var(--on-accent); } /* the marker behind PDF */
 
 .logo .mark {
   display: inline-flex;
@@ -346,7 +352,7 @@ html.nav-open body .site-header .icon-btn.nav-toggle[aria-expanded="true"] { bac
   width: 36px;
   height: 36px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--bg-alt);
   color: var(--text);
   cursor: pointer;
@@ -366,7 +372,7 @@ html.nav-open body .site-header .icon-btn.nav-toggle[aria-expanded="true"] { bac
   width: 36px;
   height: 36px;
   padding: 0;
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--brand);
   color: var(--brand-contrast);
   transition: background 0.15s ease, transform 0.15s ease;
@@ -414,7 +420,7 @@ html.nav-open body .site-header .icon-btn.nav-toggle[aria-expanded="true"] { bac
   width: 44px;
   height: 44px;
   border: none;
-  border-radius: 50%;
+  border-radius: 6px;
   background: var(--brand);
   color: var(--brand-contrast);
   cursor: pointer;
@@ -442,9 +448,9 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
   right: 0;
   bottom: 0;
   z-index: 70;
-  background: #004D40;
-  color: #fff9f2;
-  border-top: 1px solid rgba(255, 249, 242, 0.2);
+  background: var(--teal-deep);
+  color: var(--on-teal);
+  border-top: 1px solid color-mix(in srgb, var(--on-teal) 20%, transparent);
   box-shadow: 0 -8px 24px -8px rgba(0, 0, 0, 0.25);
 }
 
@@ -463,7 +469,7 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
   opacity: 0.9;
 }
 
-.fgp-consent-bar a { color: #fff9f2; text-decoration: underline; }
+.fgp-consent-bar a { color: var(--on-teal); text-decoration: underline; }
 
 .fgp-consent-bar-actions {
   display: flex;
@@ -473,16 +479,16 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
 
 .fgp-consent-bar .btn.secondary {
   background: transparent;
-  border: 1px solid rgba(255, 249, 242, 0.4);
-  color: #fff9f2;
+  border: 1px solid color-mix(in srgb, var(--on-teal) 40%, transparent);
+  color: var(--on-teal);
 }
-.fgp-consent-bar .btn.secondary:hover { background: rgba(255, 249, 242, 0.12); }
+.fgp-consent-bar .btn.secondary:hover { background: color-mix(in srgb, var(--on-teal) 12%, transparent); }
 
 .fgp-consent-bar .btn:not(.secondary) {
-  background: #fff9f2;
-  color: #004D40;
+  background: var(--on-teal);
+  color: var(--teal-deep);
 }
-.fgp-consent-bar .btn:not(.secondary):hover { background: #ffffff; }
+.fgp-consent-bar .btn:not(.secondary):hover { background: var(--accent); color: var(--on-accent); }
 
 @media (max-width: 640px) {
   .fgp-consent-bar-inner { flex-direction: column; align-items: stretch; gap: 12px; }
@@ -508,7 +514,7 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
   gap: 6px;
   padding: 6px 12px;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 6px;
   background: var(--bg-alt);
   color: var(--text-muted);
   font-size: 0.82rem;
@@ -586,11 +592,12 @@ body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
 }
 
 .hero .gradient-text {
-  background: linear-gradient(90deg, #4ECDC4 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #4ECDC4;
+  padding: 0.04em 0.28em;
+  border-radius: 3px;
+  background: var(--accent);
+  color: var(--on-accent);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .hero p {
@@ -635,7 +642,7 @@ body:has(.hero) .site-header .logo-text,
 body:has(.hero) .site-header .icon-btn {
   color: #fff;
 }
-body:has(.hero) .site-header .logo-text > span { color: var(--accent); }
+body:has(.hero) .site-header .logo-text > span { color: var(--on-accent); }
 body:has(.hero) .site-header .icon-btn {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.35);
@@ -651,7 +658,7 @@ body.scrolled:has(.hero) .site-header .logo-text,
 body.scrolled:has(.hero) .site-header .icon-btn {
   color: var(--text);
 }
-body.scrolled:has(.hero) .site-header .logo-text > span { color: var(--brand); }
+body.scrolled:has(.hero) .site-header .logo-text > span { color: var(--on-accent); }
 body.scrolled:has(.hero) .site-header .icon-btn {
   background: var(--bg-alt);
   border-color: var(--border);
@@ -661,7 +668,7 @@ body.scrolled:has(.hero) .site-header .icon-btn {
 html.nav-open body:has(.hero) .site-header .logo,
 html.nav-open body:has(.hero) .site-header .logo-text,
 html.nav-open body:has(.hero) .site-header .icon-btn { color: var(--text); }
-html.nav-open body:has(.hero) .site-header .logo-text > span { color: var(--brand); }
+html.nav-open body:has(.hero) .site-header .logo-text > span { color: var(--on-accent); }
 html.nav-open body:has(.hero) .site-header .icon-btn { background: var(--bg-alt); border-color: var(--border); }
 
 .pillar-card {
@@ -783,7 +790,7 @@ html.nav-open body:has(.hero) .site-header .icon-btn { background: var(--bg-alt)
 }
 
 .tool-card:hover {
-  box-shadow: 0 16px 32px -8px rgba(0, 77, 64, 0.22), 0 4px 12px rgba(0, 77, 64, 0.12);
+  box-shadow: 0 16px 32px -8px color-mix(in srgb, var(--text) 22%, transparent), 0 4px 12px color-mix(in srgb, var(--text) 12%, transparent);
   border-color: var(--brand);
   text-decoration: none;
   transform: translateY(-4px) scale(1.015);
@@ -847,7 +854,7 @@ html.nav-open body:has(.hero) .site-header .icon-btn { background: var(--bg-alt)
   transform: translateX(-50%);
   filter: blur(35px);
   opacity: 0.3;
-  background-image: conic-gradient(from 225deg at 50% 50%, rgba(0, 77, 64, 0) 0deg, var(--brand) 25deg, color-mix(in srgb, var(--brand) 12%, white) 285deg, white 345deg, rgba(0, 77, 64, 0) 360deg);
+  background-image: conic-gradient(from 225deg at 50% 50%, transparent 0deg, var(--brand) 25deg, color-mix(in srgb, var(--brand) 12%, white) 285deg, white 345deg, transparent 360deg);
 }
 .tool-grid--shine .tool-card:hover .shine { opacity: 1; }
 
@@ -1072,13 +1079,9 @@ html.blog-js .blog-filters { display: flex; }
 
 .tool-card:hover .icon { transform: scale(1.12) rotate(-4deg); }
 
-/* Cycle a warm accent per card so the grid doesn't read as monochrome. */
-.tool-grid .tool-card:nth-child(6n+1) .icon { background: rgba(0, 77, 64, 0.12); color: #004D40; }
-.tool-grid .tool-card:nth-child(6n+2) .icon { background: rgba(255, 215, 0, 0.28); color: #8a6d00; }
-.tool-grid .tool-card:nth-child(6n+3) .icon { background: rgba(51, 112, 102, 0.18); color: #337066; }
-.tool-grid .tool-card:nth-child(6n+4) .icon { background: rgba(27, 28, 28, 0.1); color: #1B1C1C; }
-.tool-grid .tool-card:nth-child(6n+5) .icon { background: rgba(255, 204, 0, 0.22); color: #7a5f00; }
-.tool-grid .tool-card:nth-child(6n+6) .icon { background: rgba(0, 51, 43, 0.14); color: #00332B; }
+/* The icon chips: an ink tint, with the marker on every third card so the grid doesn't read as monochrome. */
+.tool-grid .tool-card .icon { background: color-mix(in srgb, var(--text) 9%, transparent); color: var(--text); }
+.tool-grid .tool-card:nth-child(3n+2) .icon { background: var(--accent); color: var(--on-accent); }
 
 .tool-card h3 {
   margin: 0 0 6px;
@@ -1585,63 +1588,70 @@ html.blog-js .blog-filters { display: flex; }
   cursor: pointer;
 }
 
-/* Buttons. A flat filled primary and an outlined secondary, each with a small size; the fill carries the hierarchy, so
-   neither floats on a shadow. A <button> does not inherit the page font on its own, hence the first rule. */
+/* Buttons, in the "press" style: a 2px outline and a hard offset shadow with no blur, the accent under a filled button and ink under an
+   outlined one. A button lifts a pixel on hover and presses flat when pushed, so the press is both seen and felt. Colours come from the
+   tokens, so the style follows the theme. A <button> does not inherit the page font on its own, hence the first rule. */
 button { font-family: inherit; }
 
 /* One keyboard ring for every button-like control; rules with their own ring (.qr-*, .pw-*) keep theirs. */
 button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
 .btn {
+  --btn-shadow: var(--accent);
+  --btn-o: 3px; /* how far the shadow sits out */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-height: 44px;
   padding: 0 24px;
-  border: 1px solid transparent;
-  border-radius: 999px;
+  border: 2px solid var(--text);
+  border-radius: 6px;
   background: var(--brand);
   color: var(--brand-contrast);
+  box-shadow: var(--btn-o) var(--btn-o) 0 var(--btn-shadow);
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.2;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.12s ease;
 }
-.btn:focus-visible { outline-offset: 3px; }
-/* on the teal footer, consent bar and blog header the teal ring would vanish, so it goes cream like their buttons */
-.site-footer .btn:focus-visible, .fgp-consent-bar .btn:focus-visible, .blog-hero .btn:focus-visible { outline-color: var(--on-teal); }
+:root[data-theme="dark"] .btn { --btn-shadow: var(--text); }
+.btn:focus-visible { outline-offset: 4px; }
+/* on the dark footer and consent bar the dark ring would vanish, so it goes light like their buttons */
+.site-footer .btn:focus-visible, .fgp-consent-bar .btn:focus-visible { outline-color: var(--on-teal); }
 @media (hover: hover) {
-  .btn:hover { background: var(--brand-dark); text-decoration: none; }
+  .btn:hover { background: var(--brand-dark); transform: translate(-1px, -1px); box-shadow: calc(var(--btn-o) + 1px) calc(var(--btn-o) + 1px) 0 var(--btn-shadow); text-decoration: none; }
 }
-.btn:active { transform: translateY(1px); }
-/* Disabled changes the fill, the text and the cursor together, so it never reads as just a faded button. */
-.btn:disabled, .btn[aria-disabled="true"] { background: var(--border); color: var(--text-muted); cursor: not-allowed; transform: none; }
+.btn:active { transform: translate(var(--btn-o), var(--btn-o)); box-shadow: 0 0 0 var(--btn-shadow); }
+/* Disabled changes the fill, the text, the cursor and the shadow together, so it never reads as just a faded button. */
+.btn:disabled, .btn[aria-disabled="true"] { background: var(--border); color: var(--text-muted); border-color: transparent; box-shadow: none; cursor: not-allowed; transform: none; }
 
 .btn.secondary {
+  --btn-shadow: var(--text);
   background: var(--bg);
   color: var(--text);
-  border-color: color-mix(in srgb, var(--text) 40%, var(--bg));
 }
 @media (hover: hover) {
-  .btn.secondary:hover { background: var(--bg-alt); border-color: var(--brand); }
+  .btn.secondary:hover { background: var(--bg-alt); }
 }
 .btn.secondary:disabled, .btn.secondary[aria-disabled="true"] { background: var(--bg-alt); border-color: var(--border); color: var(--text-muted); }
+/* the dark footer and consent bar keep their own button fills; the shadow stays the accent there */
+.fgp-consent-bar .btn, .footer-support-cta .btn { --btn-shadow: var(--accent); border-color: var(--on-teal); }
 
-.btn.small { min-height: 36px; padding: 0 16px; font-size: 0.85rem; }
+.btn.small { --btn-o: 2px; min-height: 36px; padding: 0 16px; font-size: 0.85rem; }
 @media (pointer: coarse) { .btn.small { min-height: 44px; } }
 /* the header icons stay 36px so the row fits a phone; an invisible 4px margin brings the tap area to 44px */
 @media (pointer: coarse) {
   .icon-btn, .header-support-btn { position: relative; }
   .icon-btn::before, .header-support-btn::before { content: ""; position: absolute; inset: -4px; }
 }
-@media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:active { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:hover, .btn:active { transform: none; } }
 
 .actions-row {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
   margin-top: 20px;
 }
@@ -1960,7 +1970,7 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
 .share:is(:hover, :focus-within, .is-open) .share-btn:first-child { margin-left: 0; }
 .share:is(:hover, :focus-within, .is-open) .share-btn:is(:hover, :focus-visible) {
   background: var(--accent);
-  color: #00332B;
+  color: var(--on-accent);
 }
 .share-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
@@ -1974,7 +1984,7 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
 }
 
 .ai-flag {
-  background: rgba(255, 215, 0, 0.35);
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
   border-radius: 3px;
   padding: 0 2px;
   cursor: help;
@@ -2210,20 +2220,20 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
   margin-top: 28px;
   padding: 28px 32px;
   border-radius: 20px;
-  background: #004D40;
-  color: #fff9f2;
+  background: var(--teal-deep);
+  color: var(--on-teal);
 }
-.faq-contact h2 { margin: 0 0 4px; font-size: 1.3rem; color: #fff9f2; }
+.faq-contact h2 { margin: 0 0 4px; font-size: 1.3rem; color: var(--on-teal); }
 .faq-contact p { margin: 0; opacity: 0.85; }
 .faq-contact-btn {
   padding: 12px 28px;
-  border: 1.5px solid #fff9f2;
+  border: 1.5px solid var(--on-teal);
   border-radius: 12px;
-  color: #fff9f2;
+  color: var(--on-teal);
   font-weight: 700;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.faq-contact-btn:hover { background: var(--accent); border-color: var(--accent); color: #00332B; }
+.faq-contact-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 /* The banner is the last thing on FAQ pages: the footer's own 48px padding is spacing enough. */
 main:has(.faq-contact) + .site-footer { margin-top: 0; }
 
@@ -2434,14 +2444,14 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
 }
 
 .footer-box {
-  background: #004D40;
+  background: var(--teal-deep);
   border-radius: 28px;
   padding: 48px;
-  color: #fff9f2;
+  color: var(--on-teal);
   font-size: 0.85rem;
 }
 
-.footer-box a { color: #fff9f2; opacity: 0.9; }
+.footer-box a { color: var(--on-teal); opacity: 0.9; }
 .footer-box a:hover { opacity: 1; }
 
 /* minmax(0, 1fr), not plain 1fr: a bare 1fr track still won't shrink past
@@ -2481,7 +2491,6 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
   gap: 10px;
 }
 
-.footer-au-badge { width: 40px; height: 40px; border-radius: 50%; display: block; flex-shrink: 0; }
 
 .footer-social { display: flex; align-items: center; gap: 10px; }
 
@@ -2492,13 +2501,13 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 249, 242, 0.12);
-  color: #fff9f2;
+  background: color-mix(in srgb, var(--on-teal) 12%, transparent);
+  color: var(--on-teal);
   opacity: 0.9;
   transition: background 0.15s ease, opacity 0.15s ease;
 }
 
-.footer-social a:hover { background: rgba(255, 249, 242, 0.22); opacity: 1; }
+.footer-social a:hover { background: color-mix(in srgb, var(--on-teal) 22%, transparent); opacity: 1; }
 .footer-social a svg { width: 18px; height: 18px; display: block; }
 
 .footer-support-cta {
@@ -2517,11 +2526,11 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
 
 .footer-support-cta .btn {
   display: inline-flex; /* .footer-col a makes links block, which would drop the button's centring */
-  background: #fff9f2;
-  color: #004D40;
+  background: var(--on-teal);
+  color: var(--teal-deep);
 }
 
-.footer-support-cta .btn:hover { background: #ffffff; }
+.footer-support-cta .btn:hover { background: var(--accent); color: var(--on-accent); }
 
 /* Shares .footer-grid's own column tracks (redeclared alongside it at each
    breakpoint below) so the logo lines up under column 1 and the text lines
@@ -2795,7 +2804,7 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
 .pdf-editor-toolbar button.active {
   border-color: var(--brand);
   color: var(--brand);
-  background: rgba(0, 77, 64, 0.08);
+  background: color-mix(in srgb, var(--brand) 8%, transparent);
 }
 .pdf-editor-toolbar input[type="color"] {
   width: 36px;
@@ -2829,7 +2838,7 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
 }
 .scanner-adjust-stage canvas { display: block; width: 100%; height: auto; border-radius: var(--radius); }
 .scanner-adjust-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.scanner-adjust-stage svg polygon { fill: rgba(0, 77, 64, 0.18); stroke: var(--brand); stroke-width: 3; vector-effect: non-scaling-stroke; }
+.scanner-adjust-stage svg polygon { fill: color-mix(in srgb, var(--brand) 18%, transparent); stroke: var(--brand); stroke-width: 3; vector-effect: non-scaling-stroke; }
 .scanner-adjust-stage svg circle { fill: var(--brand); stroke: #fff; stroke-width: 2; vector-effect: non-scaling-stroke; cursor: grab; touch-action: none; }
 .scanner-adjust-stage svg circle:active { cursor: grabbing; }
 
@@ -3047,14 +3056,14 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(180deg, rgba(2, 20, 16, 0.55) 0%, rgba(2, 20, 16, 0.8) 100%);
+  background: linear-gradient(180deg, rgba(12, 12, 10, 0.55) 0%, rgba(12, 12, 10, 0.8) 100%);
 }
 
 .glitch-hero-content {
   position: relative;
   z-index: 1;
   text-align: center;
-  color: #fff9f2;
+  color: var(--on-teal);
   padding: 40px 20px;
 }
 
@@ -3064,7 +3073,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
   letter-spacing: 0.08em;
   font-weight: 700;
   font-size: 0.85rem;
-  color: #FFD700;
+  color: var(--accent);
   margin: 0 0 12px;
 }
 
@@ -3076,7 +3085,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
   letter-spacing: -0.03em;
   line-height: 1;
   margin: 0 0 18px;
-  color: #fff9f2;
+  color: var(--on-teal);
 }
 
 .glitch-text::before,
@@ -3091,12 +3100,12 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 }
 
 .glitch-text::before {
-  color: #FFD700;
+  color: var(--accent);
   animation: glitch-1 3.4s infinite steps(1, end);
 }
 
 .glitch-text::after {
-  color: #4ECDC4;
+  color: var(--on-teal);
   animation: glitch-2 2.7s infinite steps(1, end);
 }
 
@@ -3117,7 +3126,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 }
 
 .glitch-hero-sub {
-  color: rgba(255, 249, 242, 0.88);
+  color: color-mix(in srgb, var(--on-teal) 88%, transparent);
   max-width: 480px;
   margin: 0 auto 28px;
 }
@@ -3167,11 +3176,11 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
   margin: 0 0 12px;
 }
 
-.option-btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.option-btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
 .option-btn {
   padding: 9px 14px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--bg);
   color: var(--text);
   font-size: 0.86rem;
@@ -3523,7 +3532,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .side-settings .btn { width: auto; }
 .side-settings .qr-field + .qr-field { margin-top: 12px; }
 .side-settings .qr-check label input[type="number"] { display: inline-block; width: 4.5em; padding: 4px 8px; margin: 0 2px; }
-.side-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.side-actions { display: flex; flex-wrap: wrap; gap: 16px; }
 .result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
 .result-title { margin: 0; font-size: 1.1rem; }
 .result-total { flex: 1; color: var(--text-muted); font-size: 0.9rem; }
@@ -3560,7 +3569,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .sort-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .sort-row[hidden] { display: none; }
 .sort-label { font-weight: 600; color: var(--text-muted); font-size: 0.88rem; }
-.sort-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.sort-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
 .file-cards input { user-select: text; cursor: text; }
 .card-range { display: flex; flex-direction: column; gap: 3px; padding: 4px 10px 6px; }
 .card-range input { width: 100%; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; font-size: 0.85rem; }
@@ -3577,7 +3586,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .split-grid-wrap .page-thumb-grid { margin: 12px 0 0; }
 .mode-block { margin-top: 12px; }
 .mode-block .qr-field textarea { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.9rem; }
-.select-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.select-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
 .split-summary { margin: 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); font-size: 0.88rem; overflow-wrap: anywhere; }
 .split-summary.is-error { border-color: var(--danger); color: var(--danger); }
 .page-thumb .thumb-ph { background: var(--bg-alt); }
@@ -3593,7 +3602,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 /* Organise PDF Pages: pick, drag and tidy the pages; the tools sit beside them */
 .view-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 .view-bar[hidden] { display: none; }
-.view-buttons { display: flex; gap: 8px; }
+.view-buttons { display: flex; gap: 12px; }
 .view-count { flex: 1; color: var(--text-muted); font-size: 0.88rem; }
 .view-size { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.88rem; font-weight: 600; }
 .view-size input { width: 120px; accent-color: var(--brand); }
@@ -3610,7 +3619,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .organise-grid .thumb-img-wrap { height: auto; display: block; padding: 6px; background: var(--bg-alt); }
 .organise-grid .thumb-img-wrap img { display: block; width: 100%; height: auto; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18); }
 .organise-grid .thumb-img-wrap.is-blank { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; background: #fff; border: 1px dashed var(--border); margin: 6px; padding: 0; box-sizing: border-box; }
-.tool-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.tool-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
 .file-btn { position: relative; cursor: pointer; }
 .file-btn input { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
 .file-btn:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }

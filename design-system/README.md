@@ -1,5 +1,9 @@
 # Golden Wattle Modern — design system reference
 
+> **Superseded (4 November 2026).** The live site moved from Golden Wattle to a newspaper palette: paper `#F5F2E8`, ink `#171614` and a
+> marker `#E8F36B`, with the Press button style. The live tokens are in `assets/style.css` and `assets/home.css`. The files in this
+> folder document the earlier Golden Wattle palette and are kept for reference only.
+
 **Status: applied to the live site**, via `assets/style.css` directly rather
 than by importing these files (this project has no build step, so the
 site's actual `:root` block is now hand-synced to `tokens.css` below rather
