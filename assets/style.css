@@ -2946,6 +2946,11 @@ body.search-open { overflow: hidden; }
   font-family: inherit;
   outline: none;
 }
+/* The home page's `.home :focus-visible` draws a ring on every focused element, which framed this field. The row carries the focus cue
+   instead: its bottom rule takes the brand colour, softly. */
+.search-input-row input:focus-visible { outline: none; }
+.search-input-row { transition: border-color 0.15s ease; }
+.search-input-row:focus-within { border-bottom-color: var(--brand); }
 
 .search-close-btn {
   display: inline-flex;
