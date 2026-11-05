@@ -39,7 +39,7 @@ window.SEARCH_INDEX = [
   { title: "Add Links to PDF", url: "/add-links-to-pdf/", icon: "link", desc: "Draw a clickable area that opens a website or jumps to another page", group: "Edit & Design", category: "PDF Tool" },
   { title: "PDF Form Builder", url: "/pdf-form-builder/", icon: "checklist", desc: "Add fillable text fields, checkboxes, radio buttons and dropdowns", group: "Forms & Signatures", category: "PDF Tool" },
   { title: "Remove Blank Pages", url: "/remove-blank-pages/", icon: "auto_delete", desc: "Auto-detect and strip blank pages from a scanned PDF", group: "Organise", category: "PDF Tool" },
-  { title: "Rotate PDF Freely", url: "/rotate-pdf-freely/", icon: "rotate_right", desc: "Straighten a wonky scan by rotating pages to any exact angle", group: "Organise", category: "PDF Tool" },
+  { title: "Rotate PDF Freely", url: "/rotate-pdf-freely/", icon: "rotate_right", desc: "Turn pages left, right or upside down, or straighten a crooked scan by any angle, found for you", group: "Organise", category: "PDF Tool" },
   { title: "Sanitise PDF", url: "/sanitise-pdf/", icon: "cleaning_services", desc: "Strip embedded scripts, auto-actions, attachments and metadata", alt: "sanitize", group: "Protect & Privacy", category: "PDF Tool" },
   { title: "Remove Annotations", url: "/remove-annotations/", icon: "comments_disabled", desc: "Strip comments, highlights and markup, links and forms stay intact", group: "Protect & Privacy", category: "PDF Tool" },
   { title: "PDF Background Colour", url: "/pdf-background-colour/", icon: "format_color_fill", desc: "Add a solid colour behind every page of a PDF", alt: "color", group: "Edit & Design", category: "PDF Tool" },

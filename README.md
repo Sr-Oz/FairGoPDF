@@ -88,7 +88,7 @@ watermarked output.
 | Add Links to PDF | `/add-links-to-pdf/` | Draw a clickable area on a page that opens a website or jumps to another page |
 | PDF Form Builder | `/pdf-form-builder/` | Add fillable text fields, checkboxes, radio buttons and dropdowns as real AcroForm fields |
 | Remove Blank Pages | `/remove-blank-pages/` | Auto-detect and strip blank pages from a scanned PDF |
-| Rotate PDF Freely | `/rotate-pdf-freely/` | Straighten a wonky scan by rotating pages to any exact angle |
+| Rotate PDF Freely | `/rotate-pdf-freely/` | Turn the pages you pick a quarter at a time (lossless), or straighten a crooked scan by any angle, set by eye against a grid or found from the page's lines of text, with the page growing or keeping its size |
 | Sanitise PDF | `/sanitise-pdf/` | Strip embedded scripts, auto-actions, attachments and metadata |
 | Remove Annotations | `/remove-annotations/` | Strip comments, highlights and markup, links and forms stay intact |
 | PDF Background Colour | `/pdf-background-colour/` | Add a solid colour behind every page of a PDF |
