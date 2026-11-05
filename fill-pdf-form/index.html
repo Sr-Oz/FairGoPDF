@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Fill Out a PDF Form Online Free | Fair Go PDF</title>
-<meta name="description" content="Fill in a PDF's fillable form fields, text, checkboxes, radio buttons, dropdowns, and download it, free and in your browser. No upload, no signup.">
+<meta name="description" content="Fill in a PDF's fillable fields right on the page: text, ticks, radio buttons and dropdowns. Jump to the next empty field, then save. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/fill-pdf-form/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Fill Out a PDF Form Online Free">
-<meta property="og:description" content="Fill in a PDF's fillable form fields and download it, free and in your browser.">
+<meta property="og:description" content="Fill in a PDF's fillable fields on the page, jump to the next empty one and save, free and in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/fill-pdf-form/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Fill Out a PDF Form Online Free">
-<meta name="twitter:description" content="Fill in a PDF's fillable form fields and download it, free and in your browser.">
+<meta name="twitter:description" content="Fill in a PDF's fillable fields on the page, jump to the next empty one and save, free and in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -78,29 +78,109 @@
 
     <div class="tool-page-header">
       <h1>Fill Out a PDF Form</h1>
-      <p>Fill in a PDF's fillable fields, text, checkboxes, radio buttons, dropdowns, and download it. Processed locally.</p>
+      <p>Fill in a PDF's fillable fields right on the page: text, ticks, radio buttons and dropdowns. Jump to the next empty field, see what is still required, and save. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">edit_note</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file with fillable form fields</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">edit_note</span></div>
+            <div class="dz-title">Drop your PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file with fillable form fields</div>
+            <input type="file" id="fileInput" accept="application/pdf">
+          </div>
 
-      <div id="editor" style="display:none;">
-        <div id="formFields" style="display:flex; flex-direction:column; gap:16px; margin:20px 0;"></div>
-        <div class="field">
-          <label><input type="checkbox" id="flattenCheck"> Flatten form after filling (makes it non-editable, good for final copies)</label>
-        </div>
-        <div class="actions-row">
-          <button class="btn" id="saveBtn">Save PDF</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
-      </div>
+          <p class="file-bar" id="fileBar" hidden></p>
 
-      <div class="status-box" id="status"></div>
+          <div class="status-box" id="status"></div>
+
+          <div class="sign-wrap" id="fillWrap" hidden>
+            <div class="sig-pager" id="pager">
+              <span class="pager-pages" id="pagerPages">
+                <button class="btn secondary small" id="prevPageBtn" type="button">&larr; Previous</button>
+                <label for="pageNum">Page</label>
+                <input type="number" id="pageNum" min="1" value="1" inputmode="numeric">
+                <span>of <span id="pageTotal">1</span></span>
+                <button class="btn secondary small" id="nextPageBtn" type="button">Next &rarr;</button>
+              </span>
+              <label class="fill-zoom" for="zoom">Zoom</label>
+              <select id="zoom">
+                <option value="1" selected>Fit</option>
+                <option value="1.5">150%</option>
+                <option value="2">200%</option>
+                <option value="3">300%</option>
+              </select>
+            </div>
+            <p class="help-text" id="placeHint">Click a field on the page and type, tick or choose.</p>
+            <div class="fill-scroll" id="fillScroll">
+              <div class="sig-stage fill-stage" id="fillStage">
+                <canvas id="pageCanvas" aria-label="The page to fill in"></canvas>
+                <div id="fieldLayer"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="no-text" id="noFields" hidden>
+            <h2 class="note-title">This PDF has no fillable fields</h2>
+            <p id="noFieldsText">Only fields that are already in a PDF can be filled in here.</p>
+            <div class="side-actions">
+              <a class="btn" href="/pdf-editor/">Write on it with PDF Editor</a>
+              <a class="btn secondary" href="/pdf-form-builder/">Add fields with PDF Form Builder</a>
+            </div>
+          </div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your filled form</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="downloadBtn" type="button">Download again</button>
+            </div>
+            <p class="help-text" id="resultNote"></p>
+          </div>
+        </div>
+
+        <aside class="qr-preview side-settings side-sticky" aria-label="Form settings">
+          <div class="side-stick">
+            <details class="acc" data-key="fields" data-empty="Add a form" open>
+              <summary><span class="acc-name">Fields</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <button type="button" class="btn secondary small" id="nextEmptyBtn">Go to the next empty field</button>
+                <div class="qr-field qr-check" style="margin-top:12px;">
+                  <input type="checkbox" id="highlight" checked>
+                  <label for="highlight">Highlight the fields on the page</label>
+                </div>
+                <ul class="item-list field-list" id="fieldList"></ul>
+                <p class="help-text" id="fieldNote"></p>
+                <button type="button" class="btn secondary small" id="resetBtn">Put back what the form had</button>
+              </div>
+            </details>
+
+            <details class="acc" data-key="output" data-empty="Keep it editable">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field qr-check">
+                  <input type="checkbox" id="flattenCheck">
+                  <label for="flattenCheck">Flatten the form after filling</label>
+                </div>
+                <p class="help-text">Flattening turns the answers into part of the page, so they can't be changed. Good for a final copy; leave it off if the form still needs more answers.</p>
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF form to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Save PDF</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -116,13 +196,13 @@
           <span class="icon"><span class="material-symbols-outlined">draw</span></span>
           <h3>Sign PDF</h3>
         </a>
-        <a class="tool-card related-tool-card" href="/pdf-metadata/">
-          <span class="icon"><span class="material-symbols-outlined">info</span></span>
-          <h3>Edit PDF Metadata</h3>
+        <a class="tool-card related-tool-card" href="/pdf-form-builder/">
+          <span class="icon"><span class="material-symbols-outlined">checklist</span></span>
+          <h3>PDF Form Builder</h3>
         </a>
-        <a class="tool-card related-tool-card" href="/pdf-accessibility-checker/">
-          <span class="icon"><span class="material-symbols-outlined">accessibility_new</span></span>
-          <h3>Accessibility Checker</h3>
+        <a class="tool-card related-tool-card" href="/flatten-pdf/">
+          <span class="icon"><span class="material-symbols-outlined">layers_clear</span></span>
+          <h3>Flatten PDF</h3>
         </a>
       </div>
     </section>
@@ -130,11 +210,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF that has fillable form fields (an AcroForm, most "official" fillable PDFs have these).</li>
-        <li>Fill in the fields shown below.</li>
-        <li>Click "Save PDF" to download your filled copy.</li>
+        <li>Add a PDF that has fillable form fields (an AcroForm; most official fillable PDFs have them). The page shows with its fields on it, and the list on the right names every field.</li>
+        <li>Click a field and fill it in: type, tick, pick a radio button or choose from a dropdown. "Go to the next empty field" takes you to the next blank one, and the list marks the required ones. Use Zoom if the text is small.</li>
+        <li>Click "Save PDF". Leave the form editable if it still needs more answers, or flatten it for a final copy.</li>
       </ol>
-      <p class="help-text">If nothing shows up after adding a file, that PDF doesn't have any fillable form fields, this tool can't add fields to a plain PDF, only fill in ones that already exist.</p>
+      <p class="help-text">Only fields that are already in the PDF can be filled in. To write on a PDF that has none, use PDF Editor, or add fields first with PDF Form Builder. Signature fields are left for Sign PDF. Sums and date formats that a form works out with its own scripts do not run here, so check the totals before you send it. Text with characters the form's own font lacks, such as macrons, can't be saved into a field. Your PDF is read and changed in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -222,6 +302,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/fill-pdf-form.js"></script>

@@ -69,7 +69,7 @@ watermarked output.
 | Resize PDF Pages | `/resize-pdf-pages/` | Scale every page to A4, Letter or Legal size |
 | Crop PDF Pages | `/crop-pdf/` | Trim margins from every page, crop each page on its own, or fit the crop to the content |
 | Compare PDFs | `/compare-pdfs/` | Diff the text of two PDF versions line by line |
-| Fill PDF Form | `/fill-pdf-form/` | Fill text fields, checkboxes and dropdowns on a PDF form |
+| Fill PDF Form | `/fill-pdf-form/` | Fill text fields, ticks, radio buttons and dropdowns right on the page, jump to the next empty field, then save or flatten |
 | Sign PDF | `/sign-pdf/` | Draw, type or upload a signature, add the date, text and ticks, drag them onto any page and copy initials to every page |
 | PDF Colour Filters | `/pdf-colour-filters/` | Greyscale, invert, or adjust brightness/contrast/saturation across every page |
 | Text to PDF | `/text-to-pdf/` | Turn plain text into a paginated PDF |
