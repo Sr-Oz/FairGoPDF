@@ -14,7 +14,7 @@ window.SEARCH_INDEX = [
   { title: "Extract PDF Text", url: "/extract-pdf-text/", icon: "text_fields", desc: "Pull all text out of a PDF to copy or download as .txt", group: "Convert", category: "PDF Tool" },
   { title: "Edit PDF Metadata", url: "/pdf-metadata/", icon: "info", desc: "View, change, or clear title, author, subject and keywords", group: "Protect & Privacy", category: "PDF Tool" },
   { title: "Add Page Numbers", url: "/add-page-numbers/", icon: "format_list_numbered", desc: "Stamp page numbers in any position/format, Bates-style numbering", group: "Edit & Design", category: "PDF Tool" },
-  { title: "Watermark PDF", url: "/watermark-pdf/", icon: "water_drop", desc: "Add a custom text watermark across every page", group: "Edit & Design", category: "PDF Tool" },
+  { title: "Watermark PDF", url: "/watermark-pdf/", icon: "water_drop", desc: "Stamp text or a picture on your pages, once or repeated, and see it first", alt: "logo image stamp draft confidential tile repeat opacity behind", group: "Edit & Design", category: "PDF Tool" },
   { title: "Resize PDF Pages", url: "/resize-pdf-pages/", icon: "straighten", desc: "Scale every page to A4, Letter or Legal size", group: "Organise", category: "PDF Tool" },
   { title: "Crop PDF Pages", url: "/crop-pdf/", icon: "crop", desc: "Trim margins from every page, crop each page on its own, or fit to content", group: "Organise", category: "PDF Tool" },
   { title: "Compare PDFs", url: "/compare-pdfs/", icon: "compare_arrows", desc: "Diff the text of two PDF versions line by line", group: "Fix & Optimise", category: "PDF Tool" },

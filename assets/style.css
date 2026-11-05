@@ -3728,6 +3728,15 @@ select.fill-in { padding: 0; }
 .owner-box .note-title { margin: 0 0 4px; }
 .owner-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .owner-line code { flex: 1 1 220px; min-width: 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-alt); font-size: 0.95rem; overflow-wrap: anywhere; user-select: all; }
+/* Watermark PDF: the page with the mark laid over it, the quick choices, and the nine-spot position picker */
+.wm-stage > #markCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.wm-picks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pos-grid { display: grid; grid-template-columns: repeat(3, 44px); gap: 6px; }
+.pos-grid button { position: relative; width: 44px; height: 44px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); cursor: pointer; }
+.pos-grid button::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--border); }
+.pos-grid button[aria-pressed="true"] { border-color: var(--text); background: var(--bg-alt); }
+.pos-grid button[aria-pressed="true"]::after { background: var(--text); }
+.pos-grid button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 /* Rotate PDF: the page shown large, turned and tilted as it will be, over a grid to line it up against; and a mark on turned thumbnails */
 .rotate-stage { display: flex; justify-content: center; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
 .rotate-stage-wrap .help-text { margin: 0 0 10px; }

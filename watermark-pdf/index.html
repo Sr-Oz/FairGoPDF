@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Add a Watermark to a PDF Online Free | Fair Go PDF</title>
-<meta name="description" content="Stamp a diagonal text watermark across every page of a PDF, free and in your browser. No upload, no signup.">
+<meta name="description" content="Stamp text or a picture on a PDF: one mark or repeated, turned, faded, on top or behind, on the pages you choose. See it first. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/watermark-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Add a Watermark to a PDF Online Free">
-<meta property="og:description" content="Stamp a diagonal text watermark across every page of a PDF, free and in your browser.">
+<meta property="og:description" content="Stamp text or a picture on a PDF, one mark or repeated, on the pages you choose, and see it first. Free and in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/watermark-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Add a Watermark to a PDF Online Free">
-<meta name="twitter:description" content="Stamp a diagonal text watermark across every page of a PDF, free and in your browser.">
+<meta name="twitter:description" content="Stamp text or a picture on a PDF, one mark or repeated, on the pages you choose, and see it first. Free and in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -78,47 +78,199 @@
 
     <div class="tool-page-header">
       <h1>Add a Watermark to a PDF</h1>
-      <p>Stamp text diagonally across every page, "Draft," "Confidential," your name, whatever you need. Processed locally.</p>
+      <p>Stamp text or a picture on your PDF: "Draft", "Confidential", your logo. Place it once or repeat it across the page, turn it, fade it, put it behind the page's content, and choose which pages get it. See it on the page before you save. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">water_drop</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">water_drop</span></div>
+            <div class="dz-title">Drop your PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
+          </div>
 
-      <div id="editor" style="display:none;">
-        <div class="controls-row">
-          <div class="field" style="flex:1; min-width:200px;">
-            <label for="wmText">Watermark text</label>
-            <input type="text" id="wmText" value="DRAFT" style="width:100%;">
+          <p class="file-bar" id="fileBar" hidden></p>
+
+          <div class="status-box" id="status"></div>
+
+          <div class="sign-wrap" id="wmWrap" hidden>
+            <div class="sig-pager" id="pager">
+              <span class="pager-pages" id="pagerPages">
+                <button class="btn secondary small" id="prevPageBtn" type="button">&larr; Previous</button>
+                <label for="pageNum">Page</label>
+                <input type="number" id="pageNum" min="1" value="1" inputmode="numeric">
+                <span>of <span id="pageTotal">1</span></span>
+                <button class="btn secondary small" id="nextPageBtn" type="button">Next &rarr;</button>
+              </span>
+            </div>
+            <p class="help-text" id="pageHint"></p>
+            <div class="sig-stage wm-stage" id="wmStage">
+              <canvas id="pageCanvas" aria-label="The page, with the watermark as it will be"></canvas>
+              <canvas id="markCanvas" aria-hidden="true"></canvas>
+            </div>
           </div>
-          <div class="field">
-            <label for="wmSize">Font size</label>
-            <input type="number" id="wmSize" value="48" min="8" max="200" style="width:80px;">
-          </div>
-          <div class="field">
-            <label for="wmOpacity">Opacity (<span id="wmOpacityVal">30</span>%)</label>
-            <input type="range" id="wmOpacity" min="5" max="100" value="30">
-          </div>
-          <div class="field">
-            <label for="wmRotation">Rotation (°)</label>
-            <input type="number" id="wmRotation" value="45" min="-90" max="90" style="width:80px;">
-          </div>
-          <div class="field">
-            <label for="wmColor">Colour</label>
-            <input type="color" id="wmColor" value="#888888">
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your watermarked PDF</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="downloadBtn" type="button">Download again</button>
+            </div>
+            <p class="help-text" id="resultNote"></p>
           </div>
         </div>
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Add Watermark</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
-      </div>
 
-      <div class="status-box" id="status"></div>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Watermark settings">
+          <div class="side-stick">
+            <details class="acc" data-key="mark" open>
+              <summary><span class="acc-name">Watermark</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-types sig-tabs" role="group" aria-label="What to stamp">
+                  <button type="button" class="qr-type" id="tabText" aria-pressed="true">Text</button>
+                  <button type="button" class="qr-type" id="tabPicture" aria-pressed="false">Picture</button>
+                </div>
+                <div id="textPane">
+                  <div class="qr-field">
+                    <label for="wmText">Text</label>
+                    <input type="text" id="wmText" value="DRAFT" maxlength="120" autocomplete="off">
+                  </div>
+                  <div class="wm-picks" role="group" aria-label="Quick choices">
+                    <button type="button" class="btn secondary small" data-pick="DRAFT">Draft</button>
+                    <button type="button" class="btn secondary small" data-pick="CONFIDENTIAL">Confidential</button>
+                    <button type="button" class="btn secondary small" data-pick="COPY">Copy</button>
+                    <button type="button" class="btn secondary small" data-pick="SAMPLE">Sample</button>
+                  </div>
+                  <div class="qr-field">
+                    <label for="wmFont">Font</label>
+                    <select id="wmFont">
+                      <option value="HelveticaBold" selected>Helvetica Bold</option>
+                      <option value="Helvetica">Helvetica</option>
+                      <option value="TimesRomanBold">Times Bold</option>
+                      <option value="CourierBold">Courier Bold</option>
+                    </select>
+                  </div>
+                </div>
+                <div id="picturePane" hidden>
+                  <p class="help-text">A PNG with a see-through background looks best. JPG and WebP work too. It stays on your device.</p>
+                  <input type="file" id="wmFile" accept="image/png,image/jpeg,image/webp" aria-label="Picture to stamp">
+                  <div class="sig-upload-preview" id="picPreviewBox" hidden><canvas id="picPreview" aria-label="Your picture"></canvas></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc" data-key="look">
+              <summary><span class="acc-name">Look</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="side-inline" id="sizeRow">
+                  <div class="qr-field">
+                    <label for="sizeMode">Size</label>
+                    <select id="sizeMode"><option value="fit" selected>Fit the page</option><option value="own">My own size</option></select>
+                  </div>
+                  <div class="qr-field" id="sizeOwn" hidden>
+                    <label for="wmSize" id="wmSizeLabel">Type size (pt)</label>
+                    <input type="number" id="wmSize" value="60" min="6" max="600" inputmode="numeric">
+                  </div>
+                </div>
+                <div class="side-inline">
+                  <div class="qr-field" id="colourField">
+                    <label for="wmColour">Colour</label>
+                    <input type="color" id="wmColour" value="#888888">
+                  </div>
+                  <div class="qr-field">
+                    <label for="angle">Angle</label>
+                    <select id="angle"><option value="45" selected>Diagonal up</option><option value="0">Straight</option><option value="-45">Diagonal down</option><option value="90">Upright</option><option value="custom">My own</option></select>
+                  </div>
+                </div>
+                <div class="qr-field" id="angleOwn" hidden>
+                  <label for="angleCustom">Angle in degrees</label>
+                  <input type="number" id="angleCustom" value="30" min="-180" max="180" inputmode="numeric">
+                </div>
+                <div class="qr-field">
+                  <label for="wmOpacity">Opacity <span id="wmOpacityVal">30</span>%</label>
+                  <input type="range" id="wmOpacity" min="5" max="100" value="30">
+                </div>
+              </div>
+            </details>
+
+            <details class="acc" data-key="layout">
+              <summary><span class="acc-name">Where</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="mode">Pattern</label>
+                  <select id="mode"><option value="single" selected>One mark</option><option value="tiled">Repeated across the page</option></select>
+                </div>
+                <div id="singleOpts">
+                  <p class="saved-title" style="margin-top:0;">Position</p>
+                  <div class="pos-grid" id="posGrid" role="group" aria-label="Position on the page">
+                    <button type="button" data-pos="tl" aria-pressed="false" aria-label="Top left"></button>
+                    <button type="button" data-pos="tc" aria-pressed="false" aria-label="Top centre"></button>
+                    <button type="button" data-pos="tr" aria-pressed="false" aria-label="Top right"></button>
+                    <button type="button" data-pos="ml" aria-pressed="false" aria-label="Middle left"></button>
+                    <button type="button" data-pos="mc" aria-pressed="true" aria-label="Middle"></button>
+                    <button type="button" data-pos="mr" aria-pressed="false" aria-label="Middle right"></button>
+                    <button type="button" data-pos="bl" aria-pressed="false" aria-label="Bottom left"></button>
+                    <button type="button" data-pos="bc" aria-pressed="false" aria-label="Bottom centre"></button>
+                    <button type="button" data-pos="br" aria-pressed="false" aria-label="Bottom right"></button>
+                  </div>
+                  <div class="qr-field" style="margin-top:12px;">
+                    <label for="margin">Distance from the edge (pt)</label>
+                    <input type="number" id="margin" value="36" min="0" max="300" inputmode="numeric">
+                  </div>
+                </div>
+                <div id="tiledOpts" hidden>
+                  <div class="qr-field">
+                    <label for="spacing">Spacing</label>
+                    <select id="spacing"><option value="tight">Close together</option><option value="normal" selected>Normal</option><option value="wide">Far apart</option></select>
+                  </div>
+                  <div class="qr-field qr-check" style="margin-top:12px;">
+                    <input type="checkbox" id="stagger" checked>
+                    <label for="stagger">Shift every other row</label>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc" data-key="pages">
+              <summary><span class="acc-name">Pages</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="pagesMode">Which pages</label>
+                  <select id="pagesMode"><option value="all" selected>Every page</option><option value="notfirst">Every page but the first</option><option value="odd">Odd pages</option><option value="even">Even pages</option><option value="pages">Pages I choose</option></select>
+                </div>
+                <div class="qr-field" id="specField" hidden>
+                  <label for="pagesSpec">Pages</label>
+                  <input type="text" id="pagesSpec" placeholder="1-3, 7, 10-" autocomplete="off" spellcheck="false">
+                </div>
+                <div class="qr-field">
+                  <label for="layer">Layer</label>
+                  <select id="layer"><option value="top" selected>On top of the page</option><option value="behind">Behind the page's content</option></select>
+                </div>
+                <p class="help-text">Behind keeps the page's own text and pictures clear of the mark. A scanned page is one big picture, which would hide it, so use On top for scans.</p>
+              </div>
+            </details>
+
+            <details class="acc" data-key="output" data-empty="File name">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Add watermark</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -152,10 +304,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF file.</li>
-        <li>Type the watermark text and adjust size, opacity, rotation and colour.</li>
-        <li>Click "Add Watermark" to download the stamped PDF.</li>
+        <li>Add a PDF. It shows on the page, and the watermark shows on it as you change the settings.</li>
+        <li>Type the text, or choose a picture. Set its size, colour, angle and opacity. Put it in one place or repeat it across the page, and choose which pages get it and whether it sits on top or behind.</li>
+        <li>Click "Add watermark" to download the copy. Use Previous and Next to check other pages first: pages of a different size or turned sideways get the mark in the right place.</li>
       </ol>
+      <p class="note-box">A watermark is part of the page, so it can't be switched off afterwards, but a determined person can still cover or crop it, so it deters copying and marks a draft more than it protects. Text with letters outside the standard fonts, such as macrons, is stamped as a picture so it still shows. Several pages share one copy of a picture, so a logo on every page adds little to the file size. Your PDF is read and changed in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -243,6 +396,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/watermark-pdf.js"></script>
