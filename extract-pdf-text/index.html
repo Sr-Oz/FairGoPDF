@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Extract Text from a PDF Online Free | Fair Go PDF</title>
-<meta name="description" content="Pull all the text out of a PDF and copy or download it as a .txt file, free and in your browser. No upload, no signup.">
+<meta name="description" content="Extract a PDF's text as tidy paragraphs, as laid out on the page, or as Markdown with headings, lists and tables. Pick pages, search, copy or download. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/extract-pdf-text/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Extract Text from a PDF Online Free">
-<meta property="og:description" content="Pull all the text out of a PDF and copy or download it as a .txt file, free and in your browser.">
+<meta property="og:description" content="Extract a PDF's text as paragraphs, as laid out, or as Markdown, and search it. Free and in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/extract-pdf-text/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Extract Text from a PDF Online Free">
-<meta name="twitter:description" content="Pull all the text out of a PDF and copy or download it as a .txt file, free and in your browser.">
+<meta name="twitter:description" content="Extract a PDF's text as paragraphs, as laid out, or as Markdown, and search it. Free and in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -78,48 +78,126 @@
 
     <div class="tool-page-header">
       <h1>Extract Text from a PDF</h1>
-      <p>Pull all the text out of a PDF so you can copy, search, or reuse it. Processed locally, nothing is uploaded.</p>
+      <p>Pull the text out of a PDF as tidy paragraphs in reading order, or exactly where it sits on the page. Keep headings, lists, tables and links as Markdown if you like, choose the pages, search the result, then copy it or download it. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">text_fields</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">text_fields</span></div>
+            <div class="dz-title">Drop your PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
+          </div>
 
-      <div id="editor" style="display:none;">
-        <div class="controls-row">
-          <div class="field">
-            <label><input type="checkbox" id="pageMarkers" checked> Include page markers</label>
+          <p class="file-bar" id="fileBar" hidden></p>
+
+          <div class="status-box" id="status"></div>
+          <div class="progress-bar" id="progress" style="display:none;"><div class="fill" id="progressFill"></div></div>
+
+          <div class="results text-results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Extracted text</h2>
+              <span class="result-total" id="resultTotal"></span>
+            </div>
+            <div class="find-row">
+              <input type="search" id="findInput" placeholder="Find in the text" aria-label="Find in the text" autocomplete="off" spellcheck="false">
+              <button class="btn secondary small" id="findPrev" type="button" disabled>Previous</button>
+              <button class="btn secondary small" id="findNext" type="button" disabled>Next</button>
+              <span class="find-count" id="findCount" aria-live="polite"></span>
+            </div>
+            <textarea id="out" readonly spellcheck="false" aria-label="The extracted text"></textarea>
+            <p class="note-box" id="emptyBox" hidden><span id="emptyText"></span> <a href="/ocr-pdf/">OCR PDF</a> can read the text in a scan.</p>
           </div>
         </div>
-        <textarea id="extractedText" readonly rows="16" style="width:100%; font-family:monospace; font-size:0.85rem; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg-alt); color:var(--text); resize:vertical;"></textarea>
-        <div class="actions-row">
-          <button class="btn" id="copyBtn">Copy to Clipboard</button>
-          <button class="btn secondary" id="downloadBtn">Download as .txt</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
-      </div>
 
-      <div class="status-box" id="status"></div>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Text settings">
+          <div class="side-stick">
+            <details class="acc" data-key="mode" open>
+              <summary><span class="acc-name">Text</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="mode">How to read it</label>
+                  <select id="mode">
+                    <option value="flow" selected>Paragraphs, in reading order</option>
+                    <option value="layout">As laid out on the page</option>
+                  </select>
+                </div>
+                <p class="help-text" id="modeHelp"></p>
+                <div class="qr-field" id="formatField">
+                  <label for="format">Format</label>
+                  <select id="format">
+                    <option value="txt" selected>Plain text (.txt)</option>
+                    <option value="md">Markdown (.md)</option>
+                  </select>
+                </div>
+                <div class="qr-field qr-check">
+                  <input type="checkbox" id="markers" checked>
+                  <label for="markers">Show where each page begins</label>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc" data-key="tidy" id="tidyGroup">
+              <summary><span class="acc-name">Clean-up</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field qr-check"><input type="checkbox" id="columns" checked><label for="columns">Read columns one at a time</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" id="dropRunning" checked><label for="dropRunning">Leave out headers, footers and page numbers</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" id="joinHyphens" checked><label for="joinHyphens">Join words split across lines</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" id="tables" checked><label for="tables">Keep tables as tables</label></div>
+                <div class="qr-field qr-check" id="linksField"><input type="checkbox" id="links" checked><label for="links">Keep links (Markdown)</label></div>
+              </div>
+            </details>
+
+            <details class="acc" data-key="pages" data-empty="Every page">
+              <summary><span class="acc-name">Pages</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="pageRange">Pages to read</label>
+                  <input type="text" id="pageRange" placeholder="All pages, or 1-3, 7, 10-" autocomplete="off" spellcheck="false">
+                </div>
+                <p class="help-text" id="rangeNote"></p>
+              </div>
+            </details>
+
+            <details class="acc" data-key="output" data-empty="File name">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="copyBtn" type="button" disabled>Copy text</button>
+                <button class="btn secondary" id="downloadBtn" type="button" disabled>Save .txt</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
 
     <section class="related-tools-section">
       <h2>Related tools</h2>
       <div class="tool-grid related-tools-grid">
-        <a class="tool-card related-tool-card" href="/pdf-to-images/">
-          <span class="icon"><span class="material-symbols-outlined">image</span></span>
-          <h3>PDF to Images</h3>
+        <a class="tool-card related-tool-card" href="/ocr-pdf/">
+          <span class="icon"><span class="material-symbols-outlined">document_scanner</span></span>
+          <h3>OCR PDF</h3>
+        </a>
+        <a class="tool-card related-tool-card" href="/pdf-to-word/">
+          <span class="icon"><span class="material-symbols-outlined">description</span></span>
+          <h3>PDF to Word</h3>
         </a>
         <a class="tool-card related-tool-card" href="/compare-pdfs/">
           <span class="icon"><span class="material-symbols-outlined">compare_arrows</span></span>
           <h3>Compare PDFs</h3>
-        </a>
-        <a class="tool-card related-tool-card" href="/extract-pdf-images/">
-          <span class="icon"><span class="material-symbols-outlined">photo_library</span></span>
-          <h3>Extract Images</h3>
         </a>
       </div>
     </section>
@@ -127,11 +205,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF file.</li>
-        <li>The text from every page is extracted and shown below, ready to copy.</li>
-        <li>Copy it directly, or download the whole thing as a plain text file.</li>
+        <li>Add a PDF. The text is read straight away, and pages with no text to read are named, so you know when a file is a scan.</li>
+        <li>Choose how to read it: tidy paragraphs in reading order, with columns read one at a time, headers and footers left out and split words joined, or exactly as laid out on the page, which keeps columns and forms lined up. Pick Markdown to keep headings, lists, tables, bold, italic and links.</li>
+        <li>Pick the pages, search the text, then copy it or download it as a .txt or .md file. The text updates as you change a setting.</li>
       </ol>
-      <p class="help-text">This pulls text that's already embedded in the PDF (like from a Word export). It won't extract text from a scanned image, so run that through <a href="/ocr-pdf/">OCR PDF</a> first.</p>
+      <p class="note-box">This reads the text a PDF already holds. A scanned page is a picture, so there is nothing to read until it goes through OCR PDF. Order is worked out from where the text sits, which is right for most documents; a complicated page with sidebars or overlapping boxes can still come out in the wrong order, and "As laid out on the page" is then the safer choice. Your PDF is read in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -218,6 +296,7 @@
 </button>
 
 <script src="/assets/tools.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/tool-names.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>

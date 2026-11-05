@@ -3610,6 +3610,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
   .side-main > .file-bar { order: 2; }
   .side-main > .sign-wrap { order: 2; }
   .side-main > .lock-list { order: 2; }
+  .side-main > .text-results { order: 2; }
   .side-main > .no-text { order: 2; }
   .side-main > .status-box { order: 5; }
   .side-main > .results { order: 6; }
@@ -3737,6 +3738,14 @@ select.fill-in { padding: 0; }
 .pos-grid button[aria-pressed="true"] { border-color: var(--text); background: var(--bg-alt); }
 .pos-grid button[aria-pressed="true"]::after { background: var(--text); }
 .pos-grid button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+/* Extract PDF Text: the text in a box that fills the height of the settings card, with a search above it */
+.results.text-results.visible { display: flex; flex-direction: column; }
+.text-results textarea { flex: 1; width: 100%; min-height: 360px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font: 0.88rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; resize: vertical; }
+.text-results textarea:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.find-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 10px; }
+.find-row input { flex: 1 1 180px; min-width: 0; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font: inherit; }
+.find-count { color: var(--text-muted); font-size: 0.88rem; }
+.text-results .note-box { margin: 10px 0 0; }
 /* Rotate PDF: the page shown large, turned and tilted as it will be, over a grid to line it up against; and a mark on turned thumbnails */
 .rotate-stage { display: flex; justify-content: center; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
 .rotate-stage-wrap .help-text { margin: 0 0 10px; }

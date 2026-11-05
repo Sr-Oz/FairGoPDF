@@ -60,7 +60,7 @@ watermarked output.
 | HEIC to PDF | `/heic-to-pdf/` | Turn one or more iPhone HEIC/HEIF photos into a single PDF |
 | PDF to Images | `/pdf-to-images/` | Export the pages you pick as PNG, JPG or WebP, sized by DPI or pixels, in colour or black and white, or as one long image |
 | Organise PDF Pages | `/organise-pdf/` | Pick pages (click, Shift/Ctrl-click, odd/even, typed ranges) then rotate, delete, duplicate, move or drag them as a group; add blank pages or pages from another PDF; undo/redo; reverse order |
-| Extract PDF Text | `/extract-pdf-text/` | Pull all text out of a PDF to copy or download as .txt |
+| Extract PDF Text | `/extract-pdf-text/` | Extract text as tidy paragraphs in reading order or as laid out on the page, or as Markdown with headings, lists, tables and links; page choice, search, copy or download |
 | OCR PDF | `/ocr-pdf/` | Make a scanned PDF searchable and copyable with on-device text recognition (self-hosted PaddleOCR engine, ~33 MB on first use) |
 | Tag PDF | `/tag-pdf/` | Add accessibility tags, bookmarks, language and a title to a mostly-text PDF, with a review screen for headings and image descriptions |
 | Edit PDF Metadata | `/pdf-metadata/` | View, change, or clear title, author, subject and keywords |
