@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Repair a Corrupted PDF Online Free | Fair Go PDF</title>
-<meta name="description" content="Try to fix a PDF that won't open, such as a broken cross-reference table or minor structural damage, by re-parsing it leniently and rebuilding a clean copy.">
+<meta name="description" content="Find out what is wrong with a PDF that will not open and rebuild it, even from a cut-short download. Free, in your browser, nothing uploaded.">
 <link rel="canonical" href="https://fairgopdf.au/repair-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Repair a Corrupted PDF Online Free">
-<meta property="og:description" content="Attempt to fix a PDF that won't open properly by re-parsing it leniently and rebuilding a clean copy, free and in your browser.">
+<meta property="og:description" content="Find out what is wrong with a PDF that will not open and rebuild it, even from a cut-short download. Free, in your browser, nothing uploaded.">
 <meta property="og:url" content="https://fairgopdf.au/repair-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Repair a Corrupted PDF Online Free">
-<meta name="twitter:description" content="Attempt to fix a PDF that won't open properly by re-parsing it leniently and rebuilding a clean copy, free and in your browser.">
+<meta name="twitter:description" content="Find out what is wrong with a PDF that will not open and rebuild it, even from a cut-short download. Free, in your browser, nothing uploaded.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,26 +77,90 @@
     </script>
     <div class="tool-page-header">
       <h1>Repair a Corrupted PDF</h1>
-      <p>Re-parse a damaged PDF as leniently as possible and rebuild a clean copy. Processed locally, nothing is uploaded.</p>
+      <p>Find out what is wrong with a PDF that will not open, then rebuild it. It reads the file part by part, so a download that was cut short can still give back every page that arrived. It also tells you when a file is not a PDF at all. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">build</span></div>
-        <div class="dz-title">Drop your damaged PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">build</span></div>
+            <div class="dz-title">Drop your damaged PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf,.pdf">
+          </div>
 
-      <div id="editor" style="display:none;">
-        <p class="help-text" id="fileSummary"></p>
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Attempt Repair</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
+          <p class="file-bar" id="fileBar" hidden></p>
+
+          <div class="status-box" id="status"></div>
+          <div class="progress-bar" id="progress" style="display:none;"><div class="fill" id="progressFill"></div></div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your repaired PDF</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="downloadBtn" type="button">Download again</button>
+            </div>
+            <div id="noteLists"></div>
+          </div>
+
+          <div class="results visible" id="inside" hidden>
+            <div class="result-head"><h2 class="result-title">What was found in the file</h2><span class="result-total" id="insideTotal"></span></div>
+            <ul class="note-list" id="insideList"></ul>
+          </div>
         </div>
-      </div>
 
-      <div class="status-box" id="status"></div>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Repair settings">
+          <div class="side-stick">
+            <details class="acc" data-key="method" open>
+              <summary><span class="acc-name">Method</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="method">How to repair it</label>
+                  <select id="method">
+                    <option value="rebuild" selected>Rebuild the file, keeping text and pictures</option>
+                    <option value="pictures">Pictures of the pages that can still be drawn</option>
+                  </select>
+                </div>
+                <p class="help-text" id="methodHelp"></p>
+              </div>
+            </details>
+
+            <details class="acc" data-key="damaged-pages">
+              <summary><span class="acc-name">Damaged pages</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="damaged">A page whose content is gone</label>
+                  <select id="damaged">
+                    <option value="drop" selected>Leave it out</option>
+                    <option value="blank">Keep it as a blank page</option>
+                  </select>
+                </div>
+                <p class="help-text">Keeping blank pages leaves the page numbers where they were, which suits a document that others refer to by page.</p>
+              </div>
+            </details>
+
+            <details class="acc" data-key="output" data-empty="File name">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Repair PDF</button>
+                <button class="btn secondary" id="stopBtn" type="button" hidden>Stop</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -122,18 +186,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add the PDF that's giving you trouble, won't open, shows a blank page, or errors out in
-          another viewer.</li>
-        <li>Click "Attempt Repair". The file is re-parsed as leniently as possible, tolerating invalid
-          objects and a broken cross-reference table, then rebuilt into a fresh, clean PDF.</li>
-        <li>If it works, download the repaired copy.</li>
+        <li>Add the PDF that will not open, shows a blank page or reports an error. A list says what is wrong with it straight away.</li>
+        <li>Click "Repair PDF". The file is read object by object. Junk at the start or end is cut off, a cut-short file is trimmed back to what arrived whole, and the part that says where the pages are is rebuilt.</li>
+        <li>Each page is checked. You get a repaired copy, and a list of what was fixed and what could not be saved.</li>
       </ol>
-      <p class="note-box">Be realistic about what this can fix. It recovers files with a broken or
-        missing cross-reference table, dangling object references, or other structural damage, common
-        results of an interrupted save, a buggy export, or a botched download. It cannot recover data
-        that's genuinely gone, like a truncated file cut off mid-download, or bytes that were actually
-        overwritten. If this tool can't parse enough of the file to rebuild it, you'll get a clear error
-        rather than a silently broken download.</p>
+      <p class="note-box">Be realistic about what this can fix. Damage to the end of a file, such as a download that stopped early, a failed save, or a broken table of contents, is often recoverable, because the pages are written before it. Pages whose content was in the part that never arrived are gone for good, and the tool says which. A file that turns out to be a web page, a picture or a zip with a .pdf name is named as such, because there is nothing to repair. If the structure cannot be rebuilt, "pictures of the pages that can still be drawn" gives you a PDF of what the browser can read, without selectable text. Your file is read and rebuilt in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -221,6 +278,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/repair-pdf.js"></script>
