@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Compress PDF Online Free, Reduce File Size | Fair Go PDF</title>
-<meta name="description" content="Reduce PDF file size online for free, right in your browser. Great for scanned or image-heavy PDFs. No upload, no signup.">
+<meta name="description" content="Make a PDF much smaller online for free: pictures inside are shrunk, text stays sharp, or aim for a size. In your browser, no upload, no signup.">
 <link rel="canonical" href="https://fairgopdf.au/compress-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Compress PDF Online Free, Reduce File Size">
-<meta property="og:description" content="Reduce PDF file size online for free, right in your browser. Great for scanned or image-heavy PDFs. No upload, no signup.">
+<meta property="og:description" content="Make a PDF much smaller online for free: pictures inside are shrunk, text stays sharp, or aim for a size. In your browser, no upload, no signup.">
 <meta property="og:url" content="https://fairgopdf.au/compress-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Compress PDF Online Free, Reduce File Size">
-<meta name="twitter:description" content="Reduce PDF file size online for free, right in your browser. Great for scanned or image-heavy PDFs. No upload, no signup.">
+<meta name="twitter:description" content="Make a PDF much smaller online for free: pictures inside are shrunk, text stays sharp, or aim for a size. In your browser, no upload, no signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,55 +77,142 @@
     </script>
     <div class="tool-page-header">
       <h1>Compress PDF</h1>
-      <p>Reduce PDF file size without leaving your browser.</p>
+      <p>Make a PDF smaller without turning it into pictures. Pictures inside are shrunk to the sharpness you choose, unused data is cleared out, and the text stays text. Aim for a size if you have a limit to meet. See where the space goes first. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">compress</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
-
-      <div id="editor" style="display:none;">
-        <div class="radio-group" style="margin:16px 0;">
-          <label><input type="radio" name="mode" value="fast" checked> Quick clean (keeps text selectable, smaller savings)</label>
-          <label><input type="radio" name="mode" value="strong"> Strong compression (re-renders pages as images, best for scans)</label>
-        </div>
-
-        <div class="controls-row" id="strongControls" style="display:none;">
-          <div class="field">
-            <label for="quality">Image quality (<span id="qualityVal">70</span>%)</label>
-            <input type="range" id="quality" min="20" max="95" value="70">
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">compress</span></div>
+            <div class="dz-title">Drop your PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
           </div>
-          <div class="field">
-            <label for="dpi">Resolution</label>
-            <select id="dpi">
-              <option value="96">96 DPI (smallest)</option>
-              <option value="120" selected>120 DPI (recommended)</option>
-              <option value="150">150 DPI (sharper)</option>
-              <option value="200">200 DPI (large)</option>
-            </select>
+
+          <p class="file-bar" id="fileBar" hidden></p>
+
+          <div class="status-box" id="status"></div>
+          <div class="progress-bar" id="progress" style="display:none;"><div class="fill" id="progressFill"></div></div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your PDF</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="downloadBtn" type="button">Download</button>
+            </div>
+            <div id="noteLists"></div>
+          </div>
+
+          <div class="results visible" id="inside" hidden>
+            <div class="result-head"><h2 class="result-title">What is in this PDF</h2><span class="result-total" id="insideTotal"></span></div>
+            <ul class="note-list" id="insideList"></ul>
+            <p class="help-text" id="insideHint"></p>
           </div>
         </div>
 
-        <p class="note-box" id="strongNote" style="display:none;">
-          Strong compression re-renders every page as a compressed image. This works great for scanned
-          documents and image-heavy PDFs, but selectable text will become part of the image (no longer
-          searchable/selectable). Try Quick clean first if your PDF is mostly text.
-        </p>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Compression settings">
+          <div class="side-stick">
+            <details class="acc" data-key="size" open>
+              <summary><span class="acc-name">Size</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="level">How small</label>
+                  <select id="level">
+                    <option value="balanced" selected>Balanced, sharp on screen and print</option>
+                    <option value="smaller">Smaller, good for email</option>
+                    <option value="smallest">Smallest, readable on screen</option>
+                    <option value="aim">Aim for a size</option>
+                    <option value="custom">My own picture settings</option>
+                  </select>
+                </div>
+                <div class="mode-block" id="block-aim" hidden>
+                  <div class="side-inline">
+                    <div class="qr-field">
+                      <label for="aimSize">Largest size</label>
+                      <input type="number" id="aimSize" min="0.05" step="any" value="2" inputmode="decimal">
+                    </div>
+                    <div class="qr-field">
+                      <label for="aimUnit">Unit</label>
+                      <select id="aimUnit"><option value="KB">KB</option><option value="MB" selected>MB</option></select>
+                    </div>
+                  </div>
+                </div>
+                <p class="help-text" id="levelHelp"></p>
+              </div>
+            </details>
 
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Compress PDF</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
-      </div>
+            <details class="acc" data-key="pictures">
+              <summary><span class="acc-name">Pictures</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field qr-check">
+                  <input type="checkbox" data-short="Recompressed" id="doImages" checked>
+                  <label for="doImages">Shrink the pictures inside</label>
+                </div>
+                <div class="qr-field">
+                  <label for="dpi">Sharpness for each inch of page</label>
+                  <select id="dpi">
+                    <option value="300">300 dpi, print</option>
+                    <option value="200">200 dpi</option>
+                    <option value="150" selected>150 dpi, sharp</option>
+                    <option value="110">110 dpi</option>
+                    <option value="96">96 dpi, screen</option>
+                    <option value="72">72 dpi, small</option>
+                    <option value="60">60 dpi, smallest</option>
+                  </select>
+                </div>
+                <div class="qr-field">
+                  <label for="quality">Picture quality (<span id="qualityVal">75</span>%)</label>
+                  <input type="range" id="quality" min="20" max="95" value="75">
+                </div>
+                <p class="help-text">A picture is only changed when that makes it clearly smaller. Pictures with see-through parts, print colours, black and white scans and tiny pictures are left as they are.</p>
+              </div>
+            </details>
 
-      <div class="status-box" id="status"></div>
+            <details class="acc" data-key="clean-up">
+              <summary><span class="acc-name">Clean up</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field qr-check"><input type="checkbox" data-short="Unused data" id="doUnused" checked><label for="doUnused">Remove data nothing uses</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" data-short="Editor data" id="doEditor" checked><label for="doEditor">Remove page thumbnails and editor data</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" data-short="Squeeze data" id="doStreams" checked><label for="doStreams">Squeeze the rest of the data tighter</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" data-short="Info removed" id="doInfo"><label for="doInfo">Remove title, author and other document info</label></div>
+              </div>
+            </details>
 
-      <div class="results" id="results">
-        <div class="result-item" id="resultItem"></div>
+            <details class="acc" data-key="method" data-empty="Keep text">
+              <summary><span class="acc-name">Method</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="method">How the file is made smaller</label>
+                  <select id="method">
+                    <option value="keep" selected>Keep text and graphics sharp</option>
+                    <option value="pictures">Turn every page into a picture</option>
+                  </select>
+                </div>
+                <p class="help-text" id="methodHelp"></p>
+              </div>
+            </details>
+
+            <details class="acc" data-key="output" data-empty="File name">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Compress PDF</button>
+                <button class="btn secondary" id="stopBtn" type="button" hidden>Stop</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
 
       <div class="keep-sorted" id="keepSorted">
@@ -152,10 +239,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF file.</li>
-        <li>Choose Quick clean for a lossless-ish pass, or Strong compression for maximum size reduction.</li>
-        <li>Click "Compress PDF" and download the result.</li>
+        <li>Add a PDF. A short list shows where its size comes from: pictures, fonts, page content.</li>
+        <li>Pick how small: balanced, smaller, smallest, or a size to aim for. The pictures inside are shrunk to that sharpness, and unused data is cleared out.</li>
+        <li>Click "Compress PDF". You see the size before and after, and what was changed. If the file cannot be made smaller, it says so instead of handing you a bigger one.</li>
       </ol>
+      <p class="help-text">Most of a PDF's size is usually its pictures. This tool finds each picture, works out how big it is on the page, and saves it again at no more detail than you asked for, only when that makes it clearly smaller. Text, fonts, links, forms and bookmarks stay as they are. If a PDF is a scan, so every page is one big picture, or it is mostly text and already small, the saving may be small; "Turn every page into a picture" shrinks scans further but the text can no longer be selected, and OCR PDF can make it searchable again. Your PDF is read and changed in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -243,6 +331,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/compress-pdf.js"></script>

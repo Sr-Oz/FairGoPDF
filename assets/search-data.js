@@ -5,7 +5,7 @@ window.SEARCH_INDEX = [
   // PDF tools
   { title: "Merge PDF", url: "/merge-pdf/", icon: "call_merge", desc: "Combine PDFs and pictures into one, pick pages from each, add bookmarks and blank pages for printing", group: "Organise", category: "PDF Tool" },
   { title: "Split PDF", url: "/split-pdf/", icon: "call_split", desc: "Extract pages, or split by ranges, every few pages, equal parts, bookmarks or a maximum file size", group: "Organise", category: "PDF Tool" },
-  { title: "Compress PDF", url: "/compress-pdf/", icon: "compress", desc: "Reduce PDF file size, quick clean or strong/rasterised", group: "Fix & Optimise", category: "PDF Tool" },
+  { title: "Compress PDF", url: "/compress-pdf/", icon: "compress", desc: "Make a PDF much smaller by shrinking its pictures, keeping text sharp, or aim for a size", group: "Fix & Optimise", category: "PDF Tool" },
   { title: "Images to PDF", url: "/images-to-pdf/", icon: "picture_as_pdf", desc: "Combine JPG, PNG, WebP, GIF or BMP pictures into one PDF, pick the page size and margin, and turn and reorder them", group: "Convert", category: "PDF Tool" },
   { title: "HEIC to PDF", url: "/heic-to-pdf/", icon: "smartphone", desc: "Turn one or more iPhone HEIC/HEIF photos into a single PDF", alt: "heif iphone photo convert", group: "Convert", category: "PDF Tool" },
   { title: "PDF to Images", url: "/pdf-to-images/", icon: "image", desc: "Export pages as PNG, JPG or WebP, pick the size, or stack them into one long image", group: "Convert", category: "PDF Tool" },
