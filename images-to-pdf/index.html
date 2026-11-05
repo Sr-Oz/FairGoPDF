@@ -117,93 +117,103 @@
         </div>
 
         <aside class="qr-preview side-settings" aria-label="PDF settings">
-          <fieldset class="qr-group">
-            <legend>Page</legend>
-            <div class="qr-field">
-              <label for="pageSize">Page size</label>
-              <select id="pageSize">
-                <option value="image" selected>Fit to each picture</option>
-                <option value="a4">A4</option>
-                <option value="a3">A3</option>
-                <option value="a5">A5</option>
-                <option value="letter">US Letter</option>
-                <option value="legal">US Legal</option>
-              </select>
-            </div>
-            <div class="mode-block" id="block-page">
-              <div class="side-inline">
+          <div class="side-stick">
+            <details class="acc" data-key="page" open>
+              <summary><span class="acc-name">Page</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
                 <div class="qr-field">
-                  <label for="orientation">Turn</label>
-                  <select id="orientation">
-                    <option value="auto" selected>To suit the picture</option>
-                    <option value="portrait">Always upright</option>
-                    <option value="landscape">Always sideways</option>
+                  <label for="pageSize">Page size</label>
+                  <select id="pageSize">
+                    <option value="image" selected>Fit to each picture</option>
+                    <option value="a4">A4</option>
+                    <option value="a3">A3</option>
+                    <option value="a5">A5</option>
+                    <option value="letter">US Letter</option>
+                    <option value="legal">US Legal</option>
                   </select>
                 </div>
-                <div class="qr-field">
-                  <label for="fit">Picture</label>
-                  <select id="fit">
-                    <option value="inside" selected>Fit inside</option>
-                    <option value="fill">Fill the page</option>
-                  </select>
+                <div class="mode-block" id="block-page">
+                  <div class="side-inline">
+                    <div class="qr-field">
+                      <label for="orientation">Orientation</label>
+                      <select id="orientation">
+                        <option value="auto" selected>Automatic</option>
+                        <option value="portrait">Upright</option>
+                        <option value="landscape">Sideways</option>
+                      </select>
+                    </div>
+                    <div class="qr-field">
+                      <label for="fit">Picture</label>
+                      <select id="fit">
+                        <option value="inside" selected>Fit inside</option>
+                        <option value="fill">Fill the page</option>
+                      </select>
+                    </div>
+                  </div>
+                  <p class="help-text" id="fitHelp"></p>
+                </div>
+                <div class="side-inline">
+                  <div class="qr-field">
+                    <label for="margin">Margin</label>
+                    <select id="margin">
+                      <option value="0" selected>None</option>
+                      <option value="5">Narrow, 5 mm</option>
+                      <option value="10">Medium, 10 mm</option>
+                      <option value="20">Wide, 20 mm</option>
+                    </select>
+                  </div>
+                  <div class="qr-field">
+                    <label for="paper">Page colour</label>
+                    <select id="paper">
+                      <option value="white" selected>White</option>
+                      <option value="black">Black</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-              <p class="help-text" id="fitHelp"></p>
-            </div>
-            <div class="side-inline">
-              <div class="qr-field">
-                <label for="margin">Margin</label>
-                <select id="margin">
-                  <option value="0" selected>None</option>
-                  <option value="5">Narrow, 5 mm</option>
-                  <option value="10">Medium, 10 mm</option>
-                  <option value="20">Wide, 20 mm</option>
-                </select>
+            </details>
+
+            <details class="acc" data-key="pictures">
+              <summary><span class="acc-name">Pictures</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="level">File size</label>
+                  <select id="level">
+                    <option value="original" selected>Keep the pictures as they are</option>
+                    <option value="balanced">Balanced, sharp at A4 print size</option>
+                    <option value="small">Small, good for email</option>
+                  </select>
+                </div>
+                <p class="help-text" id="levelHelp"></p>
               </div>
-              <div class="qr-field">
-                <label for="paper">Page colour</label>
-                <select id="paper">
-                  <option value="white" selected>White</option>
-                  <option value="black">Black</option>
-                </select>
+            </details>
+
+            <details class="acc" data-key="pdf-details">
+              <summary><span class="acc-name">PDF details</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false" value="images">
+                </div>
+                <div class="qr-field">
+                  <label for="pdfTitle">Title (optional)</label>
+                  <input type="text" id="pdfTitle" maxlength="200" autocomplete="off">
+                </div>
+                <div class="qr-field">
+                  <label for="pdfAuthor">Author (optional)</label>
+                  <input type="text" id="pdfAuthor" maxlength="200" autocomplete="off">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add pictures to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Create PDF</button>
+                <button class="btn secondary" id="stopBtn" type="button" hidden>Stop</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Clear</button>
               </div>
             </div>
-          </fieldset>
-
-          <fieldset class="qr-group">
-            <legend>Pictures</legend>
-            <div class="qr-field">
-              <label for="level">File size</label>
-              <select id="level">
-                <option value="original" selected>Keep the pictures as they are</option>
-                <option value="balanced">Balanced, sharp at A4 print size</option>
-                <option value="small">Small, good for email</option>
-              </select>
-            </div>
-            <p class="help-text" id="levelHelp"></p>
-          </fieldset>
-
-          <fieldset class="qr-group">
-            <legend>PDF details</legend>
-            <div class="qr-field">
-              <label for="prefix">File name</label>
-              <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false" value="images">
-            </div>
-            <div class="qr-field">
-              <label for="pdfTitle">Title (optional)</label>
-              <input type="text" id="pdfTitle" maxlength="200" autocomplete="off">
-            </div>
-            <div class="qr-field">
-              <label for="pdfAuthor">Author (optional)</label>
-              <input type="text" id="pdfAuthor" maxlength="200" autocomplete="off">
-            </div>
-          </fieldset>
-
-          <p class="split-summary" id="summary" role="status">Add pictures to begin.</p>
-          <div class="side-actions">
-            <button class="btn" id="runBtn" type="button" disabled>Create PDF</button>
-            <button class="btn secondary" id="stopBtn" type="button" hidden>Stop</button>
-            <button class="btn secondary" id="clearBtn" type="button" disabled>Clear</button>
           </div>
         </aside>
       </div>
@@ -332,6 +342,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/images-to-pdf.js"></script>

@@ -1916,17 +1916,18 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
 }
 
 .share {
-  --share-size: 32px;
+  --share-size: 34px;
   --share-ink: var(--accent);
+  --btn-shadow: var(--accent);
+  --btn-o: 2px;
   position: relative;
   display: inline-flex;
   align-items: center;
 }
-:root[data-theme="dark"] .share { --share-ink: var(--brand-contrast); }
+:root[data-theme="dark"] .share { --share-ink: var(--brand-contrast); --btn-shadow: var(--text); }
 
 .share-links {
   display: inline-flex;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
 }
 
 .share-btn {
@@ -1936,12 +1937,13 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
   height: var(--share-size);
   margin: 0 0 0 calc(var(--share-size) * -1);
   padding: 0;
-  border: 0;
-  border-radius: 50%;
+  border: 2px solid var(--text);
+  border-radius: 6px;
   background: var(--brand);
+  box-shadow: var(--btn-o) var(--btn-o) 0 var(--btn-shadow);
   color: transparent;
   cursor: pointer;
-  transition: margin 0.3s ease, background 0.2s ease, color 0.3s ease;
+  transition: margin 0.3s ease, background 0.2s ease, color 0.3s ease, transform 0.08s ease, box-shadow 0.08s ease;
 }
 .share-btn:first-child { margin-left: 0; }
 .share-btn svg { width: 16px; height: 16px; display: block; }
@@ -1953,9 +1955,10 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
   display: grid;
   place-items: center;
   padding: 0;
-  border: 0;
-  border-radius: 999px;
+  border: 2px solid var(--text);
+  border-radius: 6px;
   background: var(--brand);
+  box-shadow: var(--btn-o) var(--btn-o) 0 var(--btn-shadow);
   color: var(--share-ink);
   cursor: pointer;
   transition: opacity 0.25s ease;
@@ -1964,14 +1967,17 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
 
 .share:is(:hover, :focus-within, .is-open) .share-toggle { opacity: 0; pointer-events: none; }
 .share:is(:hover, :focus-within, .is-open) .share-btn {
-  margin-left: 6px;
+  margin-left: 12px;
   color: var(--share-ink);
 }
 .share:is(:hover, :focus-within, .is-open) .share-btn:first-child { margin-left: 0; }
 .share:is(:hover, :focus-within, .is-open) .share-btn:is(:hover, :focus-visible) {
   background: var(--accent);
   color: var(--on-accent);
+  transform: translate(-1px, -1px);
+  box-shadow: calc(var(--btn-o) + 1px) calc(var(--btn-o) + 1px) 0 var(--text);
 }
+.share:is(:hover, :focus-within, .is-open) .share-btn:active { transform: translate(var(--btn-o), var(--btn-o)); box-shadow: 0 0 0 var(--text); }
 .share-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2136,23 +2142,33 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: 18px;
   color: var(--text-muted);
   font-size: 0.85rem;
 }
 .faq-common button {
-  padding: 5px 13px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--bg-alt);
+  --btn-o: 2px;
+  min-height: 36px;
+  padding: 4px 14px;
+  border: 2px solid var(--text);
+  border-radius: 6px;
+  background: var(--bg);
+  box-shadow: var(--btn-o) var(--btn-o) 0 var(--text);
   color: var(--text);
   font: inherit;
   font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.2;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.12s ease;
 }
-.faq-common button:hover { background: color-mix(in srgb, var(--brand) 12%, var(--bg-alt)); color: var(--brand); }
+@media (hover: hover) {
+  .faq-common button:hover { background: var(--bg-alt); transform: translate(-1px, -1px); box-shadow: calc(var(--btn-o) + 1px) calc(var(--btn-o) + 1px) 0 var(--text); }
+}
+.faq-common button:active { transform: translate(var(--btn-o), var(--btn-o)); box-shadow: 0 0 0 var(--text); }
+.faq-common button:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .faq-common button, .share-btn { transition: none; } .faq-common button:hover, .faq-common button:active { transform: none; } }
 
 /* Hub: category cards */
 .faq-cards {
@@ -3380,25 +3396,35 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .qr-download { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .qr-preview .btn { width: 100%; }
 
-.qr-types { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.qr-types { display: flex; flex-wrap: wrap; gap: 14px 12px; margin-bottom: 22px; }
+/* a choice between options: the same Press look as the buttons, the chosen one filled and flat */
 .qr-type {
+  --btn-o: 3px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 9px 14px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
+  min-height: 44px;
+  padding: 6px 16px;
+  border: 2px solid var(--text);
+  border-radius: 6px;
   background: var(--bg);
+  box-shadow: var(--btn-o) var(--btn-o) 0 var(--text);
   color: var(--text);
   font: inherit;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.12s ease;
 }
 .qr-type .material-symbols-outlined { font-size: 1.15rem; color: var(--text-muted); }
-.qr-type:hover { border-color: var(--brand); }
-.qr-type[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-contrast); }
+@media (hover: hover) {
+  .qr-type:hover { transform: translate(-1px, -1px); box-shadow: calc(var(--btn-o) + 1px) calc(var(--btn-o) + 1px) 0 var(--text); }
+}
+.qr-type:active { transform: translate(var(--btn-o), var(--btn-o)); box-shadow: 0 0 0 var(--text); }
+.qr-type[aria-pressed="true"] { background: var(--brand); color: var(--brand-contrast); transform: none; box-shadow: none; }
 .qr-type[aria-pressed="true"] .material-symbols-outlined { color: inherit; }
 
 .qr-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
@@ -3526,14 +3552,16 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .side-main .file-list, .side-main .results { margin: 0; }
 .side-settings { position: static; gap: 4px; }
 .side-settings .qr-group { margin-bottom: 16px; }
-.side-settings .qr-types { margin-bottom: 14px; }
+/* two ways of working sit side by side, sharing the row */
+.side-settings .qr-types { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
 .side-settings .qr-field + .help-text, .side-settings .ci-presets + .help-text, .side-settings .side-inline + .help-text { margin-top: 10px; }
 .side-settings .help-text { margin: 8px 0 0; }
-.side-inline { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.side-inline { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: end; } /* a label that wraps must not push its box below its neighbour's */
 .ci-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .side-settings .btn { width: auto; }
 .side-settings .qr-field + .qr-field { margin-top: 12px; }
-.side-settings .side-inline > .qr-field + .qr-field { margin-top: 0; } /* side by side, so the second one must not drop below the first */
+.side-settings .side-inline > .qr-field + .qr-field { margin-top: 0; }
+.side-settings .side-inline + .qr-field { margin-top: 12px; } /* side by side, so the second one must not drop below the first */
 .side-settings .qr-check label input[type="number"] { display: inline-block; width: 4.5em; padding: 4px 8px; margin: 0 2px; }
 .side-actions { display: flex; flex-wrap: wrap; gap: 16px; }
 /* the main action gets room: clear of the summary above it, the full width of the card, and space below for its offset shadow */
@@ -3542,6 +3570,23 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .side-settings .split-summary + .side-actions { margin-top: 16px; }
 .side-settings .side-actions .btn { flex: 1 1 0; min-width: 0; }
 .side-settings .side-actions .btn:not(.secondary) { flex: 1 1 100%; min-height: 48px; padding: 0 28px; }
+/* the summary and the main action sit at the foot of the card and stay at the bottom of the screen while the card is on it, so the button is always in view */
+.side-foot { position: sticky; bottom: 0; z-index: 2; margin: auto -20px -20px; padding: 14px 20px 20px; background: var(--bg-alt); border-top: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius); }
+.side-foot .split-summary + .side-actions { margin-top: 12px; }
+
+/* The settings card as an accordion: a row for each group with its name, what is chosen in it and a chevron. Opening one closes the others. */
+.acc { border-top: 1px solid var(--border); }
+.acc:first-of-type { border-top: 0; }
+.acc > summary { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 0; list-style: none; cursor: pointer; font-weight: 700; font-size: 1.05rem; color: var(--text); }
+.acc > summary::-webkit-details-marker { display: none; }
+.acc > summary .acc-name { flex: none; }
+.acc > summary .acc-value { flex: 1; min-width: 0; overflow: hidden; text-align: right; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+.acc[open] > summary .acc-value { visibility: hidden; }
+.acc > summary::after { content: ""; flex: none; width: 0.5em; height: 0.5em; margin: -0.2em 4px 0 0; border: solid currentColor; border-width: 0 2px 2px 0; transform: rotate(45deg); transition: transform 0.15s ease; }
+.acc[open] > summary::after { transform: rotate(-135deg); margin-top: 0.1em; }
+.acc > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+.acc-body { padding: 4px 0 18px; }
+@media (prefers-reduced-motion: reduce) { .acc > summary::after { transition: none; } }
 .result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
 .result-title { margin: 0; font-size: 1.1rem; }
 .result-total { flex: 1; color: var(--text-muted); font-size: 0.9rem; }
@@ -3588,8 +3633,8 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .card-range-note.is-error { color: var(--danger); }
 
 /* Split PDF: the settings stay in view beside the pages, and the pages show which file they go into */
-/* the card is as tall as the row; what is inside it stays in view while the long main column scrolls */
-.side-stick { display: flex; flex-direction: column; gap: 4px; position: sticky; top: 88px; max-height: calc(100vh - 110px); overflow-y: auto; padding: 0 6px 6px 0; margin: 0 -6px -6px 0; }
+/* the card is as tall as the row, and what is inside it fills it, so the foot below can sit at the bottom of the card */
+.side-stick { display: flex; flex-direction: column; flex: 1 1 auto; gap: 4px; }
 .file-bar { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .file-bar[hidden], .split-grid-wrap[hidden] { display: none; }
 .split-grid-wrap .help-text { margin: 0; }
@@ -3605,6 +3650,8 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .page-thumb.has-part .part-tag { display: block; }
 .page-thumb-grid.readonly .page-thumb { cursor: default; }
 .page-thumb-grid.readonly .page-thumb.selected { border-color: var(--border); }
+/* Excel to PDF: the sheets to include, one tick each, scrolling when there are many */
+.sheet-list { display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto; margin-bottom: 10px; }
 /* Word to PDF: what was changed to fit, and what was left out, under the finished PDF */
 .note-title { margin: 14px 0 4px; font-size: 0.95rem; }
 .note-list { margin: 0; padding-left: 1.2em; font-size: 0.88rem; color: var(--text-muted); }
@@ -3613,7 +3660,6 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .image-results .result-thumb-box { flex: none; display: flex; justify-content: center; width: 64px; }
 .image-results .result-thumb { flex: none; width: auto; height: auto; max-width: 64px; max-height: 64px; border: 1px solid var(--border); border-radius: 6px; background: repeating-conic-gradient(var(--bg-alt) 0 25%, var(--bg) 0 50%) 0 0 / 12px 12px; }
 @media (max-width: 899px) {
-  .side-stick { position: static; max-height: none; overflow: visible; }
 }
 
 /* Organise PDF Pages: pick, drag and tidy the pages; the tools sit beside them */

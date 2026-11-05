@@ -107,36 +107,42 @@
 
         <aside class="qr-preview side-settings side-sticky" aria-label="PDF settings">
           <div class="side-stick">
-            <fieldset class="qr-group">
-              <legend>Page</legend>
-              <div class="qr-field">
-                <label for="pageSize">Page size</label>
-                <select id="pageSize">
-                  <option value="keep" selected>Keep the size from Word</option>
-                  <option value="a4">A4</option>
-                  <option value="letter">US Letter</option>
-                </select>
+            <details class="acc" data-key="page" open>
+              <summary><span class="acc-name">Page</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="pageSize">Page size</label>
+                  <select id="pageSize">
+                    <option value="keep" selected>Keep the size from Word</option>
+                    <option value="a4">A4</option>
+                    <option value="letter">US Letter</option>
+                  </select>
+                </div>
+                <p class="help-text">A page keeps its orientation and margins. Changing the size can move where lines and pages break.</p>
               </div>
-              <p class="help-text">A page keeps its orientation and margins. Changing the size can move where lines and pages break.</p>
-            </fieldset>
+            </details>
 
-            <fieldset class="qr-group">
-              <legend>PDF details</legend>
-              <div class="qr-field">
-                <label for="pdfTitle">Title</label>
-                <input type="text" id="pdfTitle" maxlength="200" autocomplete="off">
+            <details class="acc" data-key="pdf-details" data-empty="Title and author, optional">
+              <summary><span class="acc-name">PDF details</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="pdfTitle">Title</label>
+                  <input type="text" id="pdfTitle" maxlength="200" autocomplete="off">
+                </div>
+                <div class="qr-field">
+                  <label for="pdfAuthor">Author</label>
+                  <input type="text" id="pdfAuthor" maxlength="200" autocomplete="off">
+                </div>
+                <p class="help-text">Both are optional. They show in a PDF reader's document properties.</p>
               </div>
-              <div class="qr-field">
-                <label for="pdfAuthor">Author</label>
-                <input type="text" id="pdfAuthor" maxlength="200" autocomplete="off">
-              </div>
-              <p class="help-text">Both are optional. They show in a PDF reader's document properties.</p>
-            </fieldset>
+            </details>
 
-            <p class="split-summary" id="summary" role="status">Add a Word file to begin.</p>
-            <div class="side-actions">
-              <button class="btn" id="runBtn" type="button" disabled>Create PDF</button>
-              <button class="btn secondary" id="cancelBtn" type="button" hidden>Cancel</button>
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a Word file to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Create PDF</button>
+                <button class="btn secondary" id="cancelBtn" type="button" hidden>Cancel</button>
+              </div>
             </div>
           </div>
         </aside>
@@ -266,6 +272,7 @@
 <script src="/assets/vendor/docx/jszip.min.js"></script>
 <script src="/assets/vendor/docx/docx-preview.min.js"></script>
 <script src="/assets/vendor/docx/fontkit.umd.min.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/word-to-pdf.js"></script>

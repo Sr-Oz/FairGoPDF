@@ -98,7 +98,7 @@ watermarked output.
 | Markdown to PDF | `/markdown-to-pdf/` | Turn Markdown into a styled, paginated PDF |
 | Word to PDF | `/word-to-pdf/` | Turn a Word (.docx) document into a PDF that keeps its fonts, colours, tables, pictures, headers, footers, footnotes, text boxes, equations and columns, with a page-size choice and a list of what was changed or left out (docx-preview lays it out, pdf-lib redraws it as vector PDF with look-alike fonts) |
 | CSV to PDF | `/csv-to-pdf/` | Turn a CSV file into a paginated PDF table |
-| Excel to PDF | `/excel-to-pdf/` | Turn a spreadsheet into a paginated PDF table |
+| Excel to PDF | `/excel-to-pdf/` | Turn a spreadsheet (.xlsx, .xls, .ods) into a PDF: choose sheets, keep column widths, merged cells and cell shading, fit wide tables, repeat header rows, use Excel's print area, add page numbers (embedded Liberation Sans, so accented Latin, Greek and Cyrillic work) |
 | RTF to PDF | `/rtf-to-pdf/` | Turn a Rich Text (.rtf) file into a PDF |
 | EPUB to PDF | `/epub-to-pdf/` | Turn an EPUB ebook into a PDF, chapters in order |
 | PDF to Word | `/pdf-to-word/` | Turn a PDF into an editable .docx from the position and size of the text: paragraphs, headings, bold/italic, lists, two-column pages, links, pictures, page size and margins, with headers/footers and page numbers left out, a page range, a preview before download, and a hand-off to OCR PDF for scans |

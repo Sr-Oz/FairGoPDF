@@ -49,7 +49,7 @@ window.SEARCH_INDEX = [
   { title: "Markdown to PDF", url: "/markdown-to-pdf/", icon: "markdown", desc: "Turn Markdown into a styled, paginated PDF", group: "Convert", category: "PDF Tool" },
   { title: "Word to PDF", url: "/word-to-pdf/", icon: "description", desc: "Turn a Word (.docx) document into a PDF that keeps its fonts, tables, pictures, footnotes, text boxes and columns", group: "Convert", category: "PDF Tool" },
   { title: "CSV to PDF", url: "/csv-to-pdf/", icon: "table_chart", desc: "Turn a CSV file into a paginated PDF table", group: "Convert", category: "PDF Tool" },
-  { title: "Excel to PDF", url: "/excel-to-pdf/", icon: "table_view", desc: "Turn an Excel or OpenDocument spreadsheet into a paginated PDF table", group: "Convert", category: "PDF Tool" },
+  { title: "Excel to PDF", url: "/excel-to-pdf/", icon: "table_view", desc: "Turn an Excel or OpenDocument spreadsheet into a PDF: pick sheets, keep column widths and shading, fit wide tables, repeat the header row", group: "Convert", category: "PDF Tool" },
   { title: "RTF to PDF", url: "/rtf-to-pdf/", icon: "text_snippet", desc: "Turn a Rich Text (.rtf) file into a PDF, paragraphs and bold/italic carry across", group: "Convert", category: "PDF Tool" },
   { title: "EPUB to PDF", url: "/epub-to-pdf/", icon: "auto_stories", desc: "Turn an EPUB ebook into a PDF, chapters kept in reading order", group: "Convert", category: "PDF Tool" },
   { title: "PDF to Word", url: "/pdf-to-word/", icon: "swap_horiz", desc: "Turn a PDF into an editable Word (.docx) with paragraphs, headings, lists, links and pictures, and preview it first", group: "Convert", category: "PDF Tool" },

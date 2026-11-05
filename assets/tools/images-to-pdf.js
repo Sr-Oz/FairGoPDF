@@ -340,4 +340,16 @@ $("downloadBtn").addEventListener("click", () => {
   if (result) triggerDownload(result.blob, result.outName);
 });
 
+// what the closed rows of the settings card say
+if (window.FGPAcc) {
+  const text = (id) => $(id).options[$(id).selectedIndex].text;
+  FGPAcc.set("page", () => {
+    const s = settings();
+    const size = s.size === "image" ? "Fit to picture" : `${text("pageSize")}${s.fit === "fill" ? ", filled" : ""}`;
+    return size + (s.marginMm ? `, ${s.marginMm} mm margin` : "") + (s.paper === "black" ? ", black" : "");
+  });
+  FGPAcc.set("pictures", () => ({ original: "As they are", balanced: "Balanced", small: "Small" }[$("level").value]));
+  FGPAcc.set("pdf-details", () => $("prefix").value.trim() || "images");
+}
+
 updatePlan();

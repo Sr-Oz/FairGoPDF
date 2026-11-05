@@ -400,4 +400,16 @@ exportBtn.addEventListener("click", async () => {
   }
 });
 
+// what the closed rows of the settings card say
+if (window.FGPAcc) {
+  const text = (id) => $(id).options[$(id).selectedIndex].text;
+  FGPAcc.set("pages", () => (!state.count ? "All pages" : state.selected.size === state.count ? `All ${state.count} pages` : state.selected.size ? compactPages([...state.selected]) : "No pages"));
+  FGPAcc.set("image", () => {
+    const s = settings();
+    return [s.format.toUpperCase() + (FORMATS[s.format].lossy ? ` ${$("quality").value}%` : ""), s.colour === "colour" ? "colour" : text("colour").toLowerCase(), s.transparent ? "see-through" : ""].filter(Boolean).join(", ");
+  });
+  FGPAcc.set("size", () => { const s = settings(); return s.mode === "dpi" ? `${s.dpi} DPI` : s.mode === "width" ? `${s.px} px wide` : `${s.px} px longest side`; });
+  FGPAcc.set("output", () => (settings().layout === "stitch" ? "One long image" : "One image per page"));
+}
+
 syncControls();
