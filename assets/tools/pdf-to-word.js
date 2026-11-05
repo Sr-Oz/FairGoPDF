@@ -59,7 +59,7 @@ function resetOutput() {
 
 async function loadFile(file) {
   setStatus(statusEl, "Reading the PDF…", "");
-  if (state.doc) state.doc.destroy();
+  if (state.doc) state.doc.loadingTask.destroy();
   const doc = await loadPdfJsDoc(new Uint8Array(await file.arrayBuffer()));
   Object.assign(state, { file, doc, count: doc.numPages });
   resetOutput();
@@ -87,7 +87,7 @@ initDropzone(dropzone, $("fileInput"), handleFiles);
 if (window.KeepSorted) KeepSorted.init({ currentTool: "pdf-to-word", dropzone, onFiles: handleFiles });
 
 $("clearBtn").addEventListener("click", () => {
-  if (state.doc) state.doc.destroy();
+  if (state.doc) state.doc.loadingTask.destroy();
   Object.assign(state, { file: null, doc: null, count: 0 });
   resetOutput();
   $("fileBar").hidden = true;

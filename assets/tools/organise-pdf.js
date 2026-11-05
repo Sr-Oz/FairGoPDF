@@ -333,7 +333,7 @@ async function openSource(file) {
 
 async function loadFile(file) {
   setStatus(statusEl, "Reading the PDF…", "");
-  for (const s of state.sources) s.doc.destroy();
+  for (const s of state.sources) s.doc.loadingTask.destroy();
   const source = await openSource(file);
   state.sources = [source];
   state.nextId = 1;
@@ -367,7 +367,7 @@ if (window.KeepSorted) KeepSorted.init({ currentTool: "organise-pdf", dropzone, 
 $("thumbSize").addEventListener("input", () => grid.style.setProperty("--thumb", `${$("thumbSize").value}px`));
 
 $("clearBtn").addEventListener("click", () => {
-  for (const s of state.sources) s.doc.destroy();
+  for (const s of state.sources) s.doc.loadingTask.destroy();
   Object.assign(state, { sources: [], pages: [], initial: [], selected: new Set(), anchor: null });
   history.clear();
   grid.innerHTML = "";

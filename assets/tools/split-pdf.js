@@ -95,9 +95,9 @@ function buildGrid(ratio) {
 async function loadFile(file) {
   const generation = ++state.generation;
   setStatus(statusEl, "Reading the PDF…", "");
-  if (state.doc) state.doc.destroy();
+  if (state.doc) state.doc.loadingTask.destroy();
   const doc = await loadPdfJsDoc(new Uint8Array(await file.arrayBuffer()));
-  if (generation !== state.generation) { doc.destroy(); return; }
+  if (generation !== state.generation) { doc.loadingTask.destroy(); return; }
   Object.assign(state, { file, doc, count: doc.numPages, selected: new Set(Array.from({ length: doc.numPages }, (_, i) => i + 1)), results: [], sizeParts: null });
   state.bookmarks = await readBookmarks(doc);
   const first = await doc.getPage(1);
@@ -110,7 +110,7 @@ async function loadFile(file) {
   $("results").classList.remove("visible");
   dropzone.classList.add("compact");
   clearStatus(statusEl);
-  syncRangeInput();
+  selectionChanged(true);
   syncMode();
 }
 
@@ -230,7 +230,7 @@ function syncMode() {
   $("modeHelp").textContent = MODE_HELP[mode] + (mode === "bookmarks" && state.count ? (marks ? ` This PDF has ${marks} top-level bookmark${marks === 1 ? "" : "s"}.` : " This PDF has no bookmarks.") : "");
   pageGrid.classList.toggle("readonly", !show.selected);
   $("gridHelp").textContent = show.selected
-    ? "Click pages to pick them, or type in the Pages box. Picked pages have a green border."
+    ? "Click pages to pick them, or type in the Pages box. Picked pages are outlined."
     : mode === "size" ? "Pages are shared out when you press Split." : "The coloured labels show which file each page goes into.";
   updatePlan();
 }

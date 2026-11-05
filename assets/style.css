@@ -3595,6 +3595,9 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .page-thumb.has-part .part-tag { display: block; }
 .page-thumb-grid.readonly .page-thumb { cursor: default; }
 .page-thumb-grid.readonly .page-thumb.selected { border-color: var(--border); }
+/* PDF to Images: each finished image shows a small preview, on a checker so a see-through one reads as see-through */
+.image-results .result-thumb-box { flex: none; display: flex; justify-content: center; width: 64px; }
+.image-results .result-thumb { flex: none; width: auto; height: auto; max-width: 64px; max-height: 64px; border: 1px solid var(--border); border-radius: 6px; background: repeating-conic-gradient(var(--bg-alt) 0 25%, var(--bg) 0 50%) 0 0 / 12px 12px; }
 @media (max-width: 899px) {
   .side-sticky { position: static; max-height: none; overflow: visible; }
 }
