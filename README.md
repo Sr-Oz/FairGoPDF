@@ -64,7 +64,7 @@ watermarked output.
 | OCR PDF | `/ocr-pdf/` | Make a scanned PDF searchable and copyable with on-device text recognition (self-hosted PaddleOCR engine, ~33 MB on first use) |
 | Tag PDF | `/tag-pdf/` | Add accessibility tags, bookmarks, language and a title to a mostly-text PDF, with a review screen for headings and image descriptions |
 | Edit PDF Metadata | `/pdf-metadata/` | View, change, or clear title, author, subject and keywords |
-| Add Page Numbers | `/add-page-numbers/` | Stamp page numbers in any position/format, with zero-padding for Bates-style numbering |
+| Add Page Numbers | `/add-page-numbers/` | Number pages in any format, style (1, i, I, a, A) and position, skip or choose pages, swap sides for a book, Bates-style padding, with a live preview |
 | Watermark PDF | `/watermark-pdf/` | Stamp text or a picture, once or repeated across the page, turned and faded, on top or behind, on the pages you choose, with a live preview |
 | Resize PDF Pages | `/resize-pdf-pages/` | Scale every page to A4, Letter or Legal size |
 | Crop PDF Pages | `/crop-pdf/` | Trim margins from every page, crop each page on its own, or fit the crop to the content |
