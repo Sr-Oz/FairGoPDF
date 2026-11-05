@@ -89,8 +89,58 @@ async function pagePictures(page, ops, viewport, files, pageNo) {
   return found;
 }
 
+// the straight lines drawn on a page, which is what a ruled table is made of: stroked paths, and filled paths that are thin enough
+// to be a line (a rule drawn as a flat rectangle). Each is { x1, y1, x2, y2 } on the page as it is seen.
+const STROKED = new Set([OPS.stroke, OPS.closeStroke, OPS.fillStroke, OPS.eoFillStroke, OPS.closeFillStroke, OPS.closeEOFillStroke]);
+const FILLED = new Set([OPS.fill, OPS.eoFill]);
+
+function pageRules(ops, viewport) {
+  const rules = [];
+  let ctm = [1, 0, 0, 1, 0, 0];
+  const stack = [];
+  for (let i = 0; i < ops.fnArray.length && rules.length < 4000; i++) {
+    const fn = ops.fnArray[i];
+    const args = ops.argsArray[i];
+    if (fn === OPS.save) stack.push(ctm);
+    else if (fn === OPS.restore) ctm = stack.pop() || [1, 0, 0, 1, 0, 0];
+    else if (fn === OPS.transform) ctm = Util.transform(ctm, args);
+    else if (fn === OPS.paintFormXObjectBegin) { stack.push(ctm); if (args && args[0]) ctm = Util.transform(ctm, args[0]); }
+    else if (fn === OPS.paintFormXObjectEnd) ctm = stack.pop() || [1, 0, 0, 1, 0, 0];
+    else if (fn === OPS.constructPath && args && (STROKED.has(args[0]) || FILLED.has(args[0]))) {
+      const d = args[1] && args[1][0];
+      if (!d) continue;
+      const m = Util.transform(viewport.transform, ctm);
+      const at = (x, y) => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]];
+      const segs = [];
+      let cur = null;
+      let start = null;
+      for (let k = 0; k < d.length;) {
+        const op = d[k++];
+        if (op === 0) { cur = at(d[k], d[k + 1]); start = cur; k += 2; }
+        else if (op === 1) { const p = at(d[k], d[k + 1]); k += 2; if (cur) segs.push([cur, p]); cur = p; }
+        else if (op === 2) { k += 6; cur = at(d[k - 2], d[k - 1]); }
+        else if (op === 3) { k += 4; cur = at(d[k - 2], d[k - 1]); }
+        else if (op === 4) { if (cur && start) segs.push([cur, start]); cur = start; }
+        else break;
+      }
+      if (FILLED.has(args[0])) {
+        // a flat filled rectangle is a rule; a big one is shading, which is not
+        const xs = segs.flatMap((s) => [s[0][0], s[1][0]]);
+        const ys = segs.flatMap((s) => [s[0][1], s[1][1]]);
+        if (!xs.length) continue;
+        const [x1, x2, y1, y2] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+        if (y2 - y1 <= 2 && x2 - x1 >= 6) rules.push({ x1, y1: (y1 + y2) / 2, x2, y2: (y1 + y2) / 2 });
+        else if (x2 - x1 <= 2 && y2 - y1 >= 6) rules.push({ x1: (x1 + x2) / 2, y1, x2: (x1 + x2) / 2, y2 });
+      } else {
+        for (const [a, b] of segs) rules.push({ x1: a[0], y1: a[1], x2: b[0], y2: b[1] });
+      }
+    }
+  }
+  return rules;
+}
+
 // pageNumbers: 1-based, in order. -> { pages, images (Map: id -> { bytes, ext, pxW, pxH }), title, author }
-export async function extractPages(doc, pageNumbers, { images = true, links = true, onProgress, isCancelled = () => false } = {}) {
+export async function extractPages(doc, pageNumbers, { images = true, links = true, tables = true, onProgress, isCancelled = () => false } = {}) {
   const files = new Map();
   const pages = [];
   for (const [n, pageNo] of pageNumbers.entries()) {
@@ -134,7 +184,8 @@ export async function extractPages(doc, pageNumbers, { images = true, links = tr
     }
 
     const pictures = images ? await pagePictures(page, ops, viewport, files, pageNo) : [];
-    pages.push({ number: pageNo, width: viewport.width, height: viewport.height, items, images: pictures, rotated: rotated.join(" ").replace(/\s+/g, " ").trim() });
+    const rules = tables ? pageRules(ops, viewport) : [];
+    pages.push({ number: pageNo, width: viewport.width, height: viewport.height, items, images: pictures, rules, rotated: rotated.join(" ").replace(/\s+/g, " ").trim() });
     page.cleanup();
   }
   let title = "";

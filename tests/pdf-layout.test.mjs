@@ -332,3 +332,55 @@ test("margins are the widest text area seen, so a short page does not make a hug
   const justShort = buildDocument([short]).sections[0];
   assert.equal(justShort.margins.bottom, 108); // capped at 1.5 inches
 });
+
+// ---------------------------------------------------------------- tables
+
+const ruledPage = () => {
+  const rules = [];
+  for (const y of [200, 224, 248]) rules.push({ x1: 72, y1: y, x2: 372, y2: y });
+  for (const x of [72, 172, 272, 372]) rules.push({ x1: x, y1: 200, x2: x, y2: 248 });
+  const cell = (s, c, r) => T(s, 72 + c * 100 + 6, 200 + r * 24 + 16);
+  const items = [
+    ...paragraph(["An introduction that sits above the table.", "Its second line."], 72, 100),
+    cell("Item", 0, 0), cell("Qty", 1, 0), cell("Price", 2, 0), cell("Widget", 0, 1), cell("4", 1, 1), cell("$12.50", 2, 1),
+    ...paragraph(["A closing line that sits below the table."], 72, 300),
+  ];
+  return page(items, { rules });
+};
+
+test("a ruled table becomes a table block between the paragraphs around it", () => {
+  const doc = buildDocument([ruledPage()]);
+  const blocks = blocksOf(doc);
+  assert.deepEqual(blocks.map((b) => b.type), ["p", "table", "p"]);
+  const t = blocks[1];
+  assert.equal(t.ruled, true);
+  assert.equal(t.widths.length, 3);
+  assert.deepEqual(t.rows[1].map((c) => c.runs.map((r) => r.text).join("")), ["Widget", "4", "$12.50"]);
+  assert.equal(doc.stats.tables, 1);
+  assert.ok(blocks[2].before >= 0);
+});
+
+test("tables can be switched off, and the text stays as lines", () => {
+  const doc = buildDocument([ruledPage()], { tables: false });
+  assert.ok(blocksOf(doc).every((b) => b.type !== "table"));
+  assert.equal(doc.stats.tables, 0);
+});
+
+test("a table of lined-up text has no borders and right-aligned numbers", () => {
+  const rows = [["Region", "Sales"], ["North", "1,200"], ["South", "980"], ["East", "15,410"]];
+  const items = [];
+  rows.forEach((r, i) => {
+    items.push(T(r[0], 72, 200 + i * 18));
+    items.push(T(r[1], 340 - r[1].length * 5.5, 200 + i * 18));
+  });
+  const doc = buildDocument([page(items)]);
+  const t = blocksOf(doc).find((b) => b.type === "table");
+  assert.ok(t);
+  assert.equal(t.ruled, false);
+  assert.deepEqual(t.rows.map((r) => r.map((c) => c.align)), [["left", "right"], ["left", "right"], ["left", "right"], ["left", "right"]]);
+});
+
+test("the page margins take in a table", () => {
+  const doc = buildDocument([ruledPage()]);
+  assert.ok(doc.sections[0].margins.left <= 72 + 1);
+});

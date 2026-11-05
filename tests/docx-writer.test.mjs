@@ -140,3 +140,23 @@ test("an empty document is still a valid one", () => {
   assert.equal(wellFormed(files["word/document.xml"]), "ok");
   assert.ok(files["word/document.xml"].includes("<w:p/>"));
 });
+
+test("a table is written as a Word table with fixed columns, borders only when the PDF had them, and a closing paragraph", () => {
+  const cell = (text, extra = {}) => ({ runs: [run(text)], align: "left", span: 1, ...extra });
+  const table = (ruled) => ({ type: "table", ruled, widths: [100, 100, 100], rows: [[cell("A"), cell("B", { span: 2 })], [cell("1"), cell("2", { align: "right" }), cell("3")]] });
+  const xml = unzip(buildDocx({ sections: [sec([para([run("Before")]), table(true), table(false)])], style }))["word/document.xml"];
+  assert.equal(wellFormed(xml), "ok");
+  assert.equal((xml.match(/<w:tbl>/g) || []).length, 2);
+  assert.equal((xml.match(/<w:tblBorders>/g) || []).length, 1); // only the ruled one
+  assert.ok(xml.includes('<w:gridSpan w:val="2"/>'));
+  assert.ok(xml.includes('<w:jc w:val="right"/>'));
+  assert.equal((xml.match(/<w:gridCol /g) || []).length, 6);
+  assert.match(xml, /<\/w:tbl><w:p><w:pPr><w:spacing w:after="0"\/><\/w:pPr><\/w:p>/); // a paragraph between two tables and after the last
+});
+
+test("a table wider than the text is shrunk to fit", () => {
+  const cell = (t) => ({ runs: [run(t)], align: "left", span: 1 });
+  const xml = unzip(buildDocx({ sections: [sec([{ type: "table", ruled: false, widths: [400, 400], rows: [[cell("a"), cell("b")]] }])], style }))["word/document.xml"];
+  const widths = [...xml.matchAll(/<w:gridCol w:w="(\d+)"/g)].map((m) => Number(m[1]));
+  assert.ok(widths.reduce((a, b) => a + b, 0) <= (595.28 - 144) * 20 + 2);
+});

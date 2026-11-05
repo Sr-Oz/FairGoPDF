@@ -7,6 +7,8 @@
 // Input text item:  { str, x, y (baseline), w (width), size, bold, italic, family, link }
 // Input image:      { id, sig, x, y, w, h } (the picture's box on the page)
 
+import { findTables } from "./pdf-tables.js";
+
 // ---------------------------------------------------------------- small helpers
 
 const median = (a) => {
@@ -291,6 +293,7 @@ function paragraphsFrom(seq, ctx) {
     cur = null;
   };
   for (const e of seq) {
+    if (e.kind === "table") { flush(); out.push({ ...e.block }); prev = null; continue; }
     if (e.kind === "image") { flush(); out.push({ type: "image", id: e.id, w: e.w, h: e.h, y: e.y, x: e.x, align: Math.abs(e.x + e.w / 2 - (ctx.left + ctx.right) / 2) < 0.04 * (ctx.right - ctx.left) ? "center" : "left" }); prev = null; continue; }
     const marker = ctx.isHeadingLine(e) ? null : markers.get(e) || null; // "1. Introduction" in bold is a heading, not a list
     if (cur && !startsParagraph(cur, prev, e, marker, ctx)) {
@@ -349,18 +352,22 @@ function urlRuns(runs) {
 const TERMINAL = /[.!?:;]["')”’»\]]?\s*$/;
 
 // pages: [{ number, width, height, items, images, rotated (text as a string) }]
-// opts: { pageBreaks, usePdfPage, joinHyphens, dropRunning, columns, styling, lists, links, images }
+// opts: { pageBreaks, usePdfPage, joinHyphens, dropRunning, columns, styling, lists, links, images, tables }
 // -> { sections: [{ pageW, pageH, margins, blocks }], style, stats }
 export function buildDocument(pages, options = {}) {
-  const opts = { pageBreaks: false, usePdfPage: true, joinHyphens: true, dropRunning: true, columns: true, styling: true, lists: true, links: true, images: true, ...options };
+  const opts = { pageBreaks: false, usePdfPage: true, joinHyphens: true, dropRunning: true, columns: true, styling: true, lists: true, links: true, images: true, tables: true, ...options };
   const allItems = pages.flatMap((p) => p.items);
   const bodySize = round5(weightedMode(allItems.map((i) => [round5(i.size), i.str.length])) || 11);
 
   // 1. lines for each page, reading a two-column page one column at a time
   const prepared = pages.map((p) => {
     const items = p.items.map((i) => ({ ...i, bold: opts.styling && i.bold, italic: opts.styling && i.italic, link: opts.links ? i.link : null }));
-    const groups = (opts.columns ? splitColumns(items, bodySize) : [{ kind: "full", items }]).map((g) => ({ ...g, lines: buildLines(g.items) }));
-    return { ...p, groups, lines: groups.flatMap((g) => g.lines) };
+    // tables first, so their gaps are not mistaken for the gutter between columns, and their text is not read as paragraphs
+    // a page of two columns of text also has text that lines up, so lined-up text counts as a table only when there is no gutter
+    const twoColumns = opts.columns && !!findGutter(items, bodySize);
+    const found = opts.tables ? findTables(items, p.rules || [], { width: p.width, height: p.height }, { aligned: !twoColumns }) : { tables: [], rest: items };
+    const groups = (opts.columns ? splitColumns(found.rest, bodySize) : [{ kind: "full", items: found.rest }]).map((g) => ({ ...g, lines: buildLines(g.items) }));
+    return { ...p, groups, lines: groups.flatMap((g) => g.lines), found: found.tables };
   });
 
   // 2. headers, footers and page numbers
@@ -392,6 +399,38 @@ export function buildDocument(pages, options = {}) {
   }
   const leading = median(pitches) || 1.2 * body;
 
+  // a found table as a block: its column widths, and for each cell its text in runs and how it sits in the cell
+  const cellAlign = (items, left, right) => {
+    if (!items.length) return "left";
+    const x0 = Math.min(...items.map((i) => i.x));
+    const x1 = Math.max(...items.map((i) => i.x + i.w));
+    const w = right - left;
+    const l = x0 - left;
+    const r = right - x1;
+    if (r <= 0.12 * w + 1 && l > 0.2 * w) return "right";
+    if (Math.abs(l - r) <= 0.1 * w && l > 0.15 * w) return "center";
+    return "left";
+  };
+  const tableBlock = (t) => {
+    const rows = t.rows.map((row) => {
+      const cells = [];
+      let col = 0;
+      for (const c of [...row].sort((a, b) => a.col - b.col)) {
+        while (col < c.col) { cells.push({ runs: [], align: "left", span: 1 }); col++; }
+        const lines = buildLines(c.items);
+        let runs = [];
+        for (const l of lines) runs = appendRuns(runs, l.runs, opts.joinHyphens);
+        runs = runs.map(({ x, ...r }) => ({ ...r, size: Math.abs(r.size - body) < 0.6 ? null : r.size, family: r.family === bodyFamily ? null : r.family }));
+        if (opts.links) runs = urlRuns(runs);
+        cells.push({ runs, align: t.colAlign && c.span === 1 ? t.colAlign[c.col] : cellAlign(c.items, t.edges[c.col], t.edges[c.col + c.span]), span: c.span });
+        col += c.span;
+      }
+      while (col < t.ncols) { cells.push({ runs: [], align: "left", span: 1 }); col++; }
+      return cells;
+    });
+    return { type: "table", ruled: t.ruled, widths: t.edges.slice(1).map((e, i) => e - t.edges[i]), rows, x0: t.x0, x1: t.x1, y0: t.y0, y1: t.y1 };
+  };
+
   const isBigLine = (l) => opts.styling && l.size >= 1.12 * body && l.text.trim().length <= 160;
   const isBoldHeading = (l) => opts.styling && boldShare < 0.5 && l.allBold && l.text.trim().length <= 90 && !/[.,;]$/.test(l.text.trim()) && Math.abs(l.size - body) <= 0.12 * body;
   const isHeadingLine = (l) => isBigLine(l) || isBoldHeading(l);
@@ -415,9 +454,27 @@ export function buildDocument(pages, options = {}) {
       if (home) { home.seq.push(entry); placed.add(im); }
     }
     const loose = p.images.filter((im) => !placed.has(im));
-    for (const s of seqs) s.seq.sort((a, b) => (a.kind === "image" ? a.y : a.top) - (b.kind === "image" ? b.y : b.top));
-    // loose pictures become groups of their own, slotted in by height
-    const stream = seqs.map((s) => ({ top: Math.min(...s.seq.map((e) => (e.kind === "image" ? e.y : e.top))), seq: s.seq, kind: s.g.kind }));
+    // tables go into the group they sit in, by height, or become groups of their own
+    const looseTables = [];
+    for (const t of p.found) {
+      const block = tableBlock(t);
+      const entry = { kind: "table", block, x: t.x0, y: t.y0 };
+      const cx = (t.x0 + t.x1) / 2;
+      const home = seqs.find(({ g }) => {
+        const lines = g.lines;
+        const sideOk = g.kind === "full" || (g.kind === "left" ? cx < g.mid : cx >= g.mid);
+        return lines.length && sideOk && t.y0 >= Math.min(...lines.map((l) => l.top)) - leading && t.y0 <= Math.max(...lines.map((l) => l.bottom));
+      });
+      if (home) home.seq.push(entry); else looseTables.push(entry);
+    }
+    const topOf = (e) => (e.kind === "line" ? e.top : e.y);
+    for (const s of seqs) s.seq.sort((a, b) => topOf(a) - topOf(b));
+    // loose pictures and tables become groups of their own, slotted in by height
+    const stream = seqs.map((s) => ({ top: Math.min(...s.seq.map(topOf)), seq: s.seq, kind: s.g.kind }));
+    for (const t of looseTables) {
+      const at = stream.findIndex((s) => s.top > t.y);
+      stream.splice(at < 0 ? stream.length : at, 0, { top: t.y, seq: [t], kind: "full" });
+    }
     for (const im of loose) {
       const entry = { top: im.y, seq: [{ kind: "image", id: im.id, x: im.x, y: im.y, w: im.w, h: im.h }], kind: "full" };
       const at = stream.findIndex((s) => s.top > im.y);
@@ -460,7 +517,10 @@ export function buildDocument(pages, options = {}) {
       if (opts.links) b.runs = urlRuns(b.runs);
       // space after, from the gap to the next block on the page
       const next = pb.blocks[i + 1];
-      b.after = next && next.type === "p" && next.yFirst > b.yLast ? clamp(Math.round(next.yFirst - b.yLast - leading), 0, 48) : 0;
+      const nextY = next && (next.type === "p" ? next.yFirst : next.type === "table" ? next.y0 : null);
+      b.after = nextY !== null && nextY > b.yLast ? clamp(Math.round(nextY - b.yLast - leading), 0, 48) : 0;
+      const before = pb.blocks[i - 1];
+      if (before && before.type === "table") b.before = clamp(Math.round(b.yFirst - before.y1 - 0.5 * leading), 0, 36);
     });
   }
 
@@ -507,11 +567,13 @@ export function buildDocument(pages, options = {}) {
   const first = pages[0] || { width: 595.28, height: 841.89 };
   const marginOf = (p, pb) => {
     const ls = p.lines;
-    if (!ls.length) return null;
-    return {
-      left: Math.min(...ls.map((l) => l.x0)), right: p.width - Math.max(...ls.map((l) => l.x1)),
-      top: Math.min(...ls.map((l) => l.top)), bottom: p.height - Math.max(...ls.map((l) => l.bottom)),
-    };
+    const ts = p.found || [];
+    if (!ls.length && !ts.length) return null;
+    const xs0 = [...ls.map((l) => l.x0), ...ts.map((t) => t.x0)];
+    const xs1 = [...ls.map((l) => l.x1), ...ts.map((t) => t.x1)];
+    const ys0 = [...ls.map((l) => l.top), ...ts.map((t) => t.y0)];
+    const ys1 = [...ls.map((l) => l.bottom), ...ts.map((t) => t.y1)];
+    return { left: Math.min(...xs0), right: p.width - Math.max(...xs1), top: Math.min(...ys0), bottom: p.height - Math.max(...ys1) };
   };
   const fitMargins = (list, w, h) => {
     const widest = (k) => Math.min(...list.map((m) => m[k])); // a short page leaves a big gap that is not a margin
@@ -557,7 +619,7 @@ export function buildDocument(pages, options = {}) {
     },
     stats: {
       pages: pages.length, paragraphs: count((b) => b.type === "p" && !b.heading && !b.list), headings: count((b) => b.heading), listItems: count((b) => b.list),
-      images: count((b) => b.type === "image"), links: out.reduce((n, b) => n + (b.runs || []).filter((r) => r.link).length, 0), removed: dropped.size,
+      images: count((b) => b.type === "image"), tables: count((b) => b.type === "table"), links: out.reduce((n, b) => n + (b.runs || []).filter((r) => r.link).length, 0), removed: dropped.size,
     },
   };
 }

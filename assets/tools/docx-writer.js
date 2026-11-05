@@ -5,7 +5,8 @@
 //          lineMultiple, headings: { 1..4: points } } }, with sizes in points. Paragraph blocks look like
 //          { type: "p", runs: [{ text, bold, italic, size, family, link }], heading, list: { id, kind, level, start },
 //            align, left, firstLine, after, pageBreakBefore }
-//          and picture blocks like { type: "image", id, w, h, align }.
+//          picture blocks like { type: "image", id, w, h, align },
+//          and table blocks like { type: "table", ruled, widths: [points], rows: [[{ runs, align, span }]] }.
 // extras: { images: Map(id -> { bytes, ext, pxW, pxH }), title, author, language }
 import * as fflate from "../vendor/fflate.min.js";
 
@@ -106,7 +107,7 @@ export function buildDocx(model, extras = {}) {
     if (b.heading) pPr.push(`<w:pStyle w:val="Heading${b.heading}"/>`);
     if (b.pageBreakBefore) pPr.push("<w:pageBreakBefore/>");
     if (b.list) pPr.push(`<w:numPr><w:ilvl w:val="${b.list.level}"/><w:numId w:val="${numIdFor(b.list)}"/></w:numPr>`);
-    pPr.push(`<w:spacing w:after="${twips(b.after || 0)}"/>`);
+    pPr.push(`<w:spacing${b.before ? ` w:before="${twips(b.before)}"` : ""} w:after="${twips(b.after || 0)}"/>`);
     if (!b.list && (b.left > 0 || b.firstLine)) {
       const hang = b.firstLine < 0 ? ` w:hanging="${twips(-b.firstLine)}"` : b.firstLine > 0 ? ` w:firstLine="${twips(b.firstLine)}"` : "";
       pPr.push(`<w:ind w:left="${twips(b.left)}"${hang}/>`);
@@ -146,6 +147,27 @@ export function buildDocx(model, extras = {}) {
     return `<w:p><w:pPr><w:spacing w:after="${twips(6)}"/>${b.align === "center" ? '<w:jc w:val="center"/>' : ""}</w:pPr><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${n}" name="Picture ${n}" descr="Picture from the PDF"/><a:graphic xmlns:a="${NS.a}"><a:graphicData uri="${NS.pic}"><pic:pic xmlns:pic="${NS.pic}"><pic:nvPicPr><pic:cNvPr id="${n}" name="${esc(name)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rel}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`;
   };
 
+  // a table: fixed column widths from the PDF, shrunk to fit the text width if need be, with lines only where the PDF had them
+  const tableXml = (b, textWidth, style) => {
+    const total = b.widths.reduce((a, c) => a + c, 0);
+    const k = total > textWidth ? textWidth / total : 1;
+    const w = b.widths.map((x) => twips(x * k));
+    const sum = (list) => list.reduce((a, c) => a + c, 0);
+    const lines = b.ruled ? `<w:tblBorders>${["top", "left", "bottom", "right", "insideH", "insideV"].map((n) => `<w:${n} w:val="single" w:sz="4" w:space="0" w:color="auto"/>`).join("")}</w:tblBorders>` : "";
+    const rows = b.rows.map((row) => {
+      let col = 0;
+      const cells = row.map((c) => {
+        const span = c.span || 1;
+        const width = sum(w.slice(col, col + span));
+        col += span;
+        const p = paragraphXml({ runs: c.runs, align: c.align, after: 0, left: 0, firstLine: 0 }, style);
+        return `<w:tc><w:tcPr><w:tcW w:w="${width}" w:type="dxa"/>${span > 1 ? `<w:gridSpan w:val="${span}"/>` : ""}</w:tcPr>${p}</w:tc>`;
+      }).join("");
+      return `<w:tr><w:trPr><w:cantSplit/></w:trPr>${cells}</w:tr>`;
+    }).join("");
+    return `<w:tbl><w:tblPr><w:tblW w:w="${sum(w)}" w:type="dxa"/>${lines}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="80" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${w.map((x) => `<w:gridCol w:w="${x}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>`;
+  };
+
   const sectPr = (s) => {
     const landscape = s.pageW > s.pageH;
     const m = s.margins;
@@ -155,7 +177,15 @@ export function buildDocx(model, extras = {}) {
   let bodyXml = "";
   model.sections.forEach((s, i) => {
     const textWidth = s.pageW - s.margins.left - s.margins.right;
-    for (const b of s.blocks) bodyXml += b.type === "image" ? imageXml(b, textWidth) : paragraphXml(b, model.style);
+    s.blocks.forEach((b, j) => {
+      if (b.type === "image") bodyXml += imageXml(b, textWidth);
+      else if (b.type === "table") {
+        bodyXml += tableXml(b, textWidth, model.style);
+        // Word wants a paragraph after a table when another table or the end of the section follows
+        const next = s.blocks[j + 1];
+        if (!next || next.type === "table") bodyXml += `<w:p><w:pPr><w:spacing w:after="0"/></w:pPr></w:p>`;
+      } else bodyXml += paragraphXml(b, model.style);
+    });
     if (i < model.sections.length - 1) bodyXml += `<w:p><w:pPr>${sectPr(s)}</w:pPr></w:p>`;
   });
   if (!bodyXml) bodyXml = "<w:p/>";

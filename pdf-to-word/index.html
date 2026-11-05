@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Convert PDF to Word Online Free | Fair Go PDF</title>
-<meta name="description" content="Turn a PDF into an editable Word (.docx) document with paragraphs, headings, bold, lists, links and pictures, and check it in a preview. Free, in your browser, no upload or signup.">
+<meta name="description" content="Turn a PDF into an editable Word (.docx) document with paragraphs, headings, bold, lists, tables, links and pictures, and check it in a preview. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/pdf-to-word/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
@@ -77,7 +77,7 @@
     </script>
     <div class="tool-page-header">
       <h1>PDF to Word</h1>
-      <p>Turn a PDF into an editable Word document that keeps its paragraphs, headings, bold and italic, lists, links, pictures and page size. Check the result in a preview before you download it. Processed locally, nothing is uploaded.</p>
+      <p>Turn a PDF into an editable Word document that keeps its paragraphs, headings, bold and italic, lists, tables, links, pictures and page size. Check the result in a preview before you download it. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace qr-workspace">
@@ -149,6 +149,7 @@
                 <div class="qr-field qr-check"><input type="checkbox" data-short="Headings" id="styling" checked><label for="styling">Headings, bold, italic and font sizes</label></div>
                 <div class="qr-field qr-check"><input type="checkbox" data-short="Lists" id="lists" checked><label for="lists">Bullet and numbered lists</label></div>
                 <div class="qr-field qr-check"><input type="checkbox" data-short="Links" id="links" checked><label for="links">Links</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" data-short="Tables" id="tables" checked><label for="tables">Tables, rebuilt as real Word tables</label></div>
                 <div class="qr-field qr-check"><input type="checkbox" data-short="Pictures" id="images" checked><label for="images">Pictures</label></div>
               </div>
             </details>
@@ -216,10 +217,10 @@
       <h2>How it works</h2>
       <ol>
         <li>Add a PDF. Choose which pages to convert, and how: keep going continuously or start each PDF page on a new page, and what to keep (headings, bold and italic, lists, links, pictures).</li>
-        <li>Press "Create Word document". The text is read with its position and size on each page, then put back together as paragraphs, headings and lists, with two-column pages read one column at a time.</li>
+        <li>Press "Create Word document". The text is read with its position and size on each page, then put back together as paragraphs, headings, lists and tables, with two-column pages read one column at a time.</li>
         <li>Look over the preview, then download the .docx and open it in Word or any other program that reads .docx files.</li>
       </ol>
-      <p class="help-text">This works from where text sits on the page, so it suits letters, reports, contracts and articles best. It cannot rebuild tables, text boxes, drawings, form fields or right-to-left text, and a PDF made of scanned pictures has no text to convert until OCR PDF has read it. Tables come out as lines of text separated by tabs, and shapes drawn as lines or graphics are left out. Headers, footers and page numbers are found by looking for text that repeats at the top or bottom of the pages, so a short document may keep some of them. You can turn each of these choices off if the result looks wrong.</p>
+      <p class="help-text">This works from where text sits on the page, so it suits letters, reports, contracts and articles best. Tables are rebuilt as real Word tables, from the ruled lines when the PDF draws them and from how the text lines up when it does not, with borders only where the PDF had lines. A table in an unusual layout, or one that is a picture, may come out as lines of text, and a table cell that spans several rows is not joined. It cannot rebuild text boxes, drawings, form fields or right-to-left text, and a PDF made of scanned pictures has no text to convert until OCR PDF has read it. Shapes drawn as lines or graphics are left out. Headers, footers and page numbers are found by looking for text that repeats at the top or bottom of the pages, so a short document may keep some of them. You can turn each of these choices off if the result looks wrong.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>

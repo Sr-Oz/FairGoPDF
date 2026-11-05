@@ -101,7 +101,7 @@ watermarked output.
 | Excel to PDF | `/excel-to-pdf/` | Turn a spreadsheet (.xlsx, .xls, .ods) into a PDF: choose sheets, keep column widths, merged cells and cell shading, fit wide tables, repeat header rows, use Excel's print area, add page numbers (embedded Liberation Sans, so accented Latin, Greek and Cyrillic work) |
 | RTF to PDF | `/rtf-to-pdf/` | Turn a Rich Text (.rtf) file into a PDF |
 | EPUB to PDF | `/epub-to-pdf/` | Turn an EPUB ebook into a PDF, chapters in order |
-| PDF to Word | `/pdf-to-word/` | Turn a PDF into an editable .docx from the position and size of the text: paragraphs, headings, bold/italic, lists, two-column pages, links, pictures, page size and margins, with headers/footers and page numbers left out, a page range, a preview before download, and a hand-off to OCR PDF for scans |
+| PDF to Word | `/pdf-to-word/` | Turn a PDF into an editable .docx from the position and size of the text: paragraphs, headings, bold/italic, lists, real tables (from ruled lines or lined-up text), two-column pages, links, pictures, page size and margins, with headers/footers and page numbers left out, a page range, a preview before download, and a hand-off to OCR PDF for scans |
 | PDF Annotator | `/pdf-annotator/` | Highlight, freehand draw and add sticky notes |
 | PDF Scanner | `/pdf-scanner/` | Turn a photo of a document into a straightened PDF |
 | CBZ to PDF | `/cbz-to-pdf/` | Turn a CBZ comic book archive into a PDF |

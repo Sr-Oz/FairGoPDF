@@ -18,7 +18,7 @@ const state = { file: null, doc: null, count: 0, blob: null, name: "", stop: fal
 const checked = (id) => $(id).checked;
 const options = () => ({
   pageBreaks: $("pageMode").value === "keep", usePdfPage: checked("usePdfPage"), columns: checked("columns"), dropRunning: checked("dropRunning"),
-  joinHyphens: checked("joinHyphens"), styling: checked("styling"), lists: checked("lists"), links: checked("links"), images: checked("images"),
+  joinHyphens: checked("joinHyphens"), styling: checked("styling"), lists: checked("lists"), links: checked("links"), images: checked("images"), tables: checked("tables"),
 });
 
 // -> { pages } or { error }; an empty box means every page
@@ -103,7 +103,7 @@ const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 function describe(stats, extra) {
   const bits = [
-    [stats.paragraphs, "paragraph"], [stats.headings, "heading"], [stats.listItems, "list item"], [stats.images, "picture"], [stats.links, "link"],
+    [stats.paragraphs, "paragraph"], [stats.headings, "heading"], [stats.listItems, "list item"], [stats.tables, "table"], [stats.images, "picture"], [stats.links, "link"],
   ].filter(([n]) => n > 0).map(([n, w]) => plural(n, w));
   const notes = [`Found ${bits.length ? bits.join(", ") : "no text"}.`];
   if (stats.removed) notes.push(`Left out ${plural(stats.removed, "header, footer or page number line")}.`);
@@ -147,7 +147,7 @@ runBtn.addEventListener("click", async () => {
   try {
     const numbers = chosen.pages.length ? chosen.pages : Array.from({ length: state.count }, (_, i) => i + 1);
     const { pages, images, title, author } = await extractPages(state.doc, numbers, {
-      images: opts.images, links: opts.links,
+      images: opts.images, links: opts.links, tables: opts.tables,
       onProgress: (i, total) => setStatus(statusEl, `Reading page ${i} of ${total}…`, ""),
       isCancelled: () => state.stop,
     });
