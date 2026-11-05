@@ -1,124 +1,204 @@
+// Protect PDF page. What state a file is in, how strong a password is, what the permission choices mean and how errors read is
+// lock-core.js; the list of files and the finished files are lock-ui.js; this file is the settings and the work of protecting.
 import { PDFDocument } from "/assets/vendor/cantoo-pdf-lib.esm.min.js";
+import { probe, friendlyError, strengthOf, suggestPassword, makeOwnerPassword, checkPassword, permissionsFor, limitsOf, limitsFromFlags, joinWords, pagesText } from "/assets/tools/lock-core.js";
+import { readerOpens, needsPassword, renderRows, renderResults, download, downloadZip } from "/assets/tools/lock-ui.js";
+import { safeBaseName } from "/assets/tools/page-tools.js";
 
-const dropzone = document.getElementById("dropzone");
-const fileInput = document.getElementById("fileInput");
-const editor = document.getElementById("editor");
-const fileSummary = document.getElementById("fileSummary");
-const userPasswordInput = document.getElementById("userPassword");
-const ownerPasswordInput = document.getElementById("ownerPassword");
-const allowPrinting = document.getElementById("allowPrinting");
-const allowCopying = document.getElementById("allowCopying");
-const allowModifying = document.getElementById("allowModifying");
-const allowForms = document.getElementById("allowForms");
-const runBtn = document.getElementById("runBtn");
-const clearBtn = document.getElementById("clearBtn");
-const statusEl = document.getElementById("status");
+const $ = (id) => document.getElementById(id);
+const dropzone = $("dropzone");
+const statusEl = $("status");
+const runBtn = $("runBtn");
 
-let currentFile = null;
-let currentBytes = null;
+// entries: { file, bytes, state: open | restricted | locked | unreadable, pages, message, error }
+const state = { entries: [], results: [], busy: false, generation: 0 };
 
-async function loadFile(pdf) {
-  try {
-    const bytes = new Uint8Array(await pdf.arrayBuffer());
-    const check = await PDFDocument.load(bytes.slice(), { ignoreEncryption: true });
-    if (check.isEncrypted) {
-      setStatus(statusEl, "This PDF is already password protected. Use Unlock PDF first if you want to change its password.", "error");
-      statusEl.classList.add("visible");
-      editor.style.display = "none";
-      return;
-    }
-
-    currentFile = pdf;
-    currentBytes = bytes;
-    fileSummary.textContent = `${pdf.name} (${formatBytes(pdf.size)}, ${check.getPageCount()} page${check.getPageCount() > 1 ? "s" : ""})`;
-    editor.style.display = "block";
-    clearStatus(statusEl);
-  } catch (err) {
-    console.error(err);
-    setStatus(statusEl, `Could not read that PDF: ${err.message || "unknown error"}`, "error");
-    statusEl.classList.add("visible");
-  }
+function setMsg(message, kind = "") {
+  setStatus(statusEl, message, kind);
+  statusEl.classList.add("visible");
 }
 
-initDropzone(dropzone, fileInput, async (files) => {
-  const pdf = files.find((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
-  if (!pdf) {
-    setStatus(statusEl, "Please choose a PDF file.", "error");
-    statusEl.classList.add("visible");
-    return;
-  }
-  await loadFile(pdf);
-});
+const choices = () => ({ printing: $("printing").value, copy: $("allowCopy").checked, edit: $("allowEdit").checked, annotate: $("allowNotes").checked, assemble: $("allowPages").checked });
+const workable = () => state.entries.filter((e) => e.state !== "unreadable");
 
-if (window.KeepSorted) {
-  KeepSorted.init({ currentTool: "protect-pdf", dropzone, onFiles: (files) => loadFile(files[0]) });
-}
+// ---------------------------------------------------------------- the files
 
-clearBtn.addEventListener("click", () => {
-  currentFile = null;
-  currentBytes = null;
-  userPasswordInput.value = "";
-  ownerPasswordInput.value = "";
-  editor.style.display = "none";
-  fileInput.value = "";
+async function addFiles(files) {
+  const pdfs = files.filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+  if (!pdfs.length) { setMsg("Please choose PDF files.", "error"); return; }
   clearStatus(statusEl);
+  for (const file of pdfs) {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const info = await probe(bytes, PDFDocument);
+    state.entries.push({ file, bytes, ...info });
+  }
+  $("results").classList.remove("visible");
+  $("keepSorted").style.display = "none";
+  document.querySelector(".related-tools-section").style.display = "";
+  refresh();
+}
+initDropzone(dropzone, $("fileInput"), addFiles);
+if (window.KeepSorted) KeepSorted.init({ currentTool: "protect-pdf", dropzone, onFiles: addFiles });
+
+function clearAll() {
+  state.generation++;
+  Object.assign(state, { entries: [], results: [] });
+  for (const id of ["userPassword", "confirmPassword", "ownerPassword", "currentPassword"]) $(id).value = "";
+  $("fileInput").value = "";
+  $("results").classList.remove("visible");
+  $("ownerBox").hidden = true;
+  $("keepSorted").style.display = "none";
+  clearStatus(statusEl);
+  refresh();
+}
+$("clearBtn").addEventListener("click", () => { if (!state.busy) clearAll(); });
+
+// ---------------------------------------------------------------- the settings
+
+function refresh() {
+  const list = workable();
+  const locked = state.entries.some((e) => e.state === "locked");
+  $("currentField").hidden = !locked;
+  $("currentHelp").hidden = !locked;
+  $("zipField").hidden = list.length < 2;
+  renderRows($("fileList"), state.entries, "protect", (i) => { state.entries.splice(i, 1); refresh(); });
+  $("fileList").hidden = !state.entries.length;
+  dropzone.classList.toggle("compact", state.entries.length > 0);
+  runBtn.disabled = state.busy || !list.length;
+  $("clearBtn").disabled = state.busy || !state.entries.length;
+
+  const pw = $("userPassword").value;
+  const s = $("strength");
+  const sg = pw ? strengthOf(pw) : null;
+  s.textContent = sg ? `Strength: ${sg.label}.${sg.advice ? ` ${sg.advice}` : ""}` : "";
+  s.hidden = !sg;
+  const warn = pw ? checkPassword(pw, undefined, $("algorithm").value).warn : "";
+  $("pwWarn").textContent = warn || "";
+  $("pwWarn").hidden = !warn;
+
+  const limits = limitsOf(choices());
+  $("ownerHelp").textContent = !limits.length
+    ? "Everything is allowed, so no owner password is needed. Leave this blank."
+    : $("ownerPassword").value
+      ? "This password lets you change the limits later."
+      : "Leave this blank and a strong owner password is made for you and shown after protecting. Without one, whoever has the opening password could lift the limits.";
+
+  const sum = $("summary");
+  sum.classList.remove("is-error");
+  const n = list.length;
+  if (!state.entries.length) sum.textContent = "Add a PDF to begin.";
+  else if (!n) { sum.textContent = "None of these files can be protected."; sum.classList.add("is-error"); }
+  else if (!pw) sum.textContent = `${n} file${n === 1 ? "" : "s"} ready. Choose a password.`;
+  else sum.textContent = `${n} file${n === 1 ? "" : "s"} will be locked with ${$("algorithm").value}${limits.length ? `, holding back ${joinWords(limits)}` : ""}.`;
+}
+
+for (const id of ["userPassword", "confirmPassword", "ownerPassword", "currentPassword", "printing", "allowCopy", "allowEdit", "allowNotes", "allowPages", "algorithm"]) {
+  $(id).addEventListener("input", refresh);
+  $(id).addEventListener("change", refresh);
+}
+
+$("showPw").addEventListener("change", () => {
+  for (const id of ["userPassword", "confirmPassword", "ownerPassword", "currentPassword"]) $(id).type = $("showPw").checked ? "text" : "password";
 });
+
+$("suggestBtn").addEventListener("click", () => {
+  const p = suggestPassword();
+  $("userPassword").value = p;
+  $("confirmPassword").value = p;
+  $("showPw").checked = true;
+  $("showPw").dispatchEvent(new Event("change"));
+  refresh();
+  setMsg("A password was filled in for you. Copy it somewhere safe before you protect the files: nobody can get it back for you.");
+});
+
+$("copyOwner").addEventListener("click", async () => {
+  const text = $("ownerShown").textContent;
+  try { await navigator.clipboard.writeText(text); $("copyOwner").textContent = "Copied"; } catch (err) { window.getSelection().selectAllChildren($("ownerShown")); $("copyOwner").textContent = "Selected, press copy"; }
+  setTimeout(() => { $("copyOwner").textContent = "Copy"; }, 2500);
+});
+
+if (window.FGPAcc) {
+  FGPAcc.set("password", () => ($("userPassword").value ? strengthOf($("userPassword").value).label : "Choose one"));
+  FGPAcc.set("limits", () => { const n = limitsOf(choices()).length; return n ? `${n} limit${n === 1 ? "" : "s"}` : "Everything allowed"; });
+  FGPAcc.set("output", () => $("algorithm").value);
+}
+
+// ---------------------------------------------------------------- protecting
+
+function stop(message) {
+  setMsg(message, "error");
+  $("summary").textContent = message; // the strip beside the button is always in view, which the status box is not on a phone
+  $("summary").classList.add("is-error");
+}
 
 runBtn.addEventListener("click", async () => {
-  if (!currentFile) return;
-  const userPassword = userPasswordInput.value;
-  if (!userPassword) {
-    setStatus(statusEl, "Enter a password that will be needed to open the PDF.", "error");
-    statusEl.classList.add("visible");
-    userPasswordInput.focus();
-    return;
-  }
+  const list = workable();
+  if (!list.length || state.busy) return;
+  const algorithm = $("algorithm").value;
+  const pw = $("userPassword").value;
+  const bad = checkPassword(pw, $("confirmPassword").value, algorithm);
+  if (bad.error) { stop(bad.error); $(pw ? "confirmPassword" : "userPassword").focus(); return; }
+  const current = $("currentPassword").value;
+  if (list.some((e) => e.state === "locked") && !current) { stop("One of the files already has a password. Type it under Password so it can be changed."); $("currentPassword").focus(); return; }
+  const c = choices();
+  const limits = limitsOf(c);
+  const typedOwner = $("ownerPassword").value;
+  const generated = !typedOwner && limits.length > 0;
+  const owner = typedOwner || (limits.length ? makeOwnerPassword() : pw);
+  const ownerBad = typedOwner ? checkPassword(typedOwner, undefined, algorithm) : {};
+  if (ownerBad.error) { stop(ownerBad.error.replace("Choose a password to open the PDF.", "Choose an owner password or leave it blank.")); $("ownerPassword").focus(); return; }
 
-  const ownerPassword = ownerPasswordInput.value.trim() || userPassword;
-
+  state.busy = true;
   runBtn.disabled = true;
-  setStatus(statusEl, "Encrypting…", "");
-  statusEl.classList.add("visible");
-
+  $("results").classList.remove("visible");
+  state.results = [];
+  list.forEach((e) => { e.error = ""; e.done = ""; });
+  const generation = ++state.generation;
   try {
-    const doc = await PDFDocument.load(currentBytes.slice());
-    doc.encrypt({
-      userPassword,
-      ownerPassword,
-      algorithm: "AES-256",
-      permissions: {
-        printing: allowPrinting.checked ? "highResolution" : false,
-        copying: allowCopying.checked,
-        modifying: allowModifying.checked,
-        fillingForms: allowForms.checked,
-        annotating: allowModifying.checked,
-        documentAssembly: allowModifying.checked,
-        contentAccessibility: true,
-      },
-    });
-    const bytes = await doc.save();
-    const blob = new Blob([bytes], { type: "application/pdf" });
-    const outName = brandFilename("protect-pdf", stripExtension(currentFile.name), "pdf");
-    triggerDownload(blob, outName);
-    setStatus(statusEl, `Sorted — your PDF is now password protected (${formatBytes(blob.size)}).`, "success");
-
-    if (window.KeepSorted) {
-      KeepSorted.offer({
-        currentTool: "protect-pdf",
-        blob,
-        filename: outName,
-        els: {
-          section: document.getElementById("keepSorted"),
-          list: document.getElementById("keepSortedList"),
-          resetLink: document.getElementById("keepSortedReset"),
-        },
-        relatedSection: document.querySelector(".related-tools-section"),
-      });
+    for (const [i, entry] of list.entries()) {
+      setMsg(list.length > 1 ? `Protecting file ${i + 1} of ${list.length}…` : "Protecting…");
+      await new Promise((r) => setTimeout(r, 0));
+      try {
+        const doc = entry.state === "open" ? await PDFDocument.load(entry.bytes.slice()) : await PDFDocument.load(entry.bytes.slice(), { password: entry.state === "locked" ? current : "" });
+        const pages = doc.getPageCount();
+        doc.encrypt({ userPassword: pw, ownerPassword: owner, algorithm, permissions: permissionsFor(c) });
+        const bytes = await doc.save();
+        // a second reader opens the result: it must refuse without the password, and open with it
+        if (!(await needsPassword(bytes))) throw new Error("the finished file opens without a password");
+        const seen = await readerOpens(bytes, pw);
+        if (seen.pages !== pages) throw new Error("the finished file has a different number of pages");
+        const held = limitsFromFlags(seen.allowed);
+        state.results.push({ name: brandFilename("protect-pdf", safeBaseName(stripExtension(entry.file.name), "protected"), "pdf"), bytes, pages, note: held.length ? `Opens only with the password. Holds back ${joinWords(held)}.` : "Opens only with the password." });
+        entry.done = `Protected, ${pagesText(pages)}.`;
+      } catch (err) {
+        const e = friendlyError(err);
+        entry.error = e.kind === "password" ? "The current password didn't work for this file." : e.text;
+      }
+      if (generation !== state.generation) return;
+    }
+    const failed = list.filter((e) => e.error).length;
+    if (state.results.length) {
+      renderResults({ box: $("resultItems"), total: $("resultTotal"), zip: $("zipBtn") }, state.results, { tool: "protect-pdf", zipName: safeBaseName($("zipName").value, "protected-pdfs"), onDownload: download });
+      $("ownerShown").textContent = generated ? owner : "";
+      $("ownerBox").hidden = !generated;
+      $("resultNote").textContent = `Each file was opened again to check: it needs the password, and it opens with it. If the password is lost, nobody can recover the file.${failed ? ` ${failed} file${failed === 1 ? "" : "s"} could not be protected, see the list.` : ""}`;
+      $("results").classList.add("visible");
+      if (state.results.length === 1) download(state.results[0]);
+      else downloadZip(state.results, "protect-pdf", safeBaseName($("zipName").value, "protected-pdfs"));
+      if (window.KeepSorted && state.results.length === 1) {
+        KeepSorted.offer({ currentTool: "protect-pdf", blob: new Blob([state.results[0].bytes], { type: "application/pdf" }), filename: state.results[0].name, els: { section: $("keepSorted"), list: $("keepSortedList"), resetLink: $("keepSortedReset") }, relatedSection: document.querySelector(".related-tools-section") });
+      }
+      setMsg(failed ? `Protected ${state.results.length}, ${failed} could not be.` : `Sorted, ${state.results.length === 1 ? "protected" : `${state.results.length} files protected`}.`, failed ? "error" : "success");
+    } else {
+      setMsg("None of the files could be protected, see the list.", "error");
     }
   } catch (err) {
     console.error(err);
-    setStatus(statusEl, `Something went wrong: ${err.message || "unknown error"}`, "error");
+    setMsg(`Something went wrong: ${err.message || "unknown error"}`, "error");
   } finally {
-    runBtn.disabled = false;
+    state.busy = false;
+    refresh();
   }
 });
+
+refresh();

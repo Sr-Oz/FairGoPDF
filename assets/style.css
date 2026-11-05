@@ -3609,6 +3609,7 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
   .side-main > .side-actions { order: 4; }
   .side-main > .file-bar { order: 2; }
   .side-main > .sign-wrap { order: 2; }
+  .side-main > .lock-list { order: 2; }
   .side-main > .no-text { order: 2; }
   .side-main > .status-box { order: 5; }
   .side-main > .results { order: 6; }
@@ -3711,6 +3712,22 @@ select.fill-in { padding: 0; }
 .field-list .fl-meta { flex: none; color: var(--text-muted); font-size: 0.8rem; }
 .field-list button.is-done .fl-meta { color: var(--text); font-weight: 700; }
 .field-list + .help-text { margin-top: 10px; }
+/* Protect PDF and Unlock PDF: the files added, each saying where it stands, and the owner password that is shown once */
+.side-settings .acc-body.stack > * + * { margin-top: 12px; }
+.side-settings .acc-body.stack > .help-text { margin-top: 8px; }
+.side-settings .acc-body.stack > [hidden] { display: none; }
+.lock-list { display: flex; flex-direction: column; gap: 8px; margin: 0 0 12px; padding: 0; list-style: none; }
+.lock-list[hidden] { display: none; }
+.lock-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); }
+.lock-row .info { flex: 1; min-width: 0; }
+.lock-row .remove { flex: none; width: 32px; height: 32px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font: inherit; line-height: 1; cursor: pointer; }
+.lock-row .remove:hover { background: var(--bg-alt); }
+.lock-row .remove:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.owner-box { margin-top: 14px; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); }
+.owner-box[hidden] { display: none; }
+.owner-box .note-title { margin: 0 0 4px; }
+.owner-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.owner-line code { flex: 1 1 220px; min-width: 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-alt); font-size: 0.95rem; overflow-wrap: anywhere; user-select: all; }
 /* Rotate PDF: the page shown large, turned and tilted as it will be, over a grid to line it up against; and a mark on turned thumbnails */
 .rotate-stage { display: flex; justify-content: center; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
 .rotate-stage-wrap .help-text { margin: 0 0 10px; }

@@ -82,8 +82,8 @@ watermarked output.
 | Extract Images | `/extract-pdf-images/` | Pull every image out of a PDF as JPG or PNG (ICC, indexed, CMYK and JPEG 2000 included), with optional trimming of white borders |
 | Header & Footer | `/pdf-header-footer/` | Add up to six independent left/centre/right text zones to every page's header and footer |
 | Redact PDF | `/redact-pdf/` | Permanently black out sensitive content by flattening marked pages to an image, not just drawing a box over it |
-| Protect PDF | `/protect-pdf/` | Add a password so only people who have it can open the file, with optional printing/copying/editing permissions |
-| Unlock PDF | `/unlock-pdf/` | Remove a password from a PDF you already have the password for |
+| Protect PDF | `/protect-pdf/` | Add a password so only people who have it can open the files, with printing, copying and editing limits, many files at once, and each result checked |
+| Unlock PDF | `/unlock-pdf/` | Remove the password from PDFs you have it for, or clear printing and copying limits, many files at once, each copy checked |
 | PDF Editor | `/pdf-editor/` | Drag text and image boxes anywhere on any page, resize and style them |
 | Add Links to PDF | `/add-links-to-pdf/` | Draw a clickable area on a page that opens a website or jumps to another page |
 | PDF Form Builder | `/pdf-form-builder/` | Add fillable text fields, checkboxes, radio buttons and dropdowns as real AcroForm fields |

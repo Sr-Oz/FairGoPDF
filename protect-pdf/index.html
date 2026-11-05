@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Protect PDF with a Password Online Free | Fair Go PDF</title>
-<meta name="description" content="Add a password to your PDF so only people who have it can open the file, free and right in your browser. No upload, no signup.">
+<meta name="description" content="Lock one or many PDFs with a password and choose what people can do once they are open. Each file is checked after protecting. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/protect-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Protect PDF with a Password Online Free">
-<meta property="og:description" content="Add a password to your PDF so only people who have it can open the file, free and right in your browser. No upload, no signup.">
+<meta property="og:description" content="Lock one or many PDFs with a password and choose what people can do once they are open. Each file is checked after protecting. Free, in your browser, no upload or signup.">
 <meta property="og:url" content="https://fairgopdf.au/protect-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Protect PDF with a Password Online Free">
-<meta name="twitter:description" content="Add a password to your PDF so only people who have it can open the file, free and right in your browser. No upload, no signup.">
+<meta name="twitter:description" content="Lock one or many PDFs with a password and choose what people can do once they are open. Each file is checked after protecting. Free, in your browser, no upload or signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,47 +77,112 @@
     </script>
     <div class="tool-page-header">
       <h1>Protect PDF</h1>
-      <p>Add a password to your PDF so only people who have it can open the file. Processed locally, nothing is uploaded.</p>
+      <p>Lock PDFs with a password so only people who have it can open them. Choose what they can do once a file is open, protect several files at once, and know it worked: each protected file is opened again to check. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">lock</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file that isn't already password protected</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose PDF files or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">lock</span></div>
+            <div class="dz-title">Drop your PDFs here, easy as.</div>
+            <div class="dz-sub">One or more PDF files</div>
+            <input type="file" id="fileInput" accept="application/pdf" multiple>
+          </div>
 
-      <div id="editor" style="display:none;">
-        <p class="help-text" id="fileSummary"></p>
+          <ul class="lock-list" id="fileList"></ul>
 
-        <div class="field">
-          <label for="userPassword">Password to open this PDF</label>
-          <input type="password" id="userPassword" autocomplete="new-password" placeholder="Choose a password">
+          <div class="status-box" id="status"></div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your protected PDFs</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="zipBtn" type="button" hidden>Download all as ZIP</button>
+            </div>
+            <div id="resultItems"></div>
+            <div class="owner-box" id="ownerBox" hidden>
+              <p class="note-title">Owner password</p>
+              <p class="help-text">The limits you set are tied to a password that was made for you. Keep it if you may need to change the limits later. Fair Go PDF does not keep a copy, so it can't be recovered.</p>
+              <div class="owner-line"><code id="ownerShown"></code><button class="btn secondary small" id="copyOwner" type="button">Copy</button></div>
+            </div>
+            <p class="help-text" id="resultNote"></p>
+          </div>
         </div>
 
-        <details style="margin-top:14px;">
-          <summary style="cursor:pointer; font-weight:600;">Advanced options</summary>
-          <div class="field" style="margin-top:12px;">
-            <label for="ownerPassword">Owner password (optional)</label>
-            <input type="password" id="ownerPassword" autocomplete="new-password" placeholder="Leave blank to use the same password">
-            <p class="help-text">The owner password can change permissions or remove protection later. If left blank, it's the same as the password above.</p>
-          </div>
-          <div class="controls-row">
-            <div class="field"><label><input type="checkbox" id="allowPrinting" checked> Allow printing</label></div>
-            <div class="field"><label><input type="checkbox" id="allowCopying" checked> Allow copying text</label></div>
-            <div class="field"><label><input type="checkbox" id="allowModifying" checked> Allow editing</label></div>
-            <div class="field"><label><input type="checkbox" id="allowForms" checked> Allow filling forms</label></div>
-          </div>
-        </details>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Protection settings">
+          <div class="side-stick">
+            <details class="acc" data-key="password" data-empty="Choose one" open>
+              <summary><span class="acc-name">Password</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="userPassword">Password to open</label>
+                  <input type="password" id="userPassword" autocomplete="new-password" spellcheck="false">
+                </div>
+                <div class="qr-field">
+                  <label for="confirmPassword">Type it again</label>
+                  <input type="password" id="confirmPassword" autocomplete="new-password" spellcheck="false">
+                </div>
+                <div class="qr-field qr-check">
+                  <input type="checkbox" id="showPw">
+                  <label for="showPw">Show the password</label>
+                </div>
+                <button type="button" class="btn secondary small" id="suggestBtn">Suggest a strong password</button>
+                <p class="help-text" id="strength" aria-live="polite"></p>
+                <p class="help-text" id="pwWarn" hidden></p>
+                <div class="qr-field" id="currentField" hidden>
+                  <label for="currentPassword">Password the file has now</label>
+                  <input type="password" id="currentPassword" autocomplete="current-password" spellcheck="false">
+                </div>
+                <p class="help-text" id="currentHelp" hidden>One or more files already have a password. Type it here and they are given the new one.</p>
+              </div>
+            </details>
 
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Protect &amp; Download</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
+            <details class="acc" data-key="limits" data-empty="Everything allowed">
+              <summary><span class="acc-name">What people can do</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="printing">Printing</label>
+                  <select id="printing"><option value="high" selected>Allowed</option><option value="low">Low quality only</option><option value="none">Not allowed</option></select>
+                </div>
+                <div class="qr-field qr-check"><input type="checkbox" id="allowCopy" checked><label for="allowCopy">Copying text and pictures</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" id="allowEdit" checked><label for="allowEdit">Editing the content</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" id="allowNotes" checked><label for="allowNotes">Adding notes and filling in forms</label></div>
+                <div class="qr-field qr-check"><input type="checkbox" id="allowPages" checked><label for="allowPages">Changing the pages</label></div>
+                <div class="qr-field">
+                  <label for="ownerPassword">Owner password (optional)</label>
+                  <input type="password" id="ownerPassword" autocomplete="new-password" spellcheck="false">
+                </div>
+                <p class="help-text" id="ownerHelp"></p>
+                <p class="help-text">Limits are a request, not a lock. Many readers respect them and some tools ignore them. Only the password to open keeps a file private.</p>
+              </div>
+            </details>
+
+            <details class="acc" data-key="output" data-empty="AES-256">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="algorithm">Encryption</label>
+                  <select id="algorithm"><option value="AES-256" selected>AES-256, the strongest</option><option value="AES-128">AES-128, for older readers</option></select>
+                </div>
+                <div class="qr-field" id="zipField" hidden>
+                  <label for="zipName">ZIP file name</label>
+                  <input type="text" id="zipName" maxlength="100" autocomplete="off" spellcheck="false" value="protected-pdfs">
+                </div>
+                <p class="help-text">Each file keeps its own name. Every protected file is opened again, with and without the password, before it is handed over.</p>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Protect PDF</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
-
-      <div class="status-box" id="status"></div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -143,12 +208,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF that isn't already password protected.</li>
-        <li>Choose a password, anyone opening the file will need to enter it.</li>
-        <li>Optionally set a separate owner password and turn off printing, copying, editing or form filling.</li>
-        <li>Click "Protect &amp; Download" to get your encrypted PDF, AES-256 encryption, done entirely in your browser.</li>
+        <li>Add one PDF or many. Each is checked straight away, and a file that already has a password says so.</li>
+        <li>Choose a password to open them, or let "Suggest a strong password" make one. Then pick what people can do once a file is open: print, copy, edit, add notes or change pages.</li>
+        <li>Click "Protect PDF". Each file is encrypted, then opened again to make sure the password works and that it can't be opened without it. Several files come as a ZIP.</li>
       </ol>
-      <p class="help-text">Got a protected PDF and need the password removed? Use <a href="/unlock-pdf/">Unlock PDF</a> instead.</p>
+      <p class="note-box">Be clear about what each setting does. The password to open is the real protection: without it, nobody can read the file, and nobody can get it back for you if it is lost, including Fair Go PDF, which never sees it. The limits on printing, copying and editing are only a request that readers are meant to respect, and some tools ignore them, so use them to guide honest people and not to guard a secret. AES-256 is the strongest choice; AES-128 is only for readers too old to open it. Your PDF is read and changed in your browser, and nothing is uploaded. Got a protected PDF and need the password removed? Use <a href="/unlock-pdf/">Unlock PDF</a>.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -236,6 +300,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/protect-pdf.js"></script>
