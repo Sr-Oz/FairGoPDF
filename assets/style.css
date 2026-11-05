@@ -3519,7 +3519,9 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 }
 
 /* Compress Image and Merge PDF: the files and results in the main column, the settings beside them */
-.side-layout { grid-template-columns: minmax(0, 1fr) 360px; }
+.side-layout { grid-template-columns: minmax(0, 1fr) 360px; align-items: stretch; } /* both columns are as tall as the taller one */
+/* the results box takes up the slack, so its bottom lines up with the settings card (the file box keeps its own size) */
+.side-main > .results.visible { flex: 1 1 auto; }
 .side-main { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
 .side-main .file-list, .side-main .results { margin: 0; }
 .side-settings { position: static; gap: 4px; }
@@ -3531,8 +3533,15 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .ci-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .side-settings .btn { width: auto; }
 .side-settings .qr-field + .qr-field { margin-top: 12px; }
+.side-settings .side-inline > .qr-field + .qr-field { margin-top: 0; } /* side by side, so the second one must not drop below the first */
 .side-settings .qr-check label input[type="number"] { display: inline-block; width: 4.5em; padding: 4px 8px; margin: 0 2px; }
 .side-actions { display: flex; flex-wrap: wrap; gap: 16px; }
+/* the main action gets room: clear of the summary above it, the full width of the card, and space below for its offset shadow */
+/* on every settings card the main action is the same: its own full-width row, then Stop, Clear and the like share the row below */
+.side-settings .side-actions { display: flex; flex-wrap: wrap; gap: 12px; padding-bottom: 6px; }
+.side-settings .split-summary + .side-actions { margin-top: 16px; }
+.side-settings .side-actions .btn { flex: 1 1 0; min-width: 0; }
+.side-settings .side-actions .btn:not(.secondary) { flex: 1 1 100%; min-height: 48px; padding: 0 28px; }
 .result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 8px; }
 .result-title { margin: 0; font-size: 1.1rem; }
 .result-total { flex: 1; color: var(--text-muted); font-size: 0.9rem; }
@@ -3579,7 +3588,8 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .card-range-note.is-error { color: var(--danger); }
 
 /* Split PDF: the settings stay in view beside the pages, and the pages show which file they go into */
-.side-sticky { position: sticky; top: 88px; max-height: calc(100vh - 110px); overflow-y: auto; }
+/* the card is as tall as the row; what is inside it stays in view while the long main column scrolls */
+.side-stick { display: flex; flex-direction: column; gap: 4px; position: sticky; top: 88px; max-height: calc(100vh - 110px); overflow-y: auto; padding: 0 6px 6px 0; margin: 0 -6px -6px 0; }
 .file-bar { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .file-bar[hidden], .split-grid-wrap[hidden] { display: none; }
 .split-grid-wrap .help-text { margin: 0; }
@@ -3595,11 +3605,15 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .page-thumb.has-part .part-tag { display: block; }
 .page-thumb-grid.readonly .page-thumb { cursor: default; }
 .page-thumb-grid.readonly .page-thumb.selected { border-color: var(--border); }
+/* Word to PDF: what was changed to fit, and what was left out, under the finished PDF */
+.note-title { margin: 14px 0 4px; font-size: 0.95rem; }
+.note-list { margin: 0; padding-left: 1.2em; font-size: 0.88rem; color: var(--text-muted); }
+.note-list li + li { margin-top: 3px; }
 /* PDF to Images: each finished image shows a small preview, on a checker so a see-through one reads as see-through */
 .image-results .result-thumb-box { flex: none; display: flex; justify-content: center; width: 64px; }
 .image-results .result-thumb { flex: none; width: auto; height: auto; max-width: 64px; max-height: 64px; border: 1px solid var(--border); border-radius: 6px; background: repeating-conic-gradient(var(--bg-alt) 0 25%, var(--bg) 0 50%) 0 0 / 12px 12px; }
 @media (max-width: 899px) {
-  .side-sticky { position: static; max-height: none; overflow: visible; }
+  .side-stick { position: static; max-height: none; overflow: visible; }
 }
 
 /* Organise PDF Pages: pick, drag and tidy the pages; the tools sit beside them */

@@ -10,6 +10,8 @@
 // the page under the document's own font names first, so the browser measures with the same widths that the PDF uses.
 import { PDFLib, breathe } from "/assets/tools/pdf-common.js";
 import { subsetTtf } from "/assets/tools/ttf-subset.js";
+import { prepareDocx } from "/assets/tools/docx-prep.js";
+import { summariseMissing, buildNotes } from "/assets/tools/docx-prep-core.js";
 
 const FONT_BASE = "/assets/vendor/docx/fonts/";
 const PX_TO_PT = 0.75;
@@ -291,10 +293,14 @@ export async function injectPageFields(buffer) {
 
 function makeCollector(origin) {
   // origin: { left, top, articleLeft, pitch } of the section being read; items carry a page index.
+  // With text columns, each fragment of the layout is one text column: `perPage` of them make a page, and
+  // `step` is how far the next text column sits to the right.
+  const perPage = origin.perPage || 1;
+  const step = origin.step || 0;
   const items = [];
   const place = (r) => {
     const col = Math.max(0, Math.floor((r.left - origin.articleLeft + 1) / origin.pitch));
-    return { page: col, x: r.left - origin.left - col * origin.pitch, y: r.top - origin.top, w: r.width, h: r.height };
+    return { page: Math.floor(col / perPage), x: r.left - origin.left - col * origin.pitch + (col % perPage) * step, y: r.top - origin.top, w: r.width, h: r.height };
   };
   return { items, place };
 }
@@ -550,7 +556,7 @@ const DRAW_SLICE = 400; // drawing items between breaths, about 30 ms of work
 
 // `signal` is an AbortSignal: when it fires, the next checkpoint throws an AbortError.
 // shortcut: reading the file, laying out one section and saving can't be interrupted, so Cancel waits for the end of that step.
-export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal } = {}) {
+export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal, pageSize = "keep", title = "", author = "" } = {}) {
   if (!window.docx || !window.JSZip || !window.fontkit) throw new DocxError("The Word engine did not load. Refresh the page and try again.");
   const progress = (message, done, total) => onProgress && onProgress({ message, done, total });
   const checkpoint = async () => {
@@ -574,13 +580,15 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal
   shadow.appendChild(sheet);
   const host = document.createElement("div");
   shadow.appendChild(host);
-  const notes = [];
+  let features = {};
   const addedFonts = [];
 
   try {
     progress("Reading the document…");
     try {
-      const prepared = await injectPageFields(arrayBuffer);
+      const tidied = await prepareDocx(arrayBuffer, { pageSize });
+      features = tidied.features;
+      const prepared = await injectPageFields(tidied.buffer);
       await window.docx.renderAsync(prepared, host, null, {
         inWrapper: true,
         breakPages: true,
@@ -627,6 +635,7 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal
     const sectionData = [];
     let lastHeader = null;
     let lastFooter = null;
+    let noteCount = 0; // footnotes in the sections so far: docx-preview restarts the numbering in each, Word does not
     const totalSections = sections.length;
     for (let si = 0; si < sections.length; si++) {
       await checkpoint();
@@ -676,13 +685,41 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal
         ...(footerItems || (lastFooter ? lastFooter.map((it) => ({ ...it, y: pageH - it.bottomGap })) : [])),
       ];
 
+      // Footnotes and endnotes sit after the article, where only the page is drawn from; bring them into it, numbered, at its end
+      const noteLists = [...sec.children].filter((c) => /^ol$/i.test(c.tagName));
+      const refs = noteLists.length === 1 ? [...article.querySelectorAll("sup")] : []; // with endnotes too, the two kinds cannot be told apart
+      refs.forEach((sup, i) => { sup.textContent = String(noteCount + i + 1); });
+      for (const list of noteLists) {
+        list.style.cssText += ";list-style:none;padding:0;margin:0;";
+        const items = [...list.children].filter((c) => /^li$/i.test(c.tagName));
+        const base = refs.length ? noteCount : 0;
+        if (list === noteLists[0]) noteCount += items.length;
+        items.forEach((li, i) => {
+          li.style.display = "block";
+          const mark = document.createElement("span");
+          mark.textContent = `${base + i + 1} `;
+          mark.style.cssText = "vertical-align:super;font-size:0.75em;";
+          const target = li.querySelector("p") || li; // inside the first paragraph, so the number sits on the same line as the text
+          target.insertBefore(mark, target.firstChild);
+        });
+        const rule = document.createElement("div");
+        rule.style.cssText = "width:30%;border-top:0.75px solid #000;margin:12px 0 6px;";
+        article.appendChild(rule);
+        article.appendChild(list);
+      }
+
+      // Word's own text columns: lay out one text column at a time, then put them side by side on the page
+      const colCount = Math.max(1, parseInt(article.style.columnCount, 10) || 1);
+      const textGap = colCount > 1 ? px(getComputedStyle(article).columnGap) || 48 : 0;
+      const colW = colCount > 1 ? (contentW - (colCount - 1) * textGap) / colCount : contentW;
+
       // paginate with CSS columns: one column per page
       sec.style.display = "block";
       sec.style.minHeight = "0";
       sec.style.height = `${pageH}px`;
       sec.style.overflow = "visible";
       article.style.cssText +=
-        `;display:block;margin:0;width:${contentW}px;height:${contentH}px;column-width:${contentW}px;column-count:auto;` +
+        `;display:block;margin:0;width:${colW}px;height:${contentH}px;column-width:${colW}px;column-count:auto;column-rule:none;` +
         `column-gap:${COLUMN_GAP}px;column-fill:auto;overflow:visible;`;
       for (const tr of article.querySelectorAll("tr")) tr.style.breakInside = "avoid";
       for (const im of article.querySelectorAll("img,svg")) im.style.breakInside = "avoid";
@@ -693,8 +730,8 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal
       void sec.offsetHeight;
       const secRect = sec.getBoundingClientRect();
       const artRect = article.getBoundingClientRect();
-      const pitch = contentW + COLUMN_GAP;
-      const col = makeCollector({ left: secRect.left, top: secRect.top, articleLeft: artRect.left, pitch });
+      const pitch = colW + COLUMN_GAP;
+      const col = makeCollector({ left: secRect.left, top: secRect.top, articleLeft: artRect.left, pitch, perPage: colCount, step: colW + textGap });
       walkTree(article, col);
 
       const pagesInSection = Math.max(1, ...col.items.map((it) => it.page + 1));
@@ -736,7 +773,7 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal
     // 5. draw
     const totalPages = sectionData.reduce((n, sd) => n + sd.pagesInSection, 0);
     let pageNumber = 0;
-    let missingGlyphs = 0;
+    const missingChars = [];
     const totalItems = sectionData.reduce((n, sd) => n + sd.items.length, 0);
     let drawn = 0;
     for (const sd of sectionData) {
@@ -788,9 +825,7 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal
           let s = shownText.replace(/[ \t]/g, " ") + (it.space ? " " : "");
           const set = font.getCharacterSet();
           for (const ch of s) {
-            if (!set.includes(ch.codePointAt(0)) && ch !== " ") {
-              missingGlyphs++;
-            }
+            if (!set.includes(ch.codePointAt(0)) && ch !== " ") missingChars.push(ch);
           }
           s = [...s].filter((ch) => set.includes(ch.codePointAt(0)) || ch === " ").join("");
           if (!s.trim()) continue;
@@ -827,15 +862,16 @@ export async function docxToPdf(arrayBuffer, { fileName = "", onProgress, signal
       }
       pageNumber += pagesInSection;
     }
-    if (missingGlyphs) notes.push(`${missingGlyphs} character${missingGlyphs > 1 ? "s" : ""} had no glyph in the built-in fonts and were left out`);
+    const report = buildNotes(features, summariseMissing(missingChars));
 
-    pdf.setTitle(fileName.replace(/\.docx$/i, "") || "Document");
+    pdf.setTitle(title.trim() || fileName.replace(/\.docx$/i, "") || "Document");
+    if (author.trim()) pdf.setAuthor(author.trim());
     pdf.setCreator("Fair Go PDF");
     pdf.setProducer("Fair Go PDF");
     progress("Saving…");
     await checkpoint();
     const bytes = await pdf.save();
-    return { bytes, pageCount: pageNumber, notes: [...new Set(notes)] };
+    return { bytes, pageCount: pageNumber, adjusted: report.adjusted, lost: report.lost };
   } finally {
     for (const f of addedFonts) document.fonts.delete(f);
     outer.remove();
