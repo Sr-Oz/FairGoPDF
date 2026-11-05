@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Sign a PDF Online Free, Draw, Type or Upload | Fair Go PDF</title>
-<meta name="description" content="Draw, type or upload a picture of your signature and drag it anywhere on any page of a PDF, free and in your browser. No upload, no signup, no account.">
+<meta name="description" content="Draw, type or upload your signature, add the date, your name or a tick, and drag them onto any page of a PDF. Copy initials to every page. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/sign-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Sign a PDF Online Free, Draw, Type or Upload a Signature">
-<meta property="og:description" content="Draw, type or upload a signature and place it on any page of a PDF, free and in your browser.">
+<meta property="og:description" content="Draw, type or upload a signature, add the date and initials, and place them on any page of a PDF, free and in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/sign-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Sign a PDF Online Free, Draw, Type or Upload a Signature">
-<meta name="twitter:description" content="Draw, type or upload a signature and place it on any page of a PDF, free and in your browser.">
+<meta name="twitter:description" content="Draw, type or upload a signature, add the date and initials, and place them on any page of a PDF, free and in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -32,23 +32,6 @@
      visitor accepts the cookie banner. See assets/consent.js and
      /privacy-policy/. -->
 <script src="/assets/consent.js"></script>
-<style>
-  #typedPreview { font-family: "Caveat", cursive; font-size: 2.6rem; color: #1a1a1a; }
-  .sig-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-  .sig-tabs button.active { background: var(--brand); color: var(--brand-contrast); }
-  .sig-upload-preview { margin-top: 12px; padding: 12px; max-width: 420px; border: 2px dashed var(--border); border-radius: 8px; background-color: #fff; background-image: repeating-conic-gradient(#e3e3e3 0% 25%, #fff 0% 50%); background-size: 16px 16px; }
-  .sig-upload-preview canvas { display: block; max-width: 100%; max-height: 160px; margin: 0 auto; }
-  .sig-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 8px 0; font-size: 0.92rem; }
-  .sig-pager input { width: 64px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); }
-  .sig-stage { position: relative; max-width: 760px; margin: 8px 0 0; line-height: 0; border: 1px solid var(--border); border-radius: 6px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); touch-action: pan-y; user-select: none; }
-  .sig-stage > canvas { display: block; width: 100%; height: auto; border-radius: 6px; }
-  .sig-overlay { position: absolute; cursor: move; touch-action: none; outline: 2px dashed var(--brand); outline-offset: 2px; background: rgba(0, 77, 64, 0.06); }
-  .sig-overlay:focus-visible { outline-style: solid; }
-  .sig-overlay canvas { display: block; width: 100%; height: auto; pointer-events: none; }
-  .sig-handle { position: absolute; right: -9px; bottom: -9px; width: 20px; height: 20px; border-radius: 50%; background: var(--brand); border: 2px solid #fff; cursor: nwse-resize; touch-action: none; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
-  @media (pointer: coarse) { .sig-handle { width: 28px; height: 28px; right: -14px; bottom: -14px; } }
-  #sigPad { touch-action: none; border: 2px dashed var(--border); border-radius: 8px; background: #fff; cursor: crosshair; display: block; }
-</style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
@@ -95,81 +78,185 @@
 
     <div class="tool-page-header">
       <h1>Sign a PDF</h1>
-      <p>Draw, type or upload a picture of your signature, then drag it exactly where you need it on any page. Processed locally, nothing is uploaded.</p>
+      <p>Draw, type or upload your signature, then drag it where you need it, on as many pages as you like. Add the date, your name, ticks and crosses too, and copy a signature to every page for initials. Save a signature on this device to reuse it. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">draw</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
-
-      <div id="editor" style="display:none;">
-        <h3>1. Your signature</h3>
-        <div class="sig-tabs">
-          <button class="btn secondary small active" id="tabDraw" type="button">Draw</button>
-          <button class="btn secondary small" id="tabType" type="button">Type</button>
-          <button class="btn secondary small" id="tabUpload" type="button">Upload picture</button>
-        </div>
-
-        <div id="drawPane">
-          <canvas id="sigPad" width="500" height="150"></canvas>
-          <div class="actions-row">
-            <button class="btn secondary small" id="clearSigBtn">Clear</button>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">draw</span></div>
+            <div class="dz-title">Drop your PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
           </div>
-        </div>
 
-        <div id="typePane" style="display:none;">
-          <input type="text" id="typedName" placeholder="Type your name" style="width:100%; max-width:400px; font-size:1.1rem; padding:10px;">
-          <p id="typedPreview" style="margin-top:12px;"></p>
-        </div>
+          <p class="file-bar" id="fileBar" hidden></p>
 
-        <div id="uploadPane" style="display:none;">
-          <p class="help-text">Add a photo or scan of your signature written on white paper (JPG, PNG or WebP). It stays on your device.</p>
-          <input type="file" id="sigFile" accept="image/jpeg,image/png,image/webp" aria-label="Picture of your signature">
-          <div id="sigUploadWrap" style="display:none;">
-            <div class="sig-upload-preview"><canvas id="sigUploadPreview" aria-label="Preview of your signature"></canvas></div>
-            <div class="controls-row" style="flex-direction:column; align-items:flex-start; gap:10px; margin:12px 0 0;">
-              <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="optTransparent" checked> Make the white paper transparent</label>
-              <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="optTrim" checked> Trim the empty space around it</label>
+          <div class="status-box" id="status"></div>
+
+          <div class="sign-wrap" id="signWrap" hidden>
+            <div class="sig-pager" id="pager">
+              <button class="btn secondary small" id="prevPageBtn" type="button">&larr; Previous</button>
+              <label for="pageNum">Page</label>
+              <input type="number" id="pageNum" min="1" value="1" inputmode="numeric">
+              <span>of <span id="pageTotal">1</span></span>
+              <button class="btn secondary small" id="nextPageBtn" type="button">Next &rarr;</button>
+            </div>
+            <p class="help-text" id="placeHint">Make your signature on the right, then add it to the page.</p>
+            <div class="sig-stage" id="sigStage">
+              <canvas id="pageCanvas" aria-label="The page to sign"></canvas>
+              <div id="itemLayer"></div>
             </div>
           </div>
-        </div>
 
-        <h3 style="margin-top:28px;">2. Place it on the page</h3>
-        <div class="sig-pager" id="pager">
-          <button class="btn secondary small" id="prevPageBtn" type="button">&larr; Previous</button>
-          <label for="pageNum">Page</label>
-          <input type="number" id="pageNum" min="1" value="1" inputmode="numeric">
-          <span>of <span id="pageTotal">1</span></span>
-          <button class="btn secondary small" id="nextPageBtn" type="button">Next &rarr;</button>
-        </div>
-        <p class="help-text" id="placeHint">Make your signature above first, then drag it to where you need it on the page.</p>
-        <div class="sig-stage" id="sigStage">
-          <canvas id="pageCanvas" aria-label="The page to sign"></canvas>
-          <div class="sig-overlay" id="sigOverlay" tabindex="0" role="group" aria-label="Your signature. Drag to move it, use the arrow keys to nudge it, and plus or minus to resize." style="display:none;">
-            <canvas id="overlayCanvas"></canvas>
-            <span class="sig-handle" id="sigHandle" aria-hidden="true"></span>
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your signed PDF</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="downloadBtn" type="button">Download again</button>
+            </div>
+            <p class="help-text" id="resultNote"></p>
           </div>
         </div>
 
-        <div class="controls-row" style="margin-top:16px;">
-          <div class="field">
-            <label for="sigWidth">Signature width (<span id="sigWidthVal">150</span>pt)</label>
-            <input type="range" id="sigWidth" min="30" max="400" value="150">
-          </div>
-          <button class="btn secondary small" id="resetPlaceBtn" type="button">Reset position</button>
-        </div>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Signing settings">
+          <div class="side-stick">
+            <details class="acc" data-key="signature" data-empty="Make one" open>
+              <summary><span class="acc-name">Signature</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-types sig-tabs" role="group" aria-label="How to make it">
+                  <button type="button" class="qr-type" id="tabDraw" aria-pressed="true">Draw</button>
+                  <button type="button" class="qr-type" id="tabType" aria-pressed="false">Type</button>
+                  <button type="button" class="qr-type" id="tabUpload" aria-pressed="false">Upload</button>
+                </div>
 
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Sign PDF</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
+                <div id="drawPane">
+                  <canvas id="sigPad" width="600" height="180" aria-label="Draw your signature here"></canvas>
+                  <div class="side-inline" style="margin-top:12px;">
+                    <div class="qr-field">
+                      <label for="penColour">Ink</label>
+                      <select id="penColour"><option value="#1a1a1a" selected>Black</option><option value="#1f3a8a">Blue</option><option value="#7a1f1f">Dark red</option></select>
+                    </div>
+                    <div class="qr-field">
+                      <label for="penSize">Pen</label>
+                      <select id="penSize"><option value="2">Thin</option><option value="3.5" selected>Medium</option><option value="6">Bold</option></select>
+                    </div>
+                  </div>
+                  <button class="btn secondary small" id="clearSigBtn" type="button" style="margin-top:12px;">Clear</button>
+                </div>
+
+                <div id="typePane" hidden>
+                  <div class="qr-field">
+                    <label for="typedName">Your name</label>
+                    <input type="text" id="typedName" placeholder="Type your name" autocomplete="off">
+                  </div>
+                  <div class="side-inline">
+                    <div class="qr-field">
+                      <label for="typedFont">Style</label>
+                      <select id="typedFont"><option value="Caveat" selected>Caveat</option><option value="Dancing Script">Dancing Script</option><option value="Schoolbell">Schoolbell</option></select>
+                    </div>
+                    <div class="qr-field">
+                      <label for="typedColour">Ink</label>
+                      <select id="typedColour"><option value="#1a1a1a" selected>Black</option><option value="#1f3a8a">Blue</option><option value="#7a1f1f">Dark red</option></select>
+                    </div>
+                  </div>
+                  <p id="typedPreview" class="typed-preview" aria-hidden="true"></p>
+                </div>
+
+                <div id="uploadPane" hidden>
+                  <p class="help-text">A photo or scan of your signature written on white paper (JPG, PNG or WebP). It stays on your device.</p>
+                  <input type="file" id="sigFile" accept="image/jpeg,image/png,image/webp" aria-label="Picture of your signature">
+                  <div id="sigUploadWrap" hidden>
+                    <div class="sig-upload-preview"><canvas id="sigUploadPreview" aria-label="Preview of your signature"></canvas></div>
+                    <div class="qr-field qr-check" style="margin-top:12px;"><input type="checkbox" id="optTransparent" checked><label for="optTransparent">Make the white paper transparent</label></div>
+                    <div class="qr-field qr-check"><input type="checkbox" id="optTrim" checked><label for="optTrim">Trim the empty space around it</label></div>
+                  </div>
+                </div>
+
+                <div class="qr-field qr-check" style="margin-top:14px;">
+                  <input type="checkbox" id="keepSig">
+                  <label for="keepSig">Keep this signature on this device</label>
+                </div>
+                <p class="help-text">Saved signatures stay in this browser only and are never sent anywhere.</p>
+                <div class="saved-sigs" id="savedSigs" hidden>
+                  <p class="saved-title">Saved on this device</p>
+                  <div id="savedList" class="saved-list"></div>
+                  <button class="btn secondary small" id="forgetAll" type="button">Forget them all</button>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc" data-key="add" data-empty="Signature, date, text">
+              <summary><span class="acc-name">Add to the page</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="add-buttons" role="group" aria-label="Add to the page shown">
+                  <button type="button" class="btn secondary small" data-add="signature">Signature</button>
+                  <button type="button" class="btn secondary small" data-add="date">Date</button>
+                  <button type="button" class="btn secondary small" data-add="text">Text</button>
+                  <button type="button" class="btn secondary small" data-add="tick">Tick</button>
+                  <button type="button" class="btn secondary small" data-add="cross">Cross</button>
+                </div>
+                <div class="qr-field" style="margin-top:12px;">
+                  <label for="newText">Text to add</label>
+                  <input type="text" id="newText" placeholder="Your name, an address, a note" autocomplete="off" maxlength="200">
+                </div>
+                <div class="qr-field">
+                  <label for="dateStyle">Date style</label>
+                  <select id="dateStyle"></select>
+                </div>
+                <p class="help-text">Each goes on the page shown, ready to drag. The date is today's.</p>
+              </div>
+            </details>
+
+            <details class="acc" data-key="items" data-empty="Nothing placed">
+              <summary><span class="acc-name">Placed on the pages</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <ul class="item-list" id="itemList"></ul>
+                <p class="help-text" id="noItems">Nothing is placed yet.</p>
+                <div id="selected" hidden>
+                  <p class="saved-title" id="selectedTitle">Selected</p>
+                  <div class="qr-field" id="selTextField" hidden>
+                    <label for="selText">Text</label>
+                    <input type="text" id="selText" autocomplete="off" maxlength="200">
+                  </div>
+                  <div class="qr-field">
+                    <label for="selSize" id="selSizeLabel">Size</label>
+                    <input type="range" id="selSize" min="30" max="400" value="150">
+                  </div>
+                  <div class="qr-field">
+                    <label for="copyPages">Copy it to these pages</label>
+                    <input type="text" id="copyPages" placeholder="All, or 1-3, 7, 10-" autocomplete="off" spellcheck="false">
+                  </div>
+                  <div class="select-buttons">
+                    <button type="button" class="btn secondary small" id="copyBtn">Copy</button>
+                    <button type="button" class="btn secondary small" id="copyAllBtn">Copy to every page</button>
+                    <button type="button" class="btn secondary small" id="deleteBtn">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc" data-key="output" data-empty="File name">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body">
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Sign PDF</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
-
-      <div class="status-box" id="status"></div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -200,10 +287,10 @@
       <h2>How it works</h2>
       <ol>
         <li>Add a PDF. It opens on the last page, where signatures usually go. Use Previous and Next to move to another page.</li>
-        <li>Draw your signature with your mouse or finger, switch to "Type" and enter your name, or choose "Upload picture" and add a photo or scan of your handwritten signature.</li>
-        <li>Drag the signature to exactly where you need it on the page, drag its corner (or use the slider) to resize it, then click "Sign PDF." It is stamped on the page you are looking at.</li>
+        <li>Draw your signature with a mouse or finger, type your name in a handwriting style, or upload a photo or scan of it. Pick the ink and pen. Tick "Keep this signature on this device" to use it again next time.</li>
+        <li>Add it to the page, then add a date, your name or a tick where the form asks. Drag each one into place, resize it, and copy it to other pages, for initials on every page. Click "Sign PDF".</li>
       </ol>
-      <p class="help-text">This stamps an image of your signature onto the page, it's a straightforward visual signature, not a cryptographically verified e-signature with an audit trail. For documents that require the latter, you'll need a dedicated e-signature service.</p>
+      <p class="help-text">This stamps your signature and any text onto the pages as part of the page. It is a visual signature, not a certified digital signature with an audit trail, so a document that needs one will need a dedicated e-signature service. Text with characters the PDF's own font lacks, such as macrons, is placed as a picture so it still shows. Saved signatures live only in this browser, and you can forget them at any time. Your PDF is read and changed in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -291,6 +378,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/sign-pdf.js"></script>

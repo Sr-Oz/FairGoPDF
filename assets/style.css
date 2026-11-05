@@ -3650,6 +3650,35 @@ body:has(.glitch-hero) main { flex: 1 0 auto; display: flex; flex-direction: col
 .page-thumb.has-part .part-tag { display: block; }
 .page-thumb-grid.readonly .page-thumb { cursor: default; }
 .page-thumb-grid.readonly .page-thumb.selected { border-color: var(--border); }
+/* Sign PDF: the page with the things placed on it, and the maker for a signature */
+.typed-preview { margin: 12px 0 0; min-height: 3.4rem; font-family: "Caveat", cursive; font-size: 2.6rem; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+.sig-tabs { margin-bottom: 16px; }
+#sigPad { display: block; width: 100%; height: auto; border: 2px dashed var(--border); border-radius: 8px; background: #fff; touch-action: none; cursor: crosshair; }
+.sig-upload-preview { margin-top: 12px; padding: 12px; border: 2px dashed var(--border); border-radius: 8px; background-color: #fff; background-image: repeating-conic-gradient(#e3e3e3 0% 25%, #fff 0% 50%); background-size: 16px 16px; }
+.sig-upload-preview canvas { display: block; max-width: 100%; max-height: 160px; margin: 0 auto; }
+.sig-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 8px; font-size: 0.92rem; }
+.sig-pager input { width: 64px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); }
+.sign-wrap .help-text { margin: 0 0 10px; }
+.sig-stage { position: relative; max-width: 760px; line-height: 0; border: 1px solid var(--border); border-radius: 6px; background: #fff; box-shadow: 0 2px 10px color-mix(in srgb, var(--text) 18%, transparent); touch-action: pan-y; user-select: none; }
+.sig-stage > canvas { display: block; width: 100%; height: auto; border-radius: 6px; }
+.sig-item { position: absolute; cursor: move; touch-action: none; outline: 1px dashed color-mix(in srgb, var(--brand) 55%, transparent); outline-offset: 2px; line-height: 1.2; color: #1a1a1a; }
+.sig-item.selected { outline: 2px solid var(--brand); background: color-mix(in srgb, var(--brand) 8%, transparent); }
+.sig-item:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.sig-item canvas { display: block; width: 100%; height: auto; pointer-events: none; }
+.sig-item .sig-text { display: block; white-space: nowrap; font-family: Helvetica, Arial, sans-serif; pointer-events: none; }
+.sig-handle { position: absolute; right: -9px; bottom: -9px; width: 20px; height: 20px; border: 2px solid var(--bg); border-radius: 50%; background: var(--brand); cursor: nwse-resize; touch-action: none; box-shadow: 0 1px 4px color-mix(in srgb, var(--text) 30%, transparent); }
+@media (pointer: coarse) { .sig-handle { width: 28px; height: 28px; right: -14px; bottom: -14px; } }
+.add-buttons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.item-list { display: flex; flex-direction: column; gap: 6px; margin: 0 0 8px; padding: 0; list-style: none; }
+.item-list button { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font: inherit; font-size: 0.9rem; text-align: left; cursor: pointer; }
+.item-list button[aria-pressed="true"] { border-color: var(--text); background: var(--bg-alt); font-weight: 700; }
+.item-list button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.saved-title { margin: 14px 0 8px; font-weight: 700; font-size: 0.9rem; }
+.saved-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.saved-sig { position: relative; }
+.saved-sig > button.use { display: block; width: 110px; height: 56px; padding: 4px; border: 1px solid var(--border); border-radius: 8px; background: #fff; cursor: pointer; }
+.saved-sig > button.use img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.saved-sig > button.drop { position: absolute; right: -8px; top: -8px; width: 24px; height: 24px; padding: 0; border: 1px solid var(--border); border-radius: 50%; background: var(--bg); color: var(--text); font-size: 0.8rem; line-height: 1; cursor: pointer; }
 /* Rotate PDF: the page shown large, turned and tilted as it will be, over a grid to line it up against; and a mark on turned thumbnails */
 .rotate-stage { display: flex; justify-content: center; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
 .rotate-stage-wrap .help-text { margin: 0 0 10px; }
