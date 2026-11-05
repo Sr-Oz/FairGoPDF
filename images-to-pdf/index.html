@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>Images to PDF Converter Online Free | Fair Go PDF</title>
-<meta name="description" content="Combine JPG or PNG images into a single PDF file, free and in your browser. No upload, no signup.">
+<meta name="description" content="Combine JPG, PNG, WebP, GIF or BMP pictures into one PDF, pick the page size and margin, turn and reorder them. Free, in your browser. No upload, no signup.">
 <link rel="canonical" href="https://fairgopdf.au/images-to-pdf/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="Images to PDF Converter Online Free">
-<meta property="og:description" content="Combine JPG or PNG images into a single PDF file, free and in your browser. No upload, no signup.">
+<meta property="og:description" content="Combine JPG, PNG, WebP, GIF or BMP pictures into one PDF, pick the page size and margin, turn and reorder them. Free, in your browser. No upload, no signup.">
 <meta property="og:url" content="https://fairgopdf.au/images-to-pdf/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Images to PDF Converter Online Free">
-<meta name="twitter:description" content="Combine JPG or PNG images into a single PDF file, free and in your browser. No upload, no signup.">
+<meta name="twitter:description" content="Combine JPG, PNG, WebP, GIF or BMP pictures into one PDF, pick the page size and margin, turn and reorder them. Free, in your browser. No upload, no signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,40 +77,136 @@
     </script>
     <div class="tool-page-header">
       <h1>Images to PDF</h1>
-      <p>Turn one or more JPG or PNG images into a single PDF. Processed locally, nothing is uploaded.</p>
+      <p>Turn JPG, PNG, WebP, GIF or BMP pictures into one PDF, one picture to a page. Reorder and turn them, pick the page size and margin, and shrink big photos for a smaller file. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose images or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">picture_as_pdf</span></div>
-        <div class="dz-title">Drop your images here, easy as.</div>
-        <div class="dz-sub">JPEG or PNG · multiple files supported · drag the cards to reorder</div>
-        <input type="file" id="fileInput" accept="image/jpeg,image/png" multiple>
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose images or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">picture_as_pdf</span></div>
+            <div class="dz-title">Drop your images here, easy as.</div>
+            <div class="dz-sub">JPG, PNG, WebP, GIF or BMP · many at once · drag the cards to reorder</div>
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" multiple>
+          </div>
 
-      <ul class="file-list file-cards" id="fileList"></ul>
+          <div class="sort-row" id="sortRow" hidden>
+            <span class="sort-label" id="sortLabel">Sort</span>
+            <div class="sort-buttons" role="group" aria-labelledby="sortLabel">
+              <button type="button" class="btn secondary small" data-sort="az">Name A to Z</button>
+              <button type="button" class="btn secondary small" data-sort="za">Name Z to A</button>
+              <button type="button" class="btn secondary small" data-sort="oldest">Oldest first</button>
+              <button type="button" class="btn secondary small" data-sort="newest">Newest first</button>
+              <button type="button" class="btn secondary small" data-sort="reverse">Reverse</button>
+            </div>
+          </div>
 
-      <div class="controls-row" id="controls" style="display:none;">
-        <div class="field">
-          <label for="pageSize">Page size</label>
-          <select id="pageSize">
-            <option value="fit">Fit to each image</option>
-            <option value="a4">A4</option>
-            <option value="letter">Letter</option>
-          </select>
+          <ul class="file-list file-cards" id="fileList"></ul>
+
+          <div class="status-box" id="status"></div>
+          <div class="progress-bar" id="progress" style="display:none;"><div class="fill" id="progressFill"></div></div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your PDF</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="downloadBtn" type="button">Download again</button>
+            </div>
+            <div id="noteLists"></div>
+          </div>
         </div>
-        <div class="field" id="marginField">
-          <label for="margin">Margin (pt)</label>
-          <input type="number" id="margin" min="0" max="72" value="24">
-        </div>
-      </div>
 
-      <div class="actions-row" id="actionsRow" style="display:none;">
-        <button class="btn" id="runBtn">Create PDF</button>
-        <button class="btn secondary" id="clearBtn">Clear</button>
-      </div>
+        <aside class="qr-preview side-settings" aria-label="PDF settings">
+          <fieldset class="qr-group">
+            <legend>Page</legend>
+            <div class="qr-field">
+              <label for="pageSize">Page size</label>
+              <select id="pageSize">
+                <option value="image" selected>Fit to each picture</option>
+                <option value="a4">A4</option>
+                <option value="a3">A3</option>
+                <option value="a5">A5</option>
+                <option value="letter">US Letter</option>
+                <option value="legal">US Legal</option>
+              </select>
+            </div>
+            <div class="mode-block" id="block-page">
+              <div class="side-inline">
+                <div class="qr-field">
+                  <label for="orientation">Turn</label>
+                  <select id="orientation">
+                    <option value="auto" selected>To suit the picture</option>
+                    <option value="portrait">Always upright</option>
+                    <option value="landscape">Always sideways</option>
+                  </select>
+                </div>
+                <div class="qr-field">
+                  <label for="fit">Picture</label>
+                  <select id="fit">
+                    <option value="inside" selected>Fit inside</option>
+                    <option value="fill">Fill the page</option>
+                  </select>
+                </div>
+              </div>
+              <p class="help-text" id="fitHelp"></p>
+            </div>
+            <div class="side-inline">
+              <div class="qr-field">
+                <label for="margin">Margin</label>
+                <select id="margin">
+                  <option value="0" selected>None</option>
+                  <option value="5">Narrow, 5 mm</option>
+                  <option value="10">Medium, 10 mm</option>
+                  <option value="20">Wide, 20 mm</option>
+                </select>
+              </div>
+              <div class="qr-field">
+                <label for="paper">Page colour</label>
+                <select id="paper">
+                  <option value="white" selected>White</option>
+                  <option value="black">Black</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
 
-      <div class="status-box" id="status"></div>
+          <fieldset class="qr-group">
+            <legend>Pictures</legend>
+            <div class="qr-field">
+              <label for="level">File size</label>
+              <select id="level">
+                <option value="original" selected>Keep the pictures as they are</option>
+                <option value="balanced">Balanced, sharp at A4 print size</option>
+                <option value="small">Small, good for email</option>
+              </select>
+            </div>
+            <p class="help-text" id="levelHelp"></p>
+          </fieldset>
+
+          <fieldset class="qr-group">
+            <legend>PDF details</legend>
+            <div class="qr-field">
+              <label for="prefix">File name</label>
+              <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false" value="images">
+            </div>
+            <div class="qr-field">
+              <label for="pdfTitle">Title (optional)</label>
+              <input type="text" id="pdfTitle" maxlength="200" autocomplete="off">
+            </div>
+            <div class="qr-field">
+              <label for="pdfAuthor">Author (optional)</label>
+              <input type="text" id="pdfAuthor" maxlength="200" autocomplete="off">
+            </div>
+          </fieldset>
+
+          <p class="split-summary" id="summary" role="status">Add pictures to begin.</p>
+          <div class="side-actions">
+            <button class="btn" id="runBtn" type="button" disabled>Create PDF</button>
+            <button class="btn secondary" id="stopBtn" type="button" hidden>Stop</button>
+            <button class="btn secondary" id="clearBtn" type="button" disabled>Clear</button>
+          </div>
+        </aside>
+      </div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -144,10 +240,11 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add one or more JPG/PNG images.</li>
-        <li>Reorder them and pick a page size.</li>
-        <li>Click "Create PDF" to download the combined file.</li>
+        <li>Add your pictures, then drag the cards, use the arrows or a sort button to put them in order. Turn any that are sideways.</li>
+        <li>Choose a page size, a margin and whether pictures fit inside the page or fill it. Pick a smaller file size if the photos are big.</li>
+        <li>Click "Create PDF". Each picture gets a page of its own.</li>
       </ol>
+      <p class="help-text">A photo taken sideways on a phone is turned upright, using the rotation the camera saved. Pictures are embedded as they are unless they are bigger than the file size you chose, so a JPG or PNG is not recompressed for nothing. A see-through PNG keeps its transparency. iPhone HEIC photos need <a href="/heic-to-pdf/">HEIC to PDF</a>. Your pictures are read and built into the PDF in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>

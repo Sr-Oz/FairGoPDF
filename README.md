@@ -56,7 +56,7 @@ watermarked output.
 | Merge PDF | `/merge-pdf/` | Combine PDFs and JPG/PNG/WebP pictures into one, in any order, with a Pages box per file (`1-3, 7`, `10-`, `last`, `except 2`), sort buttons, blank pages for double-sided printing, bookmarks per file, title/author and file name |
 | Split PDF | `/split-pdf/` | Extract picked pages, or split by custom ranges, every N pages, equal parts, top-level bookmarks or a maximum file size; thumbnails show which file each page goes into, several files download as a ZIP |
 | Compress PDF | `/compress-pdf/` | Reduce PDF file size (quick clean or strong/rasterised) |
-| Images to PDF | `/images-to-pdf/` | Combine JPG/PNG images into a single PDF |
+| Images to PDF | `/images-to-pdf/` | Combine JPG, PNG, WebP, GIF or BMP pictures into one PDF: reorder and turn them, pick the page size (A3 to Legal), orientation, margin and fit or fill, and shrink big photos |
 | HEIC to PDF | `/heic-to-pdf/` | Turn one or more iPhone HEIC/HEIF photos into a single PDF |
 | PDF to Images | `/pdf-to-images/` | Export the pages you pick as PNG, JPG or WebP, sized by DPI or pixels, in colour or black and white, or as one long image |
 | Organise PDF Pages | `/organise-pdf/` | Pick pages (click, Shift/Ctrl-click, odd/even, typed ranges) then rotate, delete, duplicate, move or drag them as a group; add blank pages or pages from another PDF; undo/redo; reverse order |

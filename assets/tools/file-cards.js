@@ -4,11 +4,12 @@
 // `entries` is the tool's own array of { file, canvas, failed }. It is changed in place (move, remove), then onChange() is
 // called so the tool can redraw. canvas is the picture; until it arrives the card shows a spinner, and if `failed` is set
 // it shows `icon` instead. `extra(entry)`, if given, returns an element (or null) shown between the name and the buttons, such as
-// a box for choosing pages. Depends on tools.js (escapeHtml) being loaded first.
+// a box for choosing pages. `buttons(entry)`, if given, returns [{ label, text, onClick }] for more buttons between the arrows and
+// Remove, such as turning a picture. Depends on tools.js (escapeHtml) being loaded first.
 
 let dragFrom = -1; // index of the card being dragged; -1 when the drag came from outside (a file from the desktop)
 
-export function renderFileCards(listEl, entries, { detail, icon = "picture_as_pdf", extra, onChange }) {
+export function renderFileCards(listEl, entries, { detail, icon = "picture_as_pdf", extra, buttons, onChange }) {
   const move = (from, to) => {
     const [item] = entries.splice(from, 1);
     entries.splice(to, 0, item);
@@ -50,6 +51,7 @@ export function renderFileCards(listEl, entries, { detail, icon = "picture_as_pd
     };
     button("Move earlier:", "←", i === 0, () => move(i, i - 1));
     button("Move later:", "→", i === entries.length - 1, () => move(i, i + 1));
+    for (const b of buttons ? buttons(entry) : []) button(b.label, b.text, false, b.onClick);
     button("Remove", "✕", false, () => {
       entries.splice(i, 1);
       onChange();
