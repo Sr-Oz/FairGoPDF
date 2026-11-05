@@ -84,7 +84,7 @@ watermarked output.
 | Redact PDF | `/redact-pdf/` | Permanently black out sensitive content by flattening marked pages to an image, not just drawing a box over it |
 | Protect PDF | `/protect-pdf/` | Add a password so only people who have it can open the files, with printing, copying and editing limits, many files at once, and each result checked |
 | Unlock PDF | `/unlock-pdf/` | Remove the password from PDFs you have it for, or clear printing and copying limits, many files at once, each copy checked |
-| PDF Editor | `/pdf-editor/` | Drag text and image boxes anywhere on any page, resize and style them |
+| PDF Editor | `/pdf-editor/` | Add wrapped text, pictures and boxes to any page, cover up old text with a box that matches the page, copy to other pages, undo and redo |
 | Add Links to PDF | `/add-links-to-pdf/` | Draw a clickable area on a page that opens a website or jumps to another page |
 | PDF Form Builder | `/pdf-form-builder/` | Add fillable text fields, checkboxes, radio buttons and dropdowns as real AcroForm fields |
 | Remove Blank Pages | `/remove-blank-pages/` | Auto-detect and strip blank pages from a scanned PDF |

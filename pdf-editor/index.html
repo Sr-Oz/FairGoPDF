@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>PDF Editor Online Free, Add Text &amp; Images | Fair Go PDF</title>
-<meta name="description" content="A real PDF editor in your browser: drag text and image boxes anywhere on any page, resize them, style the text, then download. No upload, no signup.">
+<meta name="description" content="Add text, pictures and boxes to any page of a PDF: drag, resize, wrap text, cover up old text, copy to other pages and undo. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/pdf-editor/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="PDF Editor Online Free, Add Text & Images">
-<meta property="og:description" content="A real PDF editor in your browser: drag text and image boxes anywhere on any page, resize them, style the text, then download. No upload, no signup.">
+<meta property="og:description" content="Add text, pictures and boxes to any page of a PDF: drag, resize, wrap text, cover up old text, copy to other pages and undo. Free, in your browser, no upload or signup.">
 <meta property="og:url" content="https://fairgopdf.au/pdf-editor/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PDF Editor Online Free, Add Text & Images">
-<meta name="twitter:description" content="A real PDF editor in your browser: drag text and image boxes anywhere on any page, resize them, style the text, then download. No upload, no signup.">
+<meta name="twitter:description" content="Add text, pictures and boxes to any page of a PDF: drag, resize, wrap text, cover up old text, copy to other pages and undo. Free, in your browser, no upload or signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,63 +77,149 @@
     </script>
     <div class="tool-page-header">
       <h1>PDF Editor</h1>
-      <p>Drag text and images anywhere on any page, resize and style them, then download. Processed locally, nothing is uploaded.</p>
+      <p>Add text, pictures and boxes to any page of a PDF. Drag them into place, wrap text inside a box, cover old text with a box that matches the page, copy things to other pages, and undo a mistake. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">edit_document</span></div>
-        <div class="dz-title">Drop your PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">edit_document</span></div>
+            <div class="dz-title">Drop your PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
+          </div>
 
-      <div id="editor" style="display:none;">
-        <div class="pdf-editor-toolbar">
-          <button class="btn secondary small" id="addTextBtn" type="button">
-            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">text_fields</span> Add Text
-          </button>
-          <button class="btn secondary small" id="addImageBtn" type="button">
-            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1.1rem;">add_photo_alternate</span> Add Image
-          </button>
-          <input type="file" id="imageInput" accept="image/png,image/jpeg" style="display:none;">
+          <p class="file-bar" id="fileBar" hidden></p>
 
-          <div class="pdf-obj-toolbar" id="objToolbar">
-            <div class="field">
-              <label for="objFontFamily">Font</label>
-              <select id="objFontFamily">
-                <option value="Helvetica">Helvetica</option>
-                <option value="TimesRoman">Times</option>
-                <option value="Courier">Courier</option>
-              </select>
+          <div class="status-box" id="status"></div>
+
+          <div class="sign-wrap" id="edWrap" hidden>
+            <div class="sig-pager" id="pager">
+              <span class="pager-pages" id="pagerPages">
+                <button class="btn secondary small" id="prevPageBtn" type="button">&larr; Previous</button>
+                <label for="pageNum">Page</label>
+                <input type="number" id="pageNum" min="1" value="1" inputmode="numeric">
+                <span>of <span id="pageTotal">1</span></span>
+                <button class="btn secondary small" id="nextPageBtn" type="button">Next &rarr;</button>
+              </span>
+              <span class="ed-history">
+                <button class="btn secondary small" id="undoBtn" type="button" disabled>Undo</button>
+                <button class="btn secondary small" id="redoBtn" type="button" disabled>Redo</button>
+              </span>
             </div>
-            <div class="field">
-              <label for="objFontSize">Size</label>
-              <input type="number" id="objFontSize" min="6" max="200" value="16">
+            <p class="help-text" id="edHint"></p>
+            <div class="sig-stage ed-stage" id="edStage">
+              <canvas id="pageCanvas" aria-label="The page to edit"></canvas>
+              <div id="edLayer"></div>
             </div>
-            <div class="field">
-              <label for="objColor">Colour</label>
-              <input type="color" id="objColor" value="#1a1a1a">
+          </div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your edited PDF</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="downloadBtn" type="button">Download again</button>
             </div>
-            <div class="field"><label><input type="checkbox" id="objBold"> Bold</label></div>
-            <div class="field"><label><input type="checkbox" id="objItalic"> Italic</label></div>
-            <button class="btn secondary small" id="deleteObjBtn" type="button">Delete</button>
+            <p class="help-text" id="resultNote"></p>
           </div>
         </div>
 
-        <p class="help-text">Click a page to select it, then "Add Text" or "Add Image." Drag a box to
-          move it, drag a corner dot to resize, click a selected text box again to type. Each Enter
-          starts a new PDF line, a box's width doesn't auto-wrap text.</p>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Editing tools">
+          <div class="side-stick">
+            <details class="acc" data-key="add" open>
+              <summary><span class="acc-name">Add to the page</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="wm-picks" role="group" aria-label="What to add to the page shown">
+                  <button type="button" class="btn secondary small" data-add="text">Text</button>
+                  <button type="button" class="btn secondary small" data-add="picture">Picture</button>
+                  <button type="button" class="btn secondary small" data-add="box">Box</button>
+                  <button type="button" class="btn secondary small" data-add="whiteout">Cover up</button>
+                </div>
+                <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp" hidden>
+                <p class="help-text">Each goes on the page shown, ready to drag. "Cover up" adds a box in the page's own colour, to hide text you want to replace: add your new text on top of it.</p>
+              </div>
+            </details>
 
-        <div class="pdf-pages" id="pdfPages"></div>
+            <details class="acc" data-key="selected" data-empty="Nothing selected">
+              <summary><span class="acc-name">Selected</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <p class="help-text" id="noSel">Click something on the page to change it.</p>
+                <div id="selPanel" hidden>
+                  <div id="textOpts">
+                    <div class="qr-field">
+                      <label for="selText">Text</label>
+                      <textarea id="selText" rows="3" spellcheck="true"></textarea>
+                    </div>
+                    <div class="qr-field">
+                      <label for="selFont">Font</label>
+                      <select id="selFont"><option value="Helvetica">Helvetica</option><option value="TimesRoman">Times</option><option value="Courier">Courier</option></select>
+                    </div>
+                    <div class="side-inline">
+                      <div class="qr-field"><label for="selSize">Size (pt)</label><input type="number" id="selSize" min="4" max="200" value="16" inputmode="numeric"></div>
+                      <div class="qr-field"><label for="selColour">Colour</label><input type="color" id="selColour" value="#1a1a1a"></div>
+                    </div>
+                    <div class="side-inline">
+                      <div class="qr-field qr-check"><input type="checkbox" id="selBold"><label for="selBold">Bold</label></div>
+                      <div class="qr-field qr-check"><input type="checkbox" id="selItalic"><label for="selItalic">Italic</label></div>
+                    </div>
+                    <div class="side-inline">
+                      <div class="qr-field"><label for="selAlign">Align</label><select id="selAlign"><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select></div>
+                      <div class="qr-field"><label for="selSpacing">Line spacing</label><select id="selSpacing"><option value="1">Tight</option><option value="1.2" selected>Normal</option><option value="1.5">Open</option><option value="2">Double</option></select></div>
+                    </div>
+                  </div>
+                  <div id="boxOpts">
+                    <div class="side-inline">
+                      <div class="qr-field"><label for="selFill">Fill</label><input type="color" id="selFill" value="#ffffff"></div>
+                      <div class="qr-field"><label for="selFillOn">Show the fill</label><select id="selFillOn"><option value="1">Yes</option><option value="0">No, outline only</option></select></div>
+                    </div>
+                    <button type="button" class="btn secondary small" id="matchBtn">Match the page behind it</button>
+                    <p class="help-text">A copy of a cover-up keeps its colour, so use this on each page it is copied to.</p>
+                    <div class="side-inline">
+                      <div class="qr-field"><label for="selStroke">Border</label><input type="color" id="selStroke" value="#1a1a1a"></div>
+                      <div class="qr-field"><label for="selStrokeW">Border width</label><select id="selStrokeW"><option value="0">None</option><option value="1">Thin</option><option value="2">Medium</option><option value="4">Thick</option></select></div>
+                    </div>
+                  </div>
+                  <div class="qr-field">
+                    <label for="selOpacity">Opacity <span id="selOpacityVal">100</span>%</label>
+                    <input type="range" id="selOpacity" min="5" max="100" value="100">
+                  </div>
+                  <div class="qr-field">
+                    <label for="copyPages">Copy it to these pages</label>
+                    <input type="text" id="copyPages" placeholder="All, or 1-3, 7, 10-" autocomplete="off" spellcheck="false">
+                  </div>
+                  <div class="select-buttons">
+                    <button type="button" class="btn secondary small" id="copyBtn">Copy</button>
+                    <button type="button" class="btn secondary small" id="copyAllBtn">Copy to every page</button>
+                    <button type="button" class="btn secondary small" id="dupBtn">Duplicate</button>
+                    <button type="button" class="btn secondary small" id="frontBtn">Bring forward</button>
+                    <button type="button" class="btn secondary small" id="backBtn">Send back</button>
+                    <button type="button" class="btn secondary small" id="deleteBtn">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </details>
 
-        <div class="actions-row">
-          <button class="btn" id="runBtn">Save &amp; Download</button>
-          <button class="btn secondary" id="clearBtn">Start over</button>
-        </div>
+            <details class="acc" data-key="output" data-empty="File name">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Save PDF</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
-
-      <div class="status-box" id="status"></div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -163,13 +249,12 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF, every page renders below.</li>
-        <li>Click a page to select it, then "Add Text" or "Add Image" to drop a box onto it.</li>
-        <li>Drag a box to reposition it, drag a corner dot to resize (text resizes its font size, images keep their aspect ratio).</li>
-        <li>Click a selected text box again to edit its words, use the toolbar for font, size, colour, bold and italic.</li>
-        <li>Click "Save &amp; Download" when you're done, on every page.</li>
+        <li>Add a PDF. It opens on the first page, and Previous and Next move between pages.</li>
+        <li>Choose Text, Picture, Box or Cover up. It lands on the page shown: drag it into place and drag a corner to resize. Click it to change its text, font, colour, alignment and opacity.</li>
+        <li>To change words already on the page, add a "Cover up" box over them, then put new text on top. The box takes the page's own colour, and "Match the page behind it" picks it again if you move it.</li>
+        <li>Copy a box or text to other pages, duplicate it, undo a slip, then click "Save PDF". Arrow keys nudge the selected item, Delete removes it, and Ctrl+Z undoes.</li>
       </ol>
-      <p class="help-text">This adds genuine, selectable text and real embedded images baked into the PDF, using standard Helvetica/Times/Courier fonts, it isn't a scanned/flattened image. Need a signature instead? Use <a href="/sign-pdf/">Sign PDF</a>.</p>
+      <p class="note-box">The text you add is real, selectable text in standard fonts (Helvetica, Times or Courier), wrapped inside its box exactly as you see it. Letters outside those fonts, such as macrons, are stamped as a picture so they still show. This adds to a page; it does not rewrite the text already in the PDF, and a cover-up only hides what is underneath, so use <a href="/redact-pdf/">Redact PDF</a> to remove something for good. Need a signature? Use <a href="/sign-pdf/">Sign PDF</a>. Your PDF is read and changed in your browser, and nothing is uploaded.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -257,6 +342,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/pdf-editor.js"></script>
