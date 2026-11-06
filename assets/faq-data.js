@@ -24,8 +24,8 @@ window.FAQ_DATA = [
  },
  {
   "q": "Do you use analytics, ads, or tracking?",
-  "a": "There are no ads, and no session recording or heatmap tools. The only optional extra is Google Analytics, which loads only if you accept the cookie banner. It counts which pages get visited so the site can be improved, and it never sees your files. Reject the banner or ignore it and Google Analytics doesn't load at all. You can change your choice any time from Cookie Preferences on the Privacy Policy, which also covers the other outside requests, such as Google Fonts for text and icons.",
-  "k": "cookies google analytics cookie banner consent tracker",
+  "a": "There are no ads, no cookies, no analytics script and no session recording or heatmap tools. To see roughly how many people use the site, Fair Go PDF reads the traffic totals Cloudflare keeps on its own servers as it delivers pages, so nothing runs in your browser and nothing is added to the page. Those figures never include your files, which stay on your device. The Privacy Policy has the full detail.",
+  "k": "cookies analytics cloudflare tracker tracking visitor counts",
   "cat": "Files & privacy",
   "url": "/faq/privacy/do-you-use-analytics-ads-or-tracking/"
  },

@@ -2,7 +2,7 @@
 
 /* Newspaper: paper, ink and a marker. --brand is the ink; --accent is the marker (#E8F36B), which carries highlights, badges and the
    text on dark grounds (it fails contrast as text on the light --bg, so it never sets text there). --teal-deep and --on-teal keep their
-   old names for the dark grounds (footer, consent bar, blog bands) so the rules that use them need no edits; --teal-deep is now ink. */
+   old names for the dark grounds (footer, blog bands) so the rules that use them need no edits; --teal-deep is now ink. */
 :root {
   --bg: #F5F2E8;
   --bg-alt: #ECE7D8;
@@ -16,7 +16,7 @@
   --on-accent: #171614; /* dark text for use on the marker, in both themes */
   --teal-deep: #171614; /* the dark ground, kept as ink in the light theme and a lifted charcoal in the dark one */
   --mint: #E6E0CF;
-  --on-teal: #F5F2E8; /* paper-coloured text and focus rings on the dark footer, consent bar and blog bands */
+  --on-teal: #F5F2E8; /* paper-coloured text and focus rings on the dark footer and blog bands */
   --success: #16a34a;
   --danger: #ba1a1a;
   --card-shadow: 0 1px 2px rgba(23, 22, 20, 0.06), 0 8px 24px rgba(23, 22, 20, 0.08);
@@ -438,62 +438,6 @@ html.nav-open body .site-header .icon-btn.nav-toggle[aria-expanded="true"] { bac
 }
 
 .back-to-top:hover { background: var(--brand-dark); }
-
-/* Cookie consent banner */
-body:has(#fgpConsentBar) .back-to-top { bottom: 96px; }
-
-.fgp-consent-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 70;
-  background: var(--teal-deep);
-  color: var(--on-teal);
-  border-top: 1px solid color-mix(in srgb, var(--on-teal) 20%, transparent);
-  box-shadow: 0 -8px 24px -8px rgba(0, 0, 0, 0.25);
-}
-
-.fgp-consent-bar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  padding: 16px 20px;
-}
-
-.fgp-consent-bar p {
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  opacity: 0.9;
-}
-
-.fgp-consent-bar a { color: var(--on-teal); text-decoration: underline; }
-
-.fgp-consent-bar-actions {
-  display: flex;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.fgp-consent-bar .btn.secondary {
-  background: transparent;
-  border: 1px solid color-mix(in srgb, var(--on-teal) 40%, transparent);
-  color: var(--on-teal);
-}
-.fgp-consent-bar .btn.secondary:hover { background: color-mix(in srgb, var(--on-teal) 12%, transparent); }
-
-.fgp-consent-bar .btn:not(.secondary) {
-  background: var(--on-teal);
-  color: var(--teal-deep);
-}
-.fgp-consent-bar .btn:not(.secondary):hover { background: var(--accent); color: var(--on-accent); }
-
-@media (max-width: 640px) {
-  .fgp-consent-bar-inner { flex-direction: column; align-items: stretch; gap: 12px; }
-  .fgp-consent-bar-actions { justify-content: flex-end; }
-}
 
 /* Scroll progress bar (blog articles) */
 .scroll-progress {
@@ -1619,8 +1563,8 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
 }
 :root[data-theme="dark"] .btn { --btn-shadow: var(--text); }
 .btn:focus-visible { outline-offset: 4px; }
-/* on the dark footer and consent bar the dark ring would vanish, so it goes light like their buttons */
-.site-footer .btn:focus-visible, .fgp-consent-bar .btn:focus-visible { outline-color: var(--on-teal); }
+/* on the dark footer the dark ring would vanish, so it goes light like its buttons */
+.site-footer .btn:focus-visible { outline-color: var(--on-teal); }
 @media (hover: hover) {
   .btn:hover { background: var(--brand-dark); transform: translate(-1px, -1px); box-shadow: calc(var(--btn-o) + 1px) calc(var(--btn-o) + 1px) 0 var(--btn-shadow); text-decoration: none; }
 }
@@ -1637,8 +1581,8 @@ button:focus-visible, [role="button"]:focus-visible, a.btn:focus-visible { outli
   .btn.secondary:hover { background: var(--bg-alt); }
 }
 .btn.secondary:disabled, .btn.secondary[aria-disabled="true"] { background: var(--bg-alt); border-color: var(--border); color: var(--text-muted); }
-/* the dark footer and consent bar keep their own button fills; the shadow stays the accent there */
-.fgp-consent-bar .btn, .footer-support-cta .btn { --btn-shadow: var(--accent); border-color: var(--on-teal); }
+/* the dark footer keeps its own button fills; the shadow stays the accent there */
+.footer-support-cta .btn { --btn-shadow: var(--accent); border-color: var(--on-teal); }
 
 .btn.small { --btn-o: 2px; min-height: 36px; padding: 0 16px; font-size: 0.85rem; }
 @media (pointer: coarse) { .btn.small { min-height: 44px; } }
@@ -2904,7 +2848,7 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
 @media print {
   .site-header, .site-footer, .back-to-top, .skip-link, .scroll-progress,
   .dropzone, .actions-row, .btn, .copy-link-btn, .status-box, .share-wrap,
-  .hero-ctas, .fgp-consent-bar {
+  .hero-ctas {
     display: none !important;
   }
 

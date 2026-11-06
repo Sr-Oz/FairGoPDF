@@ -1,6 +1,6 @@
 // Shared site-wide behaviors, loaded on every page (not just tool pages):
 // theme toggle, mobile nav toggle, back-to-top, scroll progress bar,
-// copy-link buttons, the footer year, and the cookie preferences link.
+// copy-link buttons, the footer year.
 // Every handler no-ops if its target element isn't present on the page.
 
 (function heroHeaderScroll() {
@@ -366,14 +366,6 @@
   }).catch(() => {});
 })();
 
-(function cookiePreferences() {
-  const link = document.getElementById("fgpConsentPrefsLink");
-  if (!link) return;
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (typeof window.reopenConsentBar === "function") window.reopenConsentBar();
-  });
-})();
 
 (function heroVideoMotion() {
   const video = document.querySelector(".hero-bg-video");

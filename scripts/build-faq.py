@@ -30,7 +30,7 @@ GROUPS = [
         ("Is my data used to train AI models?",
          "No, and it can't be. Every tool runs entirely in your browser, so your files never reach a server in the first place, and there's nothing to collect, store, or feed into an AI model, by Fair Go PDF or anyone else. No server means no training data."),
         ("Do you use analytics, ads, or tracking?",
-         "There are no ads, and no session recording or heatmap tools. The only optional extra is Google Analytics, which loads only if you accept the cookie banner. It counts which pages get visited so the site can be improved, and it never sees your files. Reject the banner or ignore it and Google Analytics doesn't load at all. You can change your choice any time from Cookie Preferences on the <a href=\"/privacy-policy/\">Privacy Policy</a>, which also covers the other outside requests, such as Google Fonts for text and icons."),
+         "There are no ads, no cookies, no analytics script and no session recording or heatmap tools. To see roughly how many people use the site, Fair Go PDF reads the traffic totals Cloudflare keeps on its own servers as it delivers pages, so nothing runs in your browser and nothing is added to the page. Those figures never include your files, which stay on your device. The <a href=\"/privacy-policy/\">Privacy Policy</a> has the full detail."),
      ]),
     ("cost", "Cost &amp; accounts", "Cost and accounts",
      "What it costs, how it's funded, and what you do and don't need to hand over.", [
@@ -113,7 +113,7 @@ ALIASES = {
     "Do you store or see my files?": "privacy upload server stored private",
     "How can I check that nothing is uploaded?": "upload server network verify proof",
     "Is my data used to train AI models?": "ai training machine learning chatgpt",
-    "Do you use analytics, ads, or tracking?": "cookies google analytics cookie banner consent tracker",
+    "Do you use analytics, ads, or tracking?": "cookies analytics cloudflare tracker tracking visitor counts",
     "Is this actually free?": "cost price pay paid subscription trial premium",
     "How does Fair Go PDF pay for itself?": "funding sponsor sponsorship donate coffee money revenue",
     "Do I need to create an account?": "sign up signup login register email",
@@ -150,10 +150,10 @@ COMMON_SEARCHES = ["Free", "Offline", "Uploaded", "Password", "Redact", "Governm
 HUB_DESC = "Straight answers on privacy, cost, file limits and security, plus how Fair Go PDF fits government, legal and accessibility work in Australia and New Zealand."
 HUB_TITLE = "FAQ: Privacy, Security &amp; Government Use | Fair Go PDF"
 
-CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://web3forms.com "
+CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline' https://web3forms.com "
        "https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' "
        "https://hcaptcha.com https://*.hcaptcha.com; font-src 'self'; img-src 'self' data: blob:; "
-       "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://api.web3forms.com "
+       "connect-src 'self' https://api.web3forms.com "
        "https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; "
        "worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'")
 
@@ -265,10 +265,6 @@ def head(title_html, desc, url, extra_ld):
 <link rel="stylesheet" href="/assets/fonts/fonts.css?v=1bf508b9">
 <link rel="stylesheet" href="/assets/style.css">
 
-<!-- Analytics consent gate: loads Google Analytics only after the
-     visitor accepts the cookie banner. See assets/consent.js and
-     /privacy-policy/. -->
-<script src="/assets/consent.js"></script>
 {chr(10).join(extra_ld)}
 </head>
 <body>

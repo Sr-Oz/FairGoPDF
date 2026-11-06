@@ -58,7 +58,6 @@ page = page
   .replace(/<meta property="og:[^>]*>\n/g, "")
   .replace(/<meta name="twitter:[^>]*>\n/g, "")
   .replace(/<meta name="author"[^>]*>\n/, "")
-  .replace(/<!-- Analytics consent gate:[\s\S]*?-->\n<script src="\/assets\/consent\.js"><\/script>\n/, "") // no analytics on a test page
   .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\n/g, "")
   .replace('<meta name="viewport"', '<meta name="robots" content="noindex, nofollow, noarchive">\n<meta name="viewport"')
   .replace(/<script src="\/assets\/blog\.js"><\/script>\n?/, "");
