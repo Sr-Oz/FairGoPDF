@@ -12,7 +12,7 @@ their licences.
 | `models/PP-OCRv6_small_det_onnx_infer.tar` | Text detection model | 9.9 MB |
 | `models/PP-OCRv6_small_rec_onnx_infer.tar` | Text recognition model | 21.3 MB |
 
-First use downloads roughly 33 MB (compressed); the browser caches it afterwards (`vercel.json` sets
+First use downloads roughly 33 MB (compressed); the browser caches it afterwards (`_headers` sets
 `Cache-Control` for `/assets/vendor/*`).
 
 ## Rebuilding / upgrading
@@ -34,7 +34,7 @@ ONNX Runtime JS bundled inside `ocr-worker.js`; the SDK's latest dependency rang
 
 ## Security note
 
-`ocr-worker.js` is served with its own `Content-Security-Policy` header (see `vercel.json`):
+`ocr-worker.js` is served with its own `Content-Security-Policy` header (see `_headers`):
 `default-src 'none'; connect-src 'self' data: blob:`. OpenCV's Emscripten glue needs `'unsafe-eval'`,
 so that allowance applies to this one worker file only. The tool page itself keeps the site's normal
 policy, and the browser blocks the worker from contacting any other origin.

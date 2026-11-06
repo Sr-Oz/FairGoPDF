@@ -208,7 +208,12 @@ Then open the printed local URL (e.g. `http://localhost:3000` or `http://localho
 ├── 404.html
 ├── robots.txt
 ├── sitemap.xml
-├── vercel.json              # Legacy URL redirects + response headers (see Deploying)
+├── wrangler.jsonc           # Cloudflare config: publish the repo root (see Deploying)
+├── _redirects               # Legacy URL redirects (Cloudflare)
+├── _headers                 # Response headers (Cloudflare)
+├── .assetsignore            # Repo-only files kept out of what is published
+├── worker/index.js          # The one script: answers Range requests for the home page video
+├── vercel.json              # Source of _redirects and _headers until Vercel is switched off
 ├── assets/
 │   ├── style.css            # Shared styles (light + dark)
 │   ├── tools.js              # Shared helpers (dropzone, downloads, formatting)
@@ -231,15 +236,27 @@ the common CSS and helper functions.
 
 ## Deploying
 
-The live site is deployed on [Vercel](https://vercel.com/), which builds nothing (there's no build
-step) and simply serves the repo's static files on every push to `main`. `vercel.json` defines
-legacy-URL redirects and response headers; the custom domain (`fairgopdf.au`) is configured in the
-Vercel project's dashboard, not in a repo file.
+The live site is served by [Cloudflare](https://www.cloudflare.com/) (Workers with static assets). It
+builds nothing (there's no build step): Workers Builds is connected to this repo, with an empty build
+command and `npx wrangler deploy`, and publishes the repo's static files on every push to `main`.
 
-Being a plain static site, it deploys just as easily to GitHub Pages, Netlify, Cloudflare Pages or
-any other static host — point the host at the repo root and nothing else is needed. A `CNAME` file
-containing `fairgopdf.au` is still in the repo for that case; it's inert on Vercel but is what
-GitHub Pages reads to serve a custom domain if you fork this and deploy there instead.
+- `wrangler.jsonc` points Cloudflare at the repo root, and names the one script, `worker/index.js`, which
+  answers "send me just this part" (Range) requests for the home page video so Safari can play it.
+- `_redirects` and `_headers` hold the legacy-URL redirects and the response headers, including the
+  Content-Security-Policy for the OCR worker.
+- `.assetsignore` keeps repo-only files (`scripts/`, `docs/`, `tests/` and so on) out of what is published.
+- The custom domain, the `www` to apex redirect rule and the HTTPS and HSTS settings are set in the
+  Cloudflare dashboard, not in a repo file.
+
+While the site finishes moving off Vercel, `vercel.json` is still the place to edit redirects and headers:
+`python scripts/vercel-to-cloudflare.py` writes `_redirects` and `_headers` from it, and the GitHub check
+fails if they drift apart. Once Vercel is switched off, delete `vercel.json`, `.vercelignore` and that script,
+and edit the two files directly.
+
+Being a plain static site, it deploys just as easily to GitHub Pages, Netlify, Vercel or any other static
+host — point the host at the repo root and nothing else is needed. A `CNAME` file containing `fairgopdf.au`
+is still in the repo for that case; it's inert on Cloudflare but is what GitHub Pages reads to serve a
+custom domain if you fork this and deploy there instead.
 
 ## Contributing
 

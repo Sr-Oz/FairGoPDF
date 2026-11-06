@@ -3,7 +3,7 @@
 window.FAQ_DATA = [
  {
   "q": "Do you store or see my files?",
-  "a": "No. Every tool runs as JavaScript inside your own browser tab. Your files are read, processed and saved on your device, and they are never uploaded, because the tools don't have a server to upload them to. The site is hosted on Vercel, which only delivers the page.",
+  "a": "No. Every tool runs as JavaScript inside your own browser tab. Your files are read, processed and saved on your device, and they are never uploaded, because the tools don't have a server to upload them to. The site is hosted on Cloudflare, which only delivers the page.",
   "k": "privacy upload server stored private",
   "cat": "Files & privacy",
   "url": "/faq/privacy/do-you-store-or-see-my-files/"

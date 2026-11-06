@@ -24,7 +24,7 @@ GROUPS = [
     ("privacy", "Files &amp; privacy", "Your files and privacy",
      "How Fair Go PDF handles your files, and how to check it for yourself.", [
         ("Do you store or see my files?",
-         "No. Every tool runs as JavaScript inside your own browser tab. Your files are read, processed and saved on your device, and they are never uploaded, because the tools don't have a server to upload them to. The site is hosted on Vercel, which only delivers the page."),
+         "No. Every tool runs as JavaScript inside your own browser tab. Your files are read, processed and saved on your device, and they are never uploaded, because the tools don't have a server to upload them to. The site is hosted on Cloudflare, which only delivers the page."),
         ("How can I check that nothing is uploaded?",
          "Don't take it on trust, test it. Open a tool, switch off your Wi-Fi, then process a file. It still works, because nothing needs to be sent anywhere. For the technical version, open your browser's developer tools and watch the Network tab while a tool runs: no request carries your file."),
         ("Is my data used to train AI models?",
