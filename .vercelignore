@@ -4,3 +4,8 @@
 /design-system
 /CONTENT_BACKLOG.md
 /CONTRIBUTING.md
+# Cloudflare's files, not used here (see .assetsignore)
+/wrangler.jsonc
+/.assetsignore
+/_headers
+/_redirects

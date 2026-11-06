@@ -1,0 +1,11 @@
+{
+  // Fair Go PDF: a static site with no build step, published as it is from the repo root.
+  // Redirects are in _redirects and response headers in _headers; what is left out is in .assetsignore.
+  // The custom domain is attached in the Cloudflare dashboard, not here.
+  "name": "fairgopdf",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page"
+  }
+}

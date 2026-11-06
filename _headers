@@ -1,0 +1,24 @@
+# Written by scripts/vercel-to-cloudflare.py from vercel.json: edit vercel.json, then run the script.
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/assets/fonts/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/assets/vendor/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/assets/vendor/ocr/ocr-worker.js
+  Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self' data: blob:; worker-src 'self' blob:; img-src data: blob:
+
+/assets/video/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/assets/img/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/partials/*
+  X-Robots-Tag: noindex

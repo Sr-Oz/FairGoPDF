@@ -22,6 +22,8 @@ jobs:
           python3 scripts/build-faq.py
           git diff --exit-code
           test -z "$(git status --porcelain)"
+      - name: Cloudflare redirects and headers match vercel.json
+        run: python3 scripts/vercel-to-cloudflare.py --check
       - name: Links, titles, JSON-LD and sitemap
         run: python3 scripts/check-site.py
       - name: Tests

@@ -1,0 +1,25 @@
+# What is kept out of the published site. Cloudflare reads this the way .gitignore is read, from the folder it publishes (the repo root).
+# Everything .vercelignore leaves out is here too; scripts/vercel-to-cloudflare.py --check fails if one is missing.
+/scripts
+/docs
+/design-system
+/CONTENT_BACKLOG.md
+/CONTRIBUTING.md
+
+# Tooling and config that are not part of the site
+.git
+.github
+.claude
+.hallmark
+node_modules
+.DS_Store
+/tests
+/vercel.json
+/.vercelignore
+/.gitignore
+/.gitattributes
+/CNAME
+/wrangler.jsonc
+/.assetsignore
+/_headers
+/_redirects
