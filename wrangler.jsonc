@@ -4,8 +4,12 @@
   // The custom domain is attached in the Cloudflare dashboard, not here.
   "name": "fairgopdf",
   "compatibility_date": "2026-10-01",
+  // The only script: it answers "send me just this part" requests for the home page video, which Safari needs (see worker/index.js).
+  "main": "worker/index.js",
   "assets": {
     "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/assets/video/*"],
     "not_found_handling": "404-page"
   }
 }
