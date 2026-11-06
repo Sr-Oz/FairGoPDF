@@ -3763,6 +3763,23 @@ select.fill-in { padding: 0; }
 @media (pointer: coarse) { .ed-handle { width: 20px; height: 20px; margin: -10px 0 0 -10px; } }
 .ed-history { display: inline-flex; gap: 8px; margin-left: auto; }
 .side-settings .acc-body.stack #selPanel > * + *, .side-settings #textOpts > * + *, .side-settings #boxOpts > * + * { margin-top: 12px; }
+/* PDF Annotator: the marks drawn over the page as SVG at the page's own size in points, the tool buttons and the colour swatches */
+.an-stage #anLayer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+.an-stage #anLayer[data-tool="select"] { cursor: default; }
+#anLayer .an-hit, #anLayer .an-hit-fill { pointer-events: none; }
+#anLayer[data-tool="select"] .an-hit, #anLayer[data-tool="select"] .an-hit-fill { pointer-events: all; cursor: move; }
+#anLayer .an-live * { pointer-events: none; }
+#anLayer .an-handle { pointer-events: all; cursor: pointer; }
+#anLayer text { pointer-events: none; user-select: none; }
+.an-tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.an-tools .qr-type { min-width: 0; padding-left: 8px; padding-right: 8px; }
+.an-swatches { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.an-swatches[hidden] { display: none; }
+.an-swatch { width: 32px; height: 32px; padding: 0; border: 2px solid var(--border); border-radius: 50%; background: var(--sw); cursor: pointer; }
+.an-swatch[aria-pressed="true"] { border-color: var(--text); box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text); }
+.an-swatch:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.an-swatches input[type="color"] { width: 38px; height: 32px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); cursor: pointer; }
+.side-settings #noteOpts > * + * { margin-top: 12px; }
 /* Rotate PDF: the page shown large, turned and tilted as it will be, over a grid to line it up against; and a mark on turned thumbnails */
 .rotate-stage { display: flex; justify-content: center; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); }
 .rotate-stage-wrap .help-text { margin: 0 0 10px; }

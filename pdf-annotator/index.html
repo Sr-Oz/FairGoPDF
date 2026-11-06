@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <title>PDF Annotator, Highlight & Add Notes | Fair Go PDF</title>
-<meta name="description" content="Highlight, freehand draw and add sticky notes to a PDF, free and right in your browser. No upload, no signup.">
+<meta name="description" content="Highlight, underline and strike through text by dragging, draw with a pen, add shapes, arrows and notes, move and undo. Free, in your browser, no upload or signup.">
 <link rel="canonical" href="https://fairgopdf.au/pdf-annotator/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="PDF Annotator, Highlight & Add Notes">
-<meta property="og:description" content="Highlight, freehand draw and add sticky notes to a PDF, free and right in your browser. No upload, no signup.">
+<meta property="og:description" content="Highlight text, draw, add shapes, arrows and notes to a PDF, and undo. Free and in your browser.">
 <meta property="og:url" content="https://fairgopdf.au/pdf-annotator/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PDF Annotator, Highlight & Add Notes">
-<meta name="twitter:description" content="Highlight, freehand draw and add sticky notes to a PDF, free and right in your browser. No upload, no signup.">
+<meta name="twitter:description" content="Highlight text, draw, add shapes, arrows and notes to a PDF, and undo. Free and in your browser.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -77,50 +77,140 @@
     </script>
     <div class="tool-page-header">
       <h1>PDF Annotator</h1>
-      <p>Highlight text, draw freehand marks and add sticky notes to a PDF. Processed locally, nothing is uploaded.</p>
+      <p>Mark up a PDF: highlight, underline or strike through text by dragging across it, draw with a pen, add rectangles, ellipses and arrows, and stick notes where you need them. Move, recolour, copy to other pages and undo. Nothing is uploaded.</p>
     </div>
 
-    <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
-        <div class="dz-icon"><span class="material-symbols-outlined">draw</span></div>
-        <div class="dz-title">Drop a PDF here, easy as.</div>
-        <div class="dz-sub">One PDF file</div>
-        <input type="file" id="fileInput" accept="application/pdf">
-      </div>
-
-      <div id="editor" style="display:none;">
-        <div class="pdf-editor-toolbar">
-          <button class="btn secondary small" id="highlightBtn" type="button" title="Drag over text to highlight it">
-            <span class="material-symbols-outlined" aria-hidden="true">border_color</span> Highlight
-          </button>
-          <button class="btn secondary small" id="drawBtn" type="button" title="Freehand pen">
-            <span class="material-symbols-outlined" aria-hidden="true">draw</span> Draw
-          </button>
-          <button class="btn secondary small" id="addNoteBtn" type="button" title="Add a sticky note">
-            <span class="material-symbols-outlined" aria-hidden="true">note_add</span> Add Note
-          </button>
-          <div class="field">
-            <label for="toolColor">Colour</label>
-            <input type="color" id="toolColor" value="#ffeb3b">
+    <div class="tool-workspace qr-workspace">
+      <div class="qr-layout side-layout">
+        <div class="side-main">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF file or drag and drop">
+            <div class="dz-icon"><span class="material-symbols-outlined">draw</span></div>
+            <div class="dz-title">Drop a PDF here, easy as.</div>
+            <div class="dz-sub">One PDF file</div>
+            <input type="file" id="fileInput" accept="application/pdf">
           </div>
-          <div class="pdf-obj-toolbar" id="objToolbar">
-            <div class="field">
-              <label for="objColor">Colour</label>
-              <input type="color" id="objColor">
+
+          <p class="file-bar" id="fileBar" hidden></p>
+
+          <div class="status-box" id="status"></div>
+
+          <div class="sign-wrap" id="anWrap" hidden>
+            <div class="sig-pager" id="pager">
+              <span class="pager-pages" id="pagerPages">
+                <button class="btn secondary small" id="prevPageBtn" type="button">&larr; Previous</button>
+                <label for="pageNum">Page</label>
+                <input type="number" id="pageNum" min="1" value="1" inputmode="numeric">
+                <span>of <span id="pageTotal">1</span></span>
+                <button class="btn secondary small" id="nextPageBtn" type="button">Next &rarr;</button>
+              </span>
+              <span class="ed-history">
+                <button class="btn secondary small" id="undoBtn" type="button" disabled>Undo</button>
+                <button class="btn secondary small" id="redoBtn" type="button" disabled>Redo</button>
+              </span>
             </div>
-            <button class="btn secondary small" id="deleteObjBtn" type="button">Delete</button>
+            <p class="help-text" id="anHint"></p>
+            <div class="sig-stage an-stage" id="anStage">
+              <canvas id="pageCanvas" aria-label="The page to mark up"></canvas>
+              <svg id="anLayer" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+            </div>
+          </div>
+
+          <div class="results" id="results">
+            <div class="result-head">
+              <h2 class="result-title">Your marked-up PDF</h2>
+              <span class="result-total" id="resultTotal"></span>
+              <button class="btn secondary small" id="downloadBtn" type="button">Download again</button>
+            </div>
+            <p class="help-text" id="resultNote"></p>
           </div>
         </div>
 
-        <div class="pdf-pages" id="pdfPages"></div>
-      </div>
+        <aside class="qr-preview side-settings side-sticky" aria-label="Annotation tools">
+          <div class="side-stick">
+            <details class="acc" data-key="tool" open>
+              <summary><span class="acc-name">Tool</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="an-tools" role="group" aria-label="Tool">
+                  <button type="button" class="qr-type" data-tool="select" aria-pressed="false">Select</button>
+                  <button type="button" class="qr-type" data-tool="highlight" aria-pressed="true">Highlight</button>
+                  <button type="button" class="qr-type" data-tool="underline" aria-pressed="false">Underline</button>
+                  <button type="button" class="qr-type" data-tool="strike" aria-pressed="false">Strike</button>
+                  <button type="button" class="qr-type" data-tool="pen" aria-pressed="false">Pen</button>
+                  <button type="button" class="qr-type" data-tool="rect" aria-pressed="false">Rectangle</button>
+                  <button type="button" class="qr-type" data-tool="ellipse" aria-pressed="false">Ellipse</button>
+                  <button type="button" class="qr-type" data-tool="arrow" aria-pressed="false">Arrow</button>
+                  <button type="button" class="qr-type" data-tool="note" aria-pressed="false">Note</button>
+                </div>
+                <p class="help-text" id="toolHelp"></p>
+                <p class="saved-title" style="margin-top:0;">Colour</p>
+                <div class="an-swatches" id="swatches" role="group" aria-label="Colour">
+                  <button type="button" class="an-swatch" data-colour="#fff176" style="--sw:#fff176" aria-label="Yellow" aria-pressed="true"></button>
+                  <button type="button" class="an-swatch" data-colour="#a5d6a7" style="--sw:#a5d6a7" aria-label="Green" aria-pressed="false"></button>
+                  <button type="button" class="an-swatch" data-colour="#f48fb1" style="--sw:#f48fb1" aria-label="Pink" aria-pressed="false"></button>
+                  <button type="button" class="an-swatch" data-colour="#90caf9" style="--sw:#90caf9" aria-label="Blue" aria-pressed="false"></button>
+                  <button type="button" class="an-swatch" data-colour="#ffcc80" style="--sw:#ffcc80" aria-label="Orange" aria-pressed="false"></button>
+                  <input type="color" id="toolColour" value="#fff176" aria-label="Your own colour">
+                </div>
+                <div class="qr-field" id="widthField" hidden>
+                  <label for="toolWidth">Line width</label>
+                  <select id="toolWidth"><option value="1.5">Thin</option><option value="3" selected>Medium</option><option value="6">Thick</option></select>
+                </div>
+              </div>
+            </details>
 
-      <div class="actions-row" id="actionsRow" style="display:none;">
-        <button class="btn" id="runBtn">Save Annotated PDF</button>
-        <button class="btn secondary" id="clearBtn">Clear</button>
-      </div>
+            <details class="acc" data-key="selected" data-empty="Nothing selected">
+              <summary><span class="acc-name">Selected</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <p class="help-text" id="noSel">Choose Select, then click something on the page to change it.</p>
+                <div id="selPanel" hidden>
+                  <div id="noteOpts">
+                    <div class="qr-field">
+                      <label for="selText">Note</label>
+                      <textarea id="selText" rows="3" spellcheck="true"></textarea>
+                    </div>
+                    <div class="qr-field">
+                      <label for="selSize">Text size (pt)</label>
+                      <input type="number" id="selSize" min="6" max="48" value="11" inputmode="numeric">
+                    </div>
+                  </div>
+                  <div class="side-inline">
+                    <div class="qr-field"><label for="selColour">Colour</label><input type="color" id="selColour" value="#fff176"></div>
+                    <div class="qr-field" id="selWidthField"><label for="selWidth">Line width</label><select id="selWidth"><option value="1.5">Thin</option><option value="3">Medium</option><option value="6">Thick</option></select></div>
+                  </div>
+                  <div class="qr-field">
+                    <label for="copyPages">Copy it to these pages</label>
+                    <input type="text" id="copyPages" placeholder="All, or 1-3, 7, 10-" autocomplete="off" spellcheck="false">
+                  </div>
+                  <div class="select-buttons">
+                    <button type="button" class="btn secondary small" id="copyBtn">Copy</button>
+                    <button type="button" class="btn secondary small" id="copyAllBtn">Copy to every page</button>
+                    <button type="button" class="btn secondary small" id="dupBtn">Duplicate</button>
+                    <button type="button" class="btn secondary small" id="deleteBtn">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </details>
 
-      <div class="status-box" id="status"></div>
+            <details class="acc" data-key="output" data-empty="File name">
+              <summary><span class="acc-name">Output</span><span class="acc-value"></span></summary>
+              <div class="acc-body stack">
+                <div class="qr-field">
+                  <label for="prefix">File name</label>
+                  <input type="text" id="prefix" maxlength="100" autocomplete="off" spellcheck="false">
+                </div>
+              </div>
+            </details>
+
+            <div class="side-foot">
+              <p class="split-summary" id="summary" role="status">Add a PDF to begin.</p>
+              <div class="side-actions">
+                <button class="btn" id="runBtn" type="button" disabled>Save PDF</button>
+                <button class="btn secondary" id="clearBtn" type="button" disabled>Start over</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
 
       <div class="keep-sorted" id="keepSorted">
         <h3 class="keep-sorted-title">Keep it sorted <span aria-hidden="true">&rarr;</span></h3>
@@ -150,11 +240,12 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Drop in a PDF, its pages render below.</li>
-        <li>Click "Highlight" then drag over text to mark it, "Draw" to freehand mark up a page, or "Add Note" for a sticky note you can type into.</li>
-        <li>Drag, resize or delete anything you've added, then click "Save Annotated PDF".</li>
+        <li>Add a PDF. It opens on the first page, and Previous and Next move between pages.</li>
+        <li>Pick a tool and a colour. To highlight, underline or strike through text, drag from where the text starts to where it ends, as you would to select it. The mark follows the lines of text, however many it covers. Where a page has no text to follow, such as a scan, the drag marks an area instead.</li>
+        <li>Draw with the pen, add rectangles, ellipses and arrows, or drop a sticky note and type into it. Choose Select to move or recolour something, or to copy it to other pages. Ctrl+Z undoes.</li>
+        <li>Click "Save PDF" to download the marked-up copy.</li>
       </ol>
-      <p class="help-text">The original page content is kept as-is, your marks are added on top of it, not baked into a picture. Everything runs on your device.</p>
+      <p class="note-box">Highlights are drawn so the text underneath stays dark and readable, like a real highlighter. The marks become part of the page, so other PDF readers show them but can't edit them as separate comments. Text in a note with letters outside the standard fonts, such as macrons, is stamped as a picture so it still shows. Your PDF is read and changed in your browser, and nothing is uploaded. To add text boxes and pictures instead, use <a href="/pdf-editor/">PDF Editor</a>.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>
@@ -242,6 +333,7 @@
 
 <script src="/assets/tools.js"></script>
 <script src="/assets/tool-names.js"></script>
+<script src="/assets/accordion.js"></script>
 <script src="/assets/keep-sorted-data.js"></script>
 <script src="/assets/keep-sorted.js"></script>
 <script type="module" src="/assets/tools/pdf-annotator.js"></script>
