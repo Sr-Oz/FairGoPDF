@@ -344,6 +344,8 @@ html.nav-open body .site-header .icon-btn.nav-toggle[aria-expanded="true"] { bac
   gap: 16px;
   position: relative;
 }
+/* five header buttons (with the Private mode one) need the tighter gap to fit a 375px phone */
+@media (max-width: 480px) { .header-right { gap: 8px; } }
 
 .icon-btn {
   display: inline-flex;
@@ -2559,6 +2561,11 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
      shared 150x50 footprint instead of stretching to fill it. */
   object-fit: contain;
 }
+
+/* Private mode: shown or hidden by the header button (see the privateMode block in site.js) */
+html:not([data-private]) [data-private-only], html[data-private] [data-open-only] { display: none !important; }
+.icon-btn[aria-pressed="true"] { box-shadow: inset 0 0 0 2px currentColor; }
+.icon-btn:disabled { cursor: default; }
 
 /* Private mode: the small badge in the footer and the live policy box on /connections/ */
 .private-badge {

@@ -239,10 +239,13 @@ the common CSS and helper functions.
 ## Private mode
 
 One switch in `site-config.json`, `"privateMode": true` or `false`, decides how much the site is allowed to
-connect to. The site has no build step, so the switch works like the shared header and footer do: edit the
+connect to for everyone. The site has no build step, so the switch works like the shared header and footer do: edit the
 file, run `python scripts/privacy_mode.py`, and commit the pages it rewrites. The GitHub check fails if a
 page no longer matches the switch.
 
+- **Visitors have their own switch.** The shield button in every page's header turns Private mode on for that
+  browser only (one note in local storage). The contact form is hidden, Web3Forms and hCaptcha are never loaded, and
+  external links send no referrer. When the owner switch below is on, that button shows a lock and cannot be turned off.
 - **Always, on or off:** no analytics, no cookies, fonts and libraries served from the site's own files, and a
   Content-Security-Policy on every page that allows nothing from another site. Only `/contact/` is let reach
   Web3Forms and hCaptcha, and only while Private mode is off.

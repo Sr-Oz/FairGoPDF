@@ -367,6 +367,50 @@
 })();
 
 
+(function privateMode() {
+  // The visitor's own Private mode switch. It hides the contact form (which needs Web3Forms and hCaptcha) and makes outbound
+  // links send no referrer. The choice lives in this browser's local storage only. A disabled button means the site owner
+  // has turned Private mode on for everyone (see site-config.json), so it cannot be turned off here.
+  const KEY = "privateMode";
+  const btn = document.getElementById("privateToggle");
+  const icon = btn && btn.querySelector(".material-symbols-outlined");
+  const locked = Boolean(btn && btn.disabled);
+  const saved = () => {
+    try { return localStorage.getItem(KEY) === "on"; } catch (e) { return false; }
+  };
+
+  function apply(on) {
+    document.documentElement.toggleAttribute("data-private", on);
+    if (btn && !locked) {
+      btn.setAttribute("aria-pressed", String(on));
+      btn.title = on
+        ? "Private mode: on. The contact form is hidden and links send no referrer. Click to turn it off."
+        : "Private mode: off. Turn it on to hide the contact form and stop links telling other sites where you came from.";
+      if (icon) icon.textContent = on ? "lock" : "shield";
+    }
+    document.querySelectorAll('a[href^="http"]').forEach((a) => {
+      if (a.hostname === location.hostname) return;
+      if (on && !a.relList.contains("noreferrer")) {
+        a.relList.add("noreferrer");
+        a.dataset.fgpNoreferrer = "1";
+      } else if (!on && a.dataset.fgpNoreferrer) {
+        a.relList.remove("noreferrer");
+        delete a.dataset.fgpNoreferrer;
+      }
+    });
+  }
+
+  apply(locked || saved());
+  if (!btn || locked) return;
+  btn.addEventListener("click", () => {
+    const on = !document.documentElement.hasAttribute("data-private");
+    try { localStorage.setItem(KEY, on ? "on" : "off"); } catch (e) { /* storage off: it just will not be remembered */ }
+    apply(on);
+    // the contact page's third-party scripts are decided when it loads, so start it over with the new choice
+    if (document.getElementById("contactForm") || document.querySelector(".contact-form-card")) location.reload();
+  });
+})();
+
 (function heroVideoMotion() {
   const video = document.querySelector(".hero-bg-video");
   if (!video) return;

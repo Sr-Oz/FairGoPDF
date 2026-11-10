@@ -39,18 +39,31 @@ test("no page's security policy allows another site, except Contact while Privat
   }
 });
 
-test("no page loads a script, style, image or frame from another site, except Contact while Private mode is off", () => {
+test("no page loads a script, style, image or frame from another site: Contact adds Web3Forms only from a script that checks the visitor's choice", () => {
   for (const p of pages) {
-    const found = p.text.match(/<(script|link|img|iframe|source|video|audio)\b[^>]*\b(src|href)="https?:\/\/[^"]+/g) || [];
-    const loads = found.filter((tag) => !/rel="(canonical|alternate)"/.test(tag));
-    if (mayUseForm(p.rel)) assert.deepEqual(loads.map((t) => t.replace(/^.*"/, "")), ["https://web3forms.com/client/script.js"], p.rel);
-    else assert.deepEqual(loads, [], p.rel);
+    const found = p.text.match(/<(script|link|img|iframe|source|video|audio)[^>]*(src|href)="https?:\/\/[^"]+/g) || [];
+    assert.deepEqual(found.filter((tag) => !/rel="(canonical|alternate)"/.test(tag)), [], p.rel);
+  }
+  if (!priv) {
+    const c = pages.find((p) => p.rel === "contact/index.html").text;
+    const check = c.indexOf('localStorage.getItem("privateMode") !== "on"');
+    assert.ok(check > 0 && c.indexOf("web3forms.com/client/script.js") > check, "Web3Forms must load only after the Private mode check");
   }
 });
 
-test("Private mode shows its footer badge and sends no referrer; with it off neither is there", () => {
+test("every page's header has the Private mode button, locked on when the owner switch is on", () => {
+  const withHeader = pages.filter((p) => p.rel !== "404.html" && (/<header class="site-header">/.test(p.text) || p.rel === "partials/header.html")); // the 404 page has a reduced header
+  assert.ok(withHeader.length > 100);
+  for (const p of withHeader) {
+    assert.match(p.text, /id="privateToggle"/, p.rel);
+    assert.equal(/id="privateToggle"[^>]*disabled/.test(p.text), priv, `${p.rel} locked`);
+  }
+});
+
+test("Private mode shows its footer badge and sends no referrer; with it off the badge is hidden and the referrer is untouched", () => {
   for (const p of pages.filter((p) => /<footer class="site-footer">/.test(p.text) || p.rel === "partials/footer.html")) {
-    assert.equal(/class="private-badge"/.test(p.text), priv, `${p.rel} badge`);
+    // off: the badge is in the markup but hidden until a visitor turns Private mode on; on: it is always shown
+    assert.match(p.text, priv ? /class="private-badge" href/ : /class="private-badge" data-private-only/, `${p.rel} badge`);
   }
   for (const p of withCsp) assert.equal(p.text.includes('<meta name="referrer" content="no-referrer">'), priv, `${p.rel} referrer`);
 });
@@ -66,6 +79,8 @@ test("with Private mode off, the Contact page still has the form and its two scr
   assert.match(c, /id="contactForm"/);
   assert.match(c, /\/assets\/contact\.js/);
   assert.match(c, /web3forms\.com\/client\/script\.js/);
+  assert.match(c, /data-open-only/);
+  assert.match(c, /data-private-only/);
 });
 
 test("the connections page exists and is listed in the sitemap and the search index", () => {

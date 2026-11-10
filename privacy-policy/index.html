@@ -52,6 +52,11 @@
       <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to dark mode">
         <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
       </button>
+      <!-- fgp:mode header-toggle -->
+      <button class="icon-btn" id="privateToggle" type="button" aria-pressed="false" aria-label="Private mode" title="Private mode: off. Turn it on to hide the contact form and stop links telling other sites where you came from.">
+        <span class="material-symbols-outlined" aria-hidden="true">shield</span>
+      </button>
+      <!-- /fgp:mode header-toggle -->
       <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
         <span class="material-symbols-outlined" aria-hidden="true">menu</span>
       </button>
@@ -107,9 +112,9 @@
 
         <h2>Cookies and local storage</h2>
         <p>
-          This site sets no cookies. The only thing it stores is one small note in your browser's local
-          storage, whether you've chosen dark or light mode, which stays on your device and is never sent
-          anywhere. There is no cookie banner because there is nothing to ask you about.
+          This site sets no cookies. The only things it stores are up to two small notes in your browser's local
+          storage, whether you've chosen dark or light mode and whether you've turned on Private mode, which stay
+          on your device and are never sent anywhere. There is no cookie banner because there is nothing to ask you about.
         </p>
 
         <h2>Visitor counts</h2>
@@ -140,7 +145,9 @@
           so messages reach Fair Go PDF without an email address ever appearing anywhere in this site's source, where
           it could be scraped. Web3Forms sees the name, email and message you submit. It doesn't set cookies
           on this site, and the form sends a background request rather than redirecting you to their site.
-          Using the contact form is entirely optional.
+          Using the contact form is entirely optional, and
+          turning on Private mode (the shield at the top of every page) hides the form and stops this site contacting
+          Web3Forms or hCaptcha at all.
         </p>
         <!-- /fgp:mode privacy-contact -->
 
@@ -239,6 +246,7 @@
         <img src="/assets/img/Logo.png" alt="Fair Go PDF" class="footer-mark-big">
         <div class="footer-brand-text">
           <!-- fgp:mode footer-badge -->
+          <a class="private-badge" data-private-only href="/connections/"><span class="material-symbols-outlined" aria-hidden="true">lock</span>Private mode</a>
           <!-- /fgp:mode footer-badge -->
           <div class="footer-badges">
             <a class="footer-badge" href="https://www.saashub.com/fairgo-pdf?utm_source=badge&amp;utm_campaign=badge&amp;utm_content=fairgo-pdf&amp;badge_variant=color&amp;badge_kind=approved" target="_blank" rel="noopener"><img src="/assets/img/saashub-approved.png" alt="Fair Go PDF, approved on SaaSHub" width="150" height="50" loading="lazy"></a>
