@@ -22,6 +22,8 @@ jobs:
           python3 scripts/build-faq.py
           git diff --exit-code
           test -z "$(git status --porcelain)"
+      - name: Pages match the Private mode switch
+        run: python3 scripts/privacy_mode.py --check
       - name: Cloudflare redirects and headers match vercel.json
         run: python3 scripts/vercel-to-cloudflare.py --check
       - name: Links, titles, JSON-LD and sitemap

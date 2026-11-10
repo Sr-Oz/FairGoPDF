@@ -2,7 +2,7 @@
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://web3forms.com https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' https://hcaptcha.com https://*.hcaptcha.com; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="author" content="Oscar Monsalve">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
@@ -100,7 +100,9 @@
         <p>
           This site does not track individual visitors and does not record sessions, no mouse movements,
           no clicks, no keystrokes, no screen recordings, nothing of the sort, by Fair Go PDF or anyone else.
-          There is no analytics script, no advertising and no tracking pixel on any page.
+          There is no analytics script, no advertising and no tracking pixel on any page. The
+          <a href="/connections/">connections page</a> lists everything this site connects to and how to check it
+          yourself.
         </p>
 
         <h2>Cookies and local storage</h2>
@@ -130,6 +132,7 @@
           affects, how the tools themselves work. Using the tools never requires paying anything.
         </p>
 
+        <!-- fgp:mode privacy-contact -->
         <h2>Contact form</h2>
         <p>
           The <a href="/contact/">Contact Us</a> page sends messages through
@@ -139,6 +142,7 @@
           on this site, and the form sends a background request rather than redirecting you to their site.
           Using the contact form is entirely optional.
         </p>
+        <!-- /fgp:mode privacy-contact -->
 
         <h2>Hosting</h2>
         <p>
@@ -234,6 +238,8 @@
       <div class="footer-bottom-row">
         <img src="/assets/img/Logo.png" alt="Fair Go PDF" class="footer-mark-big">
         <div class="footer-brand-text">
+          <!-- fgp:mode footer-badge -->
+          <!-- /fgp:mode footer-badge -->
           <div class="footer-badges">
             <a class="footer-badge" href="https://www.saashub.com/fairgo-pdf?utm_source=badge&amp;utm_campaign=badge&amp;utm_content=fairgo-pdf&amp;badge_variant=color&amp;badge_kind=approved" target="_blank" rel="noopener"><img src="/assets/img/saashub-approved.png" alt="Fair Go PDF, approved on SaaSHub" width="150" height="50" loading="lazy"></a>
             <a class="footer-badge" href="https://www.producthunt.com/products/fairgo-pdf?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-fairgo-pdf" target="_blank" rel="noopener"><img src="/assets/img/producthunt-badge.svg" alt="Fair Go PDF, featured on Product Hunt" width="150" height="50" loading="lazy"></a>

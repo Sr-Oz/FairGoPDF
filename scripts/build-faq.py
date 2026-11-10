@@ -15,6 +15,10 @@ import html
 import json
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from privacy_mode import csp_for, is_private, render  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://fairgopdf.au"
@@ -150,12 +154,7 @@ COMMON_SEARCHES = ["Free", "Offline", "Uploaded", "Password", "Redact", "Governm
 HUB_DESC = "Straight answers on privacy, cost, file limits and security, plus how Fair Go PDF fits government, legal and accessibility work in Australia and New Zealand."
 HUB_TITLE = "FAQ: Privacy, Security &amp; Government Use | Fair Go PDF"
 
-CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline' https://web3forms.com "
-       "https://hcaptcha.com https://*.hcaptcha.com; style-src 'self' 'unsafe-inline' "
-       "https://hcaptcha.com https://*.hcaptcha.com; font-src 'self'; img-src 'self' data: blob:; "
-       "connect-src 'self' https://api.web3forms.com "
-       "https://hcaptcha.com https://*.hcaptcha.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; "
-       "worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'")
+CSP = csp_for("faq/index.html", False)  # privacy_mode.render() below sets the real one for the current mode
 
 
 def plain(h):
@@ -200,7 +199,7 @@ def write(path, text):
     full = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
     with open(full, "w", encoding="utf-8", newline="") as f:
-        f.write(text)
+        f.write(render(path, text, is_private()) if path.endswith(".html") else text)
 
 
 HEADER = read("partials/header.html").strip("\n")

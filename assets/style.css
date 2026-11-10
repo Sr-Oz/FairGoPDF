@@ -2560,6 +2560,34 @@ main:has(.faq-contact) + .site-footer { margin-top: 0; }
   object-fit: contain;
 }
 
+/* Private mode: the small badge in the footer and the live policy box on /connections/ */
+.private-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+  border: 1px solid color-mix(in srgb, var(--on-teal) 40%, transparent);
+  border-radius: 6px;
+  color: var(--on-teal);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.private-badge .material-symbols-outlined { font-size: 18px; }
+.private-badge:hover { background: color-mix(in srgb, var(--on-teal) 12%, transparent); }
+.private-badge:focus-visible { outline: 2px solid var(--on-teal); outline-offset: 3px; }
+
+.conn-csp {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: 0.85rem/1.55 ui-monospace, Menlo, Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 900px) {
   .footer-box { padding: 36px 28px; }
   .footer-grid, .footer-bottom-row {

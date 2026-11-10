@@ -208,6 +208,8 @@ Then open the printed local URL (e.g. `http://localhost:3000` or `http://localho
 ├── 404.html
 ├── robots.txt
 ├── sitemap.xml
+├── site-config.json         # The Private mode switch ("privateMode": true or false)
+├── connections/index.html   # "What this site connects to" page
 ├── wrangler.jsonc           # Cloudflare config: publish the repo root (see Deploying)
 ├── _redirects               # Legacy URL redirects (Cloudflare)
 ├── _headers                 # Response headers (Cloudflare)
@@ -233,6 +235,28 @@ Then open the printed local URL (e.g. `http://localhost:3000` or `http://localho
 
 Each tool page is self-contained: its own `index.html` plus one JS file in `assets/tools/`, sharing
 the common CSS and helper functions.
+
+## Private mode
+
+One switch in `site-config.json`, `"privateMode": true` or `false`, decides how much the site is allowed to
+connect to. The site has no build step, so the switch works like the shared header and footer do: edit the
+file, run `python scripts/privacy_mode.py`, and commit the pages it rewrites. The GitHub check fails if a
+page no longer matches the switch.
+
+- **Always, on or off:** no analytics, no cookies, fonts and libraries served from the site's own files, and a
+  Content-Security-Policy on every page that allows nothing from another site. Only `/contact/` is let reach
+  Web3Forms and hCaptcha, and only while Private mode is off.
+- **On:** the contact form, its captcha and its scripts are removed (the Contact page shows a short notice and
+  the social links), the policy on `/contact/` is locked like every other page, pages send no referrer, a small
+  "Private mode" badge links to `/connections/` from the footer, and the privacy policy, terms and connections
+  page switch to their private wording.
+- **`/connections/`** lists every outside service the site touches and when, and shows the page's own policy
+  and the addresses it actually loaded files from, so the claim can be checked.
+- Wording that differs between the two modes lives in `scripts/privacy-mode/NAME.open.html` and
+  `NAME.private.html`, swapped into the marked regions (`<!-- fgp:mode NAME -->`) in the pages. Run
+  `python scripts/privacy_mode.py` after `sync-partials.py`, `build-faq.py` or a Workbench rebuild.
+- Cloudflare still delivers the pages and keeps overall traffic totals in either mode. That is not something a
+  repo setting can switch off, and `/connections/` says so.
 
 ## Deploying
 

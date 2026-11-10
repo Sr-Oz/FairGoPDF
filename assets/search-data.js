@@ -103,6 +103,7 @@ window.SEARCH_INDEX = [
   // Other pages
   { title: "FAQ", url: "/faq/", desc: "Answers on privacy, cost, file limits, security and government use in Australia and New Zealand", category: "Page" },
   { title: "Partner With Us", url: "/partnerships/", desc: "Sponsor Fair Go PDF, or partner with us as an AU/NZ government organisation", category: "Page" },
+  { title: "What This Site Connects To", url: "/connections/", desc: "Every outside service the site touches and when, plus how to check it yourself, including Private mode", category: "Page" },
   { title: "Contact Us", url: "/contact/", desc: "Questions, feedback, partnership enquiries, get in touch", category: "Page" },
   { title: "Terms & Conditions", url: "/terms-and-conditions/", desc: "The terms that apply to using Fair Go PDF's free browser-based tools", category: "Page" },
 ];

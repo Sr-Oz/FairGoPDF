@@ -21,6 +21,7 @@ node_modules
 /.gitattributes
 /CNAME
 /wrangler.jsonc
+/site-config.json
 /.assetsignore
 /_headers
 /_redirects
