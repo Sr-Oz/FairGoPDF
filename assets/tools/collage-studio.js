@@ -374,7 +374,7 @@ function renderBoard() {
       cell.appendChild(img);
 
       const del = document.createElement("button");
-      del.className = "pdf-obj-delete collage-cell-delete";
+      del.className = "collage-cell-delete";
       del.type = "button";
       del.textContent = "×";
       del.addEventListener("pointerdown", (e) => e.stopPropagation());

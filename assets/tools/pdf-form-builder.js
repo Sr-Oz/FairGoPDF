@@ -407,12 +407,6 @@ function renderFieldList() {
   });
 }
 
-function escapeHtml(str) {
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
-}
-
 function updateBadgesAndSummary() {
   pageGrid.querySelectorAll(".page-thumb").forEach((el) => {
     const idx = Number(el.dataset.pageIndex);

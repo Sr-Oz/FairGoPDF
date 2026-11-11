@@ -2,7 +2,6 @@
 # Everything .vercelignore leaves out is here too; scripts/vercel-to-cloudflare.py --check fails if one is missing.
 /scripts
 /docs
-/design-system
 /CONTENT_BACKLOG.md
 /CONTRIBUTING.md
 

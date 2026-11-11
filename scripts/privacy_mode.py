@@ -21,7 +21,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP_DIRS = {".git", "node_modules", ".claude", ".github", ".hallmark", "assets", "design-system", "docs", "scripts", "tests", "worker"}
+SKIP_DIRS = {".git", "node_modules", ".claude", ".github", ".hallmark", "assets", "docs", "scripts", "tests", "worker"}
 FRAGMENTS = os.path.join(ROOT, "scripts", "privacy-mode")
 
 # What the contact page needs and nothing else does: Web3Forms to send, hCaptcha to check it is a person.

@@ -15,7 +15,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP_DIRS = {".git", "node_modules", ".claude", ".github", "assets", "design-system", "partials", "scripts"}
+SKIP_DIRS = {".git", "node_modules", ".claude", ".github", "assets", "partials", "scripts"}
 SKIP_FILES = {"404.html"}
 
 BLOCKS = {

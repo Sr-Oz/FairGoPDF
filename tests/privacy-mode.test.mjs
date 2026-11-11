@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 // Whatever the switch in site-config.json says, every page must match it. scripts/privacy_mode.py writes the pages.
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const SKIP = new Set([".git", "node_modules", ".claude", ".github", ".hallmark", "assets", "design-system", "docs", "scripts", "tests", "worker"]);
+const SKIP = new Set([".git", "node_modules", ".claude", ".github", ".hallmark", "assets", "docs", "scripts", "tests", "worker"]);
 const priv = JSON.parse(readFileSync(join(ROOT, "site-config.json"), "utf8")).privateMode === true;
 
 function walk(dir, out = []) {
