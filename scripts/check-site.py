@@ -7,8 +7,10 @@
 - duplicate <title>s, canonical links that don't match the page's own URL, images without alt text
 - JSON-LD blocks that aren't valid JSON
 - sitemap.xml entries with no page, and pages missing from the sitemap
+- .well-known/security.txt missing its Contact, or expired or within 30 days of expiring (renew the Expires line)
 """
 import collections
+import datetime
 import json
 import os
 import re
@@ -31,6 +33,27 @@ def exists(url):
 
 def read(path):
     return open(path, encoding="utf-8", errors="replace").read()
+
+
+def security_txt_problems():
+    path = os.path.join(ROOT, ".well-known", "security.txt")
+    if not os.path.isfile(path):
+        return [".well-known/security.txt is missing"]
+    text = read(path)
+    found = []
+    if not re.search(r"^Contact:\s*\S+", text, re.M):
+        found.append(".well-known/security.txt has no Contact line")
+    expires = re.search(r"^Expires:\s*(\S+)", text, re.M)
+    if not expires:
+        return found + [".well-known/security.txt has no Expires line"]
+    try:
+        when = datetime.datetime.fromisoformat(expires.group(1).replace("Z", "+00:00"))
+    except ValueError:
+        return found + [f".well-known/security.txt: cannot read Expires {expires.group(1)!r}"]
+    left = (when - datetime.datetime.now(datetime.timezone.utc)).days
+    if left < 30:
+        found.append(f".well-known/security.txt expires in {left} days: set a new Expires (no more than a year ahead)")
+    return found
 
 
 def main():
@@ -71,6 +94,8 @@ def main():
     listed = set(re.findall(r"<loc>" + re.escape(SITE) + r"([^<]*)</loc>", read(os.path.join(ROOT, "sitemap.xml"))))
     problems += [f"sitemap lists {u}, which has no page" for u in sorted(listed) if not exists(u)]
     problems += [f"{u} is missing from sitemap.xml" for u in sorted(served - listed)]
+
+    problems += security_txt_problems()
 
     print(f"{len(pages)} pages checked, {len(problems)} problem(s)")
     for p in problems:

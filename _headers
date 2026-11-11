@@ -4,6 +4,7 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=(), display-capture=(), accelerometer=(), gyroscope=(), magnetometer=(), midi=(), browsing-topics=()
 
 /assets/fonts/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=2592000

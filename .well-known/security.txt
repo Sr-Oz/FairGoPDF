@@ -1,0 +1,5 @@
+# Fair Go PDF is built and looked after by one person. Reports of security problems are welcome and are read personally.
+Contact: https://fairgopdf.au/contact/
+Expires: 2027-11-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://fairgopdf.au/.well-known/security.txt
