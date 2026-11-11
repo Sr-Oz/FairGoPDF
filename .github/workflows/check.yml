@@ -7,11 +7,17 @@ on:
     branches: [main]
   pull_request:
 
+# Nothing here writes to the repository, so the job's token may only read it. Without this line it gets whatever default the repository sets.
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false # the token is not left in .git/config for later steps to find
       - uses: actions/setup-node@v4
         with:
           node-version: 24
