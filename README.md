@@ -176,7 +176,7 @@ ever down):
 - [`qr-code-styling`](https://github.com/kozakdenys/qr-code-styling) (MIT, Denys Kozak) — draws the QR code with custom dot and corner shapes, colours and a centre logo (QR Code Generator); it bundles Kazuhiko Arase's `qrcode-generator` (MIT). The content formats follow [QRcodly](https://github.com/FloB95/qrcodly) (MIT) and the built-in icons are drawn from [Feather](https://feathericons.com) (MIT)
 - EFF Large Wordlist (CC BY 3.0 US, Electronic Frontier Foundation) — the 7,776 words behind the passphrases, unchanged; attribution in `assets/vendor/eff-large-wordlist.LICENSE.txt` (Password Generator)
 - [Secure Password Generator](https://github.com/RadMageIRL/SecurePasswordGenerator) (MIT, RadMageIRL) — the idea for the presets and sentence-style passphrases, and the role-tagged word lists in `assets/tools/password-syntax-words.js` (Password Generator)
-- [`SheetJS`](https://sheetjs.com/) — reading .xlsx/.xls/.ods spreadsheets (Excel to PDF, Convert to Markdown)
+- [`SheetJS`](https://sheetjs.com/) — reading .xlsx/.xls/.ods spreadsheets (Excel to PDF, Convert to Markdown); version 0.20.3, from `cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js` because the npm copy stopped at 0.18.5, which has known security holes
 - [`heic2any`](https://github.com/alexcorvi/heic2any) — decoding HEIC/HEIF photos to JPEG (HEIC to PDF, HEIC to JPG), bundles `libheif` (LGPL-3.0) compiled to WebAssembly
 - [`fflate`](https://github.com/101arrowz/fflate) — ZIP packing and FlateDecode decompression (Extract Images from PDF)
 - Native Canvas API — all image compression/conversion/resize/crop/rotate
