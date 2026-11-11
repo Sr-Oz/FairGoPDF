@@ -109,7 +109,7 @@ watermarked output.
 ### Utilities
 | Tool | URL | What it does |
 |---|---|---|
-| Convert to Markdown | `/convert-to-markdown/` | Convert a PDF, Word (.docx) or HTML file to Markdown |
+| Convert to Markdown | `/convert-to-markdown/` | Convert PDF, Word, PowerPoint, Excel, CSV, HTML, EPUB, RTF, JSON, XML, text or a ZIP of them to Markdown |
 | AI Writing Checker | `/ai-writing-checker/` | Flag AI-sounding words, filler phrases and cliché patterns in any text |
 | Password Generator | `/password-generator/` | Passwords, ready-made rule sets (server, database, API key, Wi-Fi) and EFF-wordlist passphrases, in batches, with honest entropy and crack-time figures, export and print |
 | QR Code Generator | `/qr-code-generator/` | QR codes for links, social profiles, text, Wi-Fi, contact cards, email, locations, events, phone, SMS, WhatsApp, lost-and-found tags and app downloads, with your own colours, shapes, icon or logo and ready-made looks; download as PNG, SVG, JPG or WebP |
@@ -176,7 +176,7 @@ ever down):
 - [`qr-code-styling`](https://github.com/kozakdenys/qr-code-styling) (MIT, Denys Kozak) — draws the QR code with custom dot and corner shapes, colours and a centre logo (QR Code Generator); it bundles Kazuhiko Arase's `qrcode-generator` (MIT). The content formats follow [QRcodly](https://github.com/FloB95/qrcodly) (MIT) and the built-in icons are drawn from [Feather](https://feathericons.com) (MIT)
 - EFF Large Wordlist (CC BY 3.0 US, Electronic Frontier Foundation) — the 7,776 words behind the passphrases, unchanged; attribution in `assets/vendor/eff-large-wordlist.LICENSE.txt` (Password Generator)
 - [Secure Password Generator](https://github.com/RadMageIRL/SecurePasswordGenerator) (MIT, RadMageIRL) — the idea for the presets and sentence-style passphrases, and the role-tagged word lists in `assets/tools/password-syntax-words.js` (Password Generator)
-- [`SheetJS`](https://sheetjs.com/) — reading .xlsx/.xls/.ods spreadsheets (Excel to PDF)
+- [`SheetJS`](https://sheetjs.com/) — reading .xlsx/.xls/.ods spreadsheets (Excel to PDF, Convert to Markdown)
 - [`heic2any`](https://github.com/alexcorvi/heic2any) — decoding HEIC/HEIF photos to JPEG (HEIC to PDF, HEIC to JPG), bundles `libheif` (LGPL-3.0) compiled to WebAssembly
 - [`fflate`](https://github.com/101arrowz/fflate) — ZIP packing and FlateDecode decompression (Extract Images from PDF)
 - Native Canvas API — all image compression/conversion/resize/crop/rotate

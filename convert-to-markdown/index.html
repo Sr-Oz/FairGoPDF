@@ -6,22 +6,22 @@
 <meta name="author" content="Oscar Monsalve">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
-<title>Convert PDF, Word or HTML to Markdown, Free | Fair Go PDF</title>
-<meta name="description" content="Convert a PDF, Word (.docx) or HTML file to clean Markdown, free and right in your browser. No upload, no signup.">
+<title>Convert PDF, Word, Excel and More to Markdown, Free | Fair Go PDF</title>
+<meta name="description" content="Convert PDF, Word, PowerPoint, Excel, CSV, HTML, EPUB, RTF, JSON or a ZIP of them to clean Markdown, free and right in your browser. No upload, no signup.">
 <link rel="canonical" href="https://fairgopdf.au/convert-to-markdown/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Fair Go PDF">
 <meta property="og:locale" content="en_AU">
-<meta property="og:title" content="Convert PDF, Word or HTML to Markdown Online Free">
-<meta property="og:description" content="Convert a PDF, Word (.docx) or HTML file to clean Markdown, free and right in your browser. No upload, no signup.">
+<meta property="og:title" content="Convert PDF, Word, Excel and More to Markdown Online Free">
+<meta property="og:description" content="Convert PDF, Word, PowerPoint, Excel, CSV, HTML, EPUB, RTF, JSON or a ZIP of them to clean Markdown, free and right in your browser. No upload, no signup.">
 <meta property="og:url" content="https://fairgopdf.au/convert-to-markdown/">
 <meta property="og:image" content="https://fairgopdf.au/assets/img/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Fair Go PDF, simple, fast and fair PDF tools for everyone: 100% client-side, free forever and Aussie made">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Convert PDF, Word or HTML to Markdown Online Free">
-<meta name="twitter:description" content="Convert a PDF, Word (.docx) or HTML file to clean Markdown, free and right in your browser. No upload, no signup.">
+<meta name="twitter:title" content="Convert PDF, Word, Excel and More to Markdown Online Free">
+<meta name="twitter:description" content="Convert PDF, Word, PowerPoint, Excel, CSV, HTML, EPUB, RTF, JSON or a ZIP of them to clean Markdown, free and right in your browser. No upload, no signup.">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/material-symbols-outlined.woff2?v=1bf508b9" as="font" type="font/woff2" crossorigin>
@@ -78,15 +78,15 @@
     </script>
     <div class="tool-page-header">
       <h1>Convert to Markdown</h1>
-      <p>Turn a PDF, Word document or HTML page into clean Markdown. Processed locally, nothing is uploaded.</p>
+      <p>Turn a PDF, Word document, slide deck, spreadsheet, ebook or web page into clean Markdown. Processed locally, nothing is uploaded.</p>
     </div>
 
     <div class="tool-workspace">
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a PDF, Word or HTML file or drag and drop">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a file to convert to Markdown, or drag and drop">
         <div class="dz-icon"><span class="material-symbols-outlined">article</span></div>
         <div class="dz-title">Drop your file here, easy as.</div>
-        <div class="dz-sub">PDF, Word (.docx) or HTML</div>
-        <input type="file" id="fileInput" accept=".pdf,.docx,.html,.htm,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/html">
+        <div class="dz-sub">PDF, Word, PowerPoint, Excel, CSV, HTML, EPUB, RTF, JSON, XML, text or ZIP</div>
+        <input type="file" id="fileInput" accept=".pdf,.docx,.pptx,.xlsx,.xlsm,.xls,.ods,.csv,.tsv,.html,.htm,.xhtml,.epub,.rtf,.json,.xml,.txt,.text,.log,.zip">
       </div>
 
       <div class="paste-divider" style="text-align:center; margin:16px 0; color:var(--text-muted); font-size:0.85rem;">or paste HTML / rich text</div>
@@ -102,7 +102,8 @@
       <div id="editor" style="display:none;">
         <div class="controls-row">
           <div class="field">
-            <label for="headingHint"><input type="checkbox" id="headingHint" checked> Detect headings and lists (PDF only)</label>
+            <label for="headingHint"><input type="checkbox" id="headingHint" checked> Detect headings and lists in PDFs</label>
+            <label for="keepImages"><input type="checkbox" id="keepImages"> Keep pictures saved inside the file (can make the Markdown huge)</label>
           </div>
         </div>
         <textarea id="markdownOutput" readonly rows="16" style="width:100%; font-family:monospace; font-size:0.85rem; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg-alt); color:var(--text); resize:vertical;"></textarea>
@@ -141,11 +142,28 @@
     <section class="info-section">
       <h2>How it works</h2>
       <ol>
-        <li>Add a PDF, Word (.docx) or HTML file, or paste HTML/rich text directly.</li>
+        <li>Add a file, or paste rich text or HTML straight from a web page, Word or a spreadsheet.</li>
         <li>The content is converted to Markdown right there in your browser.</li>
-        <li>Copy it directly, or download the whole thing as a .md file.</li>
+        <li>Copy it, or download the whole thing as a .md file.</li>
       </ol>
-      <p class="help-text">PDF conversion pulls out the text and reconstructs paragraphs, it's best-effort since PDFs don't store real document structure, so headings and lists may need a touch-up. Word and HTML conversion is far more reliable, since those formats keep their actual formatting.</p>
+
+      <h2>What it can convert</h2>
+      <ul>
+        <li><strong>PDF</strong>: the text, with paragraphs, bullets and numbered lists rebuilt, and short lines optionally turned into headings. PDFs don't store real structure, so this is best-effort and headings may need a touch-up. Scanned PDFs have no text to read, so run them through <a href="/ocr-pdf/">OCR PDF</a> first.</li>
+        <li><strong>Word (.docx)</strong>: headings, bold and italic, lists, links and tables.</li>
+        <li><strong>PowerPoint (.pptx)</strong>: one section per slide, in the order shown, with the title, bullets (and how deep they sit), tables, picture descriptions and speaker notes.</li>
+        <li><strong>Excel (.xlsx, .xlsm, .xls, .ods)</strong>: one table per sheet, as the cells display. Hidden sheets are left out, and a sheet is cut at 5,000 rows with a note saying so.</li>
+        <li><strong>CSV and TSV</strong>: a table. Commas, semicolons and tabs are detected, and files saved by older Excel (not UTF-8) are read correctly.</li>
+        <li><strong>HTML</strong>: headings, lists, links, code and tables. Scripts and styles are dropped.</li>
+        <li><strong>EPUB</strong>: the book's title and author, then every chapter in reading order.</li>
+        <li><strong>Rich Text (.rtf)</strong>: paragraphs, bold and italic.</li>
+        <li><strong>JSON and XML</strong>: tidied up and placed in a code block. JSON that isn't valid is refused rather than guessed at.</li>
+        <li><strong>Plain text (.txt, .log)</strong>: kept as it is, minus stray spaces at the ends of lines.</li>
+        <li><strong>ZIP</strong>: every file inside that Fair Go PDF can read, each under its own heading in one document. Other files are listed as skipped.</li>
+      </ul>
+
+      <h2>What it leaves out</h2>
+      <p class="help-text">Pictures saved inside a Word file are left out by default, because they would otherwise fill the Markdown with a wall of encoded data. Tick the option above to keep them. Photos, audio and video aren't converted, since reading them properly takes a cloud service, and Fair Go PDF never sends a file anywhere. Charts and formatting such as colours and fonts don't carry over, because Markdown has no way to hold them.</p>
     </section>
     <div class="share-wrap" data-share></div>
   </div>

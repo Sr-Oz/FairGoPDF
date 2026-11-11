@@ -73,7 +73,7 @@ window.SEARCH_INDEX = [
   { title: "Colour Palette Generator", url: "/colour-palette-generator/", icon: "gradient", desc: "Pull the dominant colours out of a photo as hex codes", alt: "color colors", category: "Image Tool" },
 
   // Utilities
-  { title: "Convert to Markdown", url: "/convert-to-markdown/", icon: "article", desc: "Convert a PDF, Word (.docx) or HTML file to Markdown", category: "Utility" },
+  { title: "Convert to Markdown", url: "/convert-to-markdown/", icon: "article", desc: "Convert PDF, Word, PowerPoint, Excel, CSV, HTML, EPUB, RTF, JSON or a ZIP to Markdown", alt: "md docx pptx xlsx csv epub rtf json xml txt zip", category: "Utility" },
   { title: "AI Writing Checker", url: "/ai-writing-checker/", icon: "spellcheck", desc: "Flag AI-sounding words, filler phrases and cliché patterns", category: "Utility" },
   { title: "Password Generator", url: "/password-generator/", icon: "password", desc: "Strong random passwords and easy-to-remember passphrases, with ready-made rule sets for servers, databases and Wi-Fi", category: "Utility" },
   { title: "QR Code Generator", url: "/qr-code-generator/", icon: "qr_code_2", desc: "QR codes for links, social profiles, Wi-Fi, contacts, events, lost-and-found tags and apps, in your own colours and logo. Download as PNG, SVG, JPG or WebP", category: "Utility" },
