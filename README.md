@@ -191,12 +191,12 @@ web server rather than double-clicking `index.html` (browsers restrict module lo
 `file://`). Any static file server works, for example:
 
 ```bash
-npx serve .
+npx serve -l tcp://127.0.0.1:3000 .
 # or
-python -m http.server 8000
+python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Then open the printed local URL (e.g. `http://localhost:3000` or `http://localhost:8000`).
+Then open `http://localhost:3000` or `http://localhost:8000`. Both commands listen on this computer only; a bare `python -m http.server` or `npx serve` is open to everyone on the same network.
 
 ## Project structure
 
