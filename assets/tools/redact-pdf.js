@@ -1,4 +1,5 @@
 import { PDFLib, loadPdfJsDoc, renderPageThumbCanvas, renderPageToCanvasAtScale } from "/assets/tools/pdf-common.js";
+import { boxFromDrag, boxToPixels, outputScale } from "/assets/tools/redact-core.js";
 
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
@@ -12,7 +13,6 @@ const clearBtn = document.getElementById("clearBtn");
 const statusEl = document.getElementById("status");
 
 const PREVIEW_WIDTH = 700;
-const OUTPUT_SCALE = 2.5; // render scale for the final rasterized (redacted) pages
 
 let currentFile = null;
 let currentBytes = null;
@@ -102,11 +102,8 @@ function redrawStage(liveRectPx) {
 
   const rects = redactions.get(selectedPageIndex) || [];
   for (const r of rects) {
-    const px = r.x * stageScale;
-    const pw = r.w * stageScale;
-    const ph = r.h * stageScale;
-    const py = stage.height - (r.y * stageScale) - ph;
-    ctx.fillRect(px, py, pw, ph);
+    const px = boxToPixels(r, stageScale, stageHeightPt, stage.width, stage.height);
+    ctx.fillRect(px.x, px.y, px.w, px.h);
   }
 
   if (liveRectPx) {
@@ -140,25 +137,16 @@ stage.addEventListener("pointermove", (e) => {
 
 stage.addEventListener("pointerup", (e) => {
   if (!dragStartPx) return;
-  const p = stagePoint(e);
-  const xPx = Math.min(dragStartPx.x, p.x);
-  const yPx = Math.min(dragStartPx.y, p.y);
-  const wPx = Math.abs(p.x - dragStartPx.x);
-  const hPx = Math.abs(p.y - dragStartPx.y);
+  const box = boxFromDrag(dragStartPx, stagePoint(e), stageScale, stageWidthPt, stageHeightPt);
   dragStartPx = null;
 
-  if (wPx < 4 || hPx < 4) {
+  if (!box) {
     redrawStage();
     return;
   }
 
-  const xPt = xPx / stageScale;
-  const wPt = wPx / stageScale;
-  const hPt = hPx / stageScale;
-  const yPt = stageHeightPt - (yPx / stageScale) - hPt;
-
   if (!redactions.has(selectedPageIndex)) redactions.set(selectedPageIndex, []);
-  redactions.get(selectedPageIndex).push({ x: xPt, y: yPt, w: wPt, h: hPt });
+  redactions.get(selectedPageIndex).push(box);
   redrawStage();
   updateBadgesAndSummary();
 });
@@ -215,25 +203,23 @@ runBtn.addEventListener("click", async () => {
 
       if (rects && rects.length) {
         setStatus(statusEl, `Flattening page ${i + 1} of ${srcPages.length}…`, "");
-        const canvas = await renderPageToCanvasAtScale(pdfJsDoc, i + 1, OUTPUT_SCALE);
+        // The page as shown (it honours a crop box and rotation), the same view the boxes were drawn on
+        const view = (await pdfJsDoc.getPage(i + 1)).getViewport({ scale: 1 });
+        const scale = outputScale(view.width, view.height);
+        const canvas = await renderPageToCanvasAtScale(pdfJsDoc, i + 1, scale);
         const ctx = canvas.getContext("2d");
         ctx.fillStyle = "#000000";
         for (const r of rects) {
-          const px = r.x * OUTPUT_SCALE;
-          const pw = r.w * OUTPUT_SCALE;
-          const ph = r.h * OUTPUT_SCALE;
-          const py = canvas.height - (r.y * OUTPUT_SCALE) - ph;
-          ctx.fillRect(px, py, pw, ph);
+          const px = boxToPixels(r, scale, view.height, canvas.width, canvas.height);
+          ctx.fillRect(px.x, px.y, px.w, px.h);
         }
         const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
         const pngBytes = new Uint8Array(await blob.arrayBuffer());
         const image = await outDoc.embedPng(pngBytes);
-        // Size the new page from the rendered view (it honours a crop box and rotation),
-        // not the raw media box, otherwise a cropped page would be stretched to fit.
-        const width = canvas.width / OUTPUT_SCALE;
-        const height = canvas.height / OUTPUT_SCALE;
-        const outPage = outDoc.addPage([width, height]);
-        outPage.drawImage(image, { x: 0, y: 0, width, height });
+        // Size the new page from the view (it honours a crop box and rotation), not the raw media box, otherwise a
+        // cropped page would be stretched to fit. The page keeps its exact size, not the canvas size rounded to pixels.
+        const outPage = outDoc.addPage([view.width, view.height]);
+        outPage.drawImage(image, { x: 0, y: 0, width: view.width, height: view.height });
       } else {
         const [copied] = await outDoc.copyPages(srcDoc, [i]);
         outDoc.addPage(copied);
