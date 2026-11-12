@@ -18,10 +18,7 @@ const FONT_BASE = "/assets/vendor/docx/fonts/";
 const BASE_SIZE = 10;
 const state = { file: null, workbook: null, printAreas: new Map(), abort: null, result: null };
 
-function setProgress(fraction) {
-  progressEl.style.display = fraction === null ? "none" : "block";
-  if (fraction !== null) progressFill.style.width = `${Math.round(Math.min(1, Math.max(0, fraction)) * 100)}%`;
-}
+function setProgress(fraction) { setProgressBar(progressEl, progressFill, fraction); }
 const show = (message, kind = "") => { setStatus(statusEl, message, kind); statusEl.classList.add("visible"); };
 
 // ---------------------------------------------------------------- reading the file

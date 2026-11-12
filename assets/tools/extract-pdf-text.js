@@ -17,12 +17,8 @@ const state = { file: null, doc: null, count: 0, pages: [], text: "", ext: "txt"
 
 function setMsg(message, kind = "") {
   setStatus(statusEl, message, kind);
-  statusEl.classList.add("visible");
 }
-function setProgress(f) {
-  $("progress").style.display = f === null ? "none" : "block";
-  if (f !== null) $("progressFill").style.width = `${Math.round(Math.min(1, Math.max(0, f)) * 100)}%`;
-}
+function setProgress(f) { setProgressBar($("progress"), $("progressFill"), f); }
 
 const MODE_HELP = {
   flow: "Joins lines into paragraphs, reads columns one at a time, and finds headings, lists and tables.",

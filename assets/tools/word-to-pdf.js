@@ -20,10 +20,7 @@ function show(message, kind = "") {
   statusEl.classList.add("visible");
 }
 
-function setProgress(fraction) {
-  progressEl.style.display = fraction === null ? "none" : "block";
-  if (fraction !== null) progressFill.style.width = `${Math.round(Math.min(1, Math.max(0, fraction)) * 100)}%`;
-}
+function setProgress(fraction) { setProgressBar(progressEl, progressFill, fraction); }
 
 function say(text) {
   summaryEl.textContent = text;

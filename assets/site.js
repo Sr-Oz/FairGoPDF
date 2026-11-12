@@ -333,7 +333,7 @@
           }, 2000);
         }
       } catch (e) {
-        if (label) label.textContent = "Couldn't copy — copy from the address bar";
+        if (label) label.textContent = "Couldn't copy, so copy from the address bar";
       }
     });
   });

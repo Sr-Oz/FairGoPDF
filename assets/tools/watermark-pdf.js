@@ -26,7 +26,6 @@ const state = { file: null, pj: null, count: 0, page: 0, size: { w: 595, h: 842 
 
 function setMsg(message, kind = "") {
   setStatus(statusEl, message, kind);
-  statusEl.classList.add("visible");
 }
 
 // ---------------------------------------------------------------- the settings, read off the page

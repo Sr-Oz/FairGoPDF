@@ -150,14 +150,6 @@ function pxRectToPt(xPx, yPx, wPx, hPx) {
   return { x, y, w, h };
 }
 
-function stagePoint(e) {
-  const rect = stage.getBoundingClientRect();
-  return {
-    x: (e.clientX - rect.left) * (stage.width / rect.width),
-    y: (e.clientY - rect.top) * (stage.height / rect.height),
-  };
-}
-
 function hitTestLink(px, py) {
   const pageLinks = links.get(selectedPageIndex) || [];
   for (let i = pageLinks.length - 1; i >= 0; i--) {
@@ -169,7 +161,7 @@ function hitTestLink(px, py) {
 
 stage.addEventListener("pointerdown", (e) => {
   if (!baseCanvas) return;
-  const p = stagePoint(e);
+  const p = canvasPoint(stage, e);
   const hit = hitTestLink(p.x, p.y);
   if (hit) {
     openEditPanel(hit, false);
@@ -181,7 +173,7 @@ stage.addEventListener("pointerdown", (e) => {
 
 stage.addEventListener("pointermove", (e) => {
   if (!dragStartPx) return;
-  const p = stagePoint(e);
+  const p = canvasPoint(stage, e);
   const x = Math.min(dragStartPx.x, p.x);
   const y = Math.min(dragStartPx.y, p.y);
   const w = Math.abs(p.x - dragStartPx.x);
@@ -191,7 +183,7 @@ stage.addEventListener("pointermove", (e) => {
 
 stage.addEventListener("pointerup", (e) => {
   if (!dragStartPx) return;
-  const p = stagePoint(e);
+  const p = canvasPoint(stage, e);
   const xPx = Math.min(dragStartPx.x, p.x);
   const yPx = Math.min(dragStartPx.y, p.y);
   const wPx = Math.abs(p.x - dragStartPx.x);

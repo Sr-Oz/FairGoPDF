@@ -20,10 +20,7 @@ class Stopped extends Error {}
 const check = (job) => { if (job.stopped) throw new Stopped(); };
 const say = (text, kind = "") => setStatus(statusEl, text, kind);
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
-function setProgress(f) {
-  progressEl.style.display = f === null ? "none" : "block";
-  if (f !== null) $("progressFill").style.width = `${Math.round(Math.min(1, Math.max(0, f)) * 100)}%`;
-}
+function setProgress(f) { setProgressBar(progressEl, $("progressFill"), f); }
 
 // ---------------------------------------------------------------- opening a file as leniently as possible
 

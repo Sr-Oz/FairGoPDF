@@ -15,10 +15,7 @@ const runBtn = $("runBtn");
 // turns: page -> 0, 90, 180 or 270, what was asked for (on top of what the PDF says); base: page -> its picture, upright as seen
 const state = { file: null, doc: null, count: 0, selected: new Set(), turns: new Map(), base: new Map(), focus: 1, stage: null, found: new Map(), generation: 0, run: null, result: null };
 
-function setProgress(f) {
-  progressEl.style.display = f === null ? "none" : "block";
-  if (f !== null) $("progressFill").style.width = `${Math.round(Math.min(1, Math.max(0, f)) * 100)}%`;
-}
+function setProgress(f) { setProgressBar(progressEl, $("progressFill"), f); }
 
 // ---------------------------------------------------------------- pictures
 

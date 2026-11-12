@@ -15,7 +15,6 @@ const state = { entries: [], results: [], busy: false, generation: 0 };
 
 function setMsg(message, kind = "") {
   setStatus(statusEl, message, kind);
-  statusEl.classList.add("visible");
 }
 
 const choices = () => ({ printing: $("printing").value, copy: $("allowCopy").checked, edit: $("allowEdit").checked, annotate: $("allowNotes").checked, assemble: $("allowPages").checked });

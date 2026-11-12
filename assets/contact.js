@@ -12,6 +12,8 @@ const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 // honeypot field below — but it's a free extra layer with no server needed.
 const MIN_FILL_TIME_MS = 3000;
 const pageLoadedAt = Date.now();
+// Shown for a real send and for a bot that filled the honeypot, so the bot learns nothing from the difference.
+const SENT_MESSAGE = "Sorted, thanks for reaching out. Fair Go PDF will reply as soon as it can.";
 
 const form = document.getElementById("contactForm");
 const statusEl = document.getElementById("cfStatus");
@@ -92,7 +94,7 @@ form.addEventListener("submit", async (e) => {
   const honeypot = document.getElementById("cfWebsite");
   if (honeypot.value.trim() !== "") {
     form.reset();
-    setStatus(statusEl, "Sorted — thanks for reaching out, we'll get back to you soon.", "success");
+    setStatus(statusEl, SENT_MESSAGE, "success");
     return;
   }
 
@@ -144,7 +146,7 @@ form.addEventListener("submit", async (e) => {
     if (result.success) {
       form.reset();
       Object.keys(fields).forEach((key) => showFieldError(fields[key], ""));
-      setStatus(statusEl, "Sorted — thanks for reaching out, we'll get back to you soon.", "success");
+      setStatus(statusEl, SENT_MESSAGE, "success");
     } else {
       setStatus(statusEl, "Something went wrong sending that, mind trying again in a moment?", "error");
     }

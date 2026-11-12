@@ -36,10 +36,7 @@ const FIT_HELP = {
   fill: "The picture covers the page area, and the edges that do not fit are cropped.",
 };
 
-function setProgress(fraction) {
-  progressEl.style.display = fraction === null ? "none" : "block";
-  if (fraction !== null) progressFill.style.width = `${Math.round(Math.min(1, Math.max(0, fraction)) * 100)}%`;
-}
+function setProgress(fraction) { setProgressBar(progressEl, progressFill, fraction); }
 
 function turnCanvas(base, deg) {
   if (!deg) return base;

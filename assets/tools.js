@@ -42,6 +42,21 @@ function clearStatus(el) {
   el.className = "status-box";
 }
 
+// Fills a progress bar: fraction is 0 to 1, or null to hide the bar.
+function setProgressBar(wrapEl, fillEl, fraction) {
+  wrapEl.style.display = fraction === null ? "none" : "block";
+  if (fraction !== null) fillEl.style.width = `${Math.round(Math.min(1, Math.max(0, fraction)) * 100)}%`;
+}
+
+// Where a pointer event is on a canvas, in the canvas's own pixels (it may be drawn smaller or larger than it is).
+function canvasPoint(canvas, e) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: (e.clientX - rect.left) * (canvas.width / rect.width),
+    y: (e.clientY - rect.top) * (canvas.height / rect.height),
+  };
+}
+
 // Wires a dropzone element + hidden file input to accept clicks, drag/drop, and paste.
 // onFiles receives a FileList-like array of File objects.
 function initDropzone(dropzoneEl, inputEl, onFiles) {

@@ -15,7 +15,6 @@ const state = { entries: [], busy: false, generation: 0 };
 
 function setMsg(message, kind = "") {
   setStatus(statusEl, message, kind);
-  statusEl.classList.add("visible");
 }
 
 const results = () => state.entries.filter((e) => e.result).map((e) => e.result);

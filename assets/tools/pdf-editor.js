@@ -23,7 +23,6 @@ const MIN = 10;
 
 function setMsg(message, kind = "") {
   setStatus(statusEl, message, kind);
-  statusEl.classList.add("visible");
 }
 
 const byId = (id) => state.items.find((i) => i.id === id);

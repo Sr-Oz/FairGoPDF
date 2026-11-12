@@ -111,23 +111,15 @@ function redrawStage(liveRectPx) {
   }
 }
 
-function stagePoint(e) {
-  const rect = stage.getBoundingClientRect();
-  return {
-    x: (e.clientX - rect.left) * (stage.width / rect.width),
-    y: (e.clientY - rect.top) * (stage.height / rect.height),
-  };
-}
-
 stage.addEventListener("pointerdown", (e) => {
   if (!baseCanvas) return;
-  dragStartPx = stagePoint(e);
+  dragStartPx = canvasPoint(stage, e);
   stage.setPointerCapture(e.pointerId);
 });
 
 stage.addEventListener("pointermove", (e) => {
   if (!dragStartPx) return;
-  const p = stagePoint(e);
+  const p = canvasPoint(stage, e);
   const x = Math.min(dragStartPx.x, p.x);
   const y = Math.min(dragStartPx.y, p.y);
   const w = Math.abs(p.x - dragStartPx.x);
@@ -137,7 +129,7 @@ stage.addEventListener("pointermove", (e) => {
 
 stage.addEventListener("pointerup", (e) => {
   if (!dragStartPx) return;
-  const box = boxFromDrag(dragStartPx, stagePoint(e), stageScale, stageWidthPt, stageHeightPt);
+  const box = boxFromDrag(dragStartPx, canvasPoint(stage, e), stageScale, stageWidthPt, stageHeightPt);
   dragStartPx = null;
 
   if (!box) {

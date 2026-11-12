@@ -20,7 +20,6 @@ const state = { file: null, pj: null, count: 0, page: 0, pages: [], fields: [], 
 
 function setMsg(message, kind = "") {
   setStatus(statusEl, message, kind);
-  statusEl.classList.add("visible");
 }
 
 const clone = (v) => (Array.isArray(v) ? [...v] : v);

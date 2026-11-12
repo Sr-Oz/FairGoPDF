@@ -24,10 +24,7 @@ const runBtn = $("runBtn");
 const state = { file: null, run: null, result: null, generation: 0 };
 class Stopped extends Error {}
 
-function setProgress(f) {
-  progressEl.style.display = f === null ? "none" : "block";
-  if (f !== null) $("progressFill").style.width = `${Math.round(Math.min(1, Math.max(0, f)) * 100)}%`;
-}
+function setProgress(f) { setProgressBar(progressEl, $("progressFill"), f); }
 const say = (text, kind = "") => setStatus(statusEl, text, kind);
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const check = (job) => { if (job.stopped) throw new Stopped(); };
